@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zihui.cwoa.system.dao.sys_departmentMapper" >
+  <resultMap id="BaseResultMap" type="com.zihui.cwoa.system.pojo.sys_department" >
+    <id column="department_id" property="departmentId" jdbcType="VARCHAR" />
+    <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
+    <result column="department_code" property="departmentCode" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="ts" property="ts" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!-- 使用resultMap的<collection>标签进行一对多查询 -->
+  <resultMap id="departmentsMenuMap" extends="BaseResultMap" type="com.zihui.cwoa.system.pojo.sys_department">
+    <!-- 部门的集合 -->
+    <collection property="menus"  resultMap="com.zihui.cwoa.system.dao.sys_menuMapper.BaseResultMap"/>
+
+  </resultMap>
+
+
+
+
+  <sql id="Base_Column_List" >
+    department_id, department_name, department_code, status, ts
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_department
+    where department_id = #{departmentId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_department
+    where department_id = #{departmentId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.zihui.cwoa.system.pojo.sys_department" >
+    insert into sys_department
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="departmentId != null" >
+        department_id,
+      </if>
+      <if test="departmentName != null" >
+        department_name,
+      </if>
+      <if test="departmentCode != null" >
+        department_code,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="ts != null" >
+        ts,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="departmentId != null" >
+        #{departmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentName != null" >
+        #{departmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentCode != null" >
+        #{departmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="ts != null" >
+        #{ts,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zihui.cwoa.system.pojo.sys_department" >
+    update sys_department
+    <set >
+      <if test="departmentName != null" >
+        department_name = #{departmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentCode != null" >
+        department_code = #{departmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="ts != null" >
+        ts = #{ts,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where department_id = #{departmentId,jdbcType=VARCHAR}
+  </update>
+
+  <!--根据部门id查询部门 传人参数List 返回List可以有多个部门-->
+  <select id="selectDepartmentById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from sys_department where department_id in
+    <foreach item="departmentId" collection="list" open="(" separator=","
+             close=")">
+      #{department_id}
+    </foreach>
+  </select>
+  <!--根据用户id查询部门 返回多个部门-->
+  <select id="selectDepartment" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT d.* from sys_user u join sys_user_department ud on u.user_id = ud.user_id
+    join sys_department d on ud.department_id  =d.department_id where u.user_id = #{userId}
+  </select>
+
+  <select id="selectMenu" resultMap="departmentsMenuMap" parameterType="java.lang.String">
+    select d.*,m.* FROM sys_department d join sys_department_menu dm on d.department_id = dm.department_id
+    join sys_menu m on dm.menu_id = m.menu_id where d.department_id IN
+    <foreach item="departmentId" collection="list" open="(" separator=","
+             close=")">
+      #{departmentId}
+    </foreach>
+
+  </select>
+</mapper>

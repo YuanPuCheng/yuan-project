@@ -1,0 +1,48 @@
+server:
+  port: 8080
+
+spring:
+    activiti:
+        database-schema-update: true
+        check-process-definitions: true
+        process-definition-location-prefix: classpath:/processes/
+        history-level: full
+        async-executor-activate: false
+#    redis:
+#        host: 127.0.0.1
+#        port: 6379
+#        pool:
+#          max-active: 8
+#          max-wait: 1
+#          max-idle: 8
+#          min-idle: 0
+#        timeout: 0
+    spring:
+      thymeleaf:
+        cache: false
+        prefix: /
+        suffix: .html
+        encoding: UTF-8
+        content-type: text/html
+        mode: HTML5
+    datasource:
+        name: zihui
+        url: jdbc:mysql://47.96.120.227/cwoa?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+        username: zihui
+        password: zihui
+        driver-class-name: com.mysql.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/*/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  typeAliasesPackage: com.zihui.cwoa.*.pojo
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    pageSizeZero: true
+    params: count=countSql
+
+

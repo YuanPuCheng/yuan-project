@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zihui.cwoa.system.dao.sys_department_menuMapper" >
+  <resultMap id="BaseResultMap" type="com.zihui.cwoa.system.pojo.sys_department_menu" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
+    <result column="menu_id" property="menuId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, department_id, menu_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_department_menu
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_department_menu
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zihui.cwoa.system.pojo.sys_department_menu" >
+    insert into sys_department_menu (id, department_id, menu_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{departmentId,jdbcType=VARCHAR}, #{menuId,jdbcType=VARCHAR}
+      )
+  </insert>
+
+
+  <update id="updateByPrimaryKey" parameterType="com.zihui.cwoa.system.pojo.sys_department_menu" >
+    update sys_department_menu
+    set department_id = #{departmentId,jdbcType=VARCHAR},
+      menu_id = #{menuId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--根据用户id查询对于菜单id  返回菜单id-->
+  <select id="selectMenuIdByUserId" parameterType="String" resultType="String">
+    SELECT menu_id from sys_department_menu where department_id in(
+    SELECT department_id  from sys_user_department where user_id = #{userId})
+  </select>
+</mapper>
