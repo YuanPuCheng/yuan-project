@@ -3,10 +3,9 @@ package com.zihui.cwoa.processone.controller;
 import com.zihui.cwoa.processone.service.AskForLeaveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -24,18 +23,20 @@ public class AskForLeaveController {
 
     @RequestMapping("/startprocess")
     @ResponseBody
-    public boolean startProcess(){
-        Map<String, Object> map =new HashMap();
-        map.put("firstman","Nancy");
-        map.put("leavedays",5);
-        map.put("secondman","Jack");
-        return askForLeaveService.startProcess("askforleave","CarlBryant",map);
+    public boolean startProcess(@RequestBody Map<String,Object> map){
+        return askForLeaveService.startProcess("askforleave",map);
     }
 
     @RequestMapping("/querytask")
     @ResponseBody
     public Map<String,Object> queryTask(String userCode){
         return askForLeaveService.queryTask(userCode);
+    }
+
+    @RequestMapping("/queryprocess")
+    @ResponseBody
+    public List queryProcess(String userCode){
+        return askForLeaveService.queryProcess(userCode);
     }
 
     @RequestMapping("/completetask")
@@ -51,4 +52,14 @@ public class AskForLeaveController {
         return askForLeaveService.deleteProcessInstance(processInstanceId,reason);
     }
 
+    @RequestMapping("/testone")
+    @ResponseBody
+    public boolean TestOne(@RequestBody Map<String,Object> map){
+        //Map<String,Object> map=new HashMap<>();
+        //map.forEach((k,v)-> System.out.println(k+"="+v));
+        //List<Map<String,Object>> processSummary = (List<Map<String, Object>>) map.get("processSummary");
+        System.out.println(map);
+        //map.put("result","true");
+        return true;
+    }
 }
