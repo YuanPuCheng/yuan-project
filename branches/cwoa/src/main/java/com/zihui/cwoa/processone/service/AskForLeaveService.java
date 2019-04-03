@@ -2,9 +2,8 @@ package com.zihui.cwoa.processone.service;
 
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.repository.Deployment;
-import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -141,7 +140,7 @@ public class AskForLeaveService {
     }
 
     /**
-     *  根据用户工号查询他发起的未完成的流程
+     *  根据用户工号查询他发起的还在审批中的流程
      *  @param userCode 用户工号
      *  @return 查询结果
      */
@@ -151,6 +150,29 @@ public class AskForLeaveService {
         for (String processInstanceId: strings) {
             Map<String, Object> variables = runtimeService.getVariables(processInstanceId);
             variables.put("processStatus",queryService.queryProStatuByProInstanceId(processInstanceId));
+            list.add(variables);
+        }
+        return list;
+    }
+
+    /**
+     *  根据用户工号查询他发起的已经结束的流程
+     *  @param userCode 用户工号
+     *  @return 查询结果
+     */
+    public  List<Map<String,Object>> queryEndProcess(String userCode){
+        List<Map<String,Object>> list = new LinkedList<>();
+        List<HistoricProcessInstance> historicProcessInstanceList =
+                historyService.createHistoricProcessInstanceQuery().startedBy(userCode).finished().list();
+        for (HistoricProcessInstance ins:historicProcessInstanceList) {
+            List<HistoricVariableInstance> hisList =
+                    historyService.createHistoricVariableInstanceQuery().processInstanceId(ins.getId()).list();
+            Map<String,Object> variables=new HashMap();
+            for (HistoricVariableInstance hisInstance:hisList) {
+                variables.put(hisInstance.getVariableName(),hisInstance.getValue());
+            }
+            variables.put("startTime",ins.getStartTime());
+            variables.put("endTime",ins.getEndTime());
             list.add(variables);
         }
         return list;
