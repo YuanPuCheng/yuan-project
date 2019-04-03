@@ -35,7 +35,7 @@ public class AskForLeaveController {
 
     @RequestMapping("/queryprocess")
     @ResponseBody
-    public List queryProcess(String userCode){
+    public List<Map<String,Object>> queryProcess(String userCode){
         return askForLeaveService.queryProcess(userCode);
     }
 
