@@ -3,6 +3,8 @@ package com.zihui.cwoa.processone.service;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,9 @@ public class AskForLeaveService {
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private QueryService queryService;
     /**
      *  部署流程
      *  @param processPath 传入流程定义文件路径
@@ -59,6 +64,7 @@ public class AskForLeaveService {
         //variables.put("leavedays",3);
         variables.put("firstman","Nancy");
         variables.put("secondman","Jack");
+        variables.put("processName","请假流程");
 
         //注意 在bpmn的 start节点里 要进行设置: activiti:initiator="applyuser"
         this.identityService.setAuthenticatedUserId((String)variables.get("userName"));
@@ -135,13 +141,18 @@ public class AskForLeaveService {
     }
 
     /**
-     *  根据用户工号查询他发起的流程
+     *  根据用户工号查询他发起的未完成的流程
      *  @param userCode 用户工号
      *  @return 查询结果
      */
-    public List queryProcess(String userCode) {
-        List<HistoricProcessInstance> historicProcessInstanceList =
-                historyService.createHistoricProcessInstanceQuery().startedBy(userCode).list();
-        return historicProcessInstanceList;
+    public List<Map<String,Object>> queryProcess(String userCode) {
+        List<String> strings = queryService.queryProNotActiveByUserCode(userCode);
+        List<Map<String,Object>> list = new LinkedList();
+        for (String processInstanceId: strings) {
+            Map<String, Object> variables = runtimeService.getVariables(processInstanceId);
+            variables.put("processStatus",queryService.queryProStatuByProInstanceId(processInstanceId));
+            list.add(variables);
+        }
+        return list;
     }
 }
