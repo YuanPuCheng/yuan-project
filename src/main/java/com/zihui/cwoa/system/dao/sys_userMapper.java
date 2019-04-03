@@ -22,4 +22,7 @@ public interface sys_userMapper {
     sys_user selectUserByLogin(String usercode);
 
     sys_user selectDepartmentToUser(String userId);
+
+    List<sys_user> selectUserList(sys_user record);
+
 }

@@ -259,7 +259,66 @@
     from sys_user u join sys_user_department ud on u.user_id = ud.user_id
     join sys_department d on ud.department_id  =d.department_id where u.user_id = #{userId}
   </select>
-
-
+  <!--多条件查询用户用于展示页面，返回List-->
+  <select id="selectUserList" resultMap="BaseResultMap" parameterType="com.zihui.cwoa.system.pojo.sys_user">
+    select * from sys_user where 1=1
+    <if test="userCode != null" >
+      and  user_code = #{userCode,jdbcType=VARCHAR}
+    </if>
+    <if test="userPassword != null" >
+      and  user_password = #{userPassword,jdbcType=VARCHAR}
+    </if>
+    <if test="salt != null" >
+      and  salt = #{salt,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null" >
+      and  status = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="userName != null" >
+      and  user_name = #{userName,jdbcType=VARCHAR}
+    </if>
+    <if test="email != null" >
+      and  email = #{email,jdbcType=VARCHAR}
+    </if>
+    <if test="createTime != null" >
+      and create_time = #{createTime,jdbcType=VARCHAR}
+    </if>
+    <if test="errorCount != null" >
+      and  error_count = #{errorCount,jdbcType=VARCHAR}
+    </if>
+    <if test="departmentId != null" >
+      and  department_id = #{departmentId,jdbcType=VARCHAR}
+    </if>
+    <if test="images != null" >
+      and  images = #{images,jdbcType=VARCHAR}
+    </if>
+    <if test="phone != null" >
+      and  phone = #{phone,jdbcType=INTEGER}
+    </if>
+    <if test="ts != null" >
+      and  ts = #{ts,jdbcType=VARCHAR}
+    </if>
+    <if test="ip != null" >
+      and  ip = #{ip,jdbcType=VARCHAR}
+    </if>
+    <if test="tempVar1 != null" >
+      and temp_var1 = #{tempVar1,jdbcType=VARCHAR}
+    </if>
+    <if test="tempVar2 != null" >
+      and  temp_var2 = #{tempVar2,jdbcType=VARCHAR}
+    </if>
+    <if test="tempVar3 != null" >
+      and temp_var3 = #{tempVar3,jdbcType=VARCHAR}
+    </if>
+    <if test="tempInt1 != null" >
+      and temp_int1 = #{tempInt1,jdbcType=INTEGER}
+    </if>
+    <if test="tempInt2 != null" >
+      and temp_int2 = #{tempInt2,jdbcType=INTEGER}
+    </if>
+    <if test="tempInt3 != null" >
+      and  temp_int3 = #{tempInt3,jdbcType=INTEGER}
+    </if>
+  </select>
 
 </mapper>

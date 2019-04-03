@@ -3,7 +3,7 @@ server:
 
 spring:
     activiti:
-        database-schema-update: true
+        database-schema-update: false
         check-process-definitions: true
         process-definition-location-prefix: classpath:/processes/
         history-level: full
