@@ -59,12 +59,6 @@ public class AskForLeaveService {
         Long currentTimeMillis = System.currentTimeMillis();
         String businessKey=currentTimeMillis.toString();
 
-        //添加假数据
-        //variables.put("leavedays",3);
-        variables.put("firstman","Nancy");
-        variables.put("secondman","Jack");
-        variables.put("processName","请假流程");
-
         //注意 在bpmn的 start节点里 要进行设置: activiti:initiator="applyuser"
         this.identityService.setAuthenticatedUserId((String)variables.get("userName"));
 

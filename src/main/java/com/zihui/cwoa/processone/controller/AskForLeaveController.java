@@ -23,8 +23,13 @@ public class AskForLeaveController {
 
     @RequestMapping("/startprocess")
     @ResponseBody
-    public boolean startProcess(@RequestBody Map<String,Object> map){
-        return askForLeaveService.startProcess("askforleave",map);
+    public boolean startProcess(@RequestBody Map<String,Object> variables){
+        //添加假数据
+        //variables.put("leavedays",3);
+        variables.put("firstman","Nancy");
+        variables.put("secondman","Jack");
+        variables.put("processName","请假流程");
+        return askForLeaveService.startProcess("askforleave",variables);
     }
 
     @RequestMapping("/querytask")
