@@ -1,5 +1,6 @@
 package com.zihui.cwoa.system.controller;
 
+import com.zihui.cwoa.system.common.Common;
 import com.zihui.cwoa.system.dao.sys_department_menuMapper;
 import com.zihui.cwoa.system.pojo.sys_department;
 import com.zihui.cwoa.system.pojo.sys_menu;
@@ -8,6 +9,7 @@ import com.zihui.cwoa.system.service.sys_departmentService;
 import com.zihui.cwoa.system.service.sys_menuService;
 import com.zihui.cwoa.system.service.sys_userService;
 import com.zihui.cwoa.system.service.sys_user_departmentService;
+import org.apache.ibatis.annotations.Param;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -17,6 +19,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
+import org.omg.CORBA.Request;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,8 +57,27 @@ public class loginController {
     public ModelAndView login(){
         ModelAndView view = new ModelAndView();
         view.addObject("name","admin");
+
+        view.addObject("11","11");
         view.setViewName("login");
+
         return view;
+    }
+
+    @RequestMapping(value = "/file")
+    public ModelAndView f(){
+        ModelAndView view = new ModelAndView();
+        view.setViewName("filetwo");
+        return view;
+    }
+
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    @ResponseBody
+    public String t(@RequestBody Map m,HttpServletRequest request){
+        String  ip =Common.getIpAddr(request);
+        log.info(m.toString());
+        log.info(ip);
+        return "22";
     }
 
     @RequestMapping(value = "/loginuser" , method = RequestMethod.POST)

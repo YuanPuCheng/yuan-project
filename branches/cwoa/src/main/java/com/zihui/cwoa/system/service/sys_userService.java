@@ -59,9 +59,21 @@ public class sys_userService {
         return userMapper.selectUserByLogin(usercode);
     };
 
-
+    /**
+     *  查询用户对应 部门
+     *  @param userId 用户工号
+     *  @return sys_user 返回当前对象
+     */
     public sys_user selectDepartmentToUser(String userId){
         return userMapper.selectDepartmentToUser(userId);
+    };
+    /**
+     *  根据用户工号查询该工号是否存在
+     *  @param record 多条件查询
+     *  @return sys_user 返回所有符合条件的对象
+     */
+    List<sys_user> selectUserList(sys_user record){
+        return userMapper.selectUserList(record);
     };
 
 }
