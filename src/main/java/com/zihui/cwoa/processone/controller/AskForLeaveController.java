@@ -39,6 +39,12 @@ public class AskForLeaveController {
         return askForLeaveService.queryProcess(userCode);
     }
 
+    @RequestMapping("/queryendprocess")
+    @ResponseBody
+    public List queryEndProcess(String userCode){
+        return askForLeaveService.queryEndProcess(userCode);
+    }
+
     @RequestMapping("/completetask")
     @ResponseBody
     public boolean completeTask(String taskId){

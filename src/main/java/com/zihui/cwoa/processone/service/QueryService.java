@@ -29,4 +29,5 @@ public class QueryService {
     public String queryProStatuByProInstanceId(String processInstanceId){
         return queryMapper.queryProStatuByProInstanceId(processInstanceId);
     }
+
 }
