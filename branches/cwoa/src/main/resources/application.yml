@@ -3,9 +3,9 @@ server:
 
 spring:
     activiti:
-        database-schema-update: false
-        check-process-definitions: true
-        process-definition-location-prefix: classpath:/processes/
+        database-schema-update: true
+        check-process-definitions: false
+ #       process-definition-location-prefix: classpath:/processes/
         history-level: full
         async-executor-activate: false
 #    redis:
