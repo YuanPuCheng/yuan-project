@@ -1,6 +1,7 @@
 package com.zihui.cwoa.processone.service;
 
 import org.activiti.engine.*;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,18 +46,22 @@ public class AskForLeaveService {
     /**
      *  启动流程
      *  @param processKey 流程的key
-     *  @param applyerName  流程的发起人
      *  @param variables 添加额外的参数 供整个流程去使用(从流程开始到结束 整个时间范围内都可以获取)
      *  @return 成功/失败 true/false
      */
-    public boolean startProcess(String processKey,String applyerName,Map<String, Object> variables){
+    public boolean startProcess(String processKey,Map<String, Object> variables){
 
         //业务主键 businessKey
         Long currentTimeMillis = System.currentTimeMillis();
         String businessKey=currentTimeMillis.toString();
 
+        //添加假数据
+        //variables.put("leavedays",3);
+        variables.put("firstman","Nancy");
+        variables.put("secondman","Jack");
+
         //注意 在bpmn的 start节点里 要进行设置: activiti:initiator="applyuser"
-        this.identityService.setAuthenticatedUserId(applyerName);
+        this.identityService.setAuthenticatedUserId((String)variables.get("userName"));
 
         //启动流程
         try {
@@ -87,7 +92,10 @@ public class AskForLeaveService {
             for (Task task : tasks) {
                 Map<String, Object> variables = taskService.getVariables(task.getId());
                 variables.put("taskId",task.getId());
-                variables.put("processInstanceId",task.getProcessInstanceId());
+                String processInstanceId = task.getProcessInstanceId();
+                variables.put("processInstanceId",processInstanceId);
+                variables.put("startTime",runtimeService.createProcessInstanceQuery().
+                        processInstanceId(processInstanceId).singleResult().getStartTime());
                 queryResultList.add(variables);
             }
             map.put("queryResultList",queryResultList);
@@ -126,6 +134,14 @@ public class AskForLeaveService {
         }
     }
 
-
-
+    /**
+     *  根据用户工号查询他发起的流程
+     *  @param userCode 用户工号
+     *  @return 查询结果
+     */
+    public List queryProcess(String userCode) {
+        List<HistoricProcessInstance> historicProcessInstanceList =
+                historyService.createHistoricProcessInstanceQuery().startedBy(userCode).list();
+        return historicProcessInstanceList;
+    }
 }
