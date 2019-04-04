@@ -26,7 +26,7 @@ public class YZMController {
 	private DefaultKaptcha defaultKaptcha;
 
 	@RequestMapping("/yzm")
-	@ResponseBody
+
 	public void defaultKaptcha(HttpServletResponse httpServletResponse,HttpServletRequest request) throws Exception{
 		byte[] captchaChallengeAsJpeg = null;
 		ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
