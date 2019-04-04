@@ -3,7 +3,6 @@ package com.zihui.cwoa.processone.service;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricVariableInstance;
-import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class AskForLeaveService {
+public class ProcessesService {
 
     @Autowired
     private RepositoryService repositoryService;
@@ -38,9 +37,7 @@ public class AskForLeaveService {
      */
     public boolean deployProcess(String processPath){
         try {
-            Deployment deploy = this.repositoryService.createDeployment()
-                    .addClasspathResource(processPath)
-                    .deploy();
+            this.repositoryService.createDeployment().addClasspathResource(processPath).deploy();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -167,6 +164,12 @@ public class AskForLeaveService {
             }
             variables.put("startTime",ins.getStartTime());
             variables.put("endTime",ins.getEndTime());
+            String deleteReason = ins.getDeleteReason();
+            if(deleteReason!=null){
+                variables.put("deleteReason",deleteReason);
+            }else{
+                variables.put("deleteReason","同意申请");
+            }
             list.add(variables);
         }
         return list;

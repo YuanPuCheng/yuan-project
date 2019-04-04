@@ -1,66 +1,103 @@
 package com.zihui.cwoa.processone.controller;
 
-import com.zihui.cwoa.processone.service.AskForLeaveService;
+import com.zihui.cwoa.processone.service.ProcessesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/askforleave")
+@RequestMapping("/process")
 public class AskForLeaveController {
 
     @Autowired
-    private AskForLeaveService askForLeaveService;
+    private ProcessesService processesService;
 
+    /**
+     *  部署流程
+     *  @param processPath 传入流程定义文件路径
+     *  @return 成功/失败 true/false
+     */
     @RequestMapping("/deployprocess")
     @ResponseBody
-    public boolean deployProcess(){
-        return askForLeaveService.deployProcess("processes/askforleave.bpmn");
+    public boolean deployProcess(String processPath){
+        processPath= "processes/askforleave.bpmn";
+        return processesService.deployProcess(processPath);
     }
 
-    @RequestMapping("/startprocess")
+    /**
+     *  启动请假流程
+     *  @param variables 流程变量
+     *  @return 成功/失败 true/false
+     */
+    @RequestMapping("/startaskforleave")
     @ResponseBody
-    public boolean startProcess(@RequestBody Map<String,Object> variables){
+    public boolean startAskForLeave(@RequestBody Map<String,Object> variables){
         //添加假数据
         //variables.put("leavedays",3);
         variables.put("firstman","Nancy");
         variables.put("secondman","Jack");
         variables.put("processName","请假流程");
-        return askForLeaveService.startProcess("askforleave",variables);
+        return processesService.startProcess("askforleave",variables);
     }
 
+    /**
+     *  查询用户任务
+     *  @param userCode 用户工号
+     *  @return 用户的任务信息
+     */
     @RequestMapping("/querytask")
     @ResponseBody
     public Map<String,Object> queryTask(String userCode){
-        return askForLeaveService.queryTask(userCode);
+        return processesService.queryTask(userCode);
     }
 
+    /**
+     *  根据用户工号查询他发起的还在审批中的流程
+     *  @param userCode 用户工号
+     *  @return 查询结果
+     */
     @RequestMapping("/queryprocess")
     @ResponseBody
     public List<Map<String,Object>> queryProcess(String userCode){
-        return askForLeaveService.queryProcess(userCode);
+        return processesService.queryProcess(userCode);
     }
 
+    /**
+     *  根据用户工号查询他发起的已经结束的流程
+     *  @param userCode 用户工号
+     *  @return 查询结果
+     */
     @RequestMapping("/queryendprocess")
     @ResponseBody
     public List queryEndProcess(String userCode){
-        return askForLeaveService.queryEndProcess(userCode);
+        return processesService.queryEndProcess(userCode);
     }
 
+    /**
+     *  办理人同意流程执行到下一步
+     *  @param taskId 用户工号
+     *  @return 成功/失败 true/false
+     */
     @RequestMapping("/completetask")
     @ResponseBody
     public boolean completeTask(String taskId){
-        return askForLeaveService.completeTask(taskId);
+        return processesService.completeTask(taskId);
     }
 
+    /**
+     *  办理人不同意流程执行到下一步 流程强制结束
+     *  @param processInstanceId 流程实例Id
+     *  @param reason 不同意的理由
+     *  @return 成功/失败 true/false
+     */
     @RequestMapping("/deleteprocessinstance")
     @ResponseBody
-    public boolean deleteProcessInstance(String processInstanceId){
-        String reason="没有理由";
-        return askForLeaveService.deleteProcessInstance(processInstanceId,reason);
+    public boolean deleteProcessInstance(String processInstanceId,String reason){
+        return processesService.deleteProcessInstance(processInstanceId,reason);
     }
 
     @RequestMapping("/testone")
@@ -71,6 +108,13 @@ public class AskForLeaveController {
         //List<Map<String,Object>> processSummary = (List<Map<String, Object>>) map.get("processSummary");
         System.out.println(map);
         //map.put("result","true");
+        return true;
+    }
+
+    @RequestMapping("/testtwo")
+    @ResponseBody
+    public boolean TestTwo(HttpSession httpSession){
+            httpSession.setAttribute("key","value");
         return true;
     }
 }
