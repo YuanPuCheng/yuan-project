@@ -5,7 +5,15 @@
     <title>Title</title>
 </head>
 <body>
-<span th:text="${status}"></span>
+<span id="a"  th:text="${user.images}"></span>
+<img id="img1" th:src="@{/user/show/(fileName=${user.images})}" />
 </body>
 <script src="../static/js/jquery-3.3.1.min.js"></script>
+<script>
+    $(function () {
+       // $("#img1").attr('src',"http://127.0.0.1:8080/user/show?fileName=bc24e831-3021-4808-a9dc-4ec7d71ffe59.jpg");
+    })
+
+
+</script>
 </html>

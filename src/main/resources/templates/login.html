@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
 
 	<head>
 		<meta charset="utf-8" />
@@ -22,9 +22,15 @@
 						</div>
 						<div class="box_row_password">
 							密码：
-							<input name="password" value="" placeholder="请输入密码..." />
+							<input type="password" name="password" value="" placeholder="请输入密码..." />
 
 						</div>
+						<div class="box_row_password">
+							验证码：<img src="http://127.0.0.1:8080/yzm/yzm" />
+							<input name="vrifyCode" value="" placeholder="请输入验证码..." />
+
+						</div>
+
 						<p>忘记密码？</p>
 						<button  type="submit">登录</button>
 						<button>注册</button>
@@ -35,7 +41,25 @@
 			</div>
 		</div>
 	</body>
+	<script src="../static/js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript">
+		var usercode = $("#usercode").val();
+        var password = $("#password").val();
+        var vrifyCode = $("#vrifyCode").val();
+
+        $.ajax({
+            url:"http://127.0.0.1:8080/user/loginuser",
+            type:"post",
+            xhrFields:{
+                withCredentials:true
+            },
+            data: {"usercode":usercode,"password":password,"vrifyCode":vrifyCode},
+            //contentType:"application/json",
+            dataType:"json",
+            success:function(data){
+                $("#test").text(data);
+            }
+        });
 	</script>
 
 </html>
