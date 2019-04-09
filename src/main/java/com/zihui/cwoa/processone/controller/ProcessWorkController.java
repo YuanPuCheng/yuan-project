@@ -5,13 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.util.List;
 import java.util.Map;
 
 @Controller
 @RequestMapping("/process")
-public class AskForLeaveController {
+public class ProcessWorkController {
 
     @Autowired
     private ProcessesService processesService;
@@ -37,7 +35,6 @@ public class AskForLeaveController {
     @ResponseBody
     public boolean startAskForLeave(@RequestBody Map<String,Object> variables){
         //添加假数据
-        //variables.put("leavedays",3);
         variables.put("firstman","Nancy");
         variables.put("secondman","Jack");
         variables.put("processName","请假流程");
@@ -100,27 +97,4 @@ public class AskForLeaveController {
         return processesService.deleteProcessInstance(processInstanceId,reason);
     }
 
-    @RequestMapping("/testone")
-    @ResponseBody
-    public boolean TestOne(@RequestBody Map<String,Object> map){
-        //Map<String,Object> map=new HashMap<>();
-        //map.forEach((k,v)-> System.out.println(k+"="+v));
-        //List<Map<String,Object>> processSummary = (List<Map<String, Object>>) map.get("processSummary");
-        System.out.println(map);
-        //map.put("result","true");
-        return true;
-    }
-
-    @RequestMapping("/testtwo")
-    @ResponseBody
-    public boolean TestTwo(HttpSession httpSession){
-
-        System.out.println("验证码为："+httpSession.getAttribute("vrifyCode"));
-        return true;
-    }
-
-    @RequestMapping("/testthree")
-    public String TestThree(){
-        return "fileseven";
-    }
 }

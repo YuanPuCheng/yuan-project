@@ -141,6 +141,7 @@ public class ProcessesService {
         for (String processInstanceId: strings) {
             Map<String, Object> variables = runtimeService.getVariables(processInstanceId);
             variables.put("processStatus",queryService.queryProStatuByProInstanceId(processInstanceId));
+            variables.put("processInstanceId",processInstanceId);
             list.add(variables);
         }
         Map<String,Object> map =new HashMap<>();
