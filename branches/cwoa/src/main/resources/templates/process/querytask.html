@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>任务查询</title>
+		<meta name="renderer" content="webkit" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="./../../static/layui/css/layui.css" />
+		<style type="text/css">
+			.layui-btn {
+				padding: 0px 10px;
+			}
+		</style>
+	</head>
+
+	<body layadmin-themealias="default">
+		<h2>查询中ing...</h2>
+		<div class="layui-fluid" style="margin-top: 10px;" id="queryProcessBox">
+			<!-- 数据显示区域 -->
+		</div>
+		<div class="layadmin-body-shade" layadmin-event="shade"></div>
+		<script src="./../../static/layui/layui.js"></script>
+		<script>
+			//<![CDATA[
+			layui.use(['layer'], function() {
+				var $ = layui.jquery;
+				var layer = layui.layer;
+				$(document).ready(function() {
+					$.ajax({
+						url: "http://192.168.1.2:8080/process/querytask",
+						type: "get",
+						data: {
+							"userCode": "Nancy"
+						}, //这里发送的数据必须得是Json格式的字符串
+						dataType: "json", //预测服务端返回的数据类型
+						success: function(data) { //请求成功的回调
+							if(data.result) {
+								$("h2").hide();
+								var list = data.queryResultList;
+								var len = list.length;
+								for(var i = 0; i < len; i++) {
+									var pro = list[i].processSummary;
+									var summary = "";
+									for(var j = 0; j < pro.length; j++) {
+										summary = summary + "<p>" + pro[j].indexName + ":" + pro[j].indexValue + "</p>";
+									}
+									var startTimeFormat=new Date(list[i].startTime).toLocaleDateString();
+									var txt = "<div class=\"layuiadmin-card-text\" style=\"background-color: gainsboro;margin-top:10px ;\">" +
+										"<div class=\"layui-card-header\"><i class=\"layui-icon layui-icon-table\">" + list[i].processName + "</i>" +
+										"<i style=\"position: absolute;right: 15px;\">" + startTimeFormat +
+										"</i></div><div class=\"layui-card-body\"><h3>" + list[i].userDepartment + "-" + list[i].userName + "</h3>" + summary +
+										"<hr class=\"layui-bg-gray\" />" +
+										"<button class=\"layui-btn layui-btn-radius layui-btn-primary\">查看详情</button>" +
+										"<button class=\"layui-btn layui-btn-radius layui-btn-primary\" id=\"" + list[i].taskId +
+										"\">同意申请</button>" +
+										"<button class=\"layui-btn layui-btn-radius layui-btn-primary\" id=\"" + list[i].processInstanceId +
+										"\">驳回申请</button></div>";
+									$("#queryProcessBox").append(txt);
+								}
+								$("button").click(function() {
+									if($(this).text() == "查看详情") {
+										alert("查看详情！");
+									} else if($(this).text() == "同意申请") {
+										var taskId = $(this).prop("id");
+										layer.confirm('您确定批准该申请吗？', {
+											btn: ['确定', '再想想'] //按钮
+										}, function() {
+											//确定触发的事件
+											$.ajax({
+												url: "http://192.168.1.2:8080/process/completetask",
+												type: "get",
+												data: {
+													"taskId": taskId
+												},
+												dataType: "text", //预测服务端返回的数据类型
+												success: function(data) { //请求成功的回调
+													layer.msg('成功批准申请！', {
+														icon: 1,
+														btn: ['知道了']
+													}, function() {
+														//知道了触发的事件
+														location.reload();
+													});
+												},
+												error: function() { //请求失败的回调
+													layer.msg('发生未知错误！', {
+														icon: 2,
+														btn: ['知道了']
+													}, function() {
+														//知道了触发的事件
+														location.reload();
+													});
+												}
+											});
+										}, function() {
+											//再想想触发的事件
+										});
+									} else if($(this).text() == "驳回申请") {
+										var processInstanceId = $(this).prop("id");
+										layer.prompt({
+											title: '请输入驳回理由',
+											formType: 2
+										}, function(text, index) {
+											layer.close(index);
+											//确定触发的事件
+											$.ajax({
+												url: "http://192.168.1.2:8080/process/deleteprocessinstance",
+												type: "get",
+												data: {
+													"processInstanceId": processInstanceId,
+													"reason": text
+												},
+												dataType: "text", //预测服务端返回的数据类型
+												success: function(data) { //请求成功的回调
+													layer.msg('成功驳回申请！', {
+														icon: 1,
+														btn: ['知道了']
+													}, function() {
+														//知道了触发的事件
+														location.reload();
+													});
+												},
+												error: function() { //请求失败的回调
+													layer.msg('发生未知错误！', {
+														icon: 2,
+														btn: ['知道了']
+													}, function() {
+														//知道了触发的事件
+														location.reload();
+													});
+												}
+											});
+										});
+									} else {
+										layer.msg('错误操作！', {
+											icon: 2
+										});
+									}
+								});
+							} else {
+								$("h2").text("您没有待办的任务！");
+							}
+						},
+						error: function() { //请求失败的回调
+							$("h2").text("加载数据失败，请刷新试试！");
+						}
+					});
+				});
+			});
+			//]]>	
+		</script>
+	</body>
+
+</html>
