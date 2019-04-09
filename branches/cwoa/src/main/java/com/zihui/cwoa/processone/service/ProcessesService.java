@@ -81,9 +81,9 @@ public class ProcessesService {
                 .list();
         Map<String,Object> map =new HashMap<>();
         if(tasks.isEmpty()){
-            map.put("result","false");
+            map.put("result",false);
         }else {
-            map.put("result","true");
+            map.put("result",true);
             List<Map<String,Object>> queryResultList = new LinkedList<>();
             for (Task task : tasks) {
                 Map<String, Object> variables = taskService.getVariables(task.getId());
@@ -135,7 +135,7 @@ public class ProcessesService {
      *  @param userCode 用户工号
      *  @return 查询结果
      */
-    public List<Map<String,Object>> queryProcess(String userCode) {
+    public Map<String,Object> queryProcess(String userCode) {
         List<String> strings = queryService.queryProNotActiveByUserCode(userCode);
         List<Map<String,Object>> list = new LinkedList();
         for (String processInstanceId: strings) {
@@ -143,7 +143,14 @@ public class ProcessesService {
             variables.put("processStatus",queryService.queryProStatuByProInstanceId(processInstanceId));
             list.add(variables);
         }
-        return list;
+        Map<String,Object> map =new HashMap<>();
+        if(list.isEmpty()) {
+            map.put("result", false);
+        }else{
+            map.put("result", true);
+            map.put("queryResultList",list);
+        }
+        return map;
     }
 
     /**
@@ -151,7 +158,7 @@ public class ProcessesService {
      *  @param userCode 用户工号
      *  @return 查询结果
      */
-    public  List<Map<String,Object>> queryEndProcess(String userCode){
+    public  Map<String,Object> queryEndProcess(String userCode){
         List<Map<String,Object>> list = new LinkedList<>();
         List<HistoricProcessInstance> historicProcessInstanceList =
                 historyService.createHistoricProcessInstanceQuery().startedBy(userCode).finished().list();
@@ -172,6 +179,13 @@ public class ProcessesService {
             }
             list.add(variables);
         }
-        return list;
+        Map<String,Object> map =new HashMap<>();
+        if(list.isEmpty()) {
+            map.put("result",false);
+        }else{
+            map.put("result",true);
+            map.put("queryResultList",list);
+        }
+        return map;
     }
 }
