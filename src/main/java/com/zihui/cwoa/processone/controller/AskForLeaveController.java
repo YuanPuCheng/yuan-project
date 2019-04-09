@@ -62,7 +62,7 @@ public class AskForLeaveController {
      */
     @RequestMapping("/queryprocess")
     @ResponseBody
-    public List<Map<String,Object>> queryProcess(String userCode){
+    public Map<String,Object> queryProcess(String userCode){
         return processesService.queryProcess(userCode);
     }
 
@@ -73,7 +73,7 @@ public class AskForLeaveController {
      */
     @RequestMapping("/queryendprocess")
     @ResponseBody
-    public List queryEndProcess(String userCode){
+    public Map<String,Object> queryEndProcess(String userCode){
         return processesService.queryEndProcess(userCode);
     }
 
@@ -114,7 +114,13 @@ public class AskForLeaveController {
     @RequestMapping("/testtwo")
     @ResponseBody
     public boolean TestTwo(HttpSession httpSession){
-            httpSession.setAttribute("key","value");
+
+        System.out.println("验证码为："+httpSession.getAttribute("vrifyCode"));
         return true;
+    }
+
+    @RequestMapping("/testthree")
+    public String TestThree(){
+        return "fileseven";
     }
 }
