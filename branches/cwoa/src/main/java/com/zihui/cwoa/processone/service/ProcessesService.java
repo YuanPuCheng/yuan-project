@@ -1,13 +1,17 @@
 package com.zihui.cwoa.processone.service;
 
+import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricVariableInstance;
+import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.activiti.image.impl.DefaultProcessDiagramGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import java.io.InputStream;
 import java.util.*;
 
 @Service
@@ -28,8 +32,10 @@ public class ProcessesService {
     @Autowired
     private TaskService taskService;
 
+    //自定义的查询方法
     @Autowired
     private QueryService queryService;
+
     /**
      *  部署流程
      *  @param processPath 传入流程定义文件路径
@@ -136,10 +142,12 @@ public class ProcessesService {
      *  @return 查询结果
      */
     public Map<String,Object> queryProcess(String userCode) {
-        List<String> strings = queryService.queryProNotActiveByUserCode(userCode);
+        //自定义方法 查询用户在途的流程Id
+        List<String> strings = queryService.queryProcessActiveByUserCode(userCode);
         List<Map<String,Object>> list = new LinkedList();
         for (String processInstanceId: strings) {
             Map<String, Object> variables = runtimeService.getVariables(processInstanceId);
+            //自定义方法 查询用户在途的流程节点
             variables.put("processStatus",queryService.queryProStatuByProInstanceId(processInstanceId));
             variables.put("processInstanceId",processInstanceId);
             list.add(variables);
@@ -164,14 +172,13 @@ public class ProcessesService {
         List<HistoricProcessInstance> historicProcessInstanceList =
                 historyService.createHistoricProcessInstanceQuery().startedBy(userCode).finished().list();
         for (HistoricProcessInstance ins:historicProcessInstanceList) {
-            List<HistoricVariableInstance> hisList =
-                    historyService.createHistoricVariableInstanceQuery().processInstanceId(ins.getId()).list();
             Map<String,Object> variables=new HashMap();
-            for (HistoricVariableInstance hisInstance:hisList) {
-                variables.put(hisInstance.getVariableName(),hisInstance.getValue());
-            }
+            //自定义方法 查询流程名称
+            variables.put("processName",ins.getProcessDefinitionName());
+            variables.put("processInstanceId",ins.getId());
             variables.put("startTime",ins.getStartTime());
             variables.put("endTime",ins.getEndTime());
+            variables.put("deploymentId", ins.getDeploymentId());
             String deleteReason = ins.getDeleteReason();
             if(deleteReason!=null){
                 variables.put("deleteReason",deleteReason);
@@ -188,5 +195,68 @@ public class ProcessesService {
             map.put("queryResultList",list);
         }
         return map;
+    }
+
+    /**
+     *  查看流程详情
+     *  @param processInstanceId 流程实例Id
+     *  @return 查询结果
+     */
+    public  Map<String,Object> queryProcessDetail(String processInstanceId){
+        List<HistoricVariableInstance> hisList =
+                historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstanceId).list();
+        Map<String,Object> variables=new HashMap();
+        for (HistoricVariableInstance hisInstance:hisList) {
+            variables.put(hisInstance.getVariableName(),hisInstance.getValue());
+        }
+        List<HistoricProcessInstance> list =
+                historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).list();
+        for (HistoricProcessInstance ins:list) {
+            variables.put("startTime",ins.getStartTime());
+            variables.put("endTime",ins.getEndTime());
+            String deleteReason = ins.getDeleteReason();
+
+            if(deleteReason!=null){
+                variables.put("deleteReason",deleteReason);
+            }else{
+                variables.put("deleteReason","同意申请");
+            }
+        }
+        return variables;
+    }
+
+    /**
+     * 查看带节点的流程图
+     * @param processInstanceId 流程实例Id
+     * @return 流程图的输出流
+     */
+    public InputStream getPngStream(String processInstanceId) {
+        // 获得流程实例
+        ProcessInstance processInstance =
+                runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+        // 获得流程定义id
+        String processDefinitionId = processInstance.getProcessDefinitionId();
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
+        DefaultProcessDiagramGenerator processDiagramGenerator= new DefaultProcessDiagramGenerator();
+        InputStream png =
+                processDiagramGenerator.generateDiagram(bpmnModel, "png",
+                        runtimeService.getActiveActivityIds(processInstanceId),
+                        Collections.<String>emptyList(), "宋体","宋体",
+                        "宋体", null, 1.0D);
+        return png;
+    }
+
+    /**
+     * 查看流程图
+     * @param deploymentId 流程部署Id
+     * @return 流程图的输出流
+     */
+    public InputStream getActivityPngStream(String deploymentId) {
+        ProcessDefinition processDefinition =
+                repositoryService.createProcessDefinitionQuery().deploymentId(deploymentId).singleResult();
+
+        InputStream is =
+                repositoryService.getResourceAsStream(deploymentId, processDefinition.getDiagramResourceName());
+        return is;
     }
 }

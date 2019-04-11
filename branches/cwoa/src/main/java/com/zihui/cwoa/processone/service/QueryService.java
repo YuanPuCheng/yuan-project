@@ -17,8 +17,8 @@ public class QueryService {
      *  @param userCode 用户工号
      *  @return 查询结果
      */
-    public List<String> queryProNotActiveByUserCode(String userCode){
-        return queryMapper.queryProNotActiveByUserCode(userCode);
+    public List<String> queryProcessActiveByUserCode(String userCode){
+        return queryMapper.queryProcessActiveByUserCode(userCode);
     }
 
     /**
@@ -29,5 +29,15 @@ public class QueryService {
     public String queryProStatuByProInstanceId(String processInstanceId){
         return queryMapper.queryProStatuByProInstanceId(processInstanceId);
     }
+
+    /**
+     *  根据流程实例ID查询流程名称
+     *  @param processInstanceId 流程实例ID
+     *  @return 流程状态
+     */
+    public String queryProNameByProInstanceId(String processInstanceId){
+        return queryMapper.queryProNameByProInstanceId(processInstanceId);
+    }
+
 
 }
