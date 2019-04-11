@@ -19,13 +19,13 @@ public class sys_menuService {
      *  @param menuId 传入菜单id
      *  @return int 0=删除失败
      */
-    public int deleteByPrimaryKey(String menuId){
+    public int deleteByPrimaryKey(Integer menuId){
         return menuMapper.deleteByPrimaryKey(menuId);
     };
 
     /**
      *  新增菜单
-     *  @param sys_menu 传入用户菜单对象
+     *  @param record 传入用户菜单对象
      *  @return int 0=新增失败
      */
     public int insertSelective(sys_menu record){
@@ -36,13 +36,13 @@ public class sys_menuService {
      *  @param menuId 传入用户菜单id
      *  @return 返回菜单对象 1条记录
      */
-    public sys_menu selectByPrimaryKey(String menuId){
+    public sys_menu selectByPrimaryKey(Integer menuId){
         return menuMapper.selectByPrimaryKey(menuId);
     };
 
     /**
      *  修改菜单
-     *  @param sys_menu 传入用户菜单对象，包含修改的id
+     *  @param record 传入用户菜单对象，包含修改的id
      *  @return int 0=修改失败
      */
     public int updateByPrimaryKeySelective(sys_menu record){

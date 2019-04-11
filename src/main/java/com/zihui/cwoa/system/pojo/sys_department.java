@@ -4,7 +4,7 @@ import java.util.List;
 
 public class sys_department {
 
-    private String departmentId;//部门id
+    private Integer departmentId;//部门id
 
     private String departmentName;//部门名称
 
@@ -24,12 +24,12 @@ public class sys_department {
         this.menus = menus;
     }
 
-    public String getDepartmentId() {
+    public Integer getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(String departmentId) {
-        this.departmentId = departmentId == null ? null : departmentId.trim();
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
     }
 
     public String getDepartmentName() {

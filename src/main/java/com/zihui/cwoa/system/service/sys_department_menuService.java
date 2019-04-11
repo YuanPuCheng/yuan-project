@@ -17,15 +17,15 @@ public class sys_department_menuService {
 
     /**
      *  根据部门菜单id删除记录
-     *  @param departmentId id
+     *  @param id id
      *  @return int 0=删除失败
      */
-    public int deleteByPrimaryKey(String id){
+    public int deleteByPrimaryKey(Integer id){
         return department_menuMapper.deleteByPrimaryKey(id);
     }
     /**
      *  新增部门菜单
-     *  @param departmentId id
+     *  @param record id
      *  @return int 0=新增失败
      */
     public int insert(sys_department_menu record){
@@ -36,12 +36,12 @@ public class sys_department_menuService {
      *  @param id 传入用户id
      *  @return 返回部门菜单对象 1条记录
      */
-    public sys_department_menu selectByPrimaryKey(String id){
+    public sys_department_menu selectByPrimaryKey(Integer id){
         return department_menuMapper.selectByPrimaryKey(id);
     }
     /**
      *  根据部门菜单id修改记录
-     *  @param sys_department_menu 包含要修改的id
+     *  @param record 包含要修改的id
      *  @return int 0=删除失败
      */
     public int updateByPrimaryKey(sys_department_menu record){
@@ -52,7 +52,7 @@ public class sys_department_menuService {
      *  @param userId 一个或多个部门id
      *  @return menuId 返回对于的菜单id
      */
-    public List<String> selectMenuIdByUserId(String userId){
+    public List<Integer> selectMenuIdByUserId(Integer userId){
         return department_menuMapper.selectMenuIdByUserId(userId);
     }
 

@@ -2,6 +2,8 @@ package com.zihui.cwoa.system.controller;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -9,10 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.zihui.cwoa.system.common.Basecommon;
+import com.zihui.cwoa.system.common.CallbackResult;
+import com.zihui.cwoa.system.common.Common;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,7 +32,6 @@ public class YZMController {
 	private DefaultKaptcha defaultKaptcha;
 
 	@RequestMapping("/yzm")
-
 	public void defaultKaptcha(HttpServletResponse httpServletResponse,HttpServletRequest request) throws Exception{
 		byte[] captchaChallengeAsJpeg = null;
 		ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
@@ -38,7 +43,7 @@ public class YZMController {
 			String createText = defaultKaptcha.createText();
 
 			session.setAttribute("vrifyCode",createText);
-			session.setMaxInactiveInterval(300);
+			//session.setMaxInactiveInterval(300);
 			log.info("本次的验证码"+createText);
 			log.info("session"+session.getAttribute("vrifyCode"));
 			//使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
@@ -59,10 +64,6 @@ public class YZMController {
 		// Set standard HTTP/1.0 no-cache header.
 		httpServletResponse.setHeader("Pragma", "no-cache");
 		captchaChallengeAsJpeg = jpegOutputStream.toByteArray();
-		//httpServletResponse.setHeader("Cache-Control", "no-store");
-		//httpServletResponse.setHeader("Pragma", "no-cache");
-		//httpServletResponse.setDateHeader("Expires", 0);
-		//httpServletResponse.setContentType("image/jpeg");
 		ServletOutputStream responseOutputStream =
 				httpServletResponse.getOutputStream();
 		responseOutputStream.write(captchaChallengeAsJpeg);
@@ -70,11 +71,28 @@ public class YZMController {
 		responseOutputStream.close();
 	}
 
-	@RequestMapping("/zzz")
-	public ModelAndView imgvrifyControllerDefaultKaptcha(HttpSession session){
-		ModelAndView view = new ModelAndView();
-		String captchaId = (String) session.getAttribute("vrifyCode");
-		log.info("session"+captchaId);
-		return view;
+	@RequestMapping("/emailyzm")
+	@ResponseBody()
+	public CallbackResult emailYzm(@RequestParam String email, HttpSession session) throws IOException, GeneralSecurityException {
+		CallbackResult c = new CallbackResult();
+
+		String code = Basecommon.sendcode();
+		log.info(email);
+		log.info(code);
+		boolean falg = Common.sendEmail(email, "欢迎使用邮箱注册","您本次的验证码为"+code+"，本验证码5分钟之内有效！");
+		if(falg){
+			session.setAttribute("emailYzm",code);
+			session.setMaxInactiveInterval(300);
+			c.result=200;
+			c.message = "邮箱发送成功";
+		}else{
+			c.result=400;
+			c.message = "发送失败，请检查邮箱是否正确";
+		}
+
+		return c;
 	}
+
+
+
 }

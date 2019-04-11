@@ -7,18 +7,18 @@ import java.util.List;
 
 @Mapper
 public interface sys_departmentMapper {
-    int deleteByPrimaryKey(String departmentId);
+    int deleteByPrimaryKey(Integer departmentId);
 
     int insertSelective(sys_department record);
 
-    sys_department selectByPrimaryKey(String departmentId);
+    sys_department selectByPrimaryKey(Integer departmentId);
 
     int updateByPrimaryKeySelective(sys_department record);
 
     List<sys_department> selectDepartmentById(List<Integer> departmentId);
 
-    List<sys_department> selectDepartment(String userId);
+    List<sys_department> selectDepartment(Integer userId);
 
-    List<sys_department> selectMenu(List<String> departmentId);
+    List<sys_department> selectMenu(List<Integer> departmentId);
 
 }

@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class sys_user {
 
-    private String userId;//用户id
+    private Integer userId;//用户id
 
     private String userCode;//用户工号  做登录用
 
@@ -57,12 +57,12 @@ public class sys_user {
         this.departments = departments;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getUserCode() {

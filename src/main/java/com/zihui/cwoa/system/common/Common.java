@@ -1,17 +1,23 @@
 package com.zihui.cwoa.system.common;
 
+import com.sun.mail.util.MailSSLSocketFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.GeneralSecurityException;
+import java.util.*;
+import javax.mail.*;
+import javax.mail.Message.RecipientType;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
+import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -111,5 +117,61 @@ public class Common {
             return filename;
         }
         return null;
+    }
+
+
+    /****
+     * 邮件发送通用
+     * @param sendmail
+     * @param title
+     * @param content
+     */
+    public static boolean sendEmail(String sendmail,String title,String content){
+        boolean falg = true;
+        // 1.创建一个程序与邮件服务器会话对象 Session
+        Properties props = new Properties();
+        props.setProperty("mail.transport.protocol", "SMTP");// 连接协议
+        props.setProperty("mail.smtp.host", "smtp.139.com");// 连接协议
+        //props.setProperty("mail.smtp.port", "25");// 连接协议
+        // 指定验证为true
+        props.setProperty("mail.smtp.auth", "true");
+        props.setProperty("mail.smtp.timeout","1000");
+        // 验证账号及密码，密码需要是第三方授权码
+        Authenticator auth = new Authenticator() {
+            public PasswordAuthentication getPasswordAuthentication(){
+                return new PasswordAuthentication("18279085893@139.com", "yuanpucheng520");
+            }
+        };
+        Session session = Session.getInstance(props, auth);
+        // 2.创建一个Message，它相当于是邮件内容
+        MimeMessage message = new MimeMessage(session);
+        try {
+            //防止成为垃圾邮件，披上outlook的马甲
+            message.addHeader("X-Mailer","Microsoft Outlook Express 6.00.2900.2869");
+            // 设置发送者
+            message.setFrom(new InternetAddress("18279085893@139.com","江西紫慧科技有限公司"));
+            // 设置发送方式与接收者
+            message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(sendmail));
+            // 设置主题
+            message.setSubject(title);
+            //创建消息主体
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setText(content);
+            // 创建多重消息
+            Multipart multipart=new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+            // 设置邮件消息发送的时间
+            //message.setSentDate(Calendar.getInstance().getTime());
+            // 设置内容
+            message.setContent(multipart, "text/html;charset=utf-8");
+            // 3.创建 Transport用于将邮件发送
+            Transport.send(message);
+            return falg;
+        }catch (Exception e){
+            falg = false;
+            e.printStackTrace();
+
+        }
+        return falg;
     }
 }
