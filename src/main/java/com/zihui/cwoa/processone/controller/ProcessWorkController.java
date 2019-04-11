@@ -68,12 +68,14 @@ public class ProcessWorkController {
     /**
      * 根据用户工号查询他发起的已经结束的流程
      * @param userCode 用户工号
+     * @param page 当前页码
+     * @param num 每页显示条数
      * @return 查询结果
      */
     @RequestMapping("/queryendprocess")
     @ResponseBody
-    public Map<String, Object> queryEndProcess(String userCode) {
-        return processesService.queryEndProcess(userCode);
+    public Map<String, Object> queryEndProcess(String userCode,int page,int num) {
+        return processesService.queryEndProcess(userCode,page,num);
     }
 
     /**
@@ -175,7 +177,6 @@ public class ProcessWorkController {
                 os.write(buffer, 0, i);
                 i = bis.read(buffer);
             }
-            System.out.println("success");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

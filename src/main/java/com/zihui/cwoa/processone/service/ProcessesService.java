@@ -19,19 +19,14 @@ public class ProcessesService {
 
     @Autowired
     private RepositoryService repositoryService;
-
     @Autowired
     private HistoryService historyService;
-
     @Autowired
     private IdentityService identityService;
-
     @Autowired
     private RuntimeService runtimeService;
-
     @Autowired
     private TaskService taskService;
-
     //自定义的查询方法
     @Autowired
     private QueryService queryService;
@@ -57,14 +52,11 @@ public class ProcessesService {
      *  @return 成功/失败 true/false
      */
     public boolean startProcess(String processKey,Map<String, Object> variables){
-
         //业务主键 businessKey
         Long currentTimeMillis = System.currentTimeMillis();
         String businessKey=currentTimeMillis.toString();
-
         //注意 在bpmn的 start节点里 要进行设置: activiti:initiator="applyuser"
         this.identityService.setAuthenticatedUserId((String)variables.get("userName"));
-
         //启动流程
         try {
             this.runtimeService.startProcessInstanceByKey(processKey, businessKey, variables);
@@ -82,9 +74,8 @@ public class ProcessesService {
      */
     public Map<String,Object> queryTask(String userCode){
         //根据用户工号获取该用户的任务
-        List<Task> tasks = taskService.createTaskQuery()
-                .taskAssignee(userCode)
-                .list();
+        List<Task> tasks =
+                taskService.createTaskQuery().taskAssignee(userCode).orderByTaskCreateTime().desc().list();
         Map<String,Object> map =new HashMap<>();
         if(tasks.isEmpty()){
             map.put("result",false);
@@ -163,14 +154,18 @@ public class ProcessesService {
     }
 
     /**
-     *  根据用户工号查询他发起的已经结束的流程
-     *  @param userCode 用户工号
-     *  @return 查询结果
+     * 根据用户工号查询他发起的已经结束的流程
+     * @param userCode 用户工号
+     * @param page 当前页码
+     * @param num 每页显示条数
+     * @return 查询结果
      */
-    public  Map<String,Object> queryEndProcess(String userCode){
+    public  Map<String,Object> queryEndProcess(String userCode,int page, int num){
         List<Map<String,Object>> list = new LinkedList<>();
         List<HistoricProcessInstance> historicProcessInstanceList =
-                historyService.createHistoricProcessInstanceQuery().startedBy(userCode).finished().list();
+                historyService.createHistoricProcessInstanceQuery()
+                        .startedBy(userCode).finished().orderByProcessInstanceEndTime().desc().listPage(page,num);
+        int size = historyService.createHistoricProcessInstanceQuery().startedBy(userCode).finished().list().size();
         for (HistoricProcessInstance ins:historicProcessInstanceList) {
             Map<String,Object> variables=new HashMap();
             //自定义方法 查询流程名称
@@ -188,12 +183,8 @@ public class ProcessesService {
             list.add(variables);
         }
         Map<String,Object> map =new HashMap<>();
-        if(list.isEmpty()) {
-            map.put("result",false);
-        }else{
-            map.put("result",true);
-            map.put("queryResultList",list);
-        }
+        map.put("result",size);
+        map.put("queryResultList",list);
         return map;
     }
 
@@ -254,7 +245,6 @@ public class ProcessesService {
     public InputStream getActivityPngStream(String deploymentId) {
         ProcessDefinition processDefinition =
                 repositoryService.createProcessDefinitionQuery().deploymentId(deploymentId).singleResult();
-
         InputStream is =
                 repositoryService.getResourceAsStream(deploymentId, processDefinition.getDiagramResourceName());
         return is;
