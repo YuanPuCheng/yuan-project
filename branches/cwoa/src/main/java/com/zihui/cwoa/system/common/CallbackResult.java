@@ -2,12 +2,13 @@ package com.zihui.cwoa.system.common;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class CallbackResult {
 	public int result;
     public String message;
-    public HashMap<String,Object> map;
+    public Map map;
     public List<?> list ;
 	
 	public List<?> getList() {
@@ -28,10 +29,10 @@ public class CallbackResult {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public HashMap<String, Object> getMap() {
+	public Map getMap() {
 		return map;
 	}
-	public void setMap(HashMap<String, Object> map) {
+	public void setMap(Map map) {
 		this.map = map;
 	}
 

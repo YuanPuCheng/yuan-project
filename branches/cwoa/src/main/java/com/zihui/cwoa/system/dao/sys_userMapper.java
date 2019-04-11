@@ -11,17 +11,17 @@ public interface sys_userMapper {
 
 
 
-    int deleteByPrimaryKey(String userId);
+    int deleteByPrimaryKey(Integer userId);
 
     int insertSelective(sys_user record);
 
-    sys_user selectByPrimaryKey(String userId);
+    sys_user selectByPrimaryKey(Integer userId);
 
     int updateByPrimaryKeySelective(sys_user record);
 
     sys_user selectUserByLogin(String usercode);
 
-    sys_user selectDepartmentToUser(String userId);
+    sys_user selectDepartmentToUser(Integer userId);
 
     List<sys_user> selectUserList(sys_user record);
 

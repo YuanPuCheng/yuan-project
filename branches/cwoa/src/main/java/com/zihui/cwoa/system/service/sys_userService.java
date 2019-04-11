@@ -1,6 +1,7 @@
 package com.zihui.cwoa.system.service;
 
 
+import com.github.pagehelper.PageHelper;
 import com.zihui.cwoa.system.dao.sys_userMapper;
 import com.zihui.cwoa.system.pojo.sys_department;
 import com.zihui.cwoa.system.pojo.sys_user;
@@ -19,7 +20,7 @@ public class sys_userService {
      *  @param userId 传入userid
      *  @return 返回int 0 新增失败
      */
-    public int deleteByPrimaryKey(String userId){
+    public int deleteByPrimaryKey(Integer userId){
         return userMapper.deleteByPrimaryKey(userId);
     };
 
@@ -37,7 +38,7 @@ public class sys_userService {
      *  @param userId 传人userId
      *  @return sys_user对象
      */
-    public sys_user selectByPrimaryKey(String userId){
+    public sys_user selectByPrimaryKey(Integer userId){
         return userMapper.selectByPrimaryKey(userId);
     };
 
@@ -64,7 +65,7 @@ public class sys_userService {
      *  @param userId 用户工号
      *  @return sys_user 返回当前对象
      */
-    public sys_user selectDepartmentToUser(String userId){
+    public sys_user selectDepartmentToUser(Integer userId){
         return userMapper.selectDepartmentToUser(userId);
     };
     /**
@@ -72,8 +73,17 @@ public class sys_userService {
      *  @param record 多条件查询
      *  @return sys_user 返回所有符合条件的对象
      */
-    List<sys_user> selectUserList(sys_user record){
+    public List<sys_user> selectUserList(sys_user record){
         return userMapper.selectUserList(record);
     };
 
+    /**
+     *  用于分页
+     *  @param record 多条件查询
+     *  @return sys_user 返回所有符合条件的对象
+     */
+    public List<sys_user> selectUserList(sys_user record,Integer pageNum,Integer pageSize){
+        PageHelper.startPage(pageNum,pageSize);
+        return userMapper.selectUserList(record);
+    };
 }

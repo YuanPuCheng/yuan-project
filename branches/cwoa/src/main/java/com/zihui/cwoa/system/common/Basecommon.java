@@ -5,9 +5,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -244,6 +242,63 @@ public class Basecommon {
 		return datas;
 
 	   }
+
+	/**
+	 * @param o
+	 * 判断对象是否为空
+	 * @return boolean
+	 *
+	 * */
+	public static boolean isEmpty(Object o) {
+		if (o == null) {
+			return true;
+		}
+		if (o instanceof String) {
+			if (o.toString().trim().equals("")) {
+				return true;
+			}
+		} else if (o instanceof List) {
+			if (((List) o).size() == 0) {
+				return true;
+			}
+		} else if (o instanceof Map) {
+			if (((Map) o).size() == 0) {
+				return true;
+			}
+		} else if (o instanceof Set) {
+			if (((Set) o).size() == 0) {
+				return true;
+			}
+		} else if (o instanceof Object[]) {
+			if (((Object[]) o).length == 0) {
+				return true;
+			}
+		} else if (o instanceof int[]) {
+			if (((int[]) o).length == 0) {
+				return true;
+			}
+		} else if (o instanceof long[]) {
+			if (((long[]) o).length == 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 判断参数是否为空
+	 * @param parm
+	 * @return
+	 */
+	public static  boolean isNullStr(String parm){
+		boolean flag=false;
+		if("null".equals(parm)||parm==null||parm=="undefinied"||parm==""){
+			flag=true;
+		}else{
+			flag=false;
+		}
+		return flag;
+	}
 
 
 

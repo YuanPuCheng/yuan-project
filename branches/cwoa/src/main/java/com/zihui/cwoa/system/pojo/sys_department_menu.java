@@ -7,18 +7,18 @@ package com.zihui.cwoa.system.pojo;
 
 public class sys_department_menu {
 
-    private String id;
+    private Integer id;
 
     private String departmentId;//部门id
 
     private String menuId;//菜单id
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDepartmentId() {

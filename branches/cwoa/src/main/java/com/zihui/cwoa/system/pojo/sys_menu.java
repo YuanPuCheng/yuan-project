@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class sys_menu {
 
-    private String menuId;//菜单id
+    private Integer menuId;//菜单id
 
     private String parentId;//上级菜单id
 
@@ -41,12 +41,12 @@ public class sys_menu {
         this.menus = menus;
     }
 
-    public String getMenuId() {
+    public Integer getMenuId() {
         return menuId;
     }
 
-    public void setMenuId(String menuId) {
-        this.menuId = menuId == null ? null : menuId.trim();
+    public void setMenuId(Integer menuId) {
+        this.menuId = menuId;
     }
 
     public String getParentId() {

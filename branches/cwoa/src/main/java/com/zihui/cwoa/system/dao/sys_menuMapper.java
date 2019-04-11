@@ -8,12 +8,12 @@ import java.util.List;
 @Mapper
 public interface sys_menuMapper {
 
-    int deleteByPrimaryKey(String menuId);
+    int deleteByPrimaryKey(Integer menuId);
 
 
     int insertSelective(sys_menu record);
 
-    sys_menu selectByPrimaryKey(String menuId);
+    sys_menu selectByPrimaryKey(Integer menuId);
 
     int updateByPrimaryKeySelective(sys_menu record);
 

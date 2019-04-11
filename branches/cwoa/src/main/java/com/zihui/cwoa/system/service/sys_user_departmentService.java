@@ -18,7 +18,7 @@ public class sys_user_departmentService {
      *  @param id 传入id
      *  @return int 0=删除失败
      */
-    public int deleteByPrimaryKey(String id){
+    public int deleteByPrimaryKey(Integer id){
         return user_departmentMapper.deleteByPrimaryKey(id);
     }
     /**
@@ -35,12 +35,12 @@ public class sys_user_departmentService {
      *  @param id 传入id
      *  @return sys_user_department 对象
      */
-    public sys_user_department selectByPrimaryKey(String id){
+    public sys_user_department selectByPrimaryKey(Integer id){
         return user_departmentMapper.selectByPrimaryKey(id);
     }
     /**
      *  根据用户管理部门表修改记录
-     *  @param sys_user_department 传入对象
+     *  @param record 传入对象
      *  @return int 0=修改失败
      */
     public int updateByPrimaryKey(sys_user_department record){
@@ -52,7 +52,7 @@ public class sys_user_departmentService {
      *  @param userId 传入userid
      *  @return 返回List《Integer》部门id
      */
-    public List<String> selectDepartmentByUserId(String userId){
+    public List<String> selectDepartmentByUserId(Integer userId){
         return user_departmentMapper.selectDepartmentByUserId(userId);
     }
 }

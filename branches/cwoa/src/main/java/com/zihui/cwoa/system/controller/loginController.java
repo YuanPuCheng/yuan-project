@@ -1,7 +1,9 @@
 package com.zihui.cwoa.system.controller;
 
+import com.zihui.cwoa.system.common.Basecommon;
 import com.zihui.cwoa.system.common.CallbackResult;
 import com.zihui.cwoa.system.common.Common;
+import com.zihui.cwoa.system.common.DateUtils;
 import com.zihui.cwoa.system.dao.sys_department_menuMapper;
 import com.zihui.cwoa.system.pojo.sys_department;
 import com.zihui.cwoa.system.pojo.sys_menu;
@@ -10,6 +12,8 @@ import com.zihui.cwoa.system.service.sys_departmentService;
 import com.zihui.cwoa.system.service.sys_menuService;
 import com.zihui.cwoa.system.service.sys_userService;
 import com.zihui.cwoa.system.service.sys_user_departmentService;
+import org.activiti.engine.impl.util.json.JSONObject;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.apache.log4j.Logger;
@@ -21,28 +25,23 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.core.io.ResourceLoader;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 
 
 @Controller
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/system")
 public class loginController {
     private static Logger log = Logger.getLogger(loginController.class);
 
@@ -57,96 +56,116 @@ public class loginController {
     @Resource
     private sys_user_departmentService user_departmentService;
 
-    private final ResourceLoader resourceLoader;
 
-    @Autowired
-    public loginController(ResourceLoader resourceLoader) {
-        this.resourceLoader = resourceLoader;
-    }
 
     @RequestMapping(value = "/")
     public ModelAndView login(){
         ModelAndView view = new ModelAndView();
         view.addObject("name","admin");
-
         view.addObject("11","11");
-        view.setViewName("login");
-
-        return view;
-    }
-
-    @RequestMapping(value = "/file")
-    public ModelAndView f( HttpServletRequest request){
-        HttpSession session = request.getSession();
-        ModelAndView view = new ModelAndView();
-        String captchaId = (String) session.getAttribute("vrifyCode");
-        log.info("session"+captchaId);
         view.setViewName("filetwo");
         return view;
     }
 
-    //文件上传
-    @RequestMapping(value = "/upload")
+    @RequestMapping(value = "/cookie")
     @ResponseBody
-    public String upload(HttpServletRequest request,
-                         @RequestParam("userCode") String userCode,
-                         @RequestParam("userPassword") String userPassword,
-                         @RequestParam("userName") String userName,
-                         @RequestParam("file") MultipartFile file) throws IOException {
-            // 接收参数description
-            System.out.println(userCode+userPassword+userName);
-            sys_user user = new sys_user();
-            user.setUserId("1");
-
-            String filename = Common.upload(file);
-            user.setImages(filename);
-            user_service.updateByPrimaryKeySelective(user);
-            return "success";
-    }
-
-    @RequestMapping(value = "/show")
-    public ResponseEntity user(String fileName) throws IOException {
-        try {
-            // 由于是读取本机的文件，file是一定要加上的， path是在application配置文件中的路径
-            return ResponseEntity.ok(resourceLoader.getResource("file:///" + Common.IMG_PATH + fileName));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-
-    @RequestMapping(value = "/user")
-    public ModelAndView t(){
-        sys_user user = user_service.selectByPrimaryKey("1");
-        ModelAndView view = new ModelAndView();
-        view.addObject("user",user);
-        view.setViewName("index");
-        return view;
-    }
-
-
-
-    @RequestMapping(value = "/loginuser" , method = RequestMethod.POST)
-    @ResponseBody
-    public CallbackResult userlogin(HttpSession session, @RequestParam String usercode,
-                                    @RequestParam String password, @RequestParam String vrifyCode, Model model) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    public CallbackResult f( HttpServletRequest request) throws UnsupportedEncodingException{
         CallbackResult result = new CallbackResult();
-        System.out.println("进入验证"+usercode+vrifyCode);
-        //String captchaId = (String) session.getAttribute("vrifyCode");
-        String captchaId =(String) request.getSession().getAttribute("vrifyCode");
-        //String parameter = httpServletRequest.getParameter("vrifyCode");
-        System.out.println("Session  验证码 "+captchaId+" 参数验证码 "+vrifyCode);
-        if (!captchaId.equals(vrifyCode)) {
-            log.warn("验证码不正确");
+        HttpSession session = request.getSession();
+        Map map =Common.ReadCookieMap(request);
+        String usercode = (String) map.get("usercode");
+        log.info(usercode);
+        if(Basecommon.isNullStr(usercode)){
             result.setResult(400);
-            result.setMessage("验证码不正确");
+            result.setMessage("当前没有cookie");
+            result.setMap(map);
+        }else{
+            result.setResult(200);
+            result.setMessage("获取cookic成功");
+            result.setMap(map);
+        }
+
+        return result;
+    }
+
+
+
+    //用户注册
+    @RequestMapping(value = "/redirect")
+    @ResponseBody
+    public CallbackResult redirect(HttpServletRequest request,HttpSession session,@RequestParam String usercode,@RequestParam String password,
+                                   @RequestParam String vrifyCode,@RequestParam String email){
+        CallbackResult result = new CallbackResult();
+        String emailYzm = (String) session.getAttribute("emailYzm");
+        sys_user user = new sys_user();
+        if(Basecommon.isNullStr(emailYzm)){
+            result.setResult(400);
+            result.setMessage("请先获取验证码");
             return result;
         }
+        if(!vrifyCode.equals(emailYzm)){
+            result.setResult(400);
+            result.setMessage("验证码错误");
+            return result;
+        }
+        Object md5password =  new SimpleHash("MD5", password, usercode);
+        user.setUserCode(usercode);
+        user.setUserPassword(md5password.toString());
+        user.setEmail(email);
+        user.setIp(Common.getIpAddr(request));
+        user.setCreateTime(DateUtils.getDate());
+        user.setTs(DateUtils.getDate());
+        user.setStatus(0);
+        int w =user_service.insertSelective(user);
+        if(w==1){
+            result.setResult(200);
+            result.setMessage("注册成功");
+        }else{
+            result.setResult(400);
+            result.setMessage("注册失败");
+        }
 
+        return result;
+    }
+
+
+    /**
+     *  用户登录校验
+     */
+    @RequestMapping(value = "/toLogin")
+    @ResponseBody
+    public CallbackResult userlogin(HttpServletResponse response, HttpServletRequest request, String usercode,
+                                    String password, String vrifyCode, String remeber, Model model, HttpSession session) {
+        CallbackResult result = new CallbackResult();
+        String captchaId =(String) session.getAttribute("vrifyCode");
+        System.out.println("Session  验证码 "+captchaId+" 参数验证码 "+vrifyCode+"记住我"+remeber);
+        if (!captchaId.equals(vrifyCode)) {
+            log.warn("验证码错误");
+            result.setResult(400);
+            result.setMessage("验证码错误");
+            return result;
+        }
         try {
-            UsernamePasswordToken token = new UsernamePasswordToken(usercode, password,false);
+            UsernamePasswordToken token = new UsernamePasswordToken(usercode, password,remeber);
             System.out.println(token);
+            if("true".equals(remeber)){
+                log.info("设置cookie");
+                try {
+                    Common.addCookie(response, "usercode",usercode, 180000);
+                    Common.addCookie(response, "password",password, 180000);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+            }else{
+                try {
+                    Common.addCookie(response, "usercode",usercode, 0);
+                    Common.addCookie(response, "password",password, 0);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+            }
             SecurityUtils.getSubject().login(token);
 
 
@@ -181,60 +200,53 @@ public class loginController {
         return "退出成功";
     }
 
-
-    @RequestMapping(value = "/add")
-    @RequiresRoles("1")
+    @RequestMapping(value = "/getuser")
     @ResponseBody
-    public String add (){
-        System.out.println("进入add方法");
-
-        return "add方法";
-    }
-
-    @RequestMapping(value = "/delete")
-    @RequiresRoles("delete1")
-    @ResponseBody
-    public String delete (){
-        System.out.println("delete1");
-
-        return "delete1方法";
-    }
-
-
-    @RequestMapping( value = "/insert")
-    @RequiresPermissions("2")
-    @ResponseBody
-    public String insert (){
-        System.out.println("进入insert方法");
-
-        return "insert方法";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/getUser")
-    @ResponseBody
-    public Map error(){
+    public CallbackResult error(@RequestParam String usercode){
+        CallbackResult result = new CallbackResult();
         Map map =new HashMap();
-       // List<sys_department> department=departmentService.selectDepartment("1");
-        sys_user user1 =user_service.selectDepartmentToUser("1");
-        List<String> s = new ArrayList<>();
-        s.add("1");
-        s.add("2");
-        List<sys_department> ss = departmentService.selectMenu(s);
-        map.put("user1",user1);
-        map.put("sys_department",ss);
-        return map;
+        sys_user user = new sys_user();
+        user.setUserCode(usercode);
+        List<sys_user>   list =user_service.selectUserList(user);
+        if(list.size()!=0){
+            result.setResult(400);
+            result.setMessage("该用户名已存在");
+        }else {
+            result.setResult(200);
+            result.setMessage("该用户名正常");
+        }
+
+        return result;
     }
 
+    @RequestMapping(value = "/getemail")
+    @ResponseBody
+    public CallbackResult getemail(@RequestParam String email){
+        CallbackResult result = new CallbackResult();
+        Map map =new HashMap();
+        sys_user user = new sys_user();
+        user.setEmail(email);
+        List<sys_user>   list =user_service.selectUserList(user);
+        if(list.size()!=0){
+            result.setResult(400);
+            result.setMessage("该邮箱已被注册");
+        }else {
+            result.setResult(200);
+            result.setMessage("该邮箱正常");
+        }
+
+        return result;
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/index")
     @ResponseBody
-    public Map d(){
-        Map map =new HashMap();
-        List<Integer> a = new ArrayList<>();
-        a.add(1);
-         List<sys_menu> m =menuService.selectMenuByMenuId(a);
-        map.put("m",m);
-        return map;
+    public Set d(){
+        Set set = new HashSet();
+        Integer id = 1;
+        List<Integer> menuId=department_menuMapper.selectMenuIdByUserId(id);
+        List<sys_menu> m =menuService.selectMenuByMenuId(menuId);
+        set.add(m);
+        return set;
     }
 
 

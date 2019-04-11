@@ -1,5 +1,8 @@
 package com.zihui.cwoa.system.shiro;
 
+import com.zihui.cwoa.system.common.Basecommon;
+import com.zihui.cwoa.system.common.Common;
+import com.zihui.cwoa.system.common.DateUtils;
 import com.zihui.cwoa.system.pojo.*;
 import com.zihui.cwoa.system.service.*;
 import org.apache.log4j.Logger;
@@ -13,6 +16,10 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -41,6 +48,8 @@ public class MyShiroRealm extends AuthorizingRealm {
     @Resource
     private sys_user_departmentService user_departmentService;
 
+    @Resource
+    private HttpServletRequest request;
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         //添加角色和权限
@@ -48,7 +57,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         sys_user user =(sys_user)principalCollection.getPrimaryPrincipal();
         Set departmentSet = new HashSet();
         Set menusSet = new HashSet();
-        List<String> b_id  = new ArrayList<>();
+        List<Integer> b_id  = new ArrayList<>();
         //查询用户包含角色
         sys_user user1 =user_service.selectDepartmentToUser(user.getUserId());
         for (sys_department p: user1.getDepartments()) {
@@ -81,38 +90,64 @@ public class MyShiroRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-
+        RememberMeAuthenticationToken r = (RememberMeAuthenticationToken) token;
+        HostAuthenticationToken s = (HostAuthenticationToken) token;
         // 1、登录认证的方法需要先执行，需要用他来判断登录的用户信息是否合法
         String usercode = (String) token.getPrincipal();    // 取得用户工号
-        log.info("获取用户名"+usercode);
-        // 需要通过用户名取得用户的完pub_user整信息，利用业务层操作
-        if(usercode==null||usercode==""){
-            throw new IncorrectCredentialsException("用户工号为空！");
-        }
+        String password = new String((char[]) token.getCredentials());//获取密码
+        Boolean remember = r.isRememberMe();//获取记住我
+        String ip = s.getHost();//获取Ip
+        log.info("获取用户名" + usercode + "记住我" + remember + "主机" + ip);
+        // 需要通过用户名取得用户的完整信息，利用业务层操作
         sys_user user = null;
         try {
-             user=user_service.selectUserByLogin(usercode);
-
+            user = user_service.selectUserByLogin(usercode);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        if (user.getStatus() == 1) {
+            throw new LockedAccountException("该工号已锁定，请联系管理员！");
+        }
         if (user == null) {
             throw new UnknownAccountException("该用户名称不存在！");
         } else {    // 进行密码的验证处理
-            String password =new String((char[]) token.getCredentials());
-            log.info("获取登录密码"+password);
-            Object result = new SimpleHash("MD5",password,usercode);
-
-            log.info(result.toString());
+            log.info("获取登录密码" + password);
+            Object result = new SimpleHash("MD5", password, usercode);
+            String pass = user.getUserPassword();
+            log.info(result.toString() + "|" + pass);
             // 将数据库中的密码与输入的密码进行比较，这样就可以确定当前用户是否可以正常登录
+            if (result.equals(pass)) {
+                sys_user erroruser = new sys_user();
+                String errorcount = user.getErrorCount();
+                if (Basecommon.isNullStr(errorcount)) {
+                    errorcount = "0";
+                }
+                int count = Integer.parseInt(errorcount);
+                if (count > 6) {
+                    erroruser.setStatus(1);
+                }
+                erroruser.setTs(DateUtils.getDate());
+                erroruser.setErrorCount(String.valueOf(count + 1));
+                erroruser.setUserId(user.getUserId());
+                erroruser.setIp(ip);
+                user_service.updateByPrimaryKeySelective(erroruser);
+                log.info("密码错误");
+                throw new IncorrectCredentialsException("密码错误");
+            } else {
 
-            SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user,user.getUserPassword(), getName());
-            info.setCredentialsSalt(ByteSource.Util.bytes(usercode));
-            return info;
+                HttpSession session = request.getSession();
+                session.setAttribute("user",user);
+                sys_user userlastdate = new sys_user();
+                userlastdate.setUserId(user.getUserId());
+                userlastdate.setErrorCount("0");
+                userlastdate.setTs(DateUtils.getDate());
+                user_service.updateByPrimaryKeySelective(userlastdate);
+                SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, user.getUserPassword(), getName());
+                info.setCredentialsSalt(ByteSource.Util.bytes(usercode));
+                return info;
+            }
         }
     }
-
 
     public static void main(String[] args){
 

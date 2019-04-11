@@ -21,7 +21,7 @@ public class sys_departmentService {
      *  @param departmentId 传入部门id
      *  @return int 0=删除失败
      */
-    public int deleteByPrimaryKey(String departmentId){
+    public int deleteByPrimaryKey(Integer departmentId){
         return departmentMapper.deleteByPrimaryKey(departmentId);
     }
 
@@ -39,7 +39,7 @@ public class sys_departmentService {
      *  @param departmentId 传入用户部门id
      *  @return 返回部门对象 1条记录
      */
-    public sys_department selectByPrimaryKey(String departmentId){
+    public sys_department selectByPrimaryKey(Integer departmentId){
         return departmentMapper.selectByPrimaryKey(departmentId);
     }
     /**
@@ -65,12 +65,12 @@ public class sys_departmentService {
      *  @param userId 用户工号
      *  @return sys_department 返回所有部门对象
      */
-    public List<sys_department> selectDepartment(String userId){
+    public List<sys_department> selectDepartment(Integer userId){
         return departmentMapper.selectDepartment(userId);
     };
 
 
-    public List<sys_department> selectMenu(List<String> departmentId){
+    public List<sys_department> selectMenu(List<Integer> departmentId){
         return departmentMapper.selectMenu(departmentId);
     };
 }
