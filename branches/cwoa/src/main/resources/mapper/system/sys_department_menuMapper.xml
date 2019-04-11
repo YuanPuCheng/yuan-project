@@ -35,7 +35,7 @@
   </update>
 
   <!--根据用户id查询对于菜单id  返回菜单id-->
-  <select id="selectMenuIdByUserId" parameterType="String" resultType="String">
+  <select id="selectMenuIdByUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
     SELECT menu_id from sys_department_menu where department_id in(
     SELECT department_id  from sys_user_department where user_id = #{userId})
   </select>

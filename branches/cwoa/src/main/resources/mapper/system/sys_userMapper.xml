@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zihui.cwoa.system.dao.sys_userMapper" >
   <resultMap id="BaseResultMap" type="com.zihui.cwoa.system.pojo.sys_user" >
-    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="user_code" property="userCode" jdbcType="VARCHAR" />
     <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
     <result column="salt" property="salt" jdbcType="VARCHAR" />
@@ -29,7 +29,7 @@
   <resultMap id="userDepartmentsMap" extends="BaseResultMap" type="com.zihui.cwoa.system.pojo.sys_user">
     <!-- 部门的集合 -->
     <collection property="departments" ofType="com.zihui.cwoa.system.pojo.sys_department">
-      <id column="departmentId" property="departmentId" jdbcType="VARCHAR" />
+      <id column="departmentId" property="departmentId" jdbcType="INTEGER" />
       <result column="departmentName" property="departmentName" jdbcType="VARCHAR" />
       <result column="departmentCode" property="departmentCode" jdbcType="VARCHAR" />
       <result column="status" property="status" jdbcType="INTEGER" />
@@ -42,13 +42,13 @@
     department_id, images, phone, ts, ip, temp_var1, temp_var2, temp_var3, temp_int1, 
     temp_int2, temp_int3
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from sys_user
     where user_id = #{userId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_user
     where user_id = #{userId,jdbcType=VARCHAR}
   </delete>
@@ -250,7 +250,7 @@
   </select>
 
   <!--根据用户id查询部门 返回多个部门-->
-  <select id="selectDepartmentToUser" parameterType="java.lang.String" resultMap="userDepartmentsMap">
+  <select id="selectDepartmentToUser" parameterType="java.lang.Integer" resultMap="userDepartmentsMap">
     SELECT u.*,d.department_id as departmentId,
     d.department_name AS departmentName,
     d.department_code AS departmentCode,
