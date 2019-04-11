@@ -26,7 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -60,14 +62,15 @@ public class fileController {
      */
     @RequestMapping(value = "/upload")
     @ResponseBody
-    public CallbackResult login(@RequestParam("file")MultipartFile file, HttpSession session){
-
+    public CallbackResult login(@RequestParam("file")MultipartFile file,@RequestParam String filetype, HttpSession session){
+        Map map = new HashMap<>();
         CallbackResult result = new CallbackResult();
+        String filename = null;
         // 如果文件不为空，写入上传路径
         if (!file.isEmpty()) {
             sys_file fileobj = new sys_file();
 
-            String filename = file.getOriginalFilename();//文件名
+            filename = file.getOriginalFilename();//文件名
             String suffixName = filename.substring(filename.lastIndexOf("."));  // 后缀名
             String refilename = UUID.randomUUID() + suffixName; // 新文件名
             File filepath = new File(fileCommon.USER_IMG_PATH, filename);
@@ -88,10 +91,16 @@ public class fileController {
                 file.transferTo(new File(fileCommon.USER_IMG_PATH + File.separator + refilename));
                 fileService.insertSelective(fileobj);
             } catch (IOException e) {
-
                 e.printStackTrace();
+                result.setResult(400);
+                result.setMessage("上传失败");
+                return result;
             }
         }
+        map.put("filename",filename);
+        result.setResult(200);
+        result.setMessage("文件上传成功");
+        result.setMap(map);
         return result;
     }
 
