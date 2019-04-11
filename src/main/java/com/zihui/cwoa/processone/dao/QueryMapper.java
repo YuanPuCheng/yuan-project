@@ -11,7 +11,7 @@ public interface QueryMapper {
      *  @param userCode 用户工号
      *  @return 查询结果
      */
-    List<String> queryProNotActiveByUserCode(String userCode);
+    List<String> queryProcessActiveByUserCode(String userCode);
 
     /**
      *  根据流程实例ID查询流程状态
@@ -19,5 +19,12 @@ public interface QueryMapper {
      *  @return 流程状态
      */
     String queryProStatuByProInstanceId(String processInstanceId);
+
+    /**
+     *  根据流程实例ID查询流程名称
+     *  @param processInstanceId 流程实例ID
+     *  @return 流程状态
+     */
+    String queryProNameByProInstanceId(String processInstanceId);
 
 }

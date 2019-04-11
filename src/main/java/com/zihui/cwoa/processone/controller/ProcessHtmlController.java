@@ -22,5 +22,8 @@ public class ProcessHtmlController {
         return "process/querytask";
     }
 
-
+    @RequestMapping("/index")
+    public String index(){
+        return "index";
+    }
 }
