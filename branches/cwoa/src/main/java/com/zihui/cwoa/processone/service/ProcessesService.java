@@ -56,7 +56,7 @@ public class ProcessesService {
         Long currentTimeMillis = System.currentTimeMillis();
         String businessKey=currentTimeMillis.toString();
         //注意 在bpmn的 start节点里 要进行设置: activiti:initiator="applyuser"
-        this.identityService.setAuthenticatedUserId((String)variables.get("userName"));
+        this.identityService.setAuthenticatedUserId((String)variables.get("userCode"));
         //启动流程
         try {
             this.runtimeService.startProcessInstanceByKey(processKey, businessKey, variables);
@@ -87,8 +87,10 @@ public class ProcessesService {
                 variables.put("taskId",task.getId());
                 String processInstanceId = task.getProcessInstanceId();
                 variables.put("processInstanceId",processInstanceId);
-                variables.put("startTime",runtimeService.createProcessInstanceQuery().
-                        processInstanceId(processInstanceId).singleResult().getStartTime());
+                ProcessInstance processInstance =
+                        runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+                variables.put("startTime",processInstance.getStartTime());
+                variables.put("processName",processInstance.getProcessDefinitionName());
                 queryResultList.add(variables);
             }
             map.put("queryResultList",queryResultList);
@@ -141,6 +143,7 @@ public class ProcessesService {
             //自定义方法 查询用户在途的流程节点
             variables.put("processStatus",queryService.queryProStatuByProInstanceId(processInstanceId));
             variables.put("processInstanceId",processInstanceId);
+            variables.put("processName",queryService.queryProNameByProInstanceId(processInstanceId));
             list.add(variables);
         }
         Map<String,Object> map =new HashMap<>();
@@ -165,10 +168,14 @@ public class ProcessesService {
         List<HistoricProcessInstance> historicProcessInstanceList =
                 historyService.createHistoricProcessInstanceQuery()
                         .startedBy(userCode).finished().orderByProcessInstanceEndTime().desc().listPage(page,num);
-        int size = historyService.createHistoricProcessInstanceQuery().startedBy(userCode).finished().list().size();
+        List<HistoricProcessInstance> queryList =
+                historyService.createHistoricProcessInstanceQuery().startedBy(userCode).finished().list();
+        int size=queryList.size();
+        if(size<num){
+            historicProcessInstanceList=queryList;
+        }
         for (HistoricProcessInstance ins:historicProcessInstanceList) {
             Map<String,Object> variables=new HashMap();
-            //自定义方法 查询流程名称
             variables.put("processName",ins.getProcessDefinitionName());
             variables.put("processInstanceId",ins.getId());
             variables.put("startTime",ins.getStartTime());
@@ -205,6 +212,7 @@ public class ProcessesService {
         for (HistoricProcessInstance ins:list) {
             variables.put("startTime",ins.getStartTime());
             variables.put("endTime",ins.getEndTime());
+            variables.put("processName",ins.getProcessDefinitionName());
             String deleteReason = ins.getDeleteReason();
 
             if(deleteReason!=null){
