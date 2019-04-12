@@ -39,7 +39,6 @@ public class ProcessWorkController {
         //添加假数据
         variables.put("firstman", "Nancy");
         variables.put("secondman", "Jack");
-        variables.put("processName", "请假流程");
         return processesService.startProcess("askforleave", variables);
     }
 
