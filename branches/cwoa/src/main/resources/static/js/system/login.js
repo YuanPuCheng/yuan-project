@@ -44,7 +44,7 @@ layui.extend({
 						var password = $("#LAY-user-login-password").val("");
 						var vrifyCode = $("#LAY-user-login-vercode").val("");
 					}else{
-						window.location.href = "index.html";
+						window.location.href = layui.setter.project+"/sys/index";
 					}
 					
 				}
