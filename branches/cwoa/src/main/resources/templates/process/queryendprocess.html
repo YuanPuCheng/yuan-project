@@ -23,6 +23,26 @@
 		<script src="./../../static/layui/layui.js"></script>
 		<script>
 			//<![CDATA[
+			Date.prototype.format = function(fmt) {
+				var o = {
+					"M+": this.getMonth() + 1, //月份 
+					"d+": this.getDate(), //日 
+					"h+": this.getHours(), //小时 
+					"m+": this.getMinutes(), //分 
+					"s+": this.getSeconds(), //秒 
+					"q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+					"S": this.getMilliseconds() //毫秒 
+				};
+				if(/(y+)/.test(fmt)) {
+					fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+				}
+				for(var k in o) {
+					if(new RegExp("(" + k + ")").test(fmt)) {
+						fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+					}
+				}
+				return fmt;
+			}
 			layui.use(['layer', 'laypage'], function() {
 				var $ = layui.jquery;
 				var layer = layui.layer;
@@ -43,8 +63,8 @@
 							processStatus = "被驳回";
 							proColor = "red";
 						}
-						var startTime = (new Date(list[i].startTime)).toLocaleString();
-						var endTime = (new Date(list[i].endTime)).toLocaleString();
+						var startTime = new Date(list[i].startTime).format("yyyy-MM-dd hh:mm:ss");
+						var endTime = new Date(list[i].endTime).format("yyyy-MM-dd hh:mm:ss");
 						txt = txt + "<div class=\"layuiadmin-card-text\" style=\"background-color: gainsboro;margin-top:10px ;\">" +
 							"<div class=\"layui-card-header\"><i class=\"layui-icon layui-icon-table\">" + list[i].processName + "</i>" +
 							"<span style=\"position: absolute;right: 15px; color:" + proColor + "\">" + processStatus +
@@ -74,8 +94,8 @@
 									for(var i = 0; i < list.length; i++) {
 										txt = txt + "<tr><td>" + list[i].indexName + "</td><td>" + list[i].indexValue + "</td></tr>";
 									}
-									var startTime = (new Date(data.startTime)).toLocaleString();
-									var endTime = (new Date(data.endTime)).toLocaleString();
+									var startTime = new Date(data.startTime).format("yyyy-MM-dd hh:mm:ss");
+									var endTime = new Date(data.endTime).format("yyyy-MM-dd hh:mm:ss");
 									txt = txt + "<tr><td>发起时间</td><td>" + startTime + "</td></tr>";
 									txt = txt + "<tr><td>结束时间</td><td>" + endTime + "</td></tr>";
 									txt = txt + "<tr><td>结束说明</td><td>" + data.deleteReason + "</td></tr>";
