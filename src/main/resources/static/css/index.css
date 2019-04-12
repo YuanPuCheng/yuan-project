@@ -68,7 +68,7 @@
 	width: 175px;
 	overflow: hidden;
 }
-#lay_item : hover #lay_item #lay_menu{
+#lay_item :hover #lay_item #lay_menu{
 	display: block;
 }
 .layui-nav .layui-nav-item{
@@ -106,6 +106,9 @@
 }
 .layui-tab{
 	position: relative;
+}
+.news{
+	display: none;
 }
 @media only screen and (max-width: 992px) {
 	.layui-header .layui-layout-left,#LAY_app_tabs,.layui-body,.layadmin-body-shade {
