@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>任务查询</title>
+		<meta name="renderer" content="webkit" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../../static/css/common/reset.css" />
+		<link rel="stylesheet" href="./../../static/layui/css/layui.css" />
+		<style type="text/css">
+			.layui-btn {
+				padding: 0px 10px;
+			}
+		</style>
+	</head>
+
+	<body layadmin-themealias="default">
+		<h2>查询中ing...</h2>
+		<div class="layui-fluid" style="margin-top: 10px;" id="queryProcessBox">
+			<!-- 数据显示区域 -->
+		</div>
+		<center>
+			<div id="demo6"></div>
+		</center>
+		<div class="layadmin-body-shade" layadmin-event="shade"></div>
+		<script src="./../../static/layui/layui.js"></script>
+		<script>
+			//<![CDATA[
+			layui.use(['layer', 'laypage'], function() {
+				var $ = layui.jquery;
+				var layer = layui.layer;
+				var laypage = layui.laypage;
+				var list;
+				$(document).ready(function() {
+					function creatHtml(start, end) {
+						var txt = "";
+						for(var i = start; i < end; i++) {
+							var pro = list[i].processSummary;
+							var summary = "";
+							for(var j = 0; j < pro.length; j++) {
+								summary = summary + "<p>" + pro[j].indexName + ":" + pro[j].indexValue + "</p>";
+							}
+							var startTimeFormat = new Date(list[i].startTime).toLocaleString();
+							txt = txt + "<div class=\"layuiadmin-card-text\" style=\"background-color: gainsboro;margin-top:10px ;\" id=\"" + list[i].processInstanceId +
+								"\"><div class=\"layui-card-header\"><i class=\"layui-icon layui-icon-table\">" + list[i].processName + "</i>" +
+								"<i style=\"position: absolute;right: 15px;\">" + startTimeFormat +
+								"</i></div><div class=\"layui-card-body\"><h3>" + list[i].userDepartment + "-" + list[i].userName + "</h3>" + summary +
+								"<hr class=\"layui-bg-gray\" />" +
+								"<button class=\"layui-btn layui-btn-radius layui-btn-primary\" uid=\"" + list[i].fileName +
+								"\">下载附件</button>" +
+								"<button class=\"layui-btn layui-btn-radius layui-btn-primary\" tid=\"" + list[i].taskId + "\"" + "pid=\"" + list[i].processInstanceId +
+								"\">同意申请</button>" +
+								"<button class=\"layui-btn layui-btn-radius layui-btn-primary\" pid=\"" + list[i].processInstanceId +
+								"\">驳回申请</button></div></div>";
+						}
+						$("#queryProcessBox").html(txt);
+						$("button").click(function() {
+							if($(this).text() == "下载附件") {
+								var filename = $(this).attr("uid");
+								if(!typeof(filename) == "undefined") {
+									var url = 'http://192.168.1.2:8080/file/down';
+									var form = $("<form>"); //定义一个form表单
+									form.attr("style", "display:none");
+									form.attr("target", "");
+									form.attr("method", "get"); //请求类型
+									form.attr("action", url); //请求地址
+									$("body").append(form); //将表单放置在web中
+									var inputone = $("<input>");
+									inputone.attr("type", "hidden");
+									inputone.attr("name", "filename");
+									inputone.attr("value", filename);
+									form.append(inputone);
+									form.submit(); //表单提交
+								} else {
+									layer.msg('该申请没有附件！');
+								}
+							} else if($(this).text() == "同意申请") {
+								var taskId = $(this).attr("tid");
+								var processInstanceId = $(this).attr("pid");
+								var click = false;
+								layer.confirm('您确定批准该申请吗？', {
+									btn: ['确定', '再想想'] //按钮
+								}, function() {
+									//确定触发的事件
+									if(!click) {
+										click = true;
+										$.ajax({
+											url: "http://192.168.1.2:8080/process/completetask",
+											type: "get",
+											data: {
+												"taskId": taskId
+											},
+											dataType: "text", //预测服务端返回的数据类型
+											success: function(data) { //请求成功的回调
+												layer.msg('成功批准申请！', {
+													icon: 1,
+													btn: ['知道了']
+												}, function() {
+													//知道了触发的事件
+													$("#" + processInstanceId).hide();
+												});
+											},
+											error: function() { //请求失败的回调
+												layer.msg('发生未知错误！', {
+													icon: 2,
+													btn: ['知道了']
+												}, function() {
+													//知道了触发的事件
+													$("#" + processInstanceId).hide();
+												});
+											}
+										});
+									}
+								}, function() {
+									//再想想触发的事件
+								});
+							} else if($(this).text() == "驳回申请") {
+								var processInstanceId = $(this).attr("pid");
+								var click = false;
+								layer.prompt({
+									title: '请输入驳回理由',
+									formType: 2
+								}, function(text, index) {
+									layer.close(index);
+									//确定触发的事件
+									if(!click) {
+										click = true;
+										$.ajax({
+											url: "http://192.168.1.2:8080/process/deleteprocessinstance",
+											type: "get",
+											data: {
+												"processInstanceId": processInstanceId,
+												"reason": text
+											},
+											dataType: "text", //预测服务端返回的数据类型
+											success: function(data) { //请求成功的回调
+												layer.msg('成功驳回申请！', {
+													icon: 1,
+													btn: ['知道了']
+												}, function() {
+													//知道了触发的事件
+													$("#" + processInstanceId).hide();
+												});
+											},
+											error: function() { //请求失败的回调
+												layer.msg('发生未知错误！', {
+													icon: 2,
+													btn: ['知道了']
+												}, function() {
+													//知道了触发的事件
+													$("#" + processInstanceId).hide();
+												});
+											}
+										});
+									}
+								});
+							} else {
+								layer.msg('错误操作！', {
+									icon: 2
+								});
+							}
+						});
+					}
+					$.ajax({
+						url: "http://192.168.1.2:8080/process/querytask",
+						type: "get",
+						data: {
+							"userCode": "Nancy"
+						},
+						dataType: "json",
+						success: function(data) {
+							if(data.result) {
+								$("h2").hide();
+								list = data.queryResultList;
+								var len = list.length;
+								laypage.render({
+									elem: 'demo6',
+									count: len,
+									limit: 5,
+									layout: ['prev', 'page', 'next'],
+									jump: function(obj, first) {
+										var s = (obj.curr - 1) * 5;
+										var e = s + 5;
+										if(e > len) {
+											e = len;
+										}
+										creatHtml(s, e);
+									}
+								});
+							} else {
+								$("h2").text("您没有待办的任务！");
+							}
+						},
+						error: function() {
+							$("h2").text("加载数据失败，请刷新试试！");
+						}
+					});
+				});
+			});
+			//]]>
+		</script>
+	</body>
+
+</html>
