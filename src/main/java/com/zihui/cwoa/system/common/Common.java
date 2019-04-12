@@ -1,11 +1,13 @@
 package com.zihui.cwoa.system.common;
 
 import com.sun.mail.util.MailSSLSocketFactory;
+import com.zihui.cwoa.system.service.sys_userService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.GeneralSecurityException;
 import java.util.*;
+import javax.annotation.Resource;
 import javax.mail.*;
 import javax.mail.Message.RecipientType;
 import javax.mail.internet.InternetAddress;
@@ -25,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  * 公共类获取 ip 设置cookie
  *
  * */
-@Component
+
 public class Common {
 
     public static final String IMG_PATH="C:/upload/";
