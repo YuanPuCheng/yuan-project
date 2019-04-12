@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>layui</title>
+  <meta name="renderer" content="webkit" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <link rel="stylesheet" type="text/css" href="../static/css/reset.css"/>
+  <link rel="stylesheet" href="../static/layui/css/layui.css"  media="all"/>
+  <link rel="stylesheet" type="text/css" href="../static/css/admin.css" media="all"/>
+  <link rel="stylesheet" type="text/css" href="../static/css/index.css"/>
+  
+</head>
+<body>
+	<!--头部-->
+	<div class="layui-header">
+		<!--左边导航-->
+		<ul class="layui-nav layui-layout-left" id="lay_animate1">
+			<li class="layui-nav-item layadmin-flexible">
+				<a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+					<i class="layui-icon layui-icon-shrink-right"></i>
+				</a>
+			</li>
+			<li class="layui-nav-item" onclick="window.location.reload()">
+				<a href="javascript:;" layadmin-event="refresh" title="刷新">
+					<i class="layui-icon layui-icon-refresh-3"></i>
+				</a>
+			</li>
+			<span class="layui-nav-bar" style="left: 0px; top: 0px; width: 0px; opacity: 0;"></span>
+		</ul>
+		<!--右边导航-->
+		<div class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+			<ul class="layu-navlist" id="lay_animate2">
+				<li class="layui-nav-item" >
+					<a lay-href="message/index.html" layadmin-event="message" lay-text="消息中心">
+						<i class="layui-icon layui-icon-notice"></i>
+					</a>
+				</li>
+				<li class="layui-nav-item" id="_user" >
+            <a href="javascript:;">
+              <cite>admin</cite>
+              <span class="layui-nav-more" id="_user-icon"></span>
+            	<!--<span class="layui-nav-more"></span>-->
+            </a>
+            <dl class="layui-nav-child layui-anim layui-anim-upbit" id="layui-na">
+              <dd><a lay-href="set/user/info.html">基本资料</a></dd>
+              <dd><a lay-href="set/user/password.html">修改密码</a></dd>
+              <hr/>
+              <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
+            </dl>
+       	</li>
+				<span class="layui-nav-bar" style="left: 0px; top: 0px; width: 0px; opacity: 0;"></span>
+			</ul>
+		</div>
+	</div>
+	<!--侧边导航-->
+	<div class="layui-side layui-side-menu" id="lay_lis">
+		<div class="layui-side-scroll">
+			<div class="layui-logo" lay-href="home/index.html">
+				<span>Admin</span>
+			</div>
+			<ul class="layui-nav layui-nav-tree" id="lay_animate3">
+				<!--<li class="layui-nav-item">
+					<a href="javascript:;">
+            <i class="layui-icon layui-icon-home"></i>
+            <cite>主页</cite>
+            <span class="layui-nav-more"></span>
+					</a>
+					<dl class="layui-nav-child">
+		        <dd class="layui-this">
+		          <a lay-href="home/index.html">控制台</a>
+		        </dd>
+		        <dd class="">
+		          <a lay-href="home/yemian1.html">主页一</a>
+		        </dd>
+		        <dd class="">
+		          <a lay-href="home/yemian2.html">主页二</a>
+		        </dd>
+		      </dl>
+				</li>-->
+				
+				<span class="layui-nav-bar" style="top: 28px; height: 0px; opacity: 0;"></span>
+			</ul>
+		</div>
+	</div>
+	<!--页面标签-->
+	<div class="layadmin-pagetabs" id="LAY_app_tabs">
+    <div class="layui-icon layadmin-tabs-control layui-icon-prev" id="leftPage" layadmin-event="leftPage"></div>
+    <div class="layui-icon layadmin-tabs-control layui-icon-next" id="rightPage" layadmin-event="rightPage"></div>
+    <div class="layui-icon layadmin-tabs-control layui-icon-down">
+      <ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
+        <li class="layui-nav-item" id="closed" >
+          <a href="javascript:;"><span class="layui-nav-more"></span></a>
+          <dl class="layui-nav-child layui-anim-fadein">
+            <dd layadmin-event="closeThisTabs" id="closed_index"><a href="javascript:;">关闭当前标签页</a></dd>
+            <dd layadmin-event="closeOtherTabs" id="closed_others"><a href="javascript:;">关闭其它标签页</a></dd>
+            <dd layadmin-event="closeAllTabs" id="closed_all"><a href="javascript:;">关闭全部标签页</a></dd>
+          </dl>
+        </li>
+      <span class="layui-nav-bar"></span></ul>
+    </div>
+    <div class="layui-tab" lay-unauto="" lay-allowclose="true" lay-filter="layadmin-layout-tabs">
+      <ul class="layui-tab-title" id="LAY_app_tabsheader" style="left: 0px;">
+        <li class="lay_app_li layui-this" lay-id="home/index.html" lay-attr="home/index.html" ><i class="layui-icon layui-icon-home"></i><i class="layui-icon layui-unselect layui-tab-close">ဆ</i></li>
+			</ul>
+    </div>
+  </div>
+  <!--主题内容-->
+  <div class="layui-body" id="LAY_app_body">
+    <div class="layadmin-tabsbody-item layui-show">
+      <iframe src="home/index.html" frameborder="0" class="layadmin-iframe"></iframe>
+    </div>
+  </div>
+  <!--遮罩效果-->
+  <div class="layadmin-body-shade layui_active" layadmin-event="shade"></div>
+<script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
+<script src="../static/layui/layui.js" charset="utf-8"></script>
+<script src="../static/js/index.js"></script>
+<script>
+    //<![CDATA[
+	//菜单隐藏显示
+
+    //]]>
+</script>
+
+</body>
+</html>
