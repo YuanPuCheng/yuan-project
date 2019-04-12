@@ -40,7 +40,7 @@ public class UserController {
     private sys_user_departmentService user_departmentService;
 
 
-    @RequestMapping(value = "/getuser")
+    /*@RequestMapping(value = "/getuser")
     @ResponseBody
     public ConcurrentMap user(String usercode,String username,String sex,String email,
                          @RequestParam(defaultValue = "1")Integer pageStart,
@@ -61,9 +61,9 @@ public class UserController {
         concurrentMap.put("code", 0);
         concurrentMap.put("msg", "成功");
         return concurrentMap;
-    }
+    }*/
 
-    @RequestMapping(value = "/getuser1")
+    @RequestMapping(value = "/getuser")
     @ResponseBody
     public ConcurrentMap sss(String usercode, String username, String sex, String email,
                              @RequestParam(defaultValue = "1")Integer pageNum,
