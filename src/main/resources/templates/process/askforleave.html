@@ -7,7 +7,7 @@
 		<meta name="renderer" content="webkit" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link rel="stylesheet" href="../../static/css/common/reset.css" />
+		<link rel="stylesheet" href="../../static/css/reset.css" />
 		<link rel="stylesheet" href="./../../static/layui/css/layui.css" />
 		<style type="text/css">
 			#go {
@@ -98,13 +98,14 @@
 					format: 'yyyy.MM.dd'
 				});
 				$(document).ready(function() {
-					var name = $('#username').val("张三");
-					var department = $('#department').val("工程部");
-					var project = $('#project').val("华东交大智慧实验室");
+					$('#username').val($("#userName",parent.document).prop("name"));
+					$('#department').val($("#userDepartment",parent.document).prop("name"));
+					$('#project').val($("#userProject",parent.document).prop("name"));
 				});
 				$("#go").click(function() {
 					if(!click) {
 						click = true;
+						var userCode=$("#userCode",parent.document).prop("name");
 						var name = $('#username').val();
 						var department = $('#department').val();
 						var project = $('#project').val();
@@ -132,6 +133,7 @@
 							"userDepartment": department,
 							"userProject": project,
 							"leavedays": leavedays, //根据用户输入的日期计算得到
+							"userCode":userCode,
 							"processSummary": [{
 									"indexName": "请假时间",
 									"indexValue": time
@@ -143,7 +145,7 @@
 							]
 						};
 						$.ajax({
-							url: "http://192.168.1.2:8080/process/startaskforleave",
+							url: "/process/startaskforleave",
 							type: "post", //post请求
 							data: JSON.stringify(jsonTest), //这里发送的数据必须得是Json格式的字符串
 							contentType: "application/json", //告诉服务端你发送的是json数据
