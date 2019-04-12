@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+  <meta charset="utf-8" />
+  <title>注册 - layuiAdmin</title>
+  <meta name="renderer" content="webkit" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  		<link rel="stylesheet" href="../static/css/reset.css" />
+		<link rel="stylesheet" href="../static/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="../static/css/login/admin.css" media="all" />
+		<link rel="stylesheet" href="../static/css/login/login.css" media="all" />
+</head>
+<body>
+
+
+  <div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+    <div class="layadmin-user-login-main">
+      <div class="layadmin-user-login-box layadmin-user-login-header">
+        <h2>忘记密码</h2>
+        <p>后台管理系统</p>
+      </div>
+      <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+        <div class="layui-form-item">
+          <label class="layadmin-user-login-icon layui-icon layui-icon-cellphone" for="LAY-user-login-cellphone"></label>
+          <input type="text" name="usercode" id="forusercode" lay-verify="required|usercode" placeholder="你的工号" class="layui-input" />
+        </div>
+           <div class="layui-form-item">
+          <label class="layadmin-user-login-icon layui-icon layui-icon-layer" for="LAY-user-login-nickname"></label>
+          <input type="email" id="foremail" name="email" lay-verify="required|email" autocomplete="off" placeholder="你的邮箱" class="layui-input" />
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-row">
+            <div class="layui-col-xs7">
+              <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
+              <input type="text" maxlength="6" name="vercode" id="foremailcode" lay-verify="required" placeholder="验证码" class="layui-input" />
+            </div>
+            <div class="layui-col-xs5">
+              <div style="margin-left: 10px;">
+                <button type="button" class="layui-btn layui-btn-primary layui-btn-fluid" id="forgetemail">获取验证码</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
+          <input type="password" name="password" id="forpassword" lay-verify="pass" placeholder="你的新密码" class="layui-input" />
+        </div>
+         <div class="layui-trans layui-form-item layadmin-user-login-other" style="padding-top: 0;">
+         
+          <a id="loginto" class="layadmin-user-jump-change layadmin-link layui-hide-xs6">返回登录页面</a>
+          <a id="regto" class=" layadmin-link layui-hide-xs6">返回注册页面</a>
+          <!--<a href="login.html" class="layadmin-user-jump-change layadmin-link layui-hide-sm layui-show-xs-inline-block">登入</a>-->
+        </div>
+        
+        <div class="layui-form-item">
+          <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="forgetpasswrod">确认修改</button>
+        </div>
+       
+      </div>
+    </div>
+    
+    <div class="layui-trans layadmin-user-login-footer">
+    </div>
+  </div>
+ <script src="../static/layui/layui.js"></script>
+  <script>
+  layui.config({
+           		base: '../static/js/system/', //静态资源所在路径
+      		}).use(['forget'], function() {
+				
+			});
+  </script>
+</body>
+
+</html>
