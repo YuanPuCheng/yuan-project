@@ -38,7 +38,7 @@ layui.extend({
 					}else{
 						layer.msg(data.message);
 						setTimeout(function () { 
-        				location.href="login.html";
+        				location.href=layui.setter.project+"/sys/login";
     				}, 2000);
 					}
 					
