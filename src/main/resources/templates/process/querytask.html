@@ -9,11 +9,6 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link rel="stylesheet" href="../../static/css/common/reset.css" />
 		<link rel="stylesheet" href="./../../static/layui/css/layui.css" />
-		<style type="text/css">
-			.layui-btn {
-				padding: 0px 10px;
-			}
-		</style>
 	</head>
 
 	<body layadmin-themealias="default">
@@ -48,16 +43,28 @@
 								"<i style=\"position: absolute;right: 15px;\">" + startTimeFormat +
 								"</i></div><div class=\"layui-card-body\"><h3>" + list[i].userDepartment + "-" + list[i].userName + "</h3>" + summary +
 								"<hr class=\"layui-bg-gray\" />" +
-								"<button class=\"layui-btn layui-btn-radius layui-btn-primary\" uid=\"" + list[i].fileName +
+								"<button class=\"layui-btn layui-btn-sm layui-btn-radius layui-btn-primary\" cid=\"" + list[i].processInstanceId +
+								"\">查看流程</button>" +
+								"<button class=\"layui-btn layui-btn-sm layui-btn-radius layui-btn-primary\" uid=\"" + list[i].fileName +
 								"\">下载附件</button>" +
-								"<button class=\"layui-btn layui-btn-radius layui-btn-primary\" tid=\"" + list[i].taskId + "\"" + "pid=\"" + list[i].processInstanceId +
+								"<button class=\"layui-btn layui-btn-sm layui-btn-radius layui-btn-primary\" tid=\"" + list[i].taskId + "\"" + "pid=\"" + list[i].processInstanceId +
 								"\">同意申请</button>" +
-								"<button class=\"layui-btn layui-btn-radius layui-btn-primary\" pid=\"" + list[i].processInstanceId +
+								"<button class=\"layui-btn layui-btn-sm layui-btn-radius layui-btn-primary\" pid=\"" + list[i].processInstanceId +
 								"\">驳回申请</button></div></div>";
 						}
 						$("#queryProcessBox").html(txt);
 						$("button").click(function() {
-							if($(this).text() == "下载附件") {
+							if($(this).text() == "查看流程") {
+								var processInstanceId = $(this).attr("cid");
+								layer.open({
+									type: 1,
+									shadeClose: true,
+									shade: 0.8,
+									skin: 'layui-layer-rim', //加上边框
+									area: ['90%', '80%'], //宽高
+									content: '<img src="http://192.168.1.2:8080/process/download?processInstanceId=' + processInstanceId + '"/>'
+								});
+							} else if($(this).text() == "下载附件") {
 								var filename = $(this).attr("uid");
 								if(!typeof(filename) == "undefined") {
 									var url = 'http://192.168.1.2:8080/file/down';
