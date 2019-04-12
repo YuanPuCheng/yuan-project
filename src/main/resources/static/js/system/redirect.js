@@ -73,11 +73,7 @@ inputverify: "../common/inputverify"
 		});
 
 	});
-	a.on('blur', "#LAY-user-login-code", function(o) {
-		
-		
-	})
-	
+
 var wait = 60;
 //倒计时
 var getRandomCode =function (o) {
@@ -94,5 +90,9 @@ var getRandomCode =function (o) {
                    },1000);
                }
 };
+
+    $(function(){
+        $("#login").attr("href",layui.setter.project+"/sys/login");
+    })
 e("redirect", {})
 })
