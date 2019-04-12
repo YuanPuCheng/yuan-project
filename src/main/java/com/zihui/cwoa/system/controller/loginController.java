@@ -58,14 +58,7 @@ public class loginController {
 
 
 
-    @RequestMapping(value = "/")
-    public ModelAndView login(){
-        ModelAndView view = new ModelAndView();
-        view.addObject("name","admin");
-        view.addObject("11","11");
-        view.setViewName("filetwo");
-        return view;
-    }
+
 
     @RequestMapping(value = "/cookie")
     @ResponseBody
@@ -148,25 +141,9 @@ public class loginController {
         try {
             UsernamePasswordToken token = new UsernamePasswordToken(usercode, password,remeber);
             System.out.println(token);
-            if("true".equals(remeber)){
-                log.info("设置cookie");
-                try {
-                    Common.addCookie(response, "usercode",usercode, 180000);
-                    Common.addCookie(response, "password",password, 180000);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-            }else{
-                try {
-                    Common.addCookie(response, "usercode",usercode, 0);
-                    Common.addCookie(response, "password",password, 0);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-            }
             SecurityUtils.getSubject().login(token);
+
+
 
 
         } catch ( UnknownAccountException uae ) {
@@ -186,6 +163,24 @@ public class loginController {
             result.setResult(400);
             result.setMessage("用户帐号被锁定");
             return result;
+        }
+        if("true".equals(remeber)){
+            log.info("设置cookie");
+            try {
+                Common.addCookie(response, "usercode",usercode, 180000);
+                Common.addCookie(response, "password",password, 180000);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+        }else{
+            try {
+                Common.addCookie(response, "usercode",usercode, 0);
+                Common.addCookie(response, "password",password, 0);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
         }
         result.setResult(200);
         result.setMessage("登录成功");
@@ -238,7 +233,7 @@ public class loginController {
         return result;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/index")
+    @RequestMapping(value = "/index")
     @ResponseBody
     public Set d(){
         Set set = new HashSet();
@@ -249,9 +244,44 @@ public class loginController {
         return set;
     }
 
-    @RequestMapping("/toindex")
-    public String askForLeave(){
-        return "index";
+
+    @RequestMapping(value = "/forget")
+    @ResponseBody
+    public CallbackResult forget(@RequestParam("usercode") String usercode,
+                                 @RequestParam("email")String email,
+                                 @RequestParam("emailcode") String emailcode,
+                                 @RequestParam("password") String password,
+                                 HttpSession session){
+        CallbackResult result = new CallbackResult();
+        String code = (String) session.getAttribute("emailYzm");
+        if(!emailcode.equals(code)){
+            result.setResult(400);
+            result.setMessage("验证码错误");
+            return result;
+        }
+        sys_user user = new sys_user();
+        user.setUserCode(usercode);
+        user.setEmail(email);
+        List<sys_user> list = user_service.selectUserList(user);
+        if(list.size()==0){
+            result.setResult(400);
+            result.setMessage("用户邮箱不正确");
+            return result;
+        }
+        sys_user userlist = list.get(0);
+        Object md5password =  new SimpleHash("MD5", password, usercode);
+        sys_user userupdate = new sys_user();
+        userupdate.setUserId(userlist.getUserId());
+        userupdate.setUserPassword(md5password.toString());
+        int count = user_service.updateByPrimaryKeySelective(userupdate);
+        if(count==0){
+            result.setResult(400);
+            result.setMessage("修改失败");
+            return result;
+        }
+        result.setResult(200);
+        result.setMessage("修改成功");
+        return result;
     }
 
 }
