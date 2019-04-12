@@ -249,6 +249,9 @@ public class loginController {
         return set;
     }
 
-
+    @RequestMapping("/toindex")
+    public String askForLeave(){
+        return "index";
+    }
 
 }
