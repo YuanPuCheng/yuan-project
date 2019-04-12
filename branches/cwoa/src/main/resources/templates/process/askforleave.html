@@ -98,9 +98,9 @@
 					format: 'yyyy.MM.dd'
 				});
 				$(document).ready(function() {
-					$('#username').val($("#userName",parent.document).prop("name"));
-					$('#department').val($("#userDepartment",parent.document).prop("name"));
-					$('#project').val($("#userProject",parent.document).prop("name"));
+					$('#username').val($("#userName",parent.document).attr("name"));
+					$('#department').val($("#userDepartment",parent.document).attr("name"));
+					$('#project').val($("#userProject",parent.document).attr("name"));
 				});
 				$("#go").click(function() {
 					if(!click) {
