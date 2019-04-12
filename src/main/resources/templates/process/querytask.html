@@ -9,6 +9,12 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link rel="stylesheet" href="../../static/css/common/reset.css" />
 		<link rel="stylesheet" href="./../../static/layui/css/layui.css" />
+		<style type="text/css">
+			.layui-btn {
+				margin-top: 5px;
+				margin-left: 20px;
+			}
+		</style>
 	</head>
 
 	<body layadmin-themealias="default">
@@ -43,13 +49,13 @@
 								"<i style=\"position: absolute;right: 15px;\">" + startTimeFormat +
 								"</i></div><div class=\"layui-card-body\"><h3>" + list[i].userDepartment + "-" + list[i].userName + "</h3>" + summary +
 								"<hr class=\"layui-bg-gray\" />" +
-								"<button class=\"layui-btn layui-btn-sm layui-btn-radius layui-btn-primary\" cid=\"" + list[i].processInstanceId +
+								"<button class=\"layui-btn  layui-btn-radius layui-btn-primary\" cid=\"" + list[i].processInstanceId +
 								"\">查看流程</button>" +
-								"<button class=\"layui-btn layui-btn-sm layui-btn-radius layui-btn-primary\" uid=\"" + list[i].fileName +
+								"<button class=\"layui-btn  layui-btn-radius layui-btn-primary\" tid=\"" + list[i].taskId + "\"" + "pid=\"" + list[i].processInstanceId +
+								"\">同意申请</button><br />" +
+								"<button class=\"layui-btn  layui-btn-radius layui-btn-primary\" uid=\"" + list[i].fileName +
 								"\">下载附件</button>" +
-								"<button class=\"layui-btn layui-btn-sm layui-btn-radius layui-btn-primary\" tid=\"" + list[i].taskId + "\"" + "pid=\"" + list[i].processInstanceId +
-								"\">同意申请</button>" +
-								"<button class=\"layui-btn layui-btn-sm layui-btn-radius layui-btn-primary\" pid=\"" + list[i].processInstanceId +
+								"<button class=\"layui-btn  layui-btn-radius layui-btn-primary\" pid=\"" + list[i].processInstanceId +
 								"\">驳回申请</button></div></div>";
 						}
 						$("#queryProcessBox").html(txt);
