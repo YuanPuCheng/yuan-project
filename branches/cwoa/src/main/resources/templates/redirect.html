@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <title>注册 - layuiAdmin</title>
   <meta name="renderer" content="webkit" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -23,17 +23,17 @@
       <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
         <div class="layui-form-item">
           <label class="layadmin-user-login-icon layui-icon layui-icon-cellphone" for="LAY-user-login-cellphone"></label>
-          <input type="text" name="usercode" id="LAY-user-login-code" lay-verify="required|usercode|user" placeholder="工号" class="layui-input">
+          <input type="text" name="usercode" id="LAY-user-login-code" lay-verify="required|usercode|user" placeholder="工号" class="layui-input" />
         </div>
            <div class="layui-form-item">
           <label class="layadmin-user-login-icon layui-icon layui-icon-layer" for="LAY-user-login-nickname"></label>
-          <input type="email" id="email" name="email" lay-verify="required|email|emailuser" autocomplete="off" placeholder="邮箱" class="layui-input">
+          <input type="email" id="email" name="email" lay-verify="required|email|emailuser" autocomplete="off" placeholder="邮箱" class="layui-input" />
         </div>
         <div class="layui-form-item">
           <div class="layui-row">
             <div class="layui-col-xs7">
               <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
-              <input type="text" maxlength="6" name="vercode" id="LAY-user-login-vercode" lay-verify="required" placeholder="验证码" class="layui-input">
+              <input type="text" maxlength="6" name="vercode" id="LAY-user-login-vercode" lay-verify="required" placeholder="验证码" class="layui-input" />
             </div>
             <div class="layui-col-xs5">
               <div style="margin-left: 10px;">
@@ -44,44 +44,38 @@
         </div>
         <div class="layui-form-item">
           <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
-          <input type="password" name="password" id="password" lay-verify="pass" placeholder="密码" class="layui-input">
+          <input type="password" name="password" id="password" lay-verify="pass" placeholder="密码" class="layui-input" />
         </div>
         <div class="layui-form-item">
           <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-repass"></label>
-          <input type="password" name="repass" id="repassword" lay-verify="required|repass" placeholder="确认密码" class="layui-input">
+          <input type="password" name="repass" id="repassword" lay-verify="required|repass" placeholder="确认密码" class="layui-input" />
         </div>
-     
+
+
         <div class="layui-form-item">
-          <input type="checkbox" name="agreement" lay-skin="primary" title="同意用户协议" checked>
+          <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="LAY-user-reg-submit">注 册</button>
         </div>
         <div class="layui-form-item">
-          <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-reg-submit">注 册</button>
-        </div>
-        <div class="layui-trans layui-form-item layadmin-user-login-other">
-         
-          <a href="login.html" class="layadmin-user-jump-change layadmin-link layui-hide-xs">用已有帐号登入</a>
-          <!--<a href="login.html" class="layadmin-user-jump-change layadmin-link layui-hide-sm layui-show-xs-inline-block">登入</a>-->
+          <input type="checkbox" name="agreement" lay-skin="primary" title="同意用户协议" checked="checked" />
+          <a id="login"  class="layadmin-user-jump-change layadmin-link " style="margin-top: 10px;" >用已有帐号登入</a>
         </div>
       </div>
     </div>
-    
-    <div class="layui-trans layadmin-user-login-footer">
-      
-     
-    </div>
+
 
   </div>
  <script src="../static/layui/layui.js"></script>
- 
+
   <script>
   //一般直接写在一个js文件中\
-  
+
  layui.config({
            base: '../static/js/system/', //静态资源所在路径
       }).use(['redirect'], function(){
-  
+
 });
-  
+
+
   </script>
 </body>
 
