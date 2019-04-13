@@ -37,7 +37,13 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">报销类型：</label>
 				<div class="layui-input-block">
-					<input type="text" class="layui-input" id="reimburseType" placeholder="请输入报销类型..." />
+					<select name="modules" lay-verify="required" lay-search="">
+						<option value="">直接选择或搜索选择</option>
+						<option value="差旅费">差旅费</option>
+						<option value="打车费">打车费</option>
+						<option value="采购费">采购费</option>
+						<option value="其他">其他</option>
+					</select>
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -70,10 +76,11 @@
 		<script src="./../../static/layui/layui.js"></script>
 		<script>
 			//<![CDATA[
-			layui.use(['layer', 'upload'], function() {
+			layui.use(['layer', 'upload','form'], function() {
 				var $ = layui.jquery;
 				var layer = layui.layer;
 				var upload = layui.upload;
+				var form = layui.form;
 				var fileNameList = new Array();
 				var selectNum = 0;
 				var successNum = 0;
