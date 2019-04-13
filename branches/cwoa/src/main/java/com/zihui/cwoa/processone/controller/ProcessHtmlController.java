@@ -23,7 +23,17 @@ public class ProcessHtmlController {
     }
 
     @RequestMapping("/queryendprocess")
-    public String index(){
+    public String queryEndProcess(){
         return "process/queryendprocess";
+    }
+
+    @RequestMapping("/createprocess")
+    public String createProcess(){
+        return "process/createprocess";
+    }
+
+    @RequestMapping("/askforbusiness")
+    public String askForBusiness(){
+        return "process/askforbusiness";
     }
 }

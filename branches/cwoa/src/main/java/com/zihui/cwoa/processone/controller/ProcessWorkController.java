@@ -24,7 +24,7 @@ public class ProcessWorkController {
     @RequestMapping("/deployprocess")
     @ResponseBody
     public boolean deployProcess(String processPath) {
-        processPath = "processes/askforleave.bpmn";
+        processPath = "processes/askforbusiness.bpmn";
         return processesService.deployProcess(processPath);
     }
 
@@ -42,6 +42,19 @@ public class ProcessWorkController {
         return processesService.startProcess("askforleave", variables);
     }
 
+    /**
+     * 启动出差流程
+     * @param variables 流程变量
+     * @return 成功/失败 true/false
+     */
+    @RequestMapping("/askforbusiness")
+    @ResponseBody
+    public boolean askForBusiness(@RequestBody Map<String, Object> variables) {
+        //添加假数据
+        variables.put("firstman", "Nancy");
+        variables.put("secondman", "Jack");
+        return processesService.startProcess("askforbusiness", variables);
+    }
     /**
      * 查询用户任务
      * @param userCode 用户工号
