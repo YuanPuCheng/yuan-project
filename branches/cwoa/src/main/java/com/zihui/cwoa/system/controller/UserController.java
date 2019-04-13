@@ -65,24 +65,42 @@ public class UserController {
 
     @RequestMapping(value = "/getuser")
     @ResponseBody
-    public ConcurrentMap sss(String usercode, String username, String sex, String email,
-                             @RequestParam(defaultValue = "1")Integer pageNum,
-                             @RequestParam(defaultValue = "1")Integer pageSize){
+    public ConcurrentMap getuser(sys_user user){
         CallbackResult result = new CallbackResult();
-        sys_user user = new sys_user();
+       /* sys_user user = new sys_user();
         user.setUserCode(usercode);
         user.setUserName(username);
         user.setTempVar1(sex);
-        user.setEmail(email);
-        List<sys_user> list = user_service.selectUserList(user);
+        user.setEmail(email);*/
+       log.info(user.toString());
+        List<sys_user> list = user_service.selectUserDepar(user);
         ConcurrentMap concurrentMap = new ConcurrentHashMap<String,Object>();
         //PageInfo<sys_user> info = new PageInfo<>(list);
-        concurrentMap.put("count", 3);
+        concurrentMap.put("count", list.size());
         concurrentMap.put("data", list);
         concurrentMap.put("code", 0);
         concurrentMap.put("msg", "成功");
         return concurrentMap;
     }
+
+
+    /**
+     *  添加用户基本信息
+     */
+    @RequestMapping(value = "/userinfo")
+    @ResponseBody
+    public CallbackResult userinfo(sys_user user){
+        CallbackResult result = new CallbackResult();
+
+        log.info(user.toString());
+        //int count = user_service.updateByPrimaryKeySelective(user);
+        result.setResult(200);
+        result.setMessage("修改成功");
+        return result;
+    }
+
+
+
 
 
 

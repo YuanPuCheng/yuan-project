@@ -105,12 +105,13 @@ public class MyShiroRealm extends AuthorizingRealm {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (user.getStatus() == 1) {
-            throw new LockedAccountException("该工号已锁定，请联系管理员！");
-        }
+
         if (user == null) {
             throw new UnknownAccountException("该用户名称不存在！");
         } else {    // 进行密码的验证处理
+            if (user.getStatus() == 1) {
+                throw new LockedAccountException("该工号已锁定，请联系管理员！");
+            }
             log.info("获取登录密码" + password);
             Object result = new SimpleHash("MD5", password, usercode);
             String pass = user.getUserPassword();
@@ -140,7 +141,9 @@ public class MyShiroRealm extends AuthorizingRealm {
                 sys_user userlastdate = new sys_user();
                 userlastdate.setUserId(user.getUserId());
                 userlastdate.setErrorCount("0");
-                userlastdate.setTs(DateUtils.getDate());
+                userlastdate.setLoginTime(DateUtils.getDate());
+                userlastdate.setLastTime(user.getLoginTime());
+                //userlastdate.setTs(DateUtils.getDate());
                 user_service.updateByPrimaryKeySelective(userlastdate);
                 SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, user.getUserPassword(), getName());
                 info.setCredentialsSalt(ByteSource.Util.bytes(usercode));

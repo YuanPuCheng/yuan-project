@@ -25,4 +25,6 @@ public interface sys_userMapper {
 
     List<sys_user> selectUserList(sys_user record);
 
+    List<sys_user> selectUserDepar(sys_user record);
+
 }

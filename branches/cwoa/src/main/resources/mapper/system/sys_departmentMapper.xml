@@ -125,7 +125,7 @@
      and department_code #{departmentCode,jdbcType=VARCHAR}
     </if>
     <if test="status != null" >
-      and = #{status,jdbcType=INTEGER}
+      and status = #{status,jdbcType=INTEGER}
     </if>
     <if test="ts != null" >
      and ts = #{ts,jdbcType=VARCHAR}

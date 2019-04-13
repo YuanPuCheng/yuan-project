@@ -21,4 +21,6 @@ public interface sys_departmentMapper {
 
     List<sys_department> selectMenu(List<Integer> departmentId);
 
+    List<sys_department> selectDpeartmentList(sys_department record);
+
 }
