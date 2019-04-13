@@ -19,7 +19,7 @@ public class sys_menu {
 
     private Integer menuType;//菜单类型  1 虚拟功能，如系统管理 2 操作权限，如新增修改
 
-    private Integer menuUrl;//菜单url
+    private String menuUrl;//菜单url
 
     private String ts;//时间戳
 
@@ -89,11 +89,11 @@ public class sys_menu {
         this.menuType = menuType;
     }
 
-    public Integer getMenuUrl() {
+    public String getMenuUrl() {
         return menuUrl;
     }
 
-    public void setMenuUrl(Integer menuUrl) {
+    public void setMenuUrl(String menuUrl) {
         this.menuUrl = menuUrl;
     }
 

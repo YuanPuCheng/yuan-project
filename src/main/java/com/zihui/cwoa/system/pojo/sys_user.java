@@ -35,6 +35,14 @@ public class sys_user {
 
     private String ip;//登录ip
 
+    private String sex;//性别
+
+    private String age;//年龄
+
+    private String lastTime;//上次登录时间
+
+    private String loginTime;//登录时间
+
     private String tempVar1;
 
     private String tempVar2;
@@ -79,6 +87,38 @@ public class sys_user {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword == null ? null : userPassword.trim();
+    }
+
+    public String getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(String loginTime) {
+        this.loginTime = loginTime;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getLastTime() {
+        return lastTime;
+    }
+
+    public void setLastTime(String lastTime) {
+        this.lastTime = lastTime;
     }
 
     public String getSalt() {
@@ -217,11 +257,10 @@ public class sys_user {
         this.tempInt3 = tempInt3;
     }
 
-
     @Override
     public String toString() {
         return "sys_user{" +
-                "userId='" + userId + '\'' +
+                "userId=" + userId +
                 ", userCode='" + userCode + '\'' +
                 ", userPassword='" + userPassword + '\'' +
                 ", salt='" + salt + '\'' +
@@ -235,12 +274,17 @@ public class sys_user {
                 ", phone=" + phone +
                 ", ts='" + ts + '\'' +
                 ", ip='" + ip + '\'' +
+                ", sex='" + sex + '\'' +
+                ", age='" + age + '\'' +
+                ", lastTime='" + lastTime + '\'' +
+                ", loginTime='" + loginTime + '\'' +
                 ", tempVar1='" + tempVar1 + '\'' +
                 ", tempVar2='" + tempVar2 + '\'' +
                 ", tempVar3='" + tempVar3 + '\'' +
                 ", tempInt1=" + tempInt1 +
                 ", tempInt2=" + tempInt2 +
                 ", tempInt3=" + tempInt3 +
+                ", departments=" + departments +
                 '}';
     }
 }
