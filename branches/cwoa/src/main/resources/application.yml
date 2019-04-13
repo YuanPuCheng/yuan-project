@@ -28,9 +28,19 @@ spring:
     datasource:
         name: zihui
         url: jdbc:mysql://47.96.120.227/cwoa?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+        type: com.alibaba.druid.pool.DruidDataSource
         username: zihui
         password: zihui
         driver-class-name: com.mysql.jdbc.Driver
+        druid:
+              initial-size: 1
+              min-idle: 5
+              max-active: 20
+              max-wait: 60000
+              time-between-eviction-runs-millis: 60000
+              min-evictable-idle-time-millis: 300000
+              validation-query: SELECT 1 FROM DUAL
+
 
 mybatis:
   mapper-locations: classpath:mapper/*/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
