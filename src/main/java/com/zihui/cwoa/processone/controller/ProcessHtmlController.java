@@ -36,4 +36,9 @@ public class ProcessHtmlController {
     public String askForBusiness(){
         return "process/askforbusiness";
     }
+
+    @RequestMapping("/askforreimburse")
+    public String askForReimburse(){
+        return "process/askforreimburse";
+    }
 }
