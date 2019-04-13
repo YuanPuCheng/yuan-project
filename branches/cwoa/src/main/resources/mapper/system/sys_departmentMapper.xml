@@ -112,4 +112,27 @@
     </foreach>
 
   </select>
+
+  <select id="selectDpeartmentList" resultMap="BaseResultMap" parameterType="com.zihui.cwoa.system.pojo.sys_department">
+    SELECT * FROM sys_department where 1=1
+    <if test="departmentId != null" >
+      and department_id = #{departmentId,jdbcType=VARCHAR}
+    </if>
+    <if test="departmentName != null" >
+     and  department_name = #{departmentName,jdbcType=VARCHAR}
+    </if>
+    <if test="departmentCode != null" >
+     and department_code #{departmentCode,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null" >
+      and = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="ts != null" >
+     and ts = #{ts,jdbcType=VARCHAR}
+    </if>
+
+
+  </select>
+
+
 </mapper>

@@ -16,6 +16,10 @@
     <result column="phone" property="phone" jdbcType="INTEGER" />
     <result column="ts" property="ts" jdbcType="VARCHAR" />
     <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="age" property="age" jdbcType="VARCHAR" />
+    <result column="last_time" property="lastTime" jdbcType="VARCHAR" />
+    <result column="login_time" property="loginTime" jdbcType="VARCHAR" />
     <result column="temp_var1" property="tempVar1" jdbcType="VARCHAR" />
     <result column="temp_var2" property="tempVar2" jdbcType="VARCHAR" />
     <result column="temp_var3" property="tempVar3" jdbcType="VARCHAR" />
@@ -39,7 +43,7 @@
 
   <sql id="Base_Column_List" >
     user_id, user_code, user_password, salt, status, user_name, email, create_time, error_count, 
-    department_id, images, phone, ts, ip, temp_var1, temp_var2, temp_var3, temp_int1, 
+    department_id, images, phone, ts, ip,age,sex,last_time,login_time, temp_var1, temp_var2, temp_var3, temp_int1,
     temp_int2, temp_int3
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -97,6 +101,18 @@
       </if>
       <if test="ip != null" >
         ip,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="lastTime != null" >
+        last_time,
+      </if>
+      <if test="loginTime != null" >
+        login_time,
       </if>
       <if test="tempVar1 != null" >
         temp_var1,
@@ -160,6 +176,18 @@
       <if test="ip != null" >
         #{ip,jdbcType=VARCHAR},
       </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTime != null" >
+        #{lastTime,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null" >
+        #{loginTime,jdbcType=VARCHAR},
+      </if>
       <if test="tempVar1 != null" >
         #{tempVar1,jdbcType=VARCHAR},
       </if>
@@ -221,6 +249,18 @@
       </if>
       <if test="ip != null" >
         ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTime != null" >
+        last_time = #{lastTime,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null" >
+        login_time = #{lastTime,jdbcType=VARCHAR},
       </if>
       <if test="tempVar1 != null" >
         temp_var1 = #{tempVar1,jdbcType=VARCHAR},
@@ -300,6 +340,18 @@
     </if>
     <if test="ip != null" >
       and  ip = #{ip,jdbcType=VARCHAR}
+    </if>
+    <if test="sex != null" >
+      and  sex = #{ip,jdbcType=VARCHAR}
+    </if>
+    <if test="age != null" >
+      and  age = #{ip,jdbcType=VARCHAR}
+    </if>
+    <if test="lastTime != null" >
+      and  last_time = #{ip,jdbcType=VARCHAR}
+    </if>
+    <if test="loginTime != null" >
+      and  login_time = #{ip,jdbcType=VARCHAR}
     </if>
     <if test="tempVar1 != null" >
       and temp_var1 = #{tempVar1,jdbcType=VARCHAR}
