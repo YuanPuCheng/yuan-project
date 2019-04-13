@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 	<head>
@@ -68,7 +68,8 @@
 						txt = txt + "<div class=\"layuiadmin-card-text\" style=\"background-color: gainsboro;margin-top:10px ;\">" +
 							"<div class=\"layui-card-header\"><i class=\"layui-icon layui-icon-table\">" + list[i].processName + "</i>" +
 							"<span style=\"position: absolute;right: 15px; color:" + proColor + "\">" + processStatus +
-							"</span></div><div class=\"layui-card-body\"><p>" + "流程在途时间：" + startTime + "--" + endTime + "</p>" +
+							"</span></div><div class=\"layui-card-body\"><p>流程ID：" + list[i].processInstanceId +
+							"</p><p>流程在途时间：" + startTime + "--" + endTime + "</p>" +
 							"<p>流程结束说明：" + list[i].deleteReason + "</p>" +
 							"<hr class=\"layui-bg-gray\" />" +
 							"<button class=\"layui-btn layui-btn-lg layui-btn-radius layui-btn-primary\" pid=\"" + list[i].processInstanceId +
