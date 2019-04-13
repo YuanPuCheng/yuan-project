@@ -98,14 +98,14 @@
 					format: 'yyyy.MM.dd'
 				});
 				$(document).ready(function() {
-					$('#username').val($("#userName",parent.document).attr("name"));
-					$('#department').val($("#userDepartment",parent.document).attr("name"));
-					$('#project').val($("#userProject",parent.document).attr("name"));
+					$('#username').val($("#uName",parent.document).attr("name"));
+					$('#department').val($("#uDepartment",parent.document).attr("name"));
+					$('#project').val($("#uProject",parent.document).attr("name"));
 				});
 				$("#go").click(function() {
 					if(!click) {
 						click = true;
-						var userCode=$("#userCode",parent.document).attr("name");
+						var userCode=$("#uCode",parent.document).attr("name");
 						var name = $('#username').val();
 						var department = $('#department').val();
 						var project = $('#project').val();

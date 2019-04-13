@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>发起流程</title>
+		<meta name="renderer" content="webkit" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../../static/css/reset.css" />
+		<link rel="stylesheet" href="./../../static/layui/css/layui.css" />
+		<style type="text/css">
+			.layui-btn {
+				margin-top: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+			<legend>发起流程</legend>
+		</fieldset>
+		<div class="layui-collapse" lay-accordion="">
+			<div class="layui-colla-item">
+				<h2 class="layui-colla-title">人事类</h2>
+				<div class="layui-colla-content layui-show">
+					<div class="layui-row">
+						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
+							<button class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" proUrl="/pro/askforleave">请假申请</button>
+						</div>
+						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
+							<button class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" proUrl="/pro/askforleave">出差申请</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-colla-item">
+				<h2 class="layui-colla-title">财务类</h2>
+				<div class="layui-colla-content layui-show">
+					<div class="layui-row">
+						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
+							<button class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" proUrl="/pro/askforleave">借款申请</button>
+						</div>
+						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
+							<button class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" proUrl="/pro/askforleave">报销申请</button>
+						</div>
+						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
+							<button class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" proUrl="/pro/askforleave">预算申请</button>
+						</div>
+						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
+							<button class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" proUrl="/pro/askforleave">预算调整</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-colla-item">
+				<h2 class="layui-colla-title">采购类</h2>
+				<div class="layui-colla-content layui-show">
+					<div class="layui-row">
+						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
+							<button class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" proUrl="/pro/askforleave">办公物品采购</button>
+						</div>
+						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
+							<button class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" proUrl="/pro/askforleave">生产物品采购</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div class="news" style="display: none">
+            <span id="uCode" name="Nancy" title="工号"></span>
+            <span id="uName" name="张三" title="姓名"></span>
+            <span id="uDepartment" name="" title="部门"></span>
+            <span id="uProject" name="" title="项目"></span>
+        </div>
+		<script src="./../../static/layui/layui.js"></script>
+		<script>
+			//<![CDATA[
+			layui.use(['layer', 'element'], function() {
+				var $ = layui.jquery;
+				var layer = layui.layer;
+				$("button").click(function() {
+					var proUrl = $(this).attr("proUrl");
+					var proTitle=$(this).text();
+					layer.open({
+						type: 2,
+						title: proTitle,
+						shadeClose: true,
+						shade: 0.8,
+						area: ['100%', '100%'],
+						content: proUrl //iframe的url
+					});
+				});
+                $(document).ready(function() {
+                    $('#uName').attr("name",$("#userName",parent.document).attr("name"));
+                    $('#uDepartment').attr("name",$("#userDepartment",parent.document).attr("name"));
+                    $('#uProject').attr("name",$("#userProject",parent.document).attr("name"));
+                    $('#uCode').attr("name",$("#userCode",parent.document).attr("name"));
+                });
+			});
+			//]]>
+		</script>
+
+	</body>
+
+</html>
