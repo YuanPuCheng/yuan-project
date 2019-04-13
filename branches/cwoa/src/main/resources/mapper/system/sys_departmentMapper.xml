@@ -36,36 +36,36 @@
   <insert id="insertSelective" parameterType="com.zihui.cwoa.system.pojo.sys_department" >
     insert into sys_department
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="departmentId != null" >
+      <if test="departmentId != null and departmentId !=''" >
         department_id,
       </if>
-      <if test="departmentName != null" >
+      <if test="departmentName != null and departmentName !=''" >
         department_name,
       </if>
-      <if test="departmentCode != null" >
+      <if test="departmentCode != null and departmentCode !=''" >
         department_code,
       </if>
-      <if test="status != null" >
+      <if test="status != null and status !=''" >
         status,
       </if>
-      <if test="ts != null" >
+      <if test="ts != null and ts !=''" >
         ts,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="departmentId != null" >
+      <if test="departmentId != null and departmentId !=''" >
         #{departmentId,jdbcType=VARCHAR},
       </if>
-      <if test="departmentName != null" >
+      <if test="departmentName != null and departmentName !=''" >
         #{departmentName,jdbcType=VARCHAR},
       </if>
-      <if test="departmentCode != null" >
+      <if test="departmentCode != null and departmentCode !=''" >
         #{departmentCode,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
+      <if test="status != null and status !=''" >
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="ts != null" >
+      <if test="ts != null and ts !=''" >
         #{ts,jdbcType=VARCHAR},
       </if>
     </trim>
@@ -73,16 +73,16 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.zihui.cwoa.system.pojo.sys_department" >
     update sys_department
     <set >
-      <if test="departmentName != null" >
+      <if test="departmentName != null and departmentName !=''" >
         department_name = #{departmentName,jdbcType=VARCHAR},
       </if>
-      <if test="departmentCode != null" >
+      <if test="departmentCode != null and departmentCode !=''" >
         department_code = #{departmentCode,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
+      <if test="status != null and status !=''" >
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="ts != null" >
+      <if test="ts != null and ts !=''" >
         ts = #{ts,jdbcType=VARCHAR},
       </if>
     </set>
@@ -115,19 +115,19 @@
 
   <select id="selectDpeartmentList" resultMap="BaseResultMap" parameterType="com.zihui.cwoa.system.pojo.sys_department">
     SELECT * FROM sys_department where 1=1
-    <if test="departmentId != null" >
+    <if test="departmentId != null and departmentId !=''" >
       and department_id = #{departmentId,jdbcType=VARCHAR}
     </if>
-    <if test="departmentName != null" >
+    <if test="departmentName != null and departmentName !=''" >
      and  department_name = #{departmentName,jdbcType=VARCHAR}
     </if>
-    <if test="departmentCode != null" >
+    <if test="departmentCode != null and departmentCode !=''" >
      and department_code #{departmentCode,jdbcType=VARCHAR}
     </if>
-    <if test="status != null" >
+    <if test="status != null and status !=''" >
       and status = #{status,jdbcType=INTEGER}
     </if>
-    <if test="ts != null" >
+    <if test="ts != null and ts !=''" >
      and ts = #{ts,jdbcType=VARCHAR}
     </if>
 
