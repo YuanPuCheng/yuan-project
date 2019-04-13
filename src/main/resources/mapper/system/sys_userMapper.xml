@@ -60,150 +60,150 @@
   <insert id="insertSelective" parameterType="com.zihui.cwoa.system.pojo.sys_user" >
     insert into sys_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
+      <if test="userId != null and userId != ''" >
         user_id,
       </if>
-      <if test="userCode != null" >
+      <if test="userCode != null and userCode != ''" >
         user_code,
       </if>
-      <if test="userPassword != null" >
+      <if test="userPassword != null and userPassword !=''" >
         user_password,
       </if>
-      <if test="salt != null" >
+      <if test="salt != null and salt != ''" >
         salt,
       </if>
-      <if test="status != null" >
+      <if test="status != null and status !=''" >
         status,
       </if>
-      <if test="userName != null" >
+      <if test="userName != null and userName !=''" >
         user_name,
       </if>
-      <if test="email != null" >
+      <if test="email != null and email !=''" >
         email,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null and createTime !=''" >
         create_time,
       </if>
-      <if test="errorCount != null" >
+      <if test="errorCount != null and errorCount !=''" >
         error_count,
       </if>
-      <if test="departmentId != null" >
+      <if test="departmentId != null and departmentId !=''" >
         department_id,
       </if>
-      <if test="images != null" >
+      <if test="images != null and images !=''" >
         images,
       </if>
-      <if test="phone != null" >
+      <if test="phone != null and phone !=''" >
         phone,
       </if>
-      <if test="ts != null" >
+      <if test="ts != null and ts !=''" >
         ts,
       </if>
-      <if test="ip != null" >
+      <if test="ip != null and ip !=''" >
         ip,
       </if>
-      <if test="sex != null" >
+      <if test="sex != null and sex != ''" >
         sex,
       </if>
-      <if test="age != null" >
+      <if test="age != null and age !=''" >
         age,
       </if>
-      <if test="lastTime != null" >
+      <if test="lastTime != null and lastTime !=''" >
         last_time,
       </if>
-      <if test="loginTime != null" >
+      <if test="loginTime != null and loginTime !=''" >
         login_time,
       </if>
-      <if test="tempVar1 != null" >
+      <if test="tempVar1 != null and tempVar1 !=''" >
         temp_var1,
       </if>
-      <if test="tempVar2 != null" >
+      <if test="tempVar2 != null and tempVar2 !=''" >
         temp_var2,
       </if>
-      <if test="tempVar3 != null" >
+      <if test="tempVar3 != null and tempVar3 != ''" >
         temp_var3,
       </if>
-      <if test="tempInt1 != null" >
+      <if test="tempInt1 != null and tempInt1 !=''" >
         temp_int1,
       </if>
-      <if test="tempInt2 != null" >
+      <if test="tempInt2 != null and tempInt2 != ''" >
         temp_int2,
       </if>
-      <if test="tempInt3 != null" >
+      <if test="tempInt3 != null and tempInt3 !=''" >
         temp_int3,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
+      <if test="userId != null and userId != ''" >
         #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="userCode != null" >
+      <if test="userCode != null and userCode != ''" >
         #{userCode,jdbcType=VARCHAR},
       </if>
-      <if test="userPassword != null" >
+      <if test="userPassword != null and userPassword !=''" >
         #{userPassword,jdbcType=VARCHAR},
       </if>
-      <if test="salt != null" >
+      <if test="salt != null and salt != ''" >
         #{salt,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
+      <if test="status != null and status !=''" >
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="userName != null" >
+      <if test="userName != null and userName !=''" >
         #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="email != null" >
+      <if test="email != null and email !=''" >
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null and createTime !=''" >
         #{createTime,jdbcType=VARCHAR},
       </if>
-      <if test="errorCount != null" >
+      <if test="errorCount != null and errorCount !=''" >
         #{errorCount,jdbcType=VARCHAR},
       </if>
-      <if test="departmentId != null" >
+      <if test="departmentId != null and departmentId !=''" >
         #{departmentId,jdbcType=VARCHAR},
       </if>
-      <if test="images != null" >
+      <if test="images != null and images !=''" >
         #{images,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null" >
+      <if test="phone != null and phone !=''" >
         #{phone,jdbcType=INTEGER},
       </if>
-      <if test="ts != null" >
+      <if test="ts != null and ts !=''" >
         #{ts,jdbcType=VARCHAR},
       </if>
-      <if test="ip != null" >
+      <if test="ip != null and ip !=''" >
         #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="sex != null" >
+      <if test="sex != null and sex != ''" >
         #{sex,jdbcType=VARCHAR},
       </if>
-      <if test="age != null" >
+      <if test="age != null and age !=''" >
         #{age,jdbcType=VARCHAR},
       </if>
-      <if test="lastTime != null" >
+      <if test="lastTime != null and lastTime !=''" >
         #{lastTime,jdbcType=VARCHAR},
       </if>
-      <if test="loginTime != null" >
+      <if test="loginTime != null and loginTime !=''" >
         #{loginTime,jdbcType=VARCHAR},
       </if>
-      <if test="tempVar1 != null" >
+      <if test="tempVar1 != null and tempVar1 !=''" >
         #{tempVar1,jdbcType=VARCHAR},
       </if>
-      <if test="tempVar2 != null" >
+      <if test="tempVar2 != null and tempVar2 !=''" >
         #{tempVar2,jdbcType=VARCHAR},
       </if>
-      <if test="tempVar3 != null" >
+      <if test="tempVar3 != null and tempVar3 != ''" >
         #{tempVar3,jdbcType=VARCHAR},
       </if>
-      <if test="tempInt1 != null" >
+      <if test="tempInt1 != null and tempInt1 !=''" >
         #{tempInt1,jdbcType=INTEGER},
       </if>
-      <if test="tempInt2 != null" >
+      <if test="tempInt2 != null and tempInt2 != ''" >
         #{tempInt2,jdbcType=INTEGER},
       </if>
-      <if test="tempInt3 != null" >
+      <if test="tempInt3 != null and tempInt3 !=''" >
         #{tempInt3,jdbcType=INTEGER},
       </if>
     </trim>
@@ -211,73 +211,73 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.zihui.cwoa.system.pojo.sys_user" >
     update sys_user
     <set >
-      <if test="userCode != null" >
+      <if test="userCode != null and userCode != ''" >
         user_code = #{userCode,jdbcType=VARCHAR},
       </if>
-      <if test="userPassword != null" >
+      <if test="userPassword != null and userPassword !=''" >
         user_password = #{userPassword,jdbcType=VARCHAR},
       </if>
-      <if test="salt != null" >
+      <if test="salt != null and salt != ''" >
         salt = #{salt,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
+      <if test="status != null and status !=''" >
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="userName != null" >
+      <if test="userName != null and userName !=''" >
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="email != null" >
+      <if test="email != null and email !=''" >
         email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null and createTime !=''" >
         create_time = #{createTime,jdbcType=VARCHAR},
       </if>
-      <if test="errorCount != null" >
+      <if test="errorCount != null and errorCount !=''" >
         error_count = #{errorCount,jdbcType=VARCHAR},
       </if>
-      <if test="departmentId != null" >
+      <if test="departmentId != null and departmentId !=''" >
         department_id = #{departmentId,jdbcType=VARCHAR},
       </if>
-      <if test="images != null" >
+      <if test="images != null and images !=''" >
         images = #{images,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null" >
+      <if test="phone != null and phone !=''" >
         phone = #{phone,jdbcType=INTEGER},
       </if>
-      <if test="ts != null" >
+      <if test="ts != null and ts !=''" >
         ts = #{ts,jdbcType=VARCHAR},
       </if>
-      <if test="ip != null" >
+      <if test="ip != null and ip !=''" >
         ip = #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="sex != null" >
+      <if test="sex != null and sex != ''" >
         sex = #{sex,jdbcType=VARCHAR},
       </if>
-      <if test="age != null" >
+      <if test="age != null and age !=''" >
         age = #{age,jdbcType=VARCHAR},
       </if>
-      <if test="lastTime != null" >
+      <if test="lastTime != null and lastTime !=''" >
         last_time = #{lastTime,jdbcType=VARCHAR},
       </if>
-      <if test="loginTime != null" >
+      <if test="loginTime != null and loginTime !=''" >
         login_time = #{lastTime,jdbcType=VARCHAR},
       </if>
-      <if test="tempVar1 != null" >
+      <if test="tempVar1 != null and tempVar1 !=''" >
         temp_var1 = #{tempVar1,jdbcType=VARCHAR},
       </if>
-      <if test="tempVar2 != null" >
+      <if test="tempVar2 != null and tempVar2 !=''" >
         temp_var2 = #{tempVar2,jdbcType=VARCHAR},
       </if>
-      <if test="tempVar3 != null" >
+      <if test="tempVar3 != null and tempVar3 != ''" >
         temp_var3 = #{tempVar3,jdbcType=VARCHAR},
       </if>
-      <if test="tempInt1 != null" >
+      <if test="tempInt1 != null and tempInt1 !=''" >
         temp_int1 = #{tempInt1,jdbcType=INTEGER},
       </if>
-      <if test="tempInt2 != null" >
+      <if test="tempInt2 != null and tempInt2 != ''" >
         temp_int2 = #{tempInt2,jdbcType=INTEGER},
       </if>
-      <if test="tempInt3 != null" >
+      <if test="tempInt3 != null and tempInt3 !=''" >
         temp_int3 = #{tempInt3,jdbcType=INTEGER},
       </if>
     </set>
@@ -302,76 +302,76 @@
   <!--多条件查询用户用于展示页面，返回List-->
   <select id="selectUserList" resultMap="userDepartmentsMap" parameterType="com.zihui.cwoa.system.pojo.sys_user">
     select * from sys_user where 1=1
-    <if test="userId != null" >
+    <if test="userId != null and userId != ''" >
       and  user_id = #{userId,jdbcType=VARCHAR}
     </if>
-    <if test="userCode != null" >
+    <if test="userCode != null and userCode != ''" >
       and  user_code = #{userCode,jdbcType=VARCHAR}
     </if>
-    <if test="userPassword != null" >
+    <if test="userPassword != null and userPassword !=''" >
       and  user_password = #{userPassword,jdbcType=VARCHAR}
     </if>
-    <if test="salt != null" >
+    <if test="salt != null and salt != ''" >
       and  salt = #{salt,jdbcType=VARCHAR}
     </if>
-    <if test="status != null" >
+    <if test="status != null and status !=''" >
       and  status = #{status,jdbcType=INTEGER}
     </if>
-    <if test="userName != null" >
+    <if test="userName != null and userName !=''" >
       and  user_name = #{userName,jdbcType=VARCHAR}
     </if>
-    <if test="email != null" >
+    <if test="email != null and email !=''" >
       and  email = #{email,jdbcType=VARCHAR}
     </if>
-    <if test="createTime != null" >
+    <if test="createTime != null and createTime !=''" >
       and create_time = #{createTime,jdbcType=VARCHAR}
     </if>
-    <if test="errorCount != null" >
+    <if test="errorCount != null and errorCount !=''" >
       and  error_count = #{errorCount,jdbcType=VARCHAR}
     </if>
-    <if test="departmentId != null" >
+    <if test="departmentId != null and departmentId !=''" >
       and  department_id = #{departmentId,jdbcType=VARCHAR}
     </if>
-    <if test="images != null" >
+    <if test="images != null and images !=''" >
       and  images = #{images,jdbcType=VARCHAR}
     </if>
-    <if test="phone != null" >
+    <if test="phone != null and phone !=''" >
       and  phone = #{phone,jdbcType=INTEGER}
     </if>
-    <if test="ts != null" >
+    <if test="ts != null and ts !=''" >
       and  ts = #{ts,jdbcType=VARCHAR}
     </if>
-    <if test="ip != null" >
+    <if test="ip != null and ip !=''" >
       and  ip = #{ip,jdbcType=VARCHAR}
     </if>
-    <if test="sex != null" >
+    <if test="sex != null and sex != ''" >
       and  sex = #{ip,jdbcType=VARCHAR}
     </if>
-    <if test="age != null" >
+    <if test="age != null and age !=''" >
       and  age = #{ip,jdbcType=VARCHAR}
     </if>
-    <if test="lastTime != null" >
+    <if test="lastTime != null and lastTime !=''" >
       and  last_time = #{ip,jdbcType=VARCHAR}
     </if>
-    <if test="loginTime != null" >
+    <if test="loginTime != null and loginTime !=''" >
       and  login_time = #{ip,jdbcType=VARCHAR}
     </if>
-    <if test="tempVar1 != null" >
+    <if test="tempVar1 != null and tempVar1 !=''" >
       and temp_var1 = #{tempVar1,jdbcType=VARCHAR}
     </if>
-    <if test="tempVar2 != null" >
+    <if test="tempVar2 != null and tempVar2 !=''" >
       and  temp_var2 = #{tempVar2,jdbcType=VARCHAR}
     </if>
-    <if test="tempVar3 != null" >
+    <if test="tempVar3 != null and tempVar3 != ''" >
       and temp_var3 = #{tempVar3,jdbcType=VARCHAR}
     </if>
-    <if test="tempInt1 != null" >
+    <if test="tempInt1 != null and tempInt1 !=''" >
       and temp_int1 = #{tempInt1,jdbcType=INTEGER}
     </if>
-    <if test="tempInt2 != null" >
+    <if test="tempInt2 != null and tempInt2 != ''" >
       and temp_int2 = #{tempInt2,jdbcType=INTEGER}
     </if>
-    <if test="tempInt3 != null" >
+    <if test="tempInt3 != null and tempInt3 !=''" >
       and  temp_int3 = #{tempInt3,jdbcType=INTEGER}
     </if>
   </select>
@@ -385,76 +385,76 @@
     d.ts AS ts_b
     from sys_user u left join sys_user_department ud on u.user_id = ud.user_id
     left join sys_department d on ud.department_id  =d.department_id where 1 =1
-    <if test="userId != null" >
+    <if test="userId != null and userId != ''" >
       and  user_id = #{userId,jdbcType=VARCHAR}
     </if>
-    <if test="userCode != null" >
+    <if test="userCode != null and userCode != ''" >
       and  user_code = #{userCode,jdbcType=VARCHAR}
     </if>
-    <if test="userPassword != null" >
+    <if test="userPassword != null and userPassword !=''" >
       and  user_password = #{userPassword,jdbcType=VARCHAR}
     </if>
-    <if test="salt != null" >
+    <if test="salt != null and salt != ''" >
       and  salt = #{salt,jdbcType=VARCHAR}
     </if>
-    <if test="status != null" >
+    <if test="status != null and status !=''" >
       and  status = #{status,jdbcType=INTEGER}
     </if>
-    <if test="userName != null" >
+    <if test="userName != null and userName !=''" >
       and  user_name = #{userName,jdbcType=VARCHAR}
     </if>
-    <if test="email != null" >
+    <if test="email != null and email !=''" >
       and  email = #{email,jdbcType=VARCHAR}
     </if>
-    <if test="createTime != null" >
+    <if test="createTime != null and createTime !=''" >
       and create_time = #{createTime,jdbcType=VARCHAR}
     </if>
-    <if test="errorCount != null" >
+    <if test="errorCount != null and errorCount !=''" >
       and  error_count = #{errorCount,jdbcType=VARCHAR}
     </if>
-    <if test="departmentId != null" >
+    <if test="departmentId != null and departmentId !=''" >
       and  department_id = #{departmentId,jdbcType=VARCHAR}
     </if>
-    <if test="images != null" >
+    <if test="images != null and images !=''" >
       and  images = #{images,jdbcType=VARCHAR}
     </if>
-    <if test="phone != null" >
+    <if test="phone != null and phone !=''" >
       and  phone = #{phone,jdbcType=INTEGER}
     </if>
-    <if test="ts != null" >
+    <if test="ts != null and ts !=''" >
       and  ts = #{ts,jdbcType=VARCHAR}
     </if>
-    <if test="ip != null" >
+    <if test="ip != null and ip !=''" >
       and  ip = #{ip,jdbcType=VARCHAR}
     </if>
-    <if test="sex != null" >
+    <if test="sex != null and sex != ''" >
       and  sex = #{ip,jdbcType=VARCHAR}
     </if>
-    <if test="age != null" >
+    <if test="age != null and age !=''" >
       and  age = #{ip,jdbcType=VARCHAR}
     </if>
-    <if test="lastTime != null" >
+    <if test="lastTime != null and lastTime !=''" >
       and  last_time = #{ip,jdbcType=VARCHAR}
     </if>
-    <if test="loginTime != null" >
+    <if test="loginTime != null and loginTime !=''" >
       and  login_time = #{ip,jdbcType=VARCHAR}
     </if>
-    <if test="tempVar1 != null" >
+    <if test="tempVar1 != null and tempVar1 !=''" >
       and temp_var1 = #{tempVar1,jdbcType=VARCHAR}
     </if>
-    <if test="tempVar2 != null" >
+    <if test="tempVar2 != null and tempVar2 !=''" >
       and  temp_var2 = #{tempVar2,jdbcType=VARCHAR}
     </if>
-    <if test="tempVar3 != null" >
-      and temp_var3 = #{tempVar3,jdbcType=VARCHAR}
+    <if test="tempVar3 != null and tempVar3 != ''" >
+      and d.department_id = #{tempVar3,jdbcType=VARCHAR}
     </if>
-    <if test="tempInt1 != null" >
+    <if test="tempInt1 != null and tempInt1 !=''" >
       and temp_int1 = #{tempInt1,jdbcType=INTEGER}
     </if>
-    <if test="tempInt2 != null" >
+    <if test="tempInt2 != null and tempInt2 != ''" >
       and temp_int2 = #{tempInt2,jdbcType=INTEGER}
     </if>
-    <if test="tempInt3 != null" >
+    <if test="tempInt3 != null and tempInt3 !=''" >
       and  temp_int3 = #{tempInt3,jdbcType=INTEGER}
     </if>
   </select>
