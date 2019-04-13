@@ -29,7 +29,7 @@ public class sys_user {
 
     private String images;//头像路径
 
-    private Integer phone;//手机号
+    private String phone;//手机号
 
     private String ts;//时间戳
 
@@ -185,11 +185,11 @@ public class sys_user {
         this.images = images == null ? null : images.trim();
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

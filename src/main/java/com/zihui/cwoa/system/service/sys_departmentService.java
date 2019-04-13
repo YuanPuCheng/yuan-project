@@ -73,4 +73,13 @@ public class sys_departmentService {
     public List<sys_department> selectMenu(List<Integer> departmentId){
         return departmentMapper.selectMenu(departmentId);
     };
+
+    /**
+     *  根据条件查询部门
+     *  @param record 部门对象
+     *  @return List sys_department 返回所有部门对象
+     */
+    public List<sys_department> selectDpeartmentList(sys_department record){
+        return departmentMapper.selectDpeartmentList(record);
+    };
 }

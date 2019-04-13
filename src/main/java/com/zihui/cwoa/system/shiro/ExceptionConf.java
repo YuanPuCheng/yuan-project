@@ -18,7 +18,7 @@ public class ExceptionConf {
         //捕获未授权的异常
         properties.setProperty("org.apache.shiro.authz.UnauthorizedException", "403");
         //捕获未登录访问权限的异常
-        properties.setProperty("org.apache.shiro.authz.UnauthenticatedException", "400");
+        properties.setProperty("org.apache.shiro.authz.UnauthenticatedException", "login");
         properties.setProperty("404", "404");
         resolver.setExceptionMappings(properties);
         return resolver;

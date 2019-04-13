@@ -48,13 +48,7 @@ public class fileController {
     }
 
 
-    @RequestMapping(value = "/f")
-    public ModelAndView up(){
-        ModelAndView view = new ModelAndView();
 
-        view.setViewName("upload");
-        return view;
-    }
 
 
     /**
@@ -66,6 +60,13 @@ public class fileController {
         Map map = new HashMap<>();
         CallbackResult result = new CallbackResult();
         String filename = null;
+        String path = fileCommon.USER_IMG_PATH;//默认用户路径
+        switch (filetype){
+            case "FA" : path= fileCommon.INVOICE_PATH ;break;
+            case "TX" : path= fileCommon.USER_IMG_PATH ;break;
+            case "AC" : path= fileCommon.ENCLOSYRE_PATH ;break;
+        };
+        log.info(path+"文件类型"+filetype);
         // 如果文件不为空，写入上传路径
         if (!file.isEmpty()) {
             sys_file fileobj = new sys_file();
@@ -73,7 +74,7 @@ public class fileController {
             filename = file.getOriginalFilename();//文件名
             String suffixName = filename.substring(filename.lastIndexOf("."));  // 后缀名
             String refilename = UUID.randomUUID() + suffixName; // 新文件名
-            File filepath = new File(fileCommon.USER_IMG_PATH, filename);
+            File filepath = new File(path, filename);
             // 判断路径是否存在，如果不存在就创建一个
             if (!filepath.getParentFile().exists()) {
                 filepath.getParentFile().mkdirs();
@@ -81,14 +82,14 @@ public class fileController {
             // 将上传文件保存到一个目标文件当中
             fileobj.setFileName(refilename);
             fileobj.setFileRename(filename);
-            //fileobj.setFileType(filetype);
-            fileobj.setFileUrl(fileCommon.USER_IMG_PATH);
+            fileobj.setFileType(filetype);
+            fileobj.setFileUrl(path);
             fileobj.setStatus(0);
             fileobj.setTs(DateUtils.getDate());
             sys_user user = (sys_user) session.getAttribute("user");
             //fileobj.setUserId(user.getUserId());
             try {
-                file.transferTo(new File(fileCommon.USER_IMG_PATH + File.separator + refilename));
+                file.transferTo(new File(path + File.separator + refilename));
                 fileService.insertSelective(fileobj);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -96,8 +97,11 @@ public class fileController {
                 result.setMessage("上传失败");
                 return result;
             }
+            map.put("fileID",fileobj.getFileId());
+            map.put("filename",refilename);
+            log.info("新增返回文件主键"+fileobj.getFileId());
         }
-        map.put("filename",filename);
+
         result.setResult(200);
         result.setMessage("文件上传成功");
         result.setMap(map);

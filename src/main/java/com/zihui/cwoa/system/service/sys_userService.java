@@ -86,4 +86,8 @@ public class sys_userService {
         PageHelper.startPage(pageNum,pageSize);
         return userMapper.selectUserList(record);
     };
+
+    public List<sys_user> selectUserDepar(sys_user record){
+        return userMapper.selectUserDepar(record);
+    };
 }

@@ -31,7 +31,7 @@
     where file_id = #{fileId,jdbcType=INTEGER}
   </delete>
 
-  <insert id="insertSelective" parameterType="com.zihui.cwoa.system.pojo.sys_file" >
+  <insert id="insertSelective" parameterType="com.zihui.cwoa.system.pojo.sys_file" keyProperty="fileId" useGeneratedKeys="true" >
     insert into sys_file
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="fileId != null" >
