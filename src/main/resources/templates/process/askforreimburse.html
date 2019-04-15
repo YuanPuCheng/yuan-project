@@ -37,7 +37,7 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">报销类型：</label>
 				<div class="layui-input-block">
-					<select name="modules" lay-verify="required" lay-search="">
+					<select name="modules" lay-verify="required" lay-search="" id="reimburseType">
 						<option value="">直接选择或搜索选择</option>
 						<option value="差旅费">差旅费</option>
 						<option value="打车费">打车费</option>
@@ -152,7 +152,7 @@
 					var name = $('#username').val();
 					var department = $('#department').val();
 					var project = $('#project').val();
-					var reimburseType = $('#reimburseType').val();
+					var reimburseType = $('#reimburseType option:selected').prop("value");
 					var linkProId = $('#linkProId').val();
 					if(reimburseType == "") {
 						layer.msg('请选择报销类型！');
