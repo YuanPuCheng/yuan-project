@@ -2,8 +2,8 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1555123371427" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
   <process id="askforbusiness" isClosed="false" isExecutable="true" name="出差申请" processType="None">
     <startEvent id="_2" name="StartEvent"/>
-    <userTask activiti:exclusive="true" id="taskone" name="部门负责人审批"/>
-    <userTask activiti:exclusive="true" id="tasktwo" name="项目经理审批"/>
+    <userTask activiti:assignee="${firstman}" activiti:exclusive="true" id="taskone" name="部门负责人审批"/>
+    <userTask activiti:assignee="${secondman}" activiti:exclusive="true" id="tasktwo" name="项目经理审批"/>
     <endEvent id="_5" name="EndEvent"/>
     <sequenceFlow id="_6" sourceRef="_2" targetRef="taskone"/>
     <sequenceFlow id="_7" sourceRef="taskone" targetRef="tasktwo"/>
