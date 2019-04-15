@@ -47,7 +47,7 @@
               <dd><a lay-href="set/user/info.html">基本资料</a></dd>
               <dd><a lay-href="set/user/password.html">修改密码</a></dd>
               <hr/>
-              <dd id="exit" layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
+              <dd id="exit" layadmin-event="logout" style="text-align: center;"><a href="login.html">退出</a></dd>
             </dl>
        	</li>
 				<span class="layui-nav-bar" style="left: 0px; top: 0px; width: 0px; opacity: 0;"></span>
@@ -116,14 +116,11 @@
   <div class="layadmin-body-shade layui_active" layadmin-event="shade"></div>
 
 <div class="news">
-	<span id="userCode" name="" title="工号"></span>
-	<span id="userName" name="" title="姓名"></span>
-	<span id="userDepartment" name="" title="部门"></span>
-	<span id="userProject" name="" title="项目"></span>
+
 </div>
-<!--<script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>-->
+
 <script src="../static/layui/layui.js" charset="utf-8"></script>
-<!--<script src="../static/js/index.js"></script>-->
+
 <script>
     //<![CDATA[
 	//菜单隐藏显示
@@ -133,10 +130,7 @@ layui.config({
   var layer = layui.layer;
   var $=layui.jquery;
   
-  $('#exit').on('click',function(){
-  	layer.msg('退出成功！',{time : 1000});
-  	$('#exit').href="www.baidu.com";
-  })
+  
 }); 
 
 
