@@ -15,4 +15,7 @@
         (SELECT PROC_DEF_ID_ FROM act_hi_procinst WHERE PROC_INST_ID_=#{processInstanceId})
   </select>
 
+  <select id="queryCodeByName" parameterType="String" resultType="String">
+    SELECT user_code FROM sys_user WHERE user_name=#{userName}
+  </select>
 </mapper>
