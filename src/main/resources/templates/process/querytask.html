@@ -90,23 +90,23 @@
 									content: '<img src="/process/download?processInstanceId=' + processInstanceId + '"/>'
 								});
 							} else if($(this).text() == "下载附件") {
-								var filename = $(this).attr("uid");
-								if(!typeof(filename) == "undefined") {
-									var url = '/file/down';
-									var form = $("<form>"); //定义一个form表单
-									form.attr("style", "display:none");
-									form.attr("target", "");
-									form.attr("method", "get"); //请求类型
-									form.attr("action", url); //请求地址
-									$("body").append(form); //将表单放置在web中
-									var inputone = $("<input>");
-									inputone.attr("type", "hidden");
-									inputone.attr("name", "filename");
-									inputone.attr("value", filename);
-									form.append(inputone);
-									form.submit(); //表单提交
+								var fName = $(this).attr("uid");
+								if(fName=='undefined') {
+                                    layer.msg('该申请没有附件！');
 								} else {
-									layer.msg('该申请没有附件！');
+                                    var url = '/file/down';
+                                    var form = $("<form>"); //定义一个form表单
+                                    form.attr("style", "display:none");
+                                    form.attr("target", "");
+                                    form.attr("method", "get"); //请求类型
+                                    form.attr("action", url); //请求地址
+                                    $("body").append(form); //将表单放置在web中
+                                    var inputone = $("<input>");
+                                    inputone.attr("type", "hidden");
+                                    inputone.attr("name", "filename");
+                                    inputone.attr("value", fName);
+                                    form.append(inputone);
+                                    form.submit(); //表单提交
 								}
 							} else if($(this).text() == "同意申请") {
 								var taskId = $(this).attr("tid");
