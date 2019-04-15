@@ -376,11 +376,41 @@ layui.extend({
                 //累计偏移量清零
                 left_ul=0;
             });
+            $.ajax({
+        	  	type:"post",
+        	  	url:layui.setter.project+"/user/getuserinfo",
+        	  	async:true,
+        	  	dataType:"json",
+        	  	success:function(data){
+        	  		var tst="";
+        	  		var departmentsName="";
+        	  		var departmentsId="";
+        	  		for(var i=0;i<data.departments.length;i++){
+        	  			departmentsName=departmentsName+data.departments[i].departmentName+"、";
+        	  			departmentsId=departmentsId+data.departments[i].departmentId+"、";
+        	  		}
+        	  		departmentsName=departmentsName.substring(0,departmentsName.length-1);
+        	  		departmentsId=departmentsId.substring(0,departmentsId.length-1);
+        	  		tst='<span id="userCode" name="'+  data.userCode  +'" title="工号"></span>'+
+						'<span id="userName" name="'+  data.userName  +'" title="姓名"></span>'+
+						'<span id="email" name="'+  data.email  +'" title="邮箱"></span>'+
+						'<span id="sex" name="'+  data.sex  +'" title="性别"></span>'+
+						'<span id="userDepartmentId" name="'+  departmentsId  +'" title="部门ID"></span>'+
+						'<span id="userDepartmentName" name="'+  departmentsName  +'" title="部门名称"></span>'+
+						'<span id="userProject" name="'+    +'" title="项目"></span>';
+        				$('.news').append(tst);
+        	  		console.log( $('.news').html() );
+        	  	},
+        	  	error:function(jqx){
+        	  		alert("发生错误："+jqx);
+        	  	}
+        	  });
 		},
 		error:function(){
 			alert('服务器请求失败!');
 		}
 	});
+	
 	
 	 e("index", {})
 });
