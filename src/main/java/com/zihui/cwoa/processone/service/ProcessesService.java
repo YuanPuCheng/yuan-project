@@ -3,6 +3,7 @@ package com.zihui.cwoa.processone.service;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricProcessInstanceQuery;
 import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -204,6 +205,12 @@ public class ProcessesService {
         List<HistoricVariableInstance> hisList =
                 historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstanceId).list();
         Map<String,Object> variables=new HashMap();
+        if(hisList.isEmpty()){
+            variables.put("flag",false);
+            return variables;
+        }else {
+            variables.put("flag",true);
+        }
         for (HistoricVariableInstance hisInstance:hisList) {
             variables.put(hisInstance.getVariableName(),hisInstance.getValue());
         }
@@ -211,14 +218,17 @@ public class ProcessesService {
                 historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).list();
         for (HistoricProcessInstance ins:list) {
             variables.put("startTime",ins.getStartTime());
-            variables.put("endTime",ins.getEndTime());
+            Date endTime = ins.getEndTime();
+            variables.put("endTime",endTime);
+            variables.put("processInstanceId",processInstanceId);
             variables.put("processName",ins.getProcessDefinitionName());
             String deleteReason = ins.getDeleteReason();
-
             if(deleteReason!=null){
                 variables.put("deleteReason",deleteReason);
-            }else{
+            }else if(endTime!=null){
                 variables.put("deleteReason","同意申请");
+            }else{
+                variables.put("deleteReason","审批中");
             }
         }
         return variables;
@@ -231,15 +241,20 @@ public class ProcessesService {
      */
     public InputStream getPngStream(String processInstanceId) {
         // 获得流程实例
-        ProcessInstance processInstance =
-                runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+        HistoricProcessInstance processInstance =
+                historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
         // 获得流程定义id
         String processDefinitionId = processInstance.getProcessDefinitionId();
         BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
+        List<String> list=null;
+        try {
+            list=runtimeService.getActiveActivityIds(processInstanceId);
+        } catch (Exception e) {
+            return getActivityPngStream(processInstance.getDeploymentId());
+        }
         DefaultProcessDiagramGenerator processDiagramGenerator= new DefaultProcessDiagramGenerator();
         InputStream png =
-                processDiagramGenerator.generateDiagram(bpmnModel, "png",
-                        runtimeService.getActiveActivityIds(processInstanceId),
+                processDiagramGenerator.generateDiagram(bpmnModel, "png", list,
                         Collections.<String>emptyList(), "宋体","宋体",
                         "宋体", null, 1.0D);
         return png;
@@ -256,5 +271,81 @@ public class ProcessesService {
         InputStream is =
                 repositoryService.getResourceAsStream(deploymentId, processDefinition.getDiagramResourceName());
         return is;
+    }
+
+    /**
+     * 按条件查找流程
+     * @param processDefinitionKey 流程定义的Key
+     * @param userName 用户名
+     * @param date 日期
+     * @return 查询结果
+     */
+    public Map<String,Object> queryProcessByVo(String processDefinitionKey,String userName,Long date) {
+        List<HistoricProcessInstance> list=null;
+        String userCode=null;
+        if(userName!=null){
+            List<String> userCodeList = queryService.queryCodeByName(userName);
+            if (userCodeList.size()==1){
+                userCode=userCodeList.get(0);
+            }
+        }
+        if (userCode != null) {
+            if (date != 0) {
+                Date dateOne = new Date(date-86400000);
+                Date dateTwo = new Date(date+86400000);
+                list = historyService.createHistoricProcessInstanceQuery()
+                        .processDefinitionKey(processDefinitionKey)
+                        .startedBy(userCode)
+                        .startedAfter(dateOne)
+                        .startedBefore(dateTwo)
+                        .list();
+            } else {
+                list = historyService.createHistoricProcessInstanceQuery()
+                        .processDefinitionKey(processDefinitionKey)
+                        .startedBy(userCode)
+                        .list();
+            }
+        } else if (date != 0) {
+            Date dateOne = new Date(date-86400000);
+            Date dateTwo = new Date(date+86400000);
+            list = historyService.createHistoricProcessInstanceQuery()
+                    .processDefinitionKey(processDefinitionKey)
+                    .startedAfter(dateOne)
+                    .startedBefore(dateTwo)
+                    .list();
+        } else {
+            list = historyService.createHistoricProcessInstanceQuery()
+                    .processDefinitionKey(processDefinitionKey)
+                    .list();
+        }
+        List<Map<String,Object>> resultList = new LinkedList<>();
+        for (HistoricProcessInstance ins : list) {
+            String processInstanceId=ins.getId();
+            List<HistoricVariableInstance> hisList =
+                    historyService.createHistoricVariableInstanceQuery()
+                            .processInstanceId(processInstanceId).list();
+            Map<String,Object> variables=new HashMap();
+            for (HistoricVariableInstance hisInstance:hisList) {
+                variables.put(hisInstance.getVariableName(),hisInstance.getValue());
+            }
+            variables.put("startTime", ins.getStartTime());
+            Date endTime = ins.getEndTime();
+            variables.put("endTime", endTime);
+            variables.put("processInstanceId", processInstanceId);
+            variables.put("processName", ins.getProcessDefinitionName());
+            String deleteReason = ins.getDeleteReason();
+            if (endTime == null) {
+                variables.put("deleteReason", "审批中");
+            } else if (deleteReason!=null) {
+                variables.put("deleteReason", deleteReason);
+            } else {
+                variables.put("deleteReason", "同意申请");
+            }
+            resultList.add(variables);
+        }
+        Map<String,Object> map =new HashMap<>();
+        map.put("result",resultList.size());
+        map.put("queryResultList",resultList);
+        return map;
     }
 }
