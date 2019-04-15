@@ -39,5 +39,12 @@ public class QueryService {
         return queryMapper.queryProNameByProInstanceId(processInstanceId);
     }
 
-
+    /**
+     *  根据用户名查用户工号
+     *  @param userName 用户名
+     *  @return 用户工号
+     */
+    public List<String> queryCodeByName(String userName){
+        return queryMapper.queryCodeByName(userName);
+    }
 }

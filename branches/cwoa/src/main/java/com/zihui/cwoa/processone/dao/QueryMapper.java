@@ -27,4 +27,10 @@ public interface QueryMapper {
      */
     String queryProNameByProInstanceId(String processInstanceId);
 
+    /**
+     *  根据用户名查用户工号
+     *  @param userName 用户名
+     *  @return 用户工号
+     */
+    List<String> queryCodeByName(String userName);
 }

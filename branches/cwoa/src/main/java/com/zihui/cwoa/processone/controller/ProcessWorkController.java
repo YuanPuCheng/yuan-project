@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Date;
 import java.util.Map;
 
 @Controller
@@ -24,7 +25,7 @@ public class ProcessWorkController {
     @RequestMapping("/deployprocess")
     @ResponseBody
     public boolean deployProcess(String processPath) {
-        processPath = "processes/askforbusiness.bpmn";
+        processPath = "processes/askforleave.bpmn";
         return processesService.deployProcess(processPath);
     }
 
@@ -208,5 +209,17 @@ public class ProcessWorkController {
             }
         }
         return null;
+    }
+    /**
+     * 按条件查找流程
+     * @param processDefinitionKey 流程定义的Key
+     * @param userName 用户名字
+     * @param date 日期
+     * @return 查询结果
+     */
+    @RequestMapping("/queryprocessbyvo")
+    @ResponseBody
+    public Map<String,Object> queryProcessByVo(String processDefinitionKey,String userName,Long date) {
+        return processesService.queryProcessByVo(processDefinitionKey,userName,date);
     }
 }

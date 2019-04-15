@@ -41,4 +41,9 @@ public class ProcessHtmlController {
     public String askForReimburse(){
         return "process/askforreimburse";
     }
+
+    @RequestMapping("/queryprocessbyvo")
+    public String queryProcessByVo(){
+        return "process/queryprocessbyvo";
+    }
 }
