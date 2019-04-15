@@ -128,6 +128,7 @@ public class fileController {
         if(fileList.size()!=0){
             sys_file ff = fileList.get(0);
             log.info(ff.toString());
+            String refilename = ff.getFileRename();//文件原名称
             //放文件的目录指定文件名
             File file = new File(ff.getFileUrl()+ff.getFileName());
 
@@ -137,11 +138,11 @@ public class fileController {
                 //IE11 User-Agent字符串:Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
                 //IE6~IE10版本的User-Agent字符串:Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.0; Trident/6.0)
                 if (request.getHeader("User-Agent").toLowerCase().indexOf("msie") >0||flag){
-                    filename = URLEncoder.encode(filename, "UTF-8");//IE浏览器
+                    refilename = URLEncoder.encode(refilename, "UTF-8");//IE浏览器
                 }else {
                     //先去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,
                     //这个文件名称用于浏览器的下载框中自动显示的文件名
-                    filename = new String(filename.replaceAll(" ", "").getBytes("UTF-8"), "ISO8859-1");
+                    refilename = new String(refilename.replaceAll(" ", "").getBytes("UTF-8"), "ISO8859-1");
                     //firefox浏览器
                     //firefox浏览器User-Agent字符串:
                     //Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0
@@ -152,7 +153,7 @@ public class fileController {
                 fis.read(buffer);
                 fis.close();
                 response.reset();
-                response.addHeader("Content-Disposition", "attachment;filename=" +ff.getFileRename());
+                response.addHeader("Content-Disposition", "attachment;filename=" +refilename);
                 response.addHeader("Content-Length", "" + file.length());
                 OutputStream os = response.getOutputStream();
                 response.setContentType("application/octet-stream");
