@@ -1,11 +1,14 @@
+layui.extend({
+	setter: "../../static/layui/config"
 
-	
 
+}).define(["setter", "jquery"], function(e) {
+	var $ = layui.jquery;
 	
 	//目录ajax  post请求
 	$.ajax({
 		type:"post",
-		url:"http://192.168.1.4:8080/system/index",
+		url:layui.setter.project+"/system/index",
 		async:true,
 		timeout:5000,
 		dataType:"json",
@@ -378,3 +381,6 @@
 			alert('服务器请求失败!');
 		}
 	});
+	
+	 e("index", {})
+});
