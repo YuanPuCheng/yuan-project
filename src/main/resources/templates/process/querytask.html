@@ -94,19 +94,11 @@
 								if(fName=='undefined') {
                                     layer.msg('该申请没有附件！');
 								} else {
-                                    var url = '/file/down';
-                                    var form = $("<form>"); //定义一个form表单
-                                    form.attr("style", "display:none");
-                                    form.attr("target", "");
-                                    form.attr("method", "get"); //请求类型
-                                    form.attr("action", url); //请求地址
-                                    $("body").append(form); //将表单放置在web中
-                                    var inputone = $("<input>");
-                                    inputone.attr("type", "hidden");
-                                    inputone.attr("name", "filename");
-                                    inputone.attr("value", fName);
-                                    form.append(inputone);
-                                    form.submit(); //表单提交
+                                    var arr = fName.split(',');
+                                    for(var i = 0; i < arr.length; i++) {
+                                        $("body").append('<iframe src="/file/down?filename='+
+											arr[i]+'" style="display: none; height: 0px;"></iframe>');
+                                    }
 								}
 							} else if($(this).text() == "同意申请") {
 								var taskId = $(this).attr("tid");
@@ -196,6 +188,9 @@
 						});
 					}
 					var userCode=$("#userCode",parent.document).attr("name");
+					if(typeof(userCode)=='undefined'){
+					    userCode="Nancy";
+					}
 					$.ajax({
 						url: "/process/querytask",
 						type: "get",
