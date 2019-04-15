@@ -1,0 +1,21 @@
+.layui-fluid{
+	padding: 15px;
+}
+.layui-form-select .layui-input{
+	padding-right: 10px;
+}
+.layui-input, .layui-textarea{
+	padding: 10px;
+}
+.layui-form-label{
+	width: 70px;
+}
+.layui-btn{
+	float: right;
+}
+.layui-card-body .layui-btn{
+	float: none;
+}
+.layui-table tr{
+	margin-left: 50px;
+}
