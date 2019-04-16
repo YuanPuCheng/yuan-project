@@ -77,6 +77,9 @@
 		</div>
 		<h1 id="messageBox" style="display: none;">查询中ing...</h1>
 		<div class="layui-fluid" style="margin-top: 10px;" id="queryProcessBox"></div>
+		<center>
+			<div id="demo6"></div>
+		</center>
 		<script src="./../../static/layui/layui.js"></script>
 		<script>
 			//<![CDATA[
@@ -100,12 +103,14 @@
 				}
 				return fmt;
 			}
-			layui.use(['layer', 'element', 'form', 'laydate'], function() {
+			layui.use(['layer', 'element', 'form', 'laydate','laypage'], function() {
 				var $ = layui.jquery;
 				var layer = layui.layer;
 				var laydate = layui.laydate;
 				var element = layui.element;
 				var form = layui.form;
+                var laypage = layui.laypage;
+                var nowLen=0;
 				laydate.render({
 					elem: '#startTime',
 					type: 'date'
@@ -208,6 +213,8 @@
 					});
 				}
 				$('#byId').click(function() {
+                    $('#messageBox').text("查询中ing...");
+                    $('#messageBox').show();
 					$("#queryProcessBox").html("");
 					var queryProId = $('#queryProId').val();
 					$.ajax({
@@ -219,6 +226,7 @@
 						dataType: "json",
 						success: function(result) {
 							if(result.flag) {
+							    list=[];
 								list.push(result);
 								$('#messageBox').hide();
 								creatHtml(0, 1);
@@ -234,6 +242,8 @@
 					});
 				});
 				$('#byVo').click(function() {
+                    $('#messageBox').text("查询中ing...");
+                    $('#messageBox').show();
 					$("#queryProcessBox").html("");
 					var processDefinitionKey = $('#proType option:selected').prop("value");
 					var userQueryName = $('#userName').val();
@@ -247,14 +257,52 @@
 						data: {
 							"processDefinitionKey": processDefinitionKey,
 							"userName": userQueryName,
-							"date": dateTime
+							"date": dateTime,
+                            "page": 0,
+                            "num": 3
 						},
 						dataType: "json",
 						success: function(data) {
-							if(data.result > 0) {
+						    var len=data.result;
+							if(len > 0) {
+							    list=[];
 								list = data.queryResultList;
+								nowLen=list.length;
 								$('#messageBox').hide();
-								creatHtml(0, list.length);
+                                laypage.render({
+                                    elem: 'demo6',
+                                    count: len,
+                                    limit: 3,
+                                    layout: ['prev', 'page', 'next'],
+                                    jump: function(obj, first) {
+                                        if(!first) {
+                                            var page=(obj.curr-1)*3;
+                                            $.ajax({
+                                                url: "/process/queryprocessbyvo",
+                                                type: "get",
+                                                data: {
+                                                    "processDefinitionKey": processDefinitionKey,
+                                                    "userName": userQueryName,
+                                                    "date": dateTime,
+                                                    "page": page,
+                                                    "num": 3
+                                                },
+                                                dataType: "json",
+                                                success: function(data) {
+                                                    list=[];
+                                                    list = data.queryResultList;
+                                                    nowLen=list.length;
+                                                },
+                                                error: function() {
+                                                    layer.msg('发生了未知错误！', {
+                                                        icon: 2
+                                                    });
+                                                }
+                                            });
+                                        }
+                                        creatHtml(0, nowLen);
+                                    }
+                                });
 							} else {
 								$('#messageBox').text("没有找到符合条件的流程！");
 								$('#messageBox').show();
