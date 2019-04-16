@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title></title>
+		<title>用户管理</title>
 		<link rel="stylesheet" type="text/css" href="../../../static/css/reset.css"/>
 		<link rel="stylesheet" type="text/css" href="../../../static/css/admin.css"/>
 		<link rel="stylesheet" type="text/css" href="../../../static/layui/css/layui.css"/>
@@ -13,6 +13,23 @@
 			.layui-laypage select{
 				height: 28px;
 				padding: 0 3px;
+			}
+			.layui-table-header{
+				overflow: visible;
+			}
+			.layui-table-box{
+				overflow: visible;
+			}
+			@media only screen and (min-width: 100px) and (max-width: 320px) {
+				.layui-btn+.layui-btn{
+					margin-left: 2px;
+				}
+				.layui-table-tool-temp{
+					padding-right: 100px;
+				}
+				.layui-laypage .layui-laypage-count{
+					
+				}
 			}
 		</style>
 	</head>
@@ -95,8 +112,8 @@
 	<script>
 		layui.config({
      		base: '../../../static/js/system/user/' //静态资源所在路径
-		}).use(['userMangement'], function(){
-		  
+		}).use(['userMangement','jquery'], function(){
+			
 		}); 
 	</script>
 </html>
