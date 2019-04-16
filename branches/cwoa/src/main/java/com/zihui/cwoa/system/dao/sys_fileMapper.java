@@ -4,6 +4,7 @@ import com.zihui.cwoa.system.pojo.sys_file;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Mapper
@@ -18,4 +19,7 @@ public interface sys_fileMapper {
     int updateByPrimaryKeySelective(sys_file record);
 
     List<sys_file> selectFileList(sys_file record);
+
+    List<Map<String,Object>> queryFileNameById(String[] arr);
+
 }
