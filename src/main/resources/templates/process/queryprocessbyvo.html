@@ -166,11 +166,38 @@
 							if(fName == "undefined") {
                                 layer.msg('该申请没有附件！');
 							} else {
-                                var arr = fName.split(',');
-                                for(var i = 0; i < arr.length; i++) {
-                                    $("body").append('<iframe src="/file/down?filename='+
-                                        arr[i]+'" style="display: none; height: 0px;"></iframe>');
-                                }
+                                $.ajax({
+                                    url: "/file/queryfilenamebyid",
+                                    type: "get",
+                                    data: {
+                                        "idArray": fName
+                                    },
+                                    dataType: "json",
+                                    success: function(data) {
+                                        var list=data;
+                                        var txt="";
+                                        for(var j = 0,len=list.length; j < len; j++) {
+                                            txt = txt + "<tr><td>"+list[j].file_rename+
+                                                "</td><td><a href='/file/down?filename="+list[j].file_name+"'>点击此处下载该附件</a></td></tr>";
+                                        }
+                                        layer.open({
+                                            type: 1,
+                                            shadeClose: true,
+                                            shade: 0.8,
+                                            skin: 'layui-layer-rim', //加上边框
+                                            area: ['90%', '80%'], //宽高
+                                            content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>下载附件</legend></fieldset>' +
+                                            '<div class="layui-form"><table class="layui-table"><colgroup><col width="150"><col width="150"><col width="200">' +
+                                            '<col></colgroup><thead><tr><th>文件名</th><th>点击下载</th></tr></thead>' +
+                                            '<tbody>' + txt + '</tbody></table></div>'
+                                        });
+                                    },
+                                    error: function() {
+                                        layer.msg('加载失败，请重试！', {
+                                            icon: 2
+                                        });
+                                    }
+                                });
 							}
 						}
 					});
