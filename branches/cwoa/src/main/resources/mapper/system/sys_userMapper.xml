@@ -13,20 +13,35 @@
     <result column="error_count" property="errorCount" jdbcType="VARCHAR" />
     <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
     <result column="images" property="images" jdbcType="VARCHAR" />
-    <result column="phone" property="phone" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="ts" property="ts" jdbcType="VARCHAR" />
     <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="sex" property="sex" jdbcType="INTEGER" />
     <result column="age" property="age" jdbcType="VARCHAR" />
     <result column="last_time" property="lastTime" jdbcType="VARCHAR" />
     <result column="login_time" property="loginTime" jdbcType="VARCHAR" />
+    <result column="bank_card_num" property="bankCardNum" jdbcType="VARCHAR" />
+    <result column="id_num" property="idNum" jdbcType="VARCHAR" />
     <result column="temp_var1" property="tempVar1" jdbcType="VARCHAR" />
     <result column="temp_var2" property="tempVar2" jdbcType="VARCHAR" />
     <result column="temp_var3" property="tempVar3" jdbcType="VARCHAR" />
     <result column="temp_int1" property="tempInt1" jdbcType="INTEGER" />
     <result column="temp_int2" property="tempInt2" jdbcType="INTEGER" />
     <result column="temp_int3" property="tempInt3" jdbcType="INTEGER" />
-
+    <collection property="project" ofType="com.zihui.cwoa.system.pojo.sys_project">
+      <id column="project_id" property="projectId" jdbcType="INTEGER" />
+      <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+      <result column="project_introduction" property="projectIntroduction" jdbcType="VARCHAR" />
+      <result column="project_address" property="projectAddress" jdbcType="VARCHAR" />
+      <result column="pro_status" property="status" jdbcType="INTEGER" />
+      <result column="start_time" property="startTime" jdbcType="VARCHAR" />
+      <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+      <result column="pro_ts" property="ts" jdbcType="VARCHAR" />
+      <result column="pro_temp_var1" property="tempVar1" jdbcType="VARCHAR" />
+      <result column="pro_temp_var2" property="tempVar2" jdbcType="VARCHAR" />
+      <result column="pro_temp_int1" property="tempInt1" jdbcType="INTEGER" />
+      <result column="pro_temp_int2" property="tempInt2" jdbcType="INTEGER" />
+    </collection>
   </resultMap>
 
   <!-- 使用resultMap的<collection>标签进行一对多查询 -->
@@ -36,14 +51,14 @@
       <id column="departmentId" property="departmentId" jdbcType="INTEGER" />
       <result column="departmentName" property="departmentName" jdbcType="VARCHAR" />
       <result column="departmentCode" property="departmentCode" jdbcType="VARCHAR" />
-      <result column="status" property="status" jdbcType="INTEGER" />
+      <result column="de_status" property="status" jdbcType="INTEGER" />
       <result column="ts_b" property="ts" jdbcType="VARCHAR" />
     </collection>
   </resultMap>
 
   <sql id="Base_Column_List" >
     user_id, user_code, user_password, salt, status, user_name, email, create_time, error_count, 
-    department_id, images, phone, ts, ip,age,sex,last_time,login_time, temp_var1, temp_var2, temp_var3, temp_int1,
+    department_id, images, phone, ts, ip,age,sex,last_time,login_time,bank_card_num,id_num, temp_var1, temp_var2, temp_var3, temp_int1,
     temp_int2, temp_int3
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -57,6 +72,10 @@
     where user_id = #{userId,jdbcType=VARCHAR}
   </delete>
 
+  <delete id="deleteByUserCode" parameterType="java.lang.String" >
+    delete from sys_user
+    where user_code = #{userCode,jdbcType=VARCHAR}
+  </delete>
   <insert id="insertSelective" parameterType="com.zihui.cwoa.system.pojo.sys_user" >
     insert into sys_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -72,7 +91,7 @@
       <if test="salt != null and salt != ''" >
         salt,
       </if>
-      <if test="status != null and status !=''" >
+      <if test="status != null" >
         status,
       </if>
       <if test="userName != null and userName !=''" >
@@ -114,6 +133,12 @@
       <if test="loginTime != null and loginTime !=''" >
         login_time,
       </if>
+      <if test="idNum != null and idNum !=''" >
+        id_num,
+      </if>
+      <if test="bankCardNum != null and bankCardNum !=''" >
+        bank_card_num,
+      </if>
       <if test="tempVar1 != null and tempVar1 !=''" >
         temp_var1,
       </if>
@@ -146,7 +171,7 @@
       <if test="salt != null and salt != ''" >
         #{salt,jdbcType=VARCHAR},
       </if>
-      <if test="status != null and status !=''" >
+      <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
       <if test="userName != null and userName !=''" >
@@ -168,7 +193,7 @@
         #{images,jdbcType=VARCHAR},
       </if>
       <if test="phone != null and phone !=''" >
-        #{phone,jdbcType=INTEGER},
+        #{phone,jdbcType=VARCHAR},
       </if>
       <if test="ts != null and ts !=''" >
         #{ts,jdbcType=VARCHAR},
@@ -187,6 +212,12 @@
       </if>
       <if test="loginTime != null and loginTime !=''" >
         #{loginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null and idNum !=''" >
+        #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardNum != null and bankCardNum !=''" >
+        #{bankCardNum,jdbcType=VARCHAR},
       </if>
       <if test="tempVar1 != null and tempVar1 !=''" >
         #{tempVar1,jdbcType=VARCHAR},
@@ -242,7 +273,7 @@
         images = #{images,jdbcType=VARCHAR},
       </if>
       <if test="phone != null and phone !=''" >
-        phone = #{phone,jdbcType=INTEGER},
+        phone = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="ts != null and ts !=''" >
         ts = #{ts,jdbcType=VARCHAR},
@@ -261,6 +292,12 @@
       </if>
       <if test="loginTime != null and loginTime !=''" >
         login_time = #{lastTime,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null and idNum !=''" >
+        id_num = #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardNum != null and bankCardNum !=''" >
+        bank_card_num = #{bankCardNum,jdbcType=VARCHAR},
       </if>
       <if test="tempVar1 != null and tempVar1 !=''" >
         temp_var1 = #{tempVar1,jdbcType=VARCHAR},
@@ -295,9 +332,19 @@
     d.department_name AS departmentName,
     d.department_code AS departmentCode,
     d.status status,
-    d.ts AS ts_b
-    from sys_user u join sys_user_department ud on u.user_id = ud.user_id
-    join sys_department d on ud.department_id  =d.department_id where u.user_id = #{userId}
+    d.ts AS ts_b,
+    p.project_id AS project_id,
+    p.project_name as project_name,
+    p.project_introduction as project_introduction,
+    p.project_address as project_address,
+    p.status as pro_status,
+    p.start_time as start_time,
+    p.end_time as end_time,
+    p.ts as pro_ts
+    from sys_user u left join sys_user_department ud on u.user_id = ud.user_id
+    left join sys_department d on ud.department_id  =d.department_id
+    left join sys_project p on u.temp_int1 = p.project_id
+    where u.user_id = #{userId}
   </select>
   <!--多条件查询用户用于展示页面，返回List-->
   <select id="selectUserList" resultMap="userDepartmentsMap" parameterType="com.zihui.cwoa.system.pojo.sys_user">
@@ -336,7 +383,7 @@
       and  images = #{images,jdbcType=VARCHAR}
     </if>
     <if test="phone != null and phone !=''" >
-      and  phone = #{phone,jdbcType=INTEGER}
+      and  phone = #{phone,jdbcType=VARCHAR}
     </if>
     <if test="ts != null and ts !=''" >
       and  ts = #{ts,jdbcType=VARCHAR}
@@ -345,16 +392,22 @@
       and  ip = #{ip,jdbcType=VARCHAR}
     </if>
     <if test="sex != null and sex != ''" >
-      and  sex = #{ip,jdbcType=VARCHAR}
+      and  sex = #{sex,jdbcType=VARCHAR}
     </if>
     <if test="age != null and age !=''" >
-      and  age = #{ip,jdbcType=VARCHAR}
+      and  age = #{age,jdbcType=VARCHAR}
     </if>
     <if test="lastTime != null and lastTime !=''" >
-      and  last_time = #{ip,jdbcType=VARCHAR}
+      and  last_time = #{last_time,jdbcType=VARCHAR}
     </if>
     <if test="loginTime != null and loginTime !=''" >
-      and  login_time = #{ip,jdbcType=VARCHAR}
+      and  login_time = #{login_time,jdbcType=VARCHAR}
+    </if>
+    <if test="idNum != null and idNum !=''" >
+     and id_num = #{idNum,jdbcType=VARCHAR}
+    </if>
+    <if test="bankCardNum != null and bankCardNum !=''" >
+      and bank_card_num = #{bankCardNum,jdbcType=VARCHAR}
     </if>
     <if test="tempVar1 != null and tempVar1 !=''" >
       and temp_var1 = #{tempVar1,jdbcType=VARCHAR}
@@ -381,10 +434,21 @@
     SELECT u.*,d.department_id as departmentId,
     d.department_name AS departmentName,
     d.department_code AS departmentCode,
-    d.status status,
-    d.ts AS ts_b
+    d.status as de_status,
+    d.ts AS ts_b,
+    p.project_id AS project_id,
+    p.project_name as project_name,
+    p.project_introduction as project_introduction,
+    p.project_address as project_address,
+    p.status as pro_status,
+    p.start_time as start_time,
+    p.end_time as end_time,
+    p.ts as pro_ts
+
     from sys_user u left join sys_user_department ud on u.user_id = ud.user_id
-    left join sys_department d on ud.department_id  =d.department_id where 1 =1
+    left join sys_department d on ud.department_id  =d.department_id left JOIN sys_project p on
+    u.temp_int1 = p.project_id
+    where 1 =1
     <if test="userId != null and userId != ''" >
       and  user_id = #{userId,jdbcType=VARCHAR}
     </if>
@@ -419,7 +483,7 @@
       and  images = #{images,jdbcType=VARCHAR}
     </if>
     <if test="phone != null and phone !=''" >
-      and  phone = #{phone,jdbcType=INTEGER}
+      and  phone = #{phone,jdbcType=VARCHAR}
     </if>
     <if test="ts != null and ts !=''" >
       and  ts = #{ts,jdbcType=VARCHAR}
@@ -428,16 +492,22 @@
       and  ip = #{ip,jdbcType=VARCHAR}
     </if>
     <if test="sex != null and sex != ''" >
-      and  sex = #{ip,jdbcType=VARCHAR}
+      and  sex = #{sex,jdbcType=VARCHAR}
     </if>
     <if test="age != null and age !=''" >
-      and  age = #{ip,jdbcType=VARCHAR}
+      and  age = #{age,jdbcType=VARCHAR}
     </if>
     <if test="lastTime != null and lastTime !=''" >
-      and  last_time = #{ip,jdbcType=VARCHAR}
+      and  last_time = #{last_time,jdbcType=VARCHAR}
     </if>
     <if test="loginTime != null and loginTime !=''" >
-      and  login_time = #{ip,jdbcType=VARCHAR}
+      and  login_time = #{login_time,jdbcType=VARCHAR}
+    </if>
+    <if test="idNum != null and idNum !=''" >
+      and id_num = #{idNum,jdbcType=VARCHAR}
+    </if>
+    <if test="bankCardNum != null and bankCardNum !=''" >
+      and bank_card_num = #{bankCardNum,jdbcType=VARCHAR}
     </if>
     <if test="tempVar1 != null and tempVar1 !=''" >
       and temp_var1 = #{tempVar1,jdbcType=VARCHAR}
@@ -445,11 +515,13 @@
     <if test="tempVar2 != null and tempVar2 !=''" >
       and  temp_var2 = #{tempVar2,jdbcType=VARCHAR}
     </if>
+    <!--关联部门id-->
     <if test="tempVar3 != null and tempVar3 != ''" >
       and d.department_id = #{tempVar3,jdbcType=VARCHAR}
     </if>
+    <!--关联项目id-->
     <if test="tempInt1 != null and tempInt1 !=''" >
-      and temp_int1 = #{tempInt1,jdbcType=INTEGER}
+      and p.project_id = #{tempInt1,jdbcType=INTEGER}
     </if>
     <if test="tempInt2 != null and tempInt2 != ''" >
       and temp_int2 = #{tempInt2,jdbcType=INTEGER}
