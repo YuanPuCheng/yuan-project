@@ -5,21 +5,57 @@ layui.extend({
 
 	var form = layui.form, //只有执行了这一步，部分表单元素才会自动修饰成功
 		$ = layui.jquery,
-		s=layui.$,
+		s = layui.$,
 		a = s("body"),
 		upload = layui.upload;
 	console.log(layui.setter.project);
 	//页面初始化方法
-	$(function(){
+	$(function() {
 		$("#tijiao").hide();
-						$("#quxiao").hide();
-						$("#test1").hide();
-						$(".layui-input").attr("disabled", "disabled");
-						$(".layui-input").css("border","none");
-						$("input[name='sex']").attr("disabled", "disabled");
+		$("#quxiao").hide();
+		$("#test1").hide();
+		$(".dis").attr("disabled", "disabled");
+		$(".dis").css("border", "none");
+		$("input[name='sex']").attr("disabled", "disabled");
+		$.ajax({
+			url: layui.setter.project + "/user/getuserinfo",
+			type: "post",
+			xhrFields: {
+				withCredentials: true
+			},
+			dataType: "json",
+			success: function(data) {
+				console.log(data);
+				var de = eval(data.departments);
+				var name="";
+				if(de!=null){
+					$.each(de,function(index,value){
+						name=name+value.departmentName+"、"
+					})
+					name = name.substring(0,name.length-1);
+				}
+				
+				console.log(name);
+				filename = data.images;
+				$("#demo1").attr("src",layui.setter.project + "/file/show?filename="+data.images);
+				form.val("myform", {
+					"userId":data.userId,
+					"userCode":data.userCode,
+					"userName": data.userName, // "name": "value,
+					"phone": data.phone,
+					"email": data.email,
+					"idNum": data.idNum,
+					"sex": data.sex,
+					"bankCardNum": data.bankCardNum,
+					"departmentName":name,
+					"projectName":data.project.projectName
+				})
+			}
+		});
+
+		
 	})
-						
-	
+
 	var filename = "";
 	//普通图片上传
 	var uploadInst = upload.render({
@@ -60,38 +96,45 @@ layui.extend({
 			});
 		}
 	});
-	
-					a.on("click", "#edit", function() {
-						$("#edit").hide();
-						$("#tijiao").show();
-						$("#quxiao").show();
-						$(".layui-input").removeAttr("disabled");
-						$(".layui-input").css("border","1px solid #e6e6e6");
-						$("input[name='sex']").removeAttr("disabled", "disabled");
-						$("#test1").show();
-					}),
-					a.on("click", "#quxiao", function() {
-						$(".layui-input").attr("disabled", "disabled");
-						$("#quxiao").hide();
-						$("#test1").hide();
-						$("#edit").show();
-						$("#tijiao").hide();
-						$("input[name='sex']").attr("disabled", "disabled");
-						$(".layui-input").css("border","none");
-					})
-	
-	
+
+	a.on("click", "#edit", function() {
+		form.render();
+			$("#edit").hide();
+			$("#tijiao").show();
+			$("#quxiao").show();
+			$("input[name='sex']").removeAttr("disabled");
+			$(".dis").removeAttr("disabled");
+			$(".dis").css("border", "1px solid #e6e6e6");
+			$("#test1").show();
+			form.render();
+		}),
+		a.on("click", "#quxiao", function() {
+			
+			$(".dis").attr("disabled", "disabled");
+			$("#quxiao").hide();
+			$("#test1").hide();
+			$("#edit").show();
+			$("#tijiao").hide();
+			$("input[name='sex']").attr("disabled", "disabled");
+			$(".dis").css("border", "none");
+			form.render();
+		})
+
 	//监听提交按钮
 	form.on('submit(setmyinfo)', function(data) {
 
 		setTimeout(function() {
+			var userId = $("#userId").val();
 			var usercode = $("#LAY-user-login-code").val();
 			var username = $("#username").val();
-			var age = $("#age").val();
+			var email = $("#email").val();
 			var images = filename;
 			var cellphone = $("#cellphone").val();
+			var bankCardNum = $("#bankCardNum").val();//银行卡
+			var idNum = $("#idNum").val();//身份证
 			var item = $("input[name='sex']:checked").val();
-			console.log("进入ajax" + filename);
+			
+			console.log("进入ajax" + userId+usercode+username+images+cellphone+bankCardNum+idNum+item+email);
 			$.ajax({
 				url: layui.setter.project + "/user/userinfo",
 				type: "post",
@@ -99,11 +142,15 @@ layui.extend({
 					withCredentials: true
 				},
 				data: {
+					"userId":userId,
 					"userCode": usercode,
 					"userName": username,
 					"images": images,
 					"phone": cellphone,
-					"sex": item
+					"email":email,
+					"sex": item,
+					"bankCardNum":bankCardNum,
+					"idNum":idNum
 				},
 				//contentType:"application/json",
 				dataType: "json",
@@ -116,7 +163,7 @@ layui.extend({
 						$("#edit").show();
 						$("#tijiao").hide();
 						$("input[name='sex']").attr("disabled", "disabled");
-						$(".layui-input").css("border","none");
+						$(".layui-input").css("border", "none");
 						form.render();
 					} else {
 						layer.msg(data.message);
@@ -124,7 +171,7 @@ layui.extend({
 					}
 				}
 			});
-		}, 1500);
+		}, 1000);
 
 	});
 
