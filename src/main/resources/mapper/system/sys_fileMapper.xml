@@ -205,4 +205,10 @@
 
   </select>
 
+  <select id="queryFileNameById" parameterType="List" resultType="Map">
+    SELECT file_name,file_rename FROM sys_file WHERE file_name IN
+    <foreach collection="array" open="(" separator="," close=")" item="temp">
+      #{temp}
+    </foreach>
+  </select>
 </mapper>
