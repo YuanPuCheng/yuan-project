@@ -42,6 +42,14 @@
 				            </div>
 						</div>
 						<div class="layui-inline">
+							<label class="layui-form-label">项目名称：</label>
+							<div class="layui-input-block Departments">
+								<select name="projects"  id="SearchProjects">
+									
+								</select>
+				            </div>
+						</div>
+						<div class="layui-inline">
 							<label class="layui-form-label">性别：</label>
 							<div class="layui-input-block">
 								<select name="sex"  id="SearchSex">
@@ -86,161 +94,10 @@
 	</script>
 	
 	<script>
-		layui.use(['form','laypage','layer','table'], function(){
-		  var table = layui.table,
-		  	  laypage = layui.laypage,
-		  	  layer = layui.layer,
-		  	  form = layui.form,
-		  	  $ = layui.jquery;
-		  		
-		  var tabins = table.render({
-		    elem: '#test',
-		    url:'http://192.168.1.4:8080/user/getuser',
-		    toolbar:"#barDemo",
-		    method: 'post',
-		    id: 'testReload',
-//		    where: {"userCode":""},
-		    cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-		    cols: [[
-		      {type:'checkbox'},
-		      {field:'userCode',  title: '用户工号', sort: true},
-		      {field:'userName',  title: '用户名称'},
-		      {field:'sex',  title: '性别'},
-		      {field:'email',  title: '邮箱'},
-		      {field:'images',  title: '头像'},
-		      {field:'phone',  title: '电话'},
-		      {field:'ts',  title: '登陆时间', sort: true},
-		      {field:'ip',  title: 'IP'},
-		      {field:'name',  title: '部门',templet:function(d){
-		      	var a = eval(d.departments);
-		      	var name="";
-		      	if(a!=null){
-		      		$.each(a,function(index,value){
-	     				name = value.departmentName+"、"+name;
-					});
-		      	}else{
-		      		name=""
-		      	}
-		      	
-		      	//var ddd=a.departments[0].departmentCode
-		      	name = name.substring(0,name.length-1);
-		      	return name ;
-		      }}
-		      
-		    ]],
-		  });
-		  //搜索(方法重载)
- 			
-		  $('#Search').on('click', function(){
-		  	var name2 =$('#SearchDepartments').val();
-		  	var name1= names(name2);
-		  	var sex1 = names( $('#SearchSex').val());
- 			function names(obj){
- 				var n = "";
- 				if(obj=="不限"){
- 					return n;
- 				}
- 				return obj;
- 			}
-//				console.log(name1+sex1);
-		      table.reload('testReload', {
-		      	url:'http://192.168.1.4:8080/user/getuser',
-		        where: {
-		           	userCode: $('#SearchUserCode').val(),
-		            userName: $('#SearchUserName').val(),
-		            tempVar3: name1,
-		            sex: sex1,
-		        }
-		      });
-		  });
+		layui.config({
+     		base: '../../static/js/user/' //静态资源所在路径
+		}).use(['userMangement'], function(){
 		  
-		  
-		  //分页
-		  var counts=0;
-		  
-		  laypage.render({
-		    elem: 'demo0'
-		    ,count: 20 //数据总数
-		    ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-		    ,jump: function(obj){
-//		      console.log(obj.index)
-		      counts=20;
-		      return counts;
-		      console.log(a)
-		    }
-		  });
-		  //头工具栏事件
-		  table.on('toolbar(test)', function(obj){
-		    var checkStatus = table.checkStatus(obj.config.id);
-		    switch(obj.event){
-		      case 'edit':
-		      	//用户编辑
-		        var data = checkStatus.data;
-		        if(data.length==1){
-		        	
-		        }else{
-		        	layer.alert("请一次选中一个！");
-		        }
-		      break;
-		      case 'add':
-		      	//用户添加
-		      break;
-		      case 'del':
-		      	//用户删除
-//		        var checkStatus = table.checkStatus('test');
-		        console.log(checkStatus.data.length);
-				if(checkStatus.data.length==0){
-					parent.layer.msg('请先选择要删除的数据行！', {icon: 2});
-					return ;
-				}
-				var ids = "";
-				for(var i=0;i<checkStatus.data.length;i++){
-					ids += checkStatus.data[i].userCode+",";
-				}
-				ids=ids.substring(0,ids.length-1);
-				var usercodes=ids;
-				parent.layer.msg('删除中...', {icon: 16,shade: 0.3,time:5000});
-				 $.ajax({
-				 	
-        	  	type:"post",
-        	  	url:"http://192.168.1.4:8080/user/delete",
-        	  	xhrFields: {
-					withCredentials: true
-				},
-				data: {
-					"usercodes": ids
-				},
-        	  	dataType:"json",
-        	  	success:function(data){
-        	  		console.log(data)
-        	  	},
-        	  	error:function(jqx){
-        	  		alert("发生错误："+jqx);
-        	  	}
-        	  });
-			 
-		      break;
-		    };
-		  });
-		  
-		 //下拉框加载
-		 $.get('http://192.168.1.4:8080/department/getdepartment', {}, function (data) {
-                var $html = "<option>不限</option>";
-                if(data.data != null){
-                    $.each(data.data, function (index, item) {
-                        if (item.proType){
-                            $html += "<option class='generate'>不限</option>";
-                        }else{
-                            $html += "<option value='" + item.departmentId + "'>" + item.departmentName + "</option>";
-                        }
-                    });
-                 $("select[name='departments']").append($html);
-                 //反选
-                 $("select[name='departments']").val($("#SearchDepartments").val());
-                 //append后必须从新渲染
-                 form.render('select');
-             }
-		});
-})
+		}); 
 	</script>
 </html>
