@@ -57,102 +57,16 @@
                         }
                 }
             }
+
 			layui.use(['layer', 'laypage'], function() {
 				var $ = layui.jquery;
 				var layer = layui.layer;
 				var laypage = layui.laypage;
-				var list;
 				var nowLen=0;
-
-				function creatHtml(start, end) {
-					var txt = "";
-					for(var i = start; i < end; i++) {
-						var processStatus = "";
-						if(list[i].deleteReason == "同意申请") {
-							processStatus = "已通过";
-							proColor = "green";
-						} else if(list[i].deleteReason == "用户撤销") {
-							processStatus = "已撤销";
-							proColor = "#FFB800";
-						} else {
-							processStatus = "被驳回";
-							proColor = "red";
-						}
-						var startTime = new Date(list[i].startTime).format("yyyy-MM-dd hh:mm:ss");
-						var endTime = new Date(list[i].endTime).format("yyyy-MM-dd hh:mm:ss");
-						txt = txt + "<div class=\"layuiadmin-card-text\" style=\"background-color: gainsboro;margin-top:10px ;\">" +
-							"<div class=\"layui-card-header\"><i class=\"layui-icon layui-icon-table\">" + list[i].processName + "</i>" +
-							"<span style=\"position: absolute;right: 15px; color:" + proColor + "\">" + processStatus +
-							"</span></div><div class=\"layui-card-body\"><p>流程ID：" + list[i].processInstanceId +
-							"</p><p>流程在途时间：" + startTime + "--" + endTime + "</p>" +
-							"<p>流程结束说明：" + list[i].deleteReason + "</p>" +
-							"<hr class=\"layui-bg-gray\" />" +
-							"<button class=\"layui-btn layui-btn-lg layui-btn-radius layui-btn-primary\" pid=\"" + list[i].processInstanceId +
-							"\">查看详情</button>" +
-							"<button class=\"layui-btn layui-btn-lg layui-btn-radius layui-btn-primary\" pid=\"" + list[i].deploymentId +
-							"\">查看流程</button></div></div>";
-					}
-					$("#queryProcessBox").html(txt);
-					$("button").click(function() {
-						if($(this).text() == "查看详情") {
-							var processInstanceId = $(this).attr("pid");
-							$.ajax({
-								url: "/process/queryprocessdetail",
-								type: "get",
-								data: {
-									"processInstanceId": processInstanceId
-								},
-								dataType: "json",
-								success: function(data) {
-									var txt = "<tr><td>流程名称</td><td>" + data.processName + "</td></tr>";
-									txt = txt + "<tr><td>发起人</td><td>" + data.userName + "</td></tr>";
-									var list = data.processSummary;
-									for(var i = 0; i < list.length; i++) {
-										txt = txt + "<tr><td>" + list[i].indexName + "</td><td>" + list[i].indexValue + "</td></tr>";
-									}
-									var startTime = new Date(data.startTime).format("yyyy-MM-dd hh:mm:ss");
-									var endTime = new Date(data.endTime).format("yyyy-MM-dd hh:mm:ss");
-									txt = txt + "<tr><td>发起时间</td><td>" + startTime + "</td></tr>";
-									txt = txt + "<tr><td>结束时间</td><td>" + endTime + "</td></tr>";
-									txt = txt + "<tr><td>结束说明</td><td>" + data.deleteReason + "</td></tr>";
-                                    txt = txt + '<tr><td>下载附件</td><td onclick=\"downFile(\''+data.fileName+'\')\">点击下载</td></tr>';
-									layer.open({
-										type: 1,
-										shadeClose: true,
-										shade: 0.8,
-										skin: 'layui-layer-rim', //加上边框
-										area: ['90%', '80%'], //宽高
-										content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>流程详情</legend></fieldset>' +
-											'<div class="layui-form"><table class="layui-table"><colgroup><col width="150"><col width="150"></colgroup>' +
-											'<thead><tr><th>属性名</th><th>属性值</th></tr></thead>' +
-											'<tbody>' + txt + '</tbody></table></div>'
-									});
-								},
-								error: function() {
-									layer.msg('发生了未知错误！', {
-										icon: 2
-									});
-								}
-							});
-						} else if($(this).text() == "查看流程") {
-							var deploymentId = $(this).attr("pid");
-							layer.open({
-								type: 1,
-								shadeClose: true,
-								shade: 0.8,
-								skin: 'layui-layer-rim', //加上边框
-								area: ['90%', '80%'], //宽高
-								content: '<img src="/process/downloadpng?deploymentId=' + deploymentId + '"/>'
-							});
-						} else {
-							layer.msg('错误操作！', {
-								icon: 2
-							});
-						}
-					});
-				};
-				var userCode=$("#userCode",parent.document).attr("name");
+                var dataList;
 				$(document).ready(function() {
+                    //var userCode=$("#userCode",parent.document).attr("name");
+					var userCode="Nancy";
 					$.ajax({
 						url: "/process/queryendprocess",
 						type: "get",
@@ -165,9 +79,8 @@
 						success: function(data) {
 							var len = data.result;
 							if(len > 0) {
-							    list=[];
-								list = data.queryResultList;
-								nowLen=list.length;
+								dataList = data.queryResultList;
+								nowLen=dataList.length;
 								$("h2").hide();
 								laypage.render({
 									elem: 'demo6',
@@ -186,9 +99,9 @@
 												},
 												dataType: "json",
 												success: function(data) {
-                                                    list=[];
-													list = data.queryResultList;
-													nowLen=list.length;
+													dataList = data.queryResultList;
+													nowLen=dataList.length;
+                                                    creatHtml(0, nowLen,dataList);
 												},
 												error: function() {
 													layer.msg('发生了未知错误！', {
@@ -197,9 +110,9 @@
 												}
 											});
 										}
-										creatHtml(0, nowLen);
 									}
 								});
+                                creatHtml(0, nowLen,dataList);
 							} else {
 								$("h2").text("您没有已结束的流程！");
 							}
@@ -209,6 +122,93 @@
 						}
 					});
 				});
+                function creatHtml(start,end,list) {
+;                   var txt = "";
+                    for(var i = start; i < end; i++) {
+                        var processStatus = "";
+                        if(list[i].deleteReason == "同意申请") {
+                            processStatus = "已通过";
+                            proColor = "green";
+                        } else if(list[i].deleteReason == "用户撤销") {
+                            processStatus = "已撤销";
+                            proColor = "#FFB800";
+                        } else {
+                            processStatus = "被驳回";
+                            proColor = "red";
+                        }
+                        var startTime = new Date(list[i].startTime).format("yyyy-MM-dd hh:mm:ss");
+                        var endTime = new Date(list[i].endTime).format("yyyy-MM-dd hh:mm:ss");
+                        txt = txt + "<div class=\"layuiadmin-card-text\" style=\"background-color: gainsboro;margin-top:10px ;\">" +
+                            "<div class=\"layui-card-header\"><i class=\"layui-icon layui-icon-table\">" + list[i].processName + "</i>" +
+                            "<span style=\"position: absolute;right: 15px; color:" + proColor + "\">" + processStatus +
+                            "</span></div><div class=\"layui-card-body\"><p>流程ID：" + list[i].processInstanceId +
+                            "</p><p>流程在途时间：" + startTime + "--" + endTime + "</p>" +
+                            "<p>流程结束说明：" + list[i].deleteReason + "</p>" +
+                            "<hr class=\"layui-bg-gray\" />" +
+                            "<button class=\"layui-btn layui-btn-lg layui-btn-radius layui-btn-primary\" pid=\"" + list[i].processInstanceId +
+                            "\">查看详情</button>" +
+                            "<button class=\"layui-btn layui-btn-lg layui-btn-radius layui-btn-primary\" pid=\"" + list[i].deploymentId +
+                            "\">查看流程</button></div></div>";
+                    }
+                    $("#queryProcessBox").html(txt);
+                    $("button").click(function() {
+                        if($(this).text() == "查看详情") {
+                            var processInstanceId = $(this).attr("pid");
+                            $.ajax({
+                                url: "/process/queryprocessdetail",
+                                type: "get",
+                                data: {
+                                    "processInstanceId": processInstanceId
+                                },
+                                dataType: "json",
+                                success: function(data) {
+                                    var txt = "<tr><td>流程名称</td><td>" + data.processName + "</td></tr>";
+                                    txt = txt + "<tr><td>发起人</td><td>" + data.userName + "</td></tr>";
+                                    var arrList = data.processSummary;
+                                    for(var i = 0; i < arrList.length; i++) {
+                                        txt = txt + "<tr><td>" + arrList[i].indexName + "</td><td>" + arrList[i].indexValue + "</td></tr>";
+                                    }
+                                    var startTime = new Date(data.startTime).format("yyyy-MM-dd hh:mm:ss");
+                                    var endTime = new Date(data.endTime).format("yyyy-MM-dd hh:mm:ss");
+                                    txt = txt + "<tr><td>发起时间</td><td>" + startTime + "</td></tr>";
+                                    txt = txt + "<tr><td>结束时间</td><td>" + endTime + "</td></tr>";
+                                    txt = txt + "<tr><td>结束说明</td><td>" + data.deleteReason + "</td></tr>";
+                                    txt = txt + '<tr><td>下载附件</td><td onclick=\"downFile(\''+data.fileName+'\')\">点击下载</td></tr>';
+                                    layer.open({
+                                        type: 1,
+                                        shadeClose: true,
+                                        shade: 0.8,
+                                        skin: 'layui-layer-rim', //加上边框
+                                        area: ['90%', '80%'], //宽高
+                                        content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>流程详情</legend></fieldset>' +
+                                        '<div class="layui-form"><table class="layui-table"><colgroup><col width="150"><col width="150"></colgroup>' +
+                                        '<thead><tr><th>属性名</th><th>属性值</th></tr></thead>' +
+                                        '<tbody>' + txt + '</tbody></table></div>'
+                                    });
+                                },
+                                error: function() {
+                                    layer.msg('发生了未知错误！', {
+                                        icon: 2
+                                    });
+                                }
+                            });
+                        } else if($(this).text() == "查看流程") {
+                            var deploymentId = $(this).attr("pid");
+                            layer.open({
+                                type: 1,
+                                shadeClose: true,
+                                shade: 0.8,
+                                skin: 'layui-layer-rim', //加上边框
+                                area: ['90%', '80%'], //宽高
+                                content: '<img src="/process/downloadpng?deploymentId=' + deploymentId + '"/>'
+                            });
+                        } else {
+                            layer.msg('错误操作！', {
+                                icon: 2
+                            });
+                        }
+                    });
+                };
 			});
 			//]]>
 		</script>
