@@ -1,7 +1,6 @@
 layui.extend({
 	setter: "../../static/layui/config"
 
-
 }).define(["setter", "jquery"], function(e) {
 	var $ = layui.jquery;
 	
