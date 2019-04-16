@@ -18,25 +18,25 @@
 				<div class="layui-col-md12">
 					<div class="layui-card">
 						<div class="layui-card-header">修改密码</div>
-						<div class="layui-card-body" pad15>
+						<div class="layui-card-body" pad15="">
 
 							<div class="layui-form" lay-filter="">
 								<div class="layui-form-item">
 									<label class="layui-form-label">当前密码</label>
 									<div class="layui-input-inline">
-										<input id="oldPassword" type="password" name="oldPassword" lay-verify="required"  class="layui-input" />
+										<input id="oldPassword" type="password" name="oldPassword" lay-verify="required" class="layui-input" />
 									</div>
 								</div>
 								<div class="layui-form-item">
 									<label class="layui-form-label">新密码</label>
 									<div class="layui-input-inline">
-										<input id="password" type="password" name="password" lay-verify="pass" autocomplete="off" id="LAY_password" class="layui-input" />
+										<input id="password" type="password" name="password" lay-verify="pass"  class="layui-input" />
 									</div>
 								</div>
 								<div class="layui-form-item">
 									<label class="layui-form-label">确认新密码</label>
 									<div class="layui-input-inline">
-										<input type="password" name="repassword" lay-verify="repass"  autocomplete="off" class="layui-input" />
+										<input id="repassword" type="password" name="repassword" lay-verify="repass"  class="layui-input" />
 									</div>
 								</div>
 								<div class="layui-form-item">
@@ -61,10 +61,11 @@
 			}).use([ "form", "inputverify", "setter"], function() {
 				var form = layui.form, //只有执行了这一步，部分表单元素才会自动修饰成功
 					$ = layui.jquery;
-					var old = $('#oldPassword').val();
-						var pass = $('#password').val();
+
 					form.on('submit(setmypass)', function(data) {
-						
+                        var old = $("#oldPassword").val();
+                        var pass = $("#password").val();
+                        console.log(old+pass)
 						$.ajax({
 							url: layui.setter.project + "/user/updatepass",
 							type: "post",
@@ -79,10 +80,16 @@
 							dataType: "json",
 							success: function(data) {
 								if(data.result == 200) {
-									layer.msg(data.message);
+                                    $("#oldPassword").val("");
+                                    $("#repassword").val("");
+                                    $("#password").val("");
+                                    layer.alert(data.message);
 									form.render();
 								} else {
-									layer.msg(data.message);
+                                    $("#oldPassword").val("");
+                                    $("#repassword").val("");
+                                    $("#password").val("");
+                                    layer.alert(data.message);
 									form.render();
 								}
 							}
