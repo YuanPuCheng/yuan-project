@@ -102,12 +102,10 @@
 				laydate.render({
 					elem: '#test16',
 					type: 'date',
-					format: 'yyyy.MM.dd'
 				});
 				laydate.render({
 					elem: '#test17',
 					type: 'date',
-					format: 'yyyy.MM.dd'
 				});
 				$(document).ready(function() {
 					$('#username').val($("#uName",parent.document).attr("name"));
@@ -134,21 +132,26 @@
 						var place=leavePlace+"--"+arrivePlace;
 						if(isNaN(leavedays)) {
 							layer.msg('请选择正确的出差日期！');
+							click=false;
 							return;
 						} else if(leavedays <= 0) {
 							layer.msg('请选择正确的出差日期！');
+                            click=false;
 							return;
 						}
                         if(leavePlace == "") {
                             layer.msg('请输入出发地！');
+                            click=false;
                             return;
                         }
                         if(arrivePlace == "") {
                             layer.msg('请输入目的地！');
+                            click=false;
                             return;
                         }
 						if(reason == "") {
                             layer.msg('请输入出差描述！');
+                            click=false;
                             return;
                         }
 						var jsonTest = {
