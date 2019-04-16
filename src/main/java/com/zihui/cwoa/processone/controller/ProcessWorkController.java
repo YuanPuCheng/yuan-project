@@ -25,7 +25,7 @@ public class ProcessWorkController {
     @RequestMapping("/deployprocess")
     @ResponseBody
     public boolean deployProcess(String processPath) {
-        processPath = "processes/askforleave.bpmn";
+        processPath = "processes/askforbusiness.bpmn";
         return processesService.deployProcess(processPath);
     }
 
@@ -81,13 +81,15 @@ public class ProcessWorkController {
     /**
      * 根据用户工号查询他发起的已经结束的流程
      * @param userCode 用户工号
-     * @param page 当前页码
+     * @param page 要显示的第一条流程在数组中的编号
      * @param num 每页显示条数
      * @return 查询结果
      */
     @RequestMapping("/queryendprocess")
     @ResponseBody
     public Map<String, Object> queryEndProcess(String userCode,int page,int num) {
+        System.out.println("page========="+page);
+        System.out.println("num=========="+num);
         return processesService.queryEndProcess(userCode,page,num);
     }
 
@@ -219,7 +221,8 @@ public class ProcessWorkController {
      */
     @RequestMapping("/queryprocessbyvo")
     @ResponseBody
-    public Map<String,Object> queryProcessByVo(String processDefinitionKey,String userName,Long date) {
-        return processesService.queryProcessByVo(processDefinitionKey,userName,date);
+    public Map<String,Object> queryProcessByVo(String processDefinitionKey,String userName
+            ,Long date,int page,int num) {
+        return processesService.queryProcessByVo(processDefinitionKey,userName,date,page,num);
     }
 }

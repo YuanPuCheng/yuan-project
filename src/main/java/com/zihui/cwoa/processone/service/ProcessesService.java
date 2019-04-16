@@ -169,12 +169,8 @@ public class ProcessesService {
         List<HistoricProcessInstance> historicProcessInstanceList =
                 historyService.createHistoricProcessInstanceQuery()
                         .startedBy(userCode).finished().orderByProcessInstanceEndTime().desc().listPage(page,num);
-        List<HistoricProcessInstance> queryList =
-                historyService.createHistoricProcessInstanceQuery().startedBy(userCode).finished().list();
-        int size=queryList.size();
-        if(size<num){
-            historicProcessInstanceList=queryList;
-        }
+        int size = historyService.createHistoricProcessInstanceQuery()
+                .startedBy(userCode).finished().list().size();
         for (HistoricProcessInstance ins:historicProcessInstanceList) {
             Map<String,Object> variables=new HashMap();
             variables.put("processName",ins.getProcessDefinitionName());
@@ -280,10 +276,12 @@ public class ProcessesService {
      * @param date 日期
      * @return 查询结果
      */
-    public Map<String,Object> queryProcessByVo(String processDefinitionKey,String userName,Long date) {
+    public Map<String,Object> queryProcessByVo(String processDefinitionKey,String userName
+            ,Long date,int page,int num) {
         List<HistoricProcessInstance> list=null;
         String userCode=null;
-        if(userName!=null){
+        int size=0;
+        if(userName!="" && userName!=null){
             List<String> userCodeList = queryService.queryCodeByName(userName);
             if (userCodeList.size()==1){
                 userCode=userCodeList.get(0);
@@ -298,12 +296,32 @@ public class ProcessesService {
                         .startedBy(userCode)
                         .startedAfter(dateOne)
                         .startedBefore(dateTwo)
-                        .list();
+                        .orderByProcessInstanceStartTime()
+                        .desc()
+                        .listPage(page,num);
+                size = historyService.createHistoricProcessInstanceQuery()
+                        .processDefinitionKey(processDefinitionKey)
+                        .startedBy(userCode)
+                        .startedAfter(dateOne)
+                        .startedBefore(dateTwo)
+                        .orderByProcessInstanceStartTime()
+                        .desc()
+                        .list()
+                        .size();
             } else {
                 list = historyService.createHistoricProcessInstanceQuery()
                         .processDefinitionKey(processDefinitionKey)
                         .startedBy(userCode)
-                        .list();
+                        .orderByProcessInstanceStartTime()
+                        .desc()
+                        .listPage(page,num);
+                size = historyService.createHistoricProcessInstanceQuery()
+                        .processDefinitionKey(processDefinitionKey)
+                        .startedBy(userCode)
+                        .orderByProcessInstanceStartTime()
+                        .desc()
+                        .list()
+                        .size();
             }
         } else if (date != 0) {
             Date dateOne = new Date(date-86400000);
@@ -312,39 +330,57 @@ public class ProcessesService {
                     .processDefinitionKey(processDefinitionKey)
                     .startedAfter(dateOne)
                     .startedBefore(dateTwo)
-                    .list();
+                    .orderByProcessInstanceStartTime()
+                    .desc()
+                    .listPage(page,num);
+            size = historyService.createHistoricProcessInstanceQuery()
+                    .processDefinitionKey(processDefinitionKey)
+                    .startedAfter(dateOne)
+                    .startedBefore(dateTwo)
+                    .orderByProcessInstanceStartTime()
+                    .desc()
+                    .list()
+                    .size();
         } else {
             list = historyService.createHistoricProcessInstanceQuery()
                     .processDefinitionKey(processDefinitionKey)
-                    .list();
+                    .orderByProcessInstanceStartTime()
+                    .desc()
+                    .listPage(page,num);
+            size = historyService.createHistoricProcessInstanceQuery()
+                    .processDefinitionKey(processDefinitionKey)
+                    .orderByProcessInstanceStartTime()
+                    .desc()
+                    .list()
+                    .size();
         }
         List<Map<String,Object>> resultList = new LinkedList<>();
         for (HistoricProcessInstance ins : list) {
-            String processInstanceId=ins.getId();
-            List<HistoricVariableInstance> hisList =
-                    historyService.createHistoricVariableInstanceQuery()
-                            .processInstanceId(processInstanceId).list();
-            Map<String,Object> variables=new HashMap();
-            for (HistoricVariableInstance hisInstance:hisList) {
-                variables.put(hisInstance.getVariableName(),hisInstance.getValue());
-            }
-            variables.put("startTime", ins.getStartTime());
-            Date endTime = ins.getEndTime();
-            variables.put("endTime", endTime);
-            variables.put("processInstanceId", processInstanceId);
-            variables.put("processName", ins.getProcessDefinitionName());
-            String deleteReason = ins.getDeleteReason();
-            if (endTime == null) {
-                variables.put("deleteReason", "审批中");
-            } else if (deleteReason!=null) {
-                variables.put("deleteReason", deleteReason);
-            } else {
-                variables.put("deleteReason", "同意申请");
-            }
-            resultList.add(variables);
+                String processInstanceId=ins.getId();
+                List<HistoricVariableInstance> hisList =
+                        historyService.createHistoricVariableInstanceQuery()
+                                .processInstanceId(processInstanceId).list();
+                Map<String,Object> variables=new HashMap();
+                for (HistoricVariableInstance hisInstance:hisList) {
+                    variables.put(hisInstance.getVariableName(),hisInstance.getValue());
+                }
+                variables.put("startTime", ins.getStartTime());
+                Date endTime = ins.getEndTime();
+                variables.put("endTime", endTime);
+                variables.put("processInstanceId", processInstanceId);
+                variables.put("processName", ins.getProcessDefinitionName());
+                String deleteReason = ins.getDeleteReason();
+                if (endTime == null) {
+                    variables.put("deleteReason", "审批中");
+                } else if (deleteReason!=null) {
+                    variables.put("deleteReason", deleteReason);
+                } else {
+                    variables.put("deleteReason", "同意申请");
+                }
+                resultList.add(variables);
         }
         Map<String,Object> map =new HashMap<>();
-        map.put("result",resultList.size());
+        map.put("result",size);
         map.put("queryResultList",resultList);
         return map;
     }
