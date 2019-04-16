@@ -1,10 +1,7 @@
 package com.zihui.cwoa.system.controller;
 
 
-import com.zihui.cwoa.system.common.CallbackResult;
-import com.zihui.cwoa.system.common.Common;
-import com.zihui.cwoa.system.common.DateUtils;
-import com.zihui.cwoa.system.common.fileCommon;
+import com.zihui.cwoa.system.common.*;
 import com.zihui.cwoa.system.pojo.sys_file;
 import com.zihui.cwoa.system.pojo.sys_user;
 import com.zihui.cwoa.system.service.sys_fileService;
@@ -26,10 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/file")
@@ -56,7 +50,7 @@ public class fileController {
      */
     @RequestMapping(value = "/upload")
     @ResponseBody
-    public CallbackResult login(@RequestParam("file")MultipartFile file,@RequestParam String filetype, HttpSession session){
+    public CallbackResult login(@RequestParam("file")MultipartFile file,@RequestParam("filetype") String filetype, HttpSession session){
         Map map = new HashMap<>();
         CallbackResult result = new CallbackResult();
         String filename = null;
@@ -169,11 +163,18 @@ public class fileController {
 
 
     @RequestMapping(value = "/show")
-    public ResponseEntity user(String fileName) throws IOException {
+    public ResponseEntity user(String filename) throws IOException {
         sys_file fileobj = new sys_file();
-        fileobj.setFileName(fileName);
-        List<sys_file> fileList = fileService.selectFileList(fileobj);
-        sys_file ff = fileList.get(0);
+        List<sys_file> fileList = new ArrayList<>();
+        if(!Basecommon.isNullStr(filename)){
+            fileobj.setFileName(filename);
+            fileList = fileService.selectFileList(fileobj);
+        }
+        sys_file ff = new sys_file();
+        if(fileList.size()!=0){
+            ff = fileList.get(0);
+        }
+
         try {
             // 由于是读取本机的文件，file是一定要加上的， path是在application配置文件中的路径
             return ResponseEntity.ok(resourceLoader.getResource("file:///" + ff.getFileUrl() + ff.getFileName()));

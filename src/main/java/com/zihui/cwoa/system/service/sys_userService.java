@@ -90,4 +90,13 @@ public class sys_userService {
     public List<sys_user> selectUserDepar(sys_user record){
         return userMapper.selectUserDepar(record);
     };
+
+    /**
+     *  删除用户
+     *  @param userCode 用户工号
+     *  @return int 删除的数量
+     */
+    public int deleteByUserCode(String userCode){
+        return userMapper.deleteByUserCode(userCode);
+    };
 }
