@@ -11,7 +11,7 @@
 		<link rel="stylesheet" href="../../../static/css/admin.css" media="all" />
 		<link rel="stylesheet" href="../../../static/layui/css/layui.css" media="all" />
 		<style type="text/css">
-			
+
 		</style>
 	</head>
 
@@ -23,25 +23,39 @@
 					<div class="layui-card">
 						<div class="layui-card-header">设置我的资料</div>
 						<div class="layui-card-body">
-							<div class="layui-form" lay-filter="">
+							<div class="layui-form" lay-filter="myform">
 								<div class="layui-form-item">
-									<label class="layui-form-label">用户工号</label>
+									<label class="layui-form-label">用户工号：</label>
 									<div class="layui-input-inline">
-										<input type="text" disabled="disabled" id="LAY-user-login-code" class="layui-input" />
+										<input type="text" style="border: none;" disabled="disabled" name="userCode"  id="LAY-user-login-code" class="layui-input" />
 									</div>
 								</div>
 
 								<div class="layui-form-item">
-									<label class="layui-form-label">用户名</label>
+									<label class="layui-form-label">用户名：</label>
 									<div class="layui-input-inline">
-										<input type="text" id="username" lay-verify="nickname" class="layui-input" />
+										<input type="text" name="userName" id="username" lay-verify="required" class="layui-input dis" />
 									</div>
 								</div>
 								
 								<div class="layui-form-item">
-									<label class="layui-form-label">头像</label>
+									<label class="layui-form-label">所属部门：</label>
 									<div class="layui-input-inline">
-										<img class="layui-upload-img" id="demo1" style="width: 100px; height: 100px;">
+										<input type="text" style="border: none;" disabled="disabled" name="departmentName" id="departmentName" class="layui-input" />
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">所属项目：</label>
+									<div class="layui-input-inline">
+										<input type="text" style="border: none;" disabled="disabled" name="projectName" id="projectName" class="layui-input" />
+									</div>
+								</div>
+								
+								
+								<div class="layui-form-item">
+									<label class="layui-form-label">头像：</label>
+									<div class="layui-input-inline">
+										<img class="layui-upload-img" name="images" id="demo1" style="width: 100px; height: 100px;">
 										<p id="demoText"></p>
 									</div>
 									<div class="layui-input-inline layui-btn-container" style="width: auto; margin-top: 30px;">
@@ -51,7 +65,7 @@
 									</div>
 								</div>
 								<div class="layui-form-item">
-									<label class="layui-form-label">性别</label>
+									<label class="layui-form-label">性别：</label>
 									<div class="layui-input-block">
 										<input type="radio" name="sex" value="男" title="男" checked="checked" />
 										<input type="radio" name="sex" value="女" title="女" />
@@ -59,27 +73,28 @@
 								</div>
 
 								<div class="layui-form-item">
-									<label class="layui-form-label">手机号</label>
+									<label class="layui-form-label">手机号：</label>
 									<div class="layui-input-inline">
-										<input type="text" id="cellphone" value="" lay-verify="phone" autocomplete="off" class="layui-input" />
+										<input type="text" name="phone" id="cellphone" value="" lay-verify="phone" class="layui-input dis" />
 									</div>
 								</div>
 								<div class="layui-form-item">
-									<label class="layui-form-label">邮箱</label>
+									<label class="layui-form-label">邮箱：</label>
 									<div class="layui-input-inline">
-										<input type="text" name="email" value="" lay-verify="email" autocomplete="off" class="layui-input" />
+										<input type="text" name="email" id="email" value="" lay-verify="email" class="layui-input dis" />
 									</div>
 								</div>
 								<div class="layui-form-item">
-									<label class="layui-form-label">银行卡号</label>
+									<label class="layui-form-label">银行卡号：</label>
 									<div class="layui-input-inline">
-										<input type="text" id="bankCardNum" name="email" value="" lay-verify="required" autocomplete="off" class="layui-input" />
+										<input type="text" id="bankCardNum" name="bankCardNum" value=""  class="layui-input dis" />
 									</div>
 								</div>
 								<div class="layui-form-item">
-									<label class="layui-form-label">身份证号</label>
+									<label class="layui-form-label">身份证号：</label>
 									<div class="layui-input-inline">
-										<input type="text" id="idNum" name="email" value="" lay-verify="required" autocomplete="off" class="layui-input" />
+										<input type="text" id="idNum" name="idNum" value=""class="layui-input dis" />
+										<input type="hidden" name="userId" id="userId" value="" />
 									</div>
 								</div>
 								<div class="layui-form-item">
@@ -104,7 +119,6 @@
 				base: "../../../static/js/system/user/"
 
 			}).use(['userInfo'], function() {
-					
 
 			});
 		</script>
