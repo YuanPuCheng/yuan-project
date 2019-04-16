@@ -265,7 +265,6 @@
 						success: function(data) {
 						    var len=data.result;
 							if(len > 0) {
-							    list=[];
 								list = data.queryResultList;
 								nowLen=list.length;
 								$('#messageBox').hide();
@@ -289,9 +288,9 @@
                                                 },
                                                 dataType: "json",
                                                 success: function(data) {
-                                                    list=[];
                                                     list = data.queryResultList;
                                                     nowLen=list.length;
+                                                    creatHtml(0, nowLen);
                                                 },
                                                 error: function() {
                                                     layer.msg('发生了未知错误！', {
@@ -300,9 +299,10 @@
                                                 }
                                             });
                                         }
-                                        creatHtml(0, nowLen);
+
                                     }
-                                });
+                                })
+                                creatHtml(0, nowLen);
 							} else {
 								$('#messageBox').text("没有找到符合条件的流程！");
 								$('#messageBox').show();

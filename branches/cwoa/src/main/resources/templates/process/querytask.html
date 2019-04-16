@@ -145,13 +145,18 @@
 											},
 											dataType: "text", //预测服务端返回的数据类型
 											success: function(data) { //请求成功的回调
-												layer.msg('成功批准申请！', {
-													icon: 1,
-													btn: ['知道了']
-												}, function() {
-													//知道了触发的事件
-													$("#" + processInstanceId).hide();
-												});
+												if(data=='true'){
+                                                    layer.msg('成功批准申请！', {
+                                                        icon: 1,
+                                                        btn: ['知道了']
+                                                    }, function() {
+                                                        //知道了触发的事件
+                                                        $("#" + processInstanceId).hide();
+                                                    });
+												}else {
+                                                    location.reload();
+												}
+
 											},
 											error: function() { //请求失败的回调
 												layer.msg('发生未知错误！', {
@@ -187,13 +192,17 @@
 											},
 											dataType: "text", //预测服务端返回的数据类型
 											success: function(data) { //请求成功的回调
-												layer.msg('成功驳回申请！', {
-													icon: 1,
-													btn: ['知道了']
-												}, function() {
-													//知道了触发的事件
-													$("#" + processInstanceId).hide();
-												});
+												if(data=='true'){
+                                                    layer.msg('成功驳回申请！', {
+                                                        icon: 1,
+                                                        btn: ['知道了']
+                                                    }, function() {
+                                                        //知道了触发的事件
+                                                        $("#" + processInstanceId).hide();
+                                                    });
+												}else {
+                                                    location.reload();
+												}
 											},
 											error: function() { //请求失败的回调
 												layer.msg('发生未知错误！', {
