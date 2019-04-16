@@ -158,13 +158,14 @@
 						type: "get",
 						data: {
 							"userCode": userCode,
-							"page": 1,
+							"page": 0,
 							"num": 5
 						},
 						dataType: "json",
 						success: function(data) {
 							var len = data.result;
 							if(len > 0) {
+							    list=[];
 								list = data.queryResultList;
 								nowLen=list.length;
 								$("h2").hide();
@@ -179,12 +180,13 @@
 												url: "/process/queryendprocess",
 												type: "get",
 												data: {
-													"userCode": "张三",
-													"page": obj.curr,
+													"userCode": userCode,
+													"page": (obj.curr-1)*5,
 													"num": 5
 												},
 												dataType: "json",
 												success: function(data) {
+                                                    list=[];
 													list = data.queryResultList;
 													nowLen=list.length;
 												},
