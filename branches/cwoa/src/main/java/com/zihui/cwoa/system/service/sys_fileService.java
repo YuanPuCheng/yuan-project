@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -22,15 +23,15 @@ public class sys_fileService {
 
     public int insertSelective(sys_file record){
         return fileMapper.insertSelective(record);
-    };
+    }
 
     public sys_file selectByPrimaryKey(Integer fileId){
         return fileMapper.selectByPrimaryKey(fileId);
-    };
+    }
 
     public int updateByPrimaryKeySelective(sys_file record){
         return fileMapper.updateByPrimaryKeySelective(record);
-    };
+    }
 
     /**
      * 根据文件对象参数查询
@@ -39,5 +40,10 @@ public class sys_fileService {
      */
     public List<sys_file> selectFileList(sys_file record){
         return fileMapper.selectFileList(record);
-    };
+    }
+
+    public List<Map<String,Object>> queryFileNameById(String idArray){
+        String[] arr = idArray.split(",");
+        return fileMapper.queryFileNameById(arr);
+    }
 }
