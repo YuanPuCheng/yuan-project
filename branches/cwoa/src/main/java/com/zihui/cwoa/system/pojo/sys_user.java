@@ -43,6 +43,10 @@ public class sys_user {
 
     private String loginTime;//登录时间
 
+    private String idNum; //身份证号
+
+    private String bankCardNum;//银行卡号
+
     private String tempVar1;
 
     private String tempVar2;
@@ -55,7 +59,17 @@ public class sys_user {
 
     private Integer tempInt3;
 
-    private List<sys_department> departments;
+    private List<sys_department> departments;//部门集合
+
+    private sys_project project;//项目对象
+
+    public sys_project getProject() {
+        return project;
+    }
+
+    public void setProject(sys_project project) {
+        this.project = project;
+    }
 
     public List<sys_department> getDepartments() {
         return departments;
@@ -87,6 +101,22 @@ public class sys_user {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword == null ? null : userPassword.trim();
+    }
+
+    public String getIdNum() {
+        return idNum;
+    }
+
+    public void setIdNum(String idNum) {
+        this.idNum = idNum;
+    }
+
+    public String getBankCardNum() {
+        return bankCardNum;
+    }
+
+    public void setBankCardNum(String bankCardNum) {
+        this.bankCardNum = bankCardNum;
     }
 
     public String getLoginTime() {
@@ -271,13 +301,15 @@ public class sys_user {
                 ", errorCount='" + errorCount + '\'' +
                 ", departmentId='" + departmentId + '\'' +
                 ", images='" + images + '\'' +
-                ", phone=" + phone +
+                ", phone='" + phone + '\'' +
                 ", ts='" + ts + '\'' +
                 ", ip='" + ip + '\'' +
                 ", sex='" + sex + '\'' +
                 ", age='" + age + '\'' +
                 ", lastTime='" + lastTime + '\'' +
                 ", loginTime='" + loginTime + '\'' +
+                ", idNum='" + idNum + '\'' +
+                ", bankCardNum='" + bankCardNum + '\'' +
                 ", tempVar1='" + tempVar1 + '\'' +
                 ", tempVar2='" + tempVar2 + '\'' +
                 ", tempVar3='" + tempVar3 + '\'' +
@@ -285,6 +317,7 @@ public class sys_user {
                 ", tempInt2=" + tempInt2 +
                 ", tempInt3=" + tempInt3 +
                 ", departments=" + departments +
+                ", project=" + project +
                 '}';
     }
 }

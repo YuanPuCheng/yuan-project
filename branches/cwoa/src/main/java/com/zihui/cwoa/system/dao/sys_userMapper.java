@@ -27,4 +27,6 @@ public interface sys_userMapper {
 
     List<sys_user> selectUserDepar(sys_user record);
 
+    int deleteByUserCode(String userCode);
+
 }

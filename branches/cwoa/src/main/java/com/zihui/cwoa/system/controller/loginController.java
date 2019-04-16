@@ -108,7 +108,8 @@ public class loginController {
         user.setIp(Common.getIpAddr(request));
         user.setCreateTime(DateUtils.getDate());
         user.setTs(DateUtils.getDate());
-        user.setStatus(0);
+        Integer s = 0;
+        user.setStatus(s);
         int w =user_service.insertSelective(user);
         if(w==1){
             result.setResult(200);
@@ -187,13 +188,7 @@ public class loginController {
         return result;
     }
 
-    @RequestMapping(value = "/logoutuser")
-    @ResponseBody
-    public String loginlout(){
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
-        return "退出成功";
-    }
+
 
     @RequestMapping(value = "/getuser")
     @ResponseBody
@@ -235,12 +230,19 @@ public class loginController {
 
     @RequestMapping(value = "/index")
     @ResponseBody
-    public Set d(){
+    public Set d( HttpSession session){
         Set set = new HashSet();
+        sys_user user = (sys_user) session.getAttribute("user");
         Integer id = 1;
         List<Integer> menuId=department_menuMapper.selectMenuIdByUserId(id);
         List<sys_menu> m =menuService.selectMenuByMenuId(menuId);
         set.add(m);
+        /*if(user!=null){
+            List<Integer> menuId=department_menuMapper.selectMenuIdByUserId(user.getUserId());
+            List<sys_menu> m =menuService.selectMenuByMenuId(menuId);
+            set.add(m);
+            return set;
+        }*/
         return set;
     }
 
