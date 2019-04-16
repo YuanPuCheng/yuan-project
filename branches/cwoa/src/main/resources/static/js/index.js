@@ -45,6 +45,9 @@ layui.extend({
                     $('#LAY_app_tabs,#lay_animate1,.layui-layout-right').css('right','0');
                 }
             })
+            $('#refresh').on('click',function(){
+            	$('#LAY_app_body .layui-show .iframe').attr.src=$('#LAY_app_body .layui-show .iframe').attr.src;
+            })
             //荧幕开关
             function shade_on(){
                 if($('.layadmin-body-shade').hasClass('layui_active')){
