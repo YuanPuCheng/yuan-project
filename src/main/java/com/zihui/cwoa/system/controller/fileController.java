@@ -182,4 +182,10 @@ public class fileController {
         }
     }
 
+    @RequestMapping("/queryfilenamebyid")
+    @ResponseBody
+    public List<Map<String,Object>> queryFileNameById(String idArray){
+        return fileService.queryFileNameById(idArray);
+    }
+
 }
