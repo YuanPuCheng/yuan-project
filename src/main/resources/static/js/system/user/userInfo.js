@@ -27,7 +27,12 @@ layui.extend({
 			success: function(data) {
 				console.log(data);
 				var de = eval(data.departments);
+				var pr = data.project;
 				var name="";
+                var pro="";
+				if(pr!=null){
+                    pro = pr.projectName;
+				}
 				if(de!=null){
 					$.each(de,function(index,value){
 						name=name+value.departmentName+"、"
@@ -48,7 +53,7 @@ layui.extend({
 					"sex": data.sex,
 					"bankCardNum": data.bankCardNum,
 					"departmentName":name,
-					"projectName":data.project.projectName
+					"projectName":pro
 				})
 			}
 		});
