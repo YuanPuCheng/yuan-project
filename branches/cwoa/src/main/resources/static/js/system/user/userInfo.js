@@ -110,6 +110,13 @@ layui.extend({
 				success: function(data) {
 					if(data.result == 200) {
 						layer.msg(data.message);
+						$(".layui-input").attr("disabled", "disabled");
+						$("#quxiao").hide();
+						$("#test1").hide();
+						$("#edit").show();
+						$("#tijiao").hide();
+						$("input[name='sex']").attr("disabled", "disabled");
+						$(".layui-input").css("border","none");
 						form.render();
 					} else {
 						layer.msg(data.message);
