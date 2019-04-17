@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zihui.cwoa.system.dao.sys_menuMapper" >
   <resultMap id="BaseResultMap" type="com.zihui.cwoa.system.pojo.sys_menu" >
-    <id column="menu_id" property="menuId" jdbcType="VARCHAR" />
-    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+    <id column="menu_id" property="menuId" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
     <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="menu_code" property="menuCode" jdbcType="VARCHAR" />
@@ -15,9 +15,9 @@
     <result column="temp_int1" property="tempInt1" jdbcType="INTEGER" />
     <result column="temp_int2" property="tempInt2" jdbcType="INTEGER" />
       <!--自关联查询下级菜单-->
-      <collection property="menus" ofType="sys_menu" select="selectChilden" column="menu_id">
-        <id column="menu_id" property="menuId" jdbcType="VARCHAR" />
-        <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+      <!--<collection property="menus" ofType="sys_menu" select="selectChilden" column="menu_id">
+        <id column="menu_id" property="menuId" jdbcType="INTEGER" />
+        <result column="parent_id" property="parentId" jdbcType="INTEGER" />
         <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
         <result column="status" property="status" jdbcType="INTEGER" />
         <result column="menu_code" property="menuCode" jdbcType="VARCHAR" />
@@ -29,8 +29,8 @@
         <result column="temp_int1" property="tempInt1" jdbcType="INTEGER" />
         <result column="temp_int2" property="tempInt2" jdbcType="INTEGER" />
         <collection property="menus" ofType="sys_menu" select="selectChilden" column="menu_id">
-          <id column="menu_id" property="menuId" jdbcType="VARCHAR" />
-          <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+          <id column="menu_id" property="menuId" jdbcType="INTEGER" />
+          <result column="parent_id" property="parentId" jdbcType="INTEGER" />
           <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
           <result column="status" property="status" jdbcType="INTEGER" />
           <result column="menu_code" property="menuCode" jdbcType="VARCHAR" />
@@ -42,7 +42,7 @@
           <result column="temp_int1" property="tempInt1" jdbcType="INTEGER" />
           <result column="temp_int2" property="tempInt2" jdbcType="INTEGER" />
         </collection>
-        </collection>
+        </collection>-->
   </resultMap>
   <sql id="Base_Column_List" >
     menu_id, parent_id, menu_name, status, menu_code, menu_type, menu_url, ts, temp_var1, 
@@ -116,10 +116,10 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="menuId != null and menuId !=''" >
-        #{menuId,jdbcType=VARCHAR},
+        #{menuId,jdbcType=INTEGER},
       </if>
       <if test="parentId != null and parentId !=''" >
-        #{parentId,jdbcType=VARCHAR},
+        #{parentId,jdbcType=INTEGER},
       </if>
       <if test="menuName != null and menuName != ''" >
         #{menuName,jdbcType=VARCHAR},
@@ -157,7 +157,7 @@
     update sys_menu
     <set >
       <if test="parentId != null and parentId !=''" >
-        parent_id = #{parentId,jdbcType=VARCHAR},
+        parent_id = #{parentId,jdbcType=INTEGER},
       </if>
       <if test="menuName != null and menuName != ''" >
         menu_name = #{menuName,jdbcType=VARCHAR},
@@ -190,7 +190,47 @@
         temp_int2 = #{tempInt2,jdbcType=INTEGER},
       </if>
     </set>
-    where menu_id = #{menuId,jdbcType=VARCHAR}
+    where menu_id = #{menuId,jdbcType=INTEGER}
   </update>
+  <select id="selectMenuList" parameterType="com.zihui.cwoa.system.pojo.sys_menu" resultMap="BaseResultMap">
+    select * from sys_menu where 1 = 1
+    <if test="menuId != null and menuId !=''" >
+    and menu_id =  #{menuId,jdbcType=INTEGER}
+    </if>
+    <if test="parentId != null and parentId !=''" >
+     and parent_id = #{parentId,jdbcType=INTEGER}
+    </if>
+    <if test="menuName != null and menuName != ''" >
+    and  menu_name = #{menuName,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status !=''" >
+      and status = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="menuCode != null and menuCode !=''" >
+      and  menu_code = #{menuCode,jdbcType=VARCHAR}
+    </if>
+    <if test="menuType != null and menuType !=''" >
+      and  menu_type = #{menuType,jdbcType=VARCHAR}
+    </if>
+    <if test="menuUrl != null and menuUrl !=''" >
+      and  menu_url = #{menuUrl,jdbcType=INTEGER}
+    </if>
+    <if test="ts != null and ts !=''" >
+      and  ts = #{ts,jdbcType=VARCHAR}
+    </if>
+    <if test="tempVar1 != null and tempVar1 !=''" >
+      and  temp_var1 = #{tempVar1,jdbcType=VARCHAR}
+    </if>
+    <if test="tempVar2 != null and tempVar2 !=''" >
+      and temp_var2 = #{tempVar2,jdbcType=VARCHAR}
+    </if>
+    <if test="tempInt1 != null and tempInt1 !=''" >
+      and  temp_int1 = #{tempInt1,jdbcType=INTEGER}
+    </if>
+    <if test="tempInt2 != null and tempInt2 !=''" >
+      and  temp_int2 = #{tempInt2,jdbcType=INTEGER}
+    </if>
+
+  </select>
 
 </mapper>
