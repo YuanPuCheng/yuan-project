@@ -117,42 +117,41 @@ layui.use(['form','laypage','layer','table'], function(){
 	      			heightMax=400;
 					if($(window).width()<768){
 						widthMax=280;
-						heightMax=260
+						heightMax=350
 					}
 		        var data = checkStatus.data;
-		        if(data.length==1){
-		        	layer.open({
+		        console.log(data);
+		        sessionStorage.setItem('key',JSON.stringify(data));
+		        if(data.length==1){//判断每次只能选择一条数据进行修改
+		        	layer.open({//弹框
 		                type: 2,
 		                //skin: 'layui-layer-demo', //样式类名
 		                title: '用户编辑',
 		                maxmin: true,
 		                btn: ['确定', '取消'],
 		                yes: function(index, layero){
-		                    var iframeWindow = window['layui-layer-iframe'+ index]
-		                    ,submit = layero.find('iframe').contents().find("#LAY-user-role-submit");
+		                	var iframeWindow = window['layui-layer-iframe'+ index],
+		                    submitID = 'LAY-user-back-submit',
+		                    submit = layero.find('iframe').contents().find('#'+ submitID);
+
 		                    //监听提交
-		                    iframeWindow.layui.form.on('submit(LAY-user-role-submit)', function(data){
+		                    iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
 		                      var field = data.field; //获取提交的字段
-		                      alert(field);
+		                      console.log(field);
 		                      //提交 Ajax 成功后，静态更新表格中的数据
-		                      //$.ajax({});              
-		                      table.reload('LAY-user-back-role');
+		                      //$.ajax({});
+		                      table.reload('testReload'); //数据刷新
 		                      layer.close(index); //关闭弹层
 		                    });  
 		                    
 		                    submit.trigger('click');
-		                },
-		                success: function (layero, index){
-		                	var iframe = window['layui-layer-iframe' + index];
-		                    // 向子页面的全局函数child传参
-		                	console.log(data);
-		                    iframe.child("adasd");
+
 		                },
 		                closeBtn: 1, //不显示关闭按钮
 		                anim: 2,
 		                area: [widthMax+"px", heightMax+"px"],
 		                shadeClose: true, //开启遮罩关闭
-		                content: 'reviseManagement.html?data='+data,
+		                content: 'reviseManagement.html',
 		            });
 		        	
 		        }else{
@@ -165,7 +164,7 @@ layui.use(['form','laypage','layer','table'], function(){
         			heightMax=400;
 				if($(window).width()<768){
 					widthMax=280;
-					heightMax=260
+					heightMax=350
 				}
 	        	
 		    	  layer.open({
