@@ -43,14 +43,13 @@ layui.use(['form','laypage','layer','table'], function(){
 		      	name = name.substring(0,name.length-1);
 		      	return name ;
 		      }},
-		      {field:'projects',  title: '所在项目',templet:function(d){
+		      {field:'projects',  title: '项目名称',templet:function(d){
 			      	var a = d.project;
 			      	var name1="";
 			      	if(a!=null){
 			      		name1 = d.project.projectName;
 			      	}
 			      	
-			      	console.log(name1);
 			      	return name1 ;
 			      }}
 		      
@@ -96,7 +95,7 @@ layui.use(['form','laypage','layer','table'], function(){
 		      		laypage.render({
 					    elem: 'demo0',
 					    count: counts,//数据总数
-					    layout: [ 'count','prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+					    layout: [ 'count','prev', 'page', 'next', 'refresh', 'skip'],
 					    jump: function(obj){
 					    	
 					    }
@@ -113,8 +112,48 @@ layui.use(['form','laypage','layer','table'], function(){
 		    switch(obj.event){
 		      case 'edit':
 		      	//用户编辑
+		    	  
+		    	var widthMax=450,
+	      			heightMax=400;
+					if($(window).width()<768){
+						widthMax=280;
+						heightMax=260
+					}
 		        var data = checkStatus.data;
 		        if(data.length==1){
+		        	layer.open({
+		                type: 2,
+		                //skin: 'layui-layer-demo', //样式类名
+		                title: '用户编辑',
+		                maxmin: true,
+		                btn: ['确定', '取消'],
+		                yes: function(index, layero){
+		                    var iframeWindow = window['layui-layer-iframe'+ index]
+		                    ,submit = layero.find('iframe').contents().find("#LAY-user-role-submit");
+		                    //监听提交
+		                    iframeWindow.layui.form.on('submit(LAY-user-role-submit)', function(data){
+		                      var field = data.field; //获取提交的字段
+		                      alert(field);
+		                      //提交 Ajax 成功后，静态更新表格中的数据
+		                      //$.ajax({});              
+		                      table.reload('LAY-user-back-role');
+		                      layer.close(index); //关闭弹层
+		                    });  
+		                    
+		                    submit.trigger('click');
+		                },
+		                success: function (layero, index){
+		                	var iframe = window['layui-layer-iframe' + index];
+		                    // 向子页面的全局函数child传参
+		                	console.log(data);
+		                    iframe.child("adasd");
+		                },
+		                closeBtn: 1, //不显示关闭按钮
+		                anim: 2,
+		                area: [widthMax+"px", heightMax+"px"],
+		                shadeClose: true, //开启遮罩关闭
+		                content: 'reviseManagement.html?data='+data,
+		            });
 		        	
 		        }else{
 		        	layer.alert("请一次选中一个！");
@@ -122,6 +161,58 @@ layui.use(['form','laypage','layer','table'], function(){
 		      break;
 		      case 'add':
 		      	//用户添加
+				var widthMax=450,
+        			heightMax=400;
+				if($(window).width()<768){
+					widthMax=280;
+					heightMax=260
+				}
+	        	
+		    	  layer.open({
+		                type: 2,
+		                //skin: 'layui-layer-demo', //样式类名
+		                title: '用户编辑',
+		                closeBtn: 1, //不显示关闭按钮
+		                anim: 2,
+		                fixed: false,
+		                maxmin: true,
+		                yes: function (index,layero){
+		                	var iframeWindow = window['layui-layer-iframe'+ index];
+		                    
+		                      //提交 Ajax 成功后，静态更新表格中的数据
+		                   /*   $.ajax({
+		                    	  url:'',
+		                    	  type:'post',
+		                    	  data:{
+		                    		  
+		                    	  },
+		                    	  dataType:"json",
+		                    	  xhrFields: {
+		          					withCredentials: true
+		          				  },
+		                    	  success: function(data){
+		                    		  if(data.result == 200) {
+		          						layer.msg(data.message);
+		          						
+			          						form.render();
+			          					} else {
+			          						layer.msg(data.message);
+			          						form.render();
+			          					}
+		                    	  }
+		                      });              
+		                      table.reload('LAY-user-back-role');
+		                      layer.close(index); //关闭弹层
+		                    });  
+		                    */
+		                    submit.trigger('click');
+
+		                },
+		                btn: ['确定', '取消'],
+		                area: [widthMax+'px', heightMax+'px'],
+		                shadeClose: true, //开启遮罩关闭
+		                content: 'addMangement.html?data='+data
+		            });
 		      break;
 		      case 'del':
 		      	//用户删除
