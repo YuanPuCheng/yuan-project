@@ -226,12 +226,12 @@ public class loginController {
     @RequestMapping(value = "/index")
     @ResponseBody
     public Set d( HttpSession session){
-        Set set = new HashSet();
+
         sys_user user = (sys_user) session.getAttribute("user");
-        Integer id = 1;
+        Integer id = 13;
         List<Integer> menuId=department_menuMapper.selectMenuIdByUserId(id);
         List<sys_menu> m =menuService.selectMenuByMenuId(menuId);
-        set.add(m);
+        Set set = Common.getmenu(m);
         /*if(user!=null){
             List<Integer> menuId=department_menuMapper.selectMenuIdByUserId(user.getUserId());
             List<sys_menu> m =menuService.selectMenuByMenuId(menuId);

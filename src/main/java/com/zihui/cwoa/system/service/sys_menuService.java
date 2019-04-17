@@ -57,4 +57,13 @@ public class sys_menuService {
     public List<sys_menu> selectMenuByMenuId(List<Integer> menuId){
         return menuMapper.selectMenuByMenuId(menuId);
     };
+
+    /**
+     *  查询菜单
+     *  @param record
+     *  @return List 菜单List对象
+     */
+    public List<sys_menu> selectMenuList(sys_menu record){
+        return menuMapper.selectMenuList(record);
+    };
 }

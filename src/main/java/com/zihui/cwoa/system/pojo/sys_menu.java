@@ -9,7 +9,7 @@ public class sys_menu {
 
     private Integer menuId;//菜单id
 
-    private String parentId;//上级菜单id
+    private Integer parentId;//上级菜单id
 
     private String menuName;//菜单名称
 
@@ -49,12 +49,12 @@ public class sys_menu {
         this.menuId = menuId;
     }
 
-    public String getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
-        this.parentId = parentId == null ? null : parentId.trim();
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public String getMenuName() {
