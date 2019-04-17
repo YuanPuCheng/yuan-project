@@ -63,8 +63,8 @@ public class ProcessWorkController {
      */
     @RequestMapping("/querytask")
     @ResponseBody
-    public Map<String, Object> queryTask(String userCode) {
-        return processesService.queryTask(userCode);
+    public Map<String, Object> queryTask(String userCode,int page, int num) {
+        return processesService.queryTask(userCode,page,num);
     }
 
     /**
