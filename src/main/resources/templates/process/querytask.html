@@ -30,13 +30,13 @@
 			//<![CDATA[
 						Date.prototype.format = function(fmt) {
 				var o = {
-					"M+": this.getMonth() + 1, //月份 
-					"d+": this.getDate(), //日 
-					"h+": this.getHours(), //小时 
-					"m+": this.getMinutes(), //分 
-					"s+": this.getSeconds(), //秒 
-					"q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-					"S": this.getMilliseconds() //毫秒 
+					"M+": this.getMonth() + 1, //月份
+					"d+": this.getDate(), //日
+					"h+": this.getHours(), //小时
+					"m+": this.getMinutes(), //分
+					"s+": this.getSeconds(), //秒
+					"q+": Math.floor((this.getMonth() + 3) / 3), //季度
+					"S": this.getMilliseconds() //毫秒
 				};
 				if(/(y+)/.test(fmt)) {
 					fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
@@ -53,6 +53,7 @@
 				var layer = layui.layer;
 				var laypage = layui.laypage;
 				var list;
+				var nowLen=0;
 				$(document).ready(function() {
 					function creatHtml(start, end) {
 						var txt = "";
@@ -224,35 +225,55 @@
 						});
 					}
 					var userCode=$("#userCode",parent.document).attr("name");
-					if(typeof(userCode)=='undefined'){
+					if((typeof(userCode)=='undefined') || (userCode='')){
 					    userCode="Nancy";
 					}
 					$.ajax({
 						url: "/process/querytask",
 						type: "get",
 						data: {
-							"userCode": userCode
+							"userCode": userCode,
+                            "page": 0,
+                            "num": 5
 						},
 						dataType: "json",
 						success: function(data) {
-							if(data.result) {
+                            var len = data.result;
+							if(len>0) {
 								$("h2").hide();
 								list = data.queryResultList;
-								var len = list.length;
+                                nowLen=list.length;
 								laypage.render({
 									elem: 'demo6',
 									count: len,
 									limit: 5,
 									layout: ['prev', 'page', 'next'],
 									jump: function(obj, first) {
-										var s = (obj.curr - 1) * 5;
-										var e = s + 5;
-										if(e > len) {
-											e = len;
-										}
-										creatHtml(s, e);
+                                        if(!first) {
+                                            $.ajax({
+                                                url: "/process/querytask",
+                                                type: "get",
+                                                data: {
+                                                    "userCode": userCode,
+                                                    "page": (obj.curr-1)*5,
+                                                    "num": 5
+                                                },
+                                                dataType: "json",
+                                                success: function(data) {
+                                                    list = data.queryResultList;
+                                                    nowLen=list.length;
+                                                    creatHtml(0, nowLen);
+                                                },
+                                                error: function() {
+                                                    layer.msg('发生了未知错误！', {
+                                                        icon: 2
+                                                    });
+                                                }
+                                            });
+                                        }
 									}
 								});
+                                creatHtml(0, nowLen);
 							} else {
 								$("h2").text("您没有待办的任务！");
 							}
