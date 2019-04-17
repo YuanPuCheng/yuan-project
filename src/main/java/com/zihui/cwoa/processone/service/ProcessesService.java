@@ -3,7 +3,6 @@ package com.zihui.cwoa.processone.service;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
-import org.activiti.engine.history.HistoricProcessInstanceQuery;
 import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -240,7 +239,7 @@ public class ProcessesService {
         // 获得流程定义id
         String processDefinitionId = processInstance.getProcessDefinitionId();
         BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
-        List<String> list=null;
+        List<String> list;
         try {
             list=runtimeService.getActiveActivityIds(processInstanceId);
         } catch (Exception e) {
@@ -276,16 +275,17 @@ public class ProcessesService {
      */
     public Map<String,Object> queryProcessByVo(String processDefinitionKey,String userName
             ,Long date,int page,int num) {
-        List<HistoricProcessInstance> list=null;
+        List<HistoricProcessInstance> list;
+        int size;
         String userCode=null;
-        int size=0;
         if(userName!="" && userName!=null){
             List<String> userCodeList = queryService.queryCodeByName(userName);
-            if (userCodeList.size()==1){
+            int listSize = userCodeList.size();
+            if (listSize==1){
                 userCode=userCodeList.get(0);
             }
         }
-        if (userCode != null) {
+        if (userCode != null && userCode!="") {
             if (date != 0) {
                 Date dateOne = new Date(date-86400000);
                 Date dateTwo = new Date(date+86400000);
