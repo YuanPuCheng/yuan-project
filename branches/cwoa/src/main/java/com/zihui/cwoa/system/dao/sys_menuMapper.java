@@ -18,4 +18,6 @@ public interface sys_menuMapper {
     int updateByPrimaryKeySelective(sys_menu record);
 
     List<sys_menu> selectMenuByMenuId(List<Integer> menuId);
+
+    List<sys_menu> selectMenuList(sys_menu record);
 }

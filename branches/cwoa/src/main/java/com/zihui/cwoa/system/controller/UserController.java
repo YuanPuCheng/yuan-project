@@ -11,6 +11,7 @@ import com.zihui.cwoa.system.service.sys_menuService;
 import com.zihui.cwoa.system.service.sys_userService;
 import com.zihui.cwoa.system.service.sys_user_departmentService;
 import org.apache.log4j.Logger;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +49,7 @@ public class UserController {
     public sys_user user(HttpSession session){
         sys_user user =(sys_user) session.getAttribute("user");
 
-        return user_service.selectDepartmentToUser(user.getUserId());
+        return user_service.selectDepartmentToUser(1);
     }
     /**
      *  根据条件查询用户列表
@@ -67,6 +68,17 @@ public class UserController {
         concurrentMap.put("code", 0);
         concurrentMap.put("msg", "成功");
         return concurrentMap;
+    }
+    @RequestMapping(value = "/de")
+    @ResponseBody
+    @RequiresPermissions("1")
+    public CallbackResult de(){
+        CallbackResult result = new CallbackResult();
+
+
+        result.setResult(200);
+        result.setMessage("修改成功");
+        return result;
     }
 
 

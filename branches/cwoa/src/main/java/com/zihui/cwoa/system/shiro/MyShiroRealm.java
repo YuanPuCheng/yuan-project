@@ -42,7 +42,7 @@ public class MyShiroRealm extends AuthorizingRealm {
     @Resource
     private sys_userService user_service;
     @Resource
-    private sys_departmentService departmentService;
+    private sys_menuService menuService;
     @Resource
     private sys_department_menuService department_menuService;
     @Resource
@@ -58,6 +58,8 @@ public class MyShiroRealm extends AuthorizingRealm {
         Set departmentSet = new HashSet();
         Set menusSet = new HashSet();
         List<Integer> b_id  = new ArrayList<>();
+
+
         //查询用户包含角色
         sys_user user1 =user_service.selectDepartmentToUser(user.getUserId());
         for (sys_department p: user1.getDepartments()) {
@@ -65,20 +67,11 @@ public class MyShiroRealm extends AuthorizingRealm {
             b_id.add(p.getDepartmentId());
         }
         //查询用户的菜单，也就是权限
-        List<sys_department> menus =departmentService.selectMenu(b_id);
-        for(sys_department d :menus){
-            for(sys_menu m:d.getMenus()){
-                menusSet.add(m.getMenuCode());//添加菜单编码
-                for(sys_menu mm:m.getMenus()){
-                    menusSet.add(mm.getMenuCode());//添加二级菜单
-                    for(sys_menu mmm:mm.getMenus()){
-                        menusSet.add(mmm.getMenuCode());//添加三级菜单
-                    }
-                }
-            }
+        List<Integer> list =department_menuService.selectMenuIdByUserId(user.getUserId());
+        List<sys_menu> menu  =menuService.selectMenuByMenuId(list);
+        for(sys_menu u:menu){
+            menusSet.add(u.getMenuCode());
         }
-
-
         log.info("所属部门编码"+departmentSet.toString());
         log.info("所属菜单权限编码"+menusSet.toString());
 

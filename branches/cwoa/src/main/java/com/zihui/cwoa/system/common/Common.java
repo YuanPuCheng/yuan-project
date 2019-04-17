@@ -1,6 +1,7 @@
 package com.zihui.cwoa.system.common;
 
 import com.sun.mail.util.MailSSLSocketFactory;
+import com.zihui.cwoa.system.pojo.sys_menu;
 import com.zihui.cwoa.system.service.sys_userService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -175,5 +176,55 @@ public class Common {
 
         }
         return falg;
+    }
+
+
+    public static Set<sys_menu> getmenu(List<sys_menu> menu){
+        Set<sys_menu> set = new HashSet();
+
+        for(sys_menu menu1 :menu){
+            sys_menu m = new sys_menu();
+
+            if(menu1.getParentId()==0){
+                m=menu1;
+                //menu.remove(m);
+            }
+            if(m.getMenuId()!=null){
+                List<sys_menu> list = new ArrayList();
+
+                for (sys_menu menu2 :menu){
+                    sys_menu mm = new sys_menu();
+                    if(m.getMenuId()==menu2.getParentId()){
+                        mm = menu2;
+
+
+                        if(mm.getMenuId()!=null){
+                            List<sys_menu> list1 = new ArrayList();
+                            for (sys_menu menu3 :menu){
+
+                                if(mm.getMenuId()==menu3.getParentId()){
+                                    list1.add(menu3);
+                                }
+                            }
+                            mm.setMenus(list1);
+                        }
+
+                        list.add(mm);
+
+
+                    }
+                }
+                if(list.size()!=0){
+                    m.setMenus(list);
+                }
+            }
+            if(m.getMenuId()!=null){
+                set.add(m);
+            }
+        }
+
+        return set;
+
+
     }
 }
