@@ -73,15 +73,14 @@ public class ProcessesService {
      *  @param userCode 用户工号
      *  @return 用户的任务信息
      */
-    public Map<String,Object> queryTask(String userCode){
+    public Map<String,Object> queryTask(String userCode,int page, int num){
         //根据用户工号获取该用户的任务
         List<Task> tasks =
-                taskService.createTaskQuery().taskAssignee(userCode).orderByTaskCreateTime().desc().list();
+                taskService.createTaskQuery().taskAssignee(userCode).orderByTaskCreateTime().desc().listPage(page,num);
         Map<String,Object> map =new HashMap<>();
-        if(tasks.isEmpty()){
-            map.put("result",false);
-        }else {
-            map.put("result",true);
+        int size =
+                taskService.createTaskQuery().taskAssignee(userCode).orderByTaskCreateTime().desc().list().size();
+            map.put("result",size);
             List<Map<String,Object>> queryResultList = new LinkedList<>();
             for (Task task : tasks) {
                 Map<String, Object> variables = taskService.getVariables(task.getId());
@@ -95,7 +94,6 @@ public class ProcessesService {
                 queryResultList.add(variables);
             }
             map.put("queryResultList",queryResultList);
-        }
         return map;
     }
 
