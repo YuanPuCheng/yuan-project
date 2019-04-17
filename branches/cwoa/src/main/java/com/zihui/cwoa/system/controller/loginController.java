@@ -144,9 +144,6 @@ public class loginController {
             System.out.println(token);
             SecurityUtils.getSubject().login(token);
 
-
-
-
         } catch ( UnknownAccountException uae ) {
             log.warn("用户帐号不正确");
             result.setResult(400);
@@ -194,7 +191,6 @@ public class loginController {
     @ResponseBody
     public CallbackResult error(@RequestParam String usercode){
         CallbackResult result = new CallbackResult();
-        Map map =new HashMap();
         sys_user user = new sys_user();
         user.setUserCode(usercode);
         List<sys_user>   list =user_service.selectUserList(user);
@@ -213,7 +209,6 @@ public class loginController {
     @ResponseBody
     public CallbackResult getemail(@RequestParam String email){
         CallbackResult result = new CallbackResult();
-        Map map =new HashMap();
         sys_user user = new sys_user();
         user.setEmail(email);
         List<sys_user>   list =user_service.selectUserList(user);
