@@ -12,15 +12,18 @@ layui.extend({
 		timeout:5000,
 		dataType:"json",
 		success:function(data){
+			console.log(data);
+			console.log(data[1].menuName);
+			
 			var list='';
-			for(var i=0;i<data[0].length;i++){
+			for(var i=0;i<data.length;i++){
 				var lis=$('<li>');
 				lis.attr('class','layui-nav-item');
-				var als='<a href="javascript:;"><i class="layui-icon layui-icon-home"></i><cite>'+data[0][i].menuName+'</cite><span class="layui-nav-more"></span></a>';
+				var als='<a href="javascript:;"><i class="layui-icon layui-icon-home"></i><cite>'+data[i].menuName+'</cite><span class="layui-nav-more"></span></a>';
 				var dds="";
-				for(var j=0;j<data[0][i].menus.length;j++){
-					dds+='<dd><a lay-href="'+data[0][i].menus[j].menuUrl+'">'+data[0][i].menus[j].menuName+'</a></dd>';
-					console.log(data[0][i].menus[j].menuUrl);
+				for(var j=0;j<data[i].menus.length;j++){
+					dds+='<dd><a lay-href="'+layui.setter.project+data[i].menus[j].menuUrl+'">'+data[i].menus[j].menuName+'</a></dd>';
+					console.log(data[i].menus[j].menuUrl);
 				}
 				var dls="<dl class='layui-nav-child'>"+dds+"</dl>";
 				lis.html(als+dls);
@@ -401,7 +404,6 @@ layui.extend({
 						'<span id="userDepartmentName" name="'+  departmentsName  +'" title="部门名称"></span>'+
 						'<span id="userProject" name="'+    +'" title="项目"></span>';
         				$('.news').append(tst);
-        	  		console.log( $('.news').html() );
         	  	},
         	  	error:function(jqx){
         	  		alert("发生错误："+jqx);
