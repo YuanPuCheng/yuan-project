@@ -21,29 +21,29 @@
 			.layui-form .layui-btn{
 				margin: 0 30px;
 			}
+			@media only screen and (min-width: 100px) and (max-width: 768px) {
+				.layui-form .layui-btn{
+					margin: 0 10px;
+				}
+			}
 		</style>
 	</head>
 	<body>
-		<form class="layui-form" action="">
+		<form class="layui-form" action="javascript:;">
 			<div class="layui-form" style="padding: 20px 20px 20px 0;">
 				<div class="layui-form-item">
 					<lable class="layui-form-label"><span class="layui-badge-dot"></span>用户工号</lable>
 					<div class="layui-input-inline">
-						<input type="text" name="" id="" placeholder="请输入用户工号" autocomplete="off" class="layui-input" />
+						<input type="text" name="" id="usercode" placeholder="请输入用户工号" autocomplete="off" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<lable class="layui-form-label"><span class="layui-badge-dot"></span>用户名称</lable>
 					<div class="layui-input-inline">
-						<input type="text" name="" id="" placeholder="请输入用户名称" autocomplete="off" class="layui-input" />
+						<input type="text" name="" id="username" placeholder="请输入用户名称" autocomplete="off" class="layui-input" />
 					</div>
 				</div>
-				<div class="layui-form-item">
-					<lable class="layui-form-label"><span class="layui-badge-dot"></span>用户密码</lable>
-					<div class="layui-input-inline">
-						<input type="text" name="" id="" placeholder="请输入用户密码" autocomplete="off" class="layui-input" />
-					</div>
-				</div>
+				
 				<div class="layui-form-item">
 					<lable class="layui-form-label"><span class="layui-badge-dot"></span>性别</lable>
 					<div class="layui-input-block">
@@ -54,44 +54,36 @@
 				<div class="layui-form-item">
 					<lable class="layui-form-label"><span class="layui-badge-dot"></span>邮箱地址</lable>
 					<div class="layui-input-inline">
-						<input type="text" name="" id="" placeholder="请输入邮箱地址" autocomplete="off" class="layui-input" />
+						<input type="text" name="" id="email" placeholder="请输入邮箱地址" autocomplete="off" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<lable class="layui-form-label"><span class="layui-badge-dot"></span>联系电话</lable>
 					<div class="layui-input-inline">
-						<input type="text" name="" id="" placeholder="请输入联系电话" autocomplete="off" class="layui-input" />
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<lable class="layui-form-label">身份账号</lable>
-					<div class="layui-input-inline">
-						<input type="text" name="" id="" placeholder="请输入身份账号" autocomplete="off" class="layui-input" />
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<lable class="layui-form-label">银行卡号</lable>
-					<div class="layui-input-inline">
-						<input type="text" name="" id="" placeholder="请输入银行卡号" autocomplete="off" class="layui-input" />
+						<input type="text" name="" id="phone" placeholder="请输入联系电话" autocomplete="off" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<lable class="layui-form-label"><span class="layui-badge-dot"></span>部门名称</lable>
-					<div class="layui-input-block">
-				      <select name="interest">
-				        <option value=""></option>
-				        <option value="0">财务部</option>
+					<div class="layui-input-inline">
+				      <select name="departments" id="department">
+				      	
 				      </select>
 				   </div>
 				</div>
 				<div class="layui-form-item">
 					<lable class="layui-form-label"><span class="layui-badge-dot"></span>项目名称</lable>
-					<div class="layui-input-block">
-				      <select name="project">
-				        <option value=""></option>
-				        <option value="0"></option>
+					<div class="layui-input-inline">
+				      <select name="projects" id="project">
+				      	
 				      </select>
 				   </div>
+				</div>
+				<div class="layui-form-item">
+					<lable class="layui-form-label">身份证号</lable>
+					<div class="layui-input-inline">
+						<input type="text" name="" id="" placeholder="请输入身份证号" autocomplete="off" class="layui-input" />
+					</div>
 				</div>
 				<div class="layui-form-item">
 					<lable class="layui-form-label">银行卡号</lable>
@@ -106,8 +98,6 @@
 				      <input type="radio" name="state" value="1" title="失效">
 				    </div>
 				</div>
-				<button type="reset" class="layui-btn layui-btn-primary" style="margin-left: 60px;">重置</button>
-				<button class="layui-btn">提交</button>
 			</div>
 		</form>
 		
@@ -116,7 +106,8 @@
 	<script type="text/javascript">
 		layui.config({
      		base: '../../../static/js/system/user/' //静态资源所在路径
-		}).use(['addMangement'], function(){
+		}).use(['addMangement','jquery'], function(){
+			var $=layui.jquery;
 		  
 		}); 
 	</script>
