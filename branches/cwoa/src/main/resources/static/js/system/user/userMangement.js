@@ -1,6 +1,6 @@
 layui.extend({
 	setter: "../../../../static/layui/config"
-
+		
 }).define(["setter", "jquery"], function(e) {
 	var $ = layui.jquery;
 
@@ -95,6 +95,7 @@ layui.use(['form','laypage','layer','table'], function(){
 		      		laypage.render({
 					    elem: 'demo0',
 					    count: counts,//数据总数
+					    limit: 10,
 					    layout: [ 'count','prev', 'page', 'next', 'refresh', 'skip'],
 					    jump: function(obj){
 					    	
@@ -120,7 +121,6 @@ layui.use(['form','laypage','layer','table'], function(){
 						heightMax=350
 					}
 		        var data = checkStatus.data;
-		        console.log(data);
 		        sessionStorage.setItem('key',JSON.stringify(data));
 		        if(data.length==1){//判断每次只能选择一条数据进行修改
 		        	layer.open({//弹框
@@ -131,21 +131,32 @@ layui.use(['form','laypage','layer','table'], function(){
 		                btn: ['确定', '取消'],
 		                yes: function(index, layero){
 		                	var iframeWindow = window['layui-layer-iframe'+ index],
-		                    submitID = 'LAY-user-back-submit',
+		                    submitID = 'LAY-user-front-submit',
 		                    submit = layero.find('iframe').contents().find('#'+ submitID);
 
 		                    //监听提交
+		                	console.log(iframeWindow);
 		                    iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
 		                      var field = data.field; //获取提交的字段
-		                      console.log(field);
+		                      
 		                      //提交 Ajax 成功后，静态更新表格中的数据
 		                      //$.ajax({});
-		                      table.reload('testReload'); //数据刷新
+		                      table.reload('LAY-user-front-submit'); //数据刷新
 		                      layer.close(index); //关闭弹层
 		                    });  
 		                    
-		                    submit.trigger('click');
+		                    submit.trigger('click')
 
+		                },
+		                success: function(){
+		                	laypage.render({
+							    elem: 'demo0',
+							    count: counts,//数据总数
+							    layout: [ 'count','prev', 'page', 'next', 'refresh', 'skip'],
+							    jump: function(obj){
+							    	
+							    }
+					    	});
 		                },
 		                closeBtn: 1, //不显示关闭按钮
 		                anim: 2,
@@ -175,39 +186,18 @@ layui.use(['form','laypage','layer','table'], function(){
 		                anim: 2,
 		                fixed: false,
 		                maxmin: true,
-		                yes: function (index,layero){
-		                	var iframeWindow = window['layui-layer-iframe'+ index];
-		                    
-		                      //提交 Ajax 成功后，静态更新表格中的数据
-		                   /*   $.ajax({
-		                    	  url:'',
-		                    	  type:'post',
-		                    	  data:{
-		                    		  
-		                    	  },
-		                    	  dataType:"json",
-		                    	  xhrFields: {
-		          					withCredentials: true
-		          				  },
-		                    	  success: function(data){
-		                    		  if(data.result == 200) {
-		          						layer.msg(data.message);
-		          						
-			          						form.render();
-			          					} else {
-			          						layer.msg(data.message);
-			          						form.render();
-			          					}
-		                    	  }
-		                      });              
-		                      table.reload('LAY-user-back-role');
-		                      layer.close(index); //关闭弹层
-		                    });  
-		                    */
-		                    submit.trigger('click');
-
+		                
+		                success: function(){
+		                	laypage.render({
+							    elem: 'demo0',
+							    count: counts,//数据总数
+							    layout: [ 'count','prev', 'page', 'next', 'refresh', 'skip'],
+							    jump: function(obj){
+							    	
+							    }
+					    	});
 		                },
-		                btn: ['确定', '取消'],
+		                btn: [],
 		                area: [widthMax+'px', heightMax+'px'],
 		                shadeClose: true, //开启遮罩关闭
 		                content: 'addMangement.html?data='+data
@@ -216,7 +206,6 @@ layui.use(['form','laypage','layer','table'], function(){
 		      case 'del':
 		      	//用户删除
 //		        var checkStatus = table.checkStatus('test');
-		        console.log(checkStatus.data.length);
 				if(checkStatus.data.length==0){
 					parent.layer.msg('请先选择要删除的数据行！', {icon: 2});
 					return ;
@@ -245,6 +234,14 @@ layui.use(['form','laypage','layer','table'], function(){
     	  		 	table.reload('testReload', {
 			      	url:layui.setter.project+'/user/getuser'
 			      });
+            	laypage.render({
+				    elem: 'demo0',
+				    count: counts,//数据总数
+				    layout: [ 'count','prev', 'page', 'next', 'refresh', 'skip'],
+				    jump: function(obj){
+				    	
+				    	}
+	                })
     	  		 }else{
     	  		 	layer.alert(result.message);
     	  		 }
