@@ -1,7 +1,6 @@
 package com.zihui.cwoa.processone.controller;
 
 import com.zihui.cwoa.processone.service.ProcessesService;
-import com.zihui.cwoa.processone.service.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +12,6 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -23,9 +21,6 @@ public class ProcessWorkController {
     @Autowired
     private ProcessesService processesService;
 
-    //自定义的查询方法
-    @Autowired
-    private QueryService queryService;
 
     /**
      * 部署流程
