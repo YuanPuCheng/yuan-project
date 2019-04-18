@@ -114,8 +114,8 @@ layui.use(['form','laypage','layer','table'], function(){
 		      case 'edit':
 		      	//用户编辑
 		    	  
-		    	var widthMax=450,
-	      			heightMax=400;
+		    	var widthMax=750,
+	      			heightMax=600;
 					if($(window).width()<768){
 						widthMax=280;
 						heightMax=350
@@ -128,7 +128,7 @@ layui.use(['form','laypage','layer','table'], function(){
 		                //skin: 'layui-layer-demo', //样式类名
 		                title: '用户编辑',
 		                maxmin: true,
-		                btn: ['确定', '取消'],
+		                btn: [],
 		                yes: function(index, layero){
 		                	var iframeWindow = window['layui-layer-iframe'+ index],
 		                    submitID = 'LAY-user-front-submit',
@@ -161,7 +161,7 @@ layui.use(['form','laypage','layer','table'], function(){
 		                closeBtn: 1, //不显示关闭按钮
 		                anim: 2,
 		                area: [widthMax+"px", heightMax+"px"],
-		                shadeClose: true, //开启遮罩关闭
+		                shadeClose: false, //开启遮罩关闭
 		                content: 'reviseManagement.html',
 		            });
 		        	
@@ -171,8 +171,8 @@ layui.use(['form','laypage','layer','table'], function(){
 		      break;
 		      case 'add':
 		      	//用户添加
-				var widthMax=450,
-        			heightMax=400;
+				var widthMax=750,
+        			heightMax=600;
 				if($(window).width()<768){
 					widthMax=280;
 					heightMax=350
@@ -181,7 +181,7 @@ layui.use(['form','laypage','layer','table'], function(){
 		    	  layer.open({
 		                type: 2,
 		                //skin: 'layui-layer-demo', //样式类名
-		                title: '用户编辑',
+		                title: '用户添加',
 		                closeBtn: 1, //不显示关闭按钮
 		                anim: 2,
 		                fixed: false,
@@ -199,7 +199,7 @@ layui.use(['form','laypage','layer','table'], function(){
 		                },
 		                btn: [],
 		                area: [widthMax+'px', heightMax+'px'],
-		                shadeClose: true, //开启遮罩关闭
+		                shadeClose: false, //开启遮罩关闭
 		                content: 'addMangement.html?data='+data
 		            });
 		      break;
