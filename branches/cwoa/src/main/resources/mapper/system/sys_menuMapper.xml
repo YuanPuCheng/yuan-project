@@ -68,11 +68,11 @@
     select 
     <include refid="Base_Column_List" />
     from sys_menu
-    where menu_id = #{menuId,jdbcType=VARCHAR}
+    where menu_id = #{menuId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_menu
-    where menu_id = #{menuId,jdbcType=VARCHAR}
+    where menu_id = #{menuId,jdbcType=INTEGER}
   </delete>
   <insert id="insertSelective" parameterType="com.zihui.cwoa.system.pojo.sys_menu" >
     insert into sys_menu
@@ -80,13 +80,13 @@
       <if test="menuId != null and menuId !=''" >
         menu_id,
       </if>
-      <if test="parentId != null and parentId !=''" >
+      <if test="parentId != null" >
         parent_id,
       </if>
       <if test="menuName != null and menuName !=''" >
         menu_name,
       </if>
-      <if test="status != null and status !=''" >
+      <if test="status != null" >
         status,
       </if>
       <if test="menuCode != null and menuCode !=''" >
@@ -118,13 +118,13 @@
       <if test="menuId != null and menuId !=''" >
         #{menuId,jdbcType=INTEGER},
       </if>
-      <if test="parentId != null and parentId !=''" >
+      <if test="parentId != null" >
         #{parentId,jdbcType=INTEGER},
       </if>
       <if test="menuName != null and menuName != ''" >
         #{menuName,jdbcType=VARCHAR},
       </if>
-      <if test="status != null and status !=''" >
+      <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
       <if test="menuCode != null and menuCode !=''" >
@@ -162,7 +162,7 @@
       <if test="menuName != null and menuName != ''" >
         menu_name = #{menuName,jdbcType=VARCHAR},
       </if>
-      <if test="status != null and status !=''" >
+      <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
       <if test="menuCode != null and menuCode !=''" >
@@ -203,7 +203,7 @@
     <if test="menuName != null and menuName != ''" >
     and  menu_name = #{menuName,jdbcType=VARCHAR}
     </if>
-    <if test="status != null and status !=''" >
+    <if test="status != null" >
       and status = #{status,jdbcType=INTEGER}
     </if>
     <if test="menuCode != null and menuCode !=''" >
@@ -230,6 +230,7 @@
     <if test="tempInt2 != null and tempInt2 !=''" >
       and  temp_int2 = #{tempInt2,jdbcType=INTEGER}
     </if>
+    order BY menu_type
 
   </select>
 
