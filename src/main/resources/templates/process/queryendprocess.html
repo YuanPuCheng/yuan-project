@@ -89,6 +89,9 @@
 									layout: ['prev', 'page', 'next'],
 									jump: function(obj, first) {
 										if(!first) {
+                                            $("#queryProcessBox").html("");
+                                            $("h2").text("查询中ing...");
+                                            $("h2").show();
 											$.ajax({
 												url: "/process/queryendprocess",
 												type: "get",
@@ -101,6 +104,7 @@
 												success: function(data) {
 													dataList = data.queryResultList;
 													nowLen=dataList.length;
+                                                    $("h2").hide();
                                                     creatHtml(0, nowLen,dataList);
 												},
 												error: function() {
