@@ -126,7 +126,7 @@
 							tds.eq(3).html(''); //清空操作
 							successNum = successNum + 1;
 							fileNameList.push(res.map.filename);
-							if(successNum == selectNum) {
+							if(successNum === selectNum) {
 								submitForm();
 							}
 							return delete this.files[index]; //删除文件队列已经上传成功的文件
@@ -143,7 +143,7 @@
 				});
 
 				function submitForm() {
-					if(successNum == 0) {
+					if(successNum === 0) {
 						layer.msg('请上传相关凭证！');
 						return;
 					}
@@ -159,7 +159,7 @@
 						return;
 					}
 					if(linkProId == "") {
-						layer.msg('请输入相关流程的ID！');
+						layer.msg('请输入相关流程的ID！如没有相关流程,请写"无"！');
 						return;
 					}
 					var jsonTest = {
@@ -206,7 +206,7 @@
 					$('#project').val($("#uProject", parent.document).attr("name"));
 				});
 				$('#go').click(function() {
-					if(successNum == selectNum) {
+					if(successNum === selectNum) {
 						submitForm();
 					}
 				});
