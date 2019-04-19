@@ -76,12 +76,9 @@
     delete from sys_user
     where user_code = #{userCode,jdbcType=VARCHAR}
   </delete>
-  <insert id="insertSelective" parameterType="com.zihui.cwoa.system.pojo.sys_user" >
+  <insert id="insertSelective" parameterType="com.zihui.cwoa.system.pojo.sys_user" keyProperty="userId" useGeneratedKeys="true">
     insert into sys_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userId != null and userId != ''" >
-        user_id,
-      </if>
       <if test="userCode != null and userCode != ''" >
         user_code,
       </if>
@@ -159,9 +156,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userId != null and userId != ''" >
-        #{userId,jdbcType=VARCHAR},
-      </if>
       <if test="userCode != null and userCode != ''" >
         #{userCode,jdbcType=VARCHAR},
       </if>

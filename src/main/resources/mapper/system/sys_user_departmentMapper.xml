@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zihui.cwoa.system.dao.sys_user_departmentMapper" >
   <resultMap id="BaseResultMap" type="com.zihui.cwoa.system.pojo.sys_user_department" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="user_id" property="userId" jdbcType="VARCHAR" />
-    <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="department_id" property="departmentId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, department_id
@@ -13,27 +13,38 @@
     select 
     <include refid="Base_Column_List" />
     from sys_user_department
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from sys_user_department
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
   <insert id="insert" parameterType="com.zihui.cwoa.system.pojo.sys_user_department" >
     insert into sys_user_department (id, user_id, department_id
       )
-    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{departmentId,jdbcType=VARCHAR}
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{departmentId,jdbcType=INTEGER}
       )
   </insert>
 
   <update id="updateByPrimaryKey" parameterType="com.zihui.cwoa.system.pojo.sys_user_department" >
     update sys_user_department
-    set user_id = #{userId,jdbcType=VARCHAR},
-      department_id = #{departmentId,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    set user_id = #{userId,jdbcType=INTEGER},
+      department_id = #{departmentId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 
   <select id="selectDepartmentByUserId" parameterType="java.lang.String" resultType="String">
   SELECT department_id  from sys_user_department where user_id = #{userId}
   </select>
+
+  <insert id="insertUserDepar" parameterType="java.lang.Integer">
+    INSERT  INTO  sys_user_department (user_id,department_id)
+    values (#{userId,jdbcType=INTEGER}, #{departmentId,jdbcType=INTEGER})
+  </insert>
+  <update id="updateUserDepar" parameterType="java.lang.Integer" >
+    update sys_user_department set department_id= #{departmentId,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER} and department_id = #{departmentId,jdbcType=INTEGER}
+  </update>
+
+  <delete id="deleteUserDepar" parameterType="java.lang.Integer">
+  delete from sys_user_department
+  where user_id = #{userId,jdbcType=INTEGER} and department_id = #{departmentId,jdbcType=INTEGER}
+
+  </delete>
 </mapper>
