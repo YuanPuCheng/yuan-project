@@ -225,20 +225,19 @@ public class loginController {
 
     @RequestMapping(value = "/index")
     @ResponseBody
-    public Set d( HttpSession session){
+    public List d( HttpSession session){
 
         sys_user user = (sys_user) session.getAttribute("user");
-        Integer id = 13;
-        List<Integer> menuId=department_menuMapper.selectMenuIdByUserId(id);
+        List<Integer> menuId=department_menuMapper.selectMenuIdByUserId(user.getUserId());
         List<sys_menu> m =menuService.selectMenuByMenuId(menuId);
-        Set set = Common.getmenu(m);
+        List list = Common.getmenu(m);
         /*if(user!=null){
             List<Integer> menuId=department_menuMapper.selectMenuIdByUserId(user.getUserId());
             List<sys_menu> m =menuService.selectMenuByMenuId(menuId);
             set.add(m);
             return set;
         }*/
-        return set;
+        return list;
     }
 
 
