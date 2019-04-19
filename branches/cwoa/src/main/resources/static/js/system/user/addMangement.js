@@ -3,7 +3,7 @@ layui.extend({
 	inputverify: "../../common/inputverify",
 	formSelects: "../../../../static/layui/formSelects-v4"
 		
-}).define(["setter","inputverify", "jquery","formSelects"], function(e) {
+}).define(["setter","inputverify", "jquery","formSelects","form"], function(e) {
 	
 	var $ = layui.jquery,
 		formSelects = layui.formSelects,
@@ -21,7 +21,8 @@ layui.extend({
 			
 			//然后返回数据
 			return result;
-		},success: function(id, url, searchVal, result){      //使用远程方式的success回调
+		},success: function(id, url, searchVal, result){
+            form.render('select');//使用远程方式的success回调
             console.log(id);        //组件ID xm-select
             console.log(url);       //URL
             console.log(searchVal); //搜索的value
@@ -31,12 +32,11 @@ layui.extend({
 		url: layui.setter.project+'/department/getdepartment'
 	});
 	
-	layui.use(['form'],function (){
-		
+
 
 		
 		 //部门下拉框加载
-		 $.get(layui.setter.project+'/department/getdepartment', {}, function (data) {
+		/* $.get(layui.setter.project+'/department/getdepartment', {}, function (data) {
                var $html = "<option  value='0'  class='generate'>请选择</option>";
                if(data.data != null){
                    $.each(data.data, function (index, item) {
@@ -52,7 +52,7 @@ layui.extend({
                 //append后必须从新渲染
                 form.render('select');
             }
-		});
+		});*/
 
 		//项目下拉框加载
 		 $.get(layui.setter.project+'/project/getproject', {}, function (data) {
@@ -71,7 +71,6 @@ layui.extend({
                 //append后必须从新渲染
                 form.render('select');
             }
-		});
 	})
 	
 		//提交
