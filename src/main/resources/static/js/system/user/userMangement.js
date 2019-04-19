@@ -162,7 +162,7 @@ layui.use(['form','laypage','layer','table'], function(){
 		                anim: 2,
 		                area: [widthMax+"px", heightMax+"px"],
 		                shadeClose: false, //开启遮罩关闭
-		                content: 'reviseManagement.html',
+		                content: layui.setter.project+'/sys/reviseManagement',
 		            });
 		        	
 		        }else{
