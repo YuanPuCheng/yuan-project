@@ -179,8 +179,10 @@ public class Common {
     }
 
 
-    public static Set<sys_menu> getmenu(List<sys_menu> menu){
-        Set<sys_menu> set = new HashSet();
+    public static List<sys_menu> getmenu(List<sys_menu> menu){
+        //Set<sys_menu> set = new TreeSet<>();
+        List<sys_menu> listmenu = new ArrayList();
+
 
         for(sys_menu menu1 :menu){
             sys_menu m = new sys_menu();
@@ -219,11 +221,11 @@ public class Common {
                 }
             }
             if(m.getMenuId()!=null){
-                set.add(m);
+                listmenu.add(m);
             }
         }
 
-        return set;
+        return listmenu;
 
 
     }
