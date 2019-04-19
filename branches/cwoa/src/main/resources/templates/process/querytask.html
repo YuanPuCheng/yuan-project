@@ -271,6 +271,9 @@
 									layout: ['prev', 'page', 'next'],
 									jump: function(obj, first) {
                                         if(!first) {
+                                            $("#queryProcessBox").html("");
+                                            $("h2").text("查询中ing...");
+                                            $("h2").show();
                                             $.ajax({
                                                 url: "/process/querytask",
                                                 type: "get",
@@ -283,6 +286,7 @@
                                                 success: function(data) {
                                                     list = data.queryResultList;
                                                     nowLen=list.length;
+                                                    $("h2").hide();
                                                     creatHtml(0, nowLen);
                                                 },
                                                 error: function() {
