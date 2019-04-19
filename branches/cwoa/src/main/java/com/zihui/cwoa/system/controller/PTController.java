@@ -55,5 +55,34 @@ public class PTController {
     public String updatepass(){
         return "system/user/updatepass";
     }
+    //用户页面
+    @RequestMapping(value = "/userManagement")
+    public String user(){
+        return "system/user/userManagement";
+    }
+    //用户新增页面
+    @RequestMapping(value = "/addMangement")
+    public String addMangement(){
+        return "system/user/addMangement";
+    }
+    //用户修改页面
+    @RequestMapping(value = "/reviseManagement")
+    public String reviseManagement(){
+        return "system/user/reviseManagement";
+    }
+
+    //menu跳转页面
+    @RequestMapping(value = "/menu")
+    public String menu(){
+        return "system/menu/menu";
+    }
+    @RequestMapping(value = "/addmenu")
+    public String addmenu(){
+        return "system/menu/addmenu";
+    }
+    @RequestMapping(value = "/editmenu")
+    public String editmenu(){
+        return "system/menu/editmenu";
+    }
 
 }

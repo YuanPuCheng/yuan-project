@@ -54,13 +54,11 @@ public class DepartmentController {
 
     @RequestMapping(value = "getmenu")
     @ResponseBody
-    public Set getmenu(sys_department department){
+    public List<sys_menu> getmenu(sys_department department){
         ConcurrentMap concurrentMap = new ConcurrentHashMap();
         List<Integer> menuid = department_menuService.selectMenuIdByUserId(13);
         List<sys_menu> menu = menuService.selectMenuList(new sys_menu());
         //List<sys_menu> menu = menuService.selectMenuByMenuId(menuid);
-        //
-        Set<sys_menu> set = Common.getmenu(menu);
 
         /*for(sys_menu menu1 :menu){
             sys_menu m = new sys_menu();
@@ -103,7 +101,7 @@ public class DepartmentController {
             }
         }
 */
-        return set;
+        return menu;
     }
 
 

@@ -1,9 +1,8 @@
 package com.zihui.cwoa.system.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.zihui.cwoa.system.common.Basecommon;
 import com.zihui.cwoa.system.common.CallbackResult;
+import com.zihui.cwoa.system.common.DateUtils;
 import com.zihui.cwoa.system.dao.sys_department_menuMapper;
 import com.zihui.cwoa.system.pojo.sys_user;
 import com.zihui.cwoa.system.service.sys_departmentService;
@@ -20,9 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -49,7 +46,7 @@ public class UserController {
     public sys_user user(HttpSession session){
         sys_user user =(sys_user) session.getAttribute("user");
 
-        return user_service.selectDepartmentToUser(1);
+        return user_service.selectDepartmentToUser(10);
     }
     /**
      *  根据条件查询用户列表
@@ -162,4 +159,98 @@ public class UserController {
         result.setMessage("修改成功");
         return result;
     }
-}
+
+
+
+    /**
+     *  添加用户
+     */
+    @RequestMapping(value="/add")
+    @ResponseBody
+    public CallbackResult add(sys_user user){
+        CallbackResult result = new CallbackResult();
+        String depar = user.getTempVar2();
+        log.info(user.toString());
+        user.setTempVar2(null);
+        user.setCreateTime(DateUtils.getDate());
+        Object md5password =  new SimpleHash("MD5", user.getUserPassword(), user.getUserCode());
+        user.setUserPassword(md5password.toString());
+        user_service.insertSelective(user);
+        log.info(user.getUserId());
+
+        if(!Basecommon.isNullStr(depar)) {
+         String depars []=   depar.split(",");
+            for (String a:depars){
+                user_departmentService.insertUserDepar(user.getUserId(), Integer.parseInt(a));
+            }
+        }
+        result.setResult(200);
+        result.setMessage("添加成功");
+        return result;
+
+    }
+
+
+    /**
+     *  修改用户
+     */
+    @RequestMapping(value="/edit")
+    @ResponseBody
+    public CallbackResult edit(sys_user user){
+        CallbackResult result = new CallbackResult();
+        String depar = user.getTempVar2();
+        String old = user.getTempVar3();
+        log.info(user.toString());
+        user.setTempVar2(null);
+        user_service.updateByPrimaryKeySelective(user);
+        //log.info(user.getUserId());
+        List<String> in = new ArrayList();//新增
+        List<String> de = new ArrayList();//删除
+            String depars []= depar.split(",");//1,2
+            String olds [] = old.split(",");//1
+            for(String d:depars){
+                if(old.indexOf(d)==-1){
+                    in.add(d);
+                }
+            }
+            for (String dd:olds){
+                if(depar.indexOf(dd)==-1){
+                    de.add(dd);
+                }
+        }
+
+        for(String del:de){
+            user_departmentService.deleteUserDepar(user.getUserId(),Integer.parseInt(del));
+        }
+        for(String ins:in){
+            user_departmentService.insertUserDepar(user.getUserId(),Integer.parseInt(ins));
+        }
+
+        result.setResult(200);
+        result.setMessage("添加成功");
+        return result;
+
+    }
+
+    public static void main(String[] args) {
+        String depar= "";
+        String old = "";
+        Set in =new HashSet();//新增
+        Set up = new HashSet();
+        Set de = new HashSet();//dele
+            String depars []= depar.split(",");//1,2
+            String olds [] = old.split(",");//1
+            for(String d:depars){
+
+                if(old.indexOf(d)==-1){
+                    in.add(d);
+                }
+            }
+            for (String dd:olds){
+                if(depar.indexOf(dd)==-1){
+                    de.add(dd);
+                }
+                }
+
+        }
+    }
