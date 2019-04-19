@@ -19,7 +19,7 @@ layui.extend({
 	// 直接下载后url: './data/table-tree.json',这个配置可能看不到数据，改为data:[],获取自己的实际链接返回json数组
 	var re = treeTable.render({
 		elem: '#tree-table',
-		url: 'http://127.0.0.1:8080/department/getmenu',
+		url: layui.setter.project+'/menu/getmenu',
 		primary_key: 'menuId',
 		parent_key: 'parentId',
 		icon_key: 'menuName', //展示下级列表
