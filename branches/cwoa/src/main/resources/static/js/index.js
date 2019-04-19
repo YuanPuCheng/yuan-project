@@ -13,21 +13,24 @@ layui.extend({
 		dataType:"json",
 		success:function(data){
 			console.log(data);
-			console.log(data[1].menuName);
-			
+
 			var list='';
 			for(var i=0;i<data.length;i++){
 				var lis=$('<li>');
 				lis.attr('class','layui-nav-item');
 				var als='<a href="javascript:;"><i class="layui-icon layui-icon-home"></i><cite>'+data[i].menuName+'</cite><span class="layui-nav-more"></span></a>';
 				var dds="";
-				for(var j=0;j<data[i].menus.length;j++){
-					dds+='<dd><a lay-href="'+layui.setter.project+data[i].menus[j].menuUrl+'">'+data[i].menus[j].menuName+'</a></dd>';
-					console.log(data[i].menus[j].menuUrl);
-				}
-				var dls="<dl class='layui-nav-child'>"+dds+"</dl>";
-				lis.html(als+dls);
-				$('#lay_animate3').append(lis);
+				if(data[i].menus!=null){
+                    for(var j=0;j<data[i].menus.length;j++){
+                        dds+='<dd><a lay-href="'+layui.setter.project+data[i].menus[j].menuUrl+'">'+data[i].menus[j].menuName+'</a></dd>';
+                        console.log(data[i].menus[j].menuUrl);
+                    }
+
+                }
+                var dls="<dl class='layui-nav-child'>"+dds+"</dl>";
+                lis.html(als+dls);
+                $('#lay_animate3').append(lis);
+
 			}
             function size_changed_zero(){
                 $('.layui-side-menu').width(0);

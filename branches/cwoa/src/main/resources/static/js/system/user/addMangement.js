@@ -21,7 +21,12 @@ layui.extend({
 			
 			//然后返回数据
 			return result;
-		}
+		},success: function(id, url, searchVal, result){      //使用远程方式的success回调
+            console.log(id);        //组件ID xm-select
+            console.log(url);       //URL
+            console.log(searchVal); //搜索的value
+            console.log(result);    //返回的结果
+        }
 	}).data('select1', 'server', {
 		url: layui.setter.project+'/department/getdepartment'
 	});
