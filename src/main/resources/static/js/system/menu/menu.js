@@ -118,7 +118,7 @@ layui.extend({
 			},
 			closeBtn: 1, //不显示关闭按钮
 			anim: 2,
-			area: [heightMax + "px", heightMax + "px"],
+			area: [widthMax + "px", heightMax + "px"],
 			shadeClose: false, //开启遮罩关闭
 			content: 'addmenu.html',
 			success: function(layero, index) {
@@ -229,7 +229,7 @@ layui.extend({
 			},
 			closeBtn: 1, //不显示关闭按钮
 			anim: 2,
-			area: [heightMax + "px", heightMax + "px"],
+			area: [widthMax + "px", heightMax + "px"],
 			shadeClose: false, //开启遮罩关闭
 			content: 'addmenu.html',
 			success: function(layero, index) {
@@ -272,7 +272,7 @@ layui.extend({
 			},
 			closeBtn: 1, //不显示关闭按钮
 			anim: 2,
-			area: [heightMax + "px", heightMax + "px"],
+			area: [widthMax + "px", heightMax + "px"],
 			shadeClose: false, //开启遮罩关闭
 			content: 'editmenu.html',
 			success: function(layero, index) {
