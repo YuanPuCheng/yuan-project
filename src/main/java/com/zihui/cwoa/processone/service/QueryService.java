@@ -15,7 +15,7 @@ public class QueryService {
     /**
      *  根据用户工号查询他发起的未完成的流程的ID
      *  @param userCode 用户工号
-     *  @return 查询结果
+     *  @return 流程ID的集合
      */
     public List<String> queryProcessActiveByUserCode(String userCode){
         return queryMapper.queryProcessActiveByUserCode(userCode);
@@ -33,7 +33,7 @@ public class QueryService {
     /**
      *  根据流程实例ID查询流程名称
      *  @param processInstanceId 流程实例ID
-     *  @return 流程状态
+     *  @return 流程名称
      */
     public String queryProNameByProInstanceId(String processInstanceId){
         return queryMapper.queryProNameByProInstanceId(processInstanceId);
