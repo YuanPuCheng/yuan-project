@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zihui.cwoa.system.dao.sys_departmentMapper" >
   <resultMap id="BaseResultMap" type="com.zihui.cwoa.system.pojo.sys_department" >
-    <id column="department_id" property="departmentId" jdbcType="VARCHAR" />
+    <id column="department_id" property="departmentId" jdbcType="INTEGER" />
     <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
     <result column="department_code" property="departmentCode" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
@@ -22,18 +22,18 @@
   <sql id="Base_Column_List" >
     department_id, department_name, department_code, status, ts
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from sys_department
-    where department_id = #{departmentId,jdbcType=VARCHAR}
+    where department_id = #{departmentId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_department
-    where department_id = #{departmentId,jdbcType=VARCHAR}
+    where department_id = #{departmentId,jdbcType=INTEGER}
   </delete>
 
-  <insert id="insertSelective" parameterType="com.zihui.cwoa.system.pojo.sys_department" >
+  <insert id="insertSelective" parameterType="com.zihui.cwoa.system.pojo.sys_department" keyProperty="departmentId" useGeneratedKeys="true">
     insert into sys_department
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="departmentId != null and departmentId !=''" >
@@ -45,7 +45,7 @@
       <if test="departmentCode != null and departmentCode !=''" >
         department_code,
       </if>
-      <if test="status != null and status !=''" >
+      <if test="status != null" >
         status,
       </if>
       <if test="ts != null and ts !=''" >
@@ -62,7 +62,7 @@
       <if test="departmentCode != null and departmentCode !=''" >
         #{departmentCode,jdbcType=VARCHAR},
       </if>
-      <if test="status != null and status !=''" >
+      <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
       <if test="ts != null and ts !=''" >
@@ -86,7 +86,7 @@
         ts = #{ts,jdbcType=VARCHAR},
       </if>
     </set>
-    where department_id = #{departmentId,jdbcType=VARCHAR}
+    where department_id = #{departmentId,jdbcType=INTEGER}
   </update>
 
   <!--根据部门id查询部门 传人参数List 返回List可以有多个部门-->
@@ -119,19 +119,40 @@
       and department_id = #{departmentId,jdbcType=VARCHAR}
     </if>
     <if test="departmentName != null and departmentName !=''" >
-     and  department_name = #{departmentName,jdbcType=VARCHAR}
+     and department_name = #{departmentName,jdbcType=VARCHAR}
     </if>
     <if test="departmentCode != null and departmentCode !=''" >
-     and department_code #{departmentCode,jdbcType=VARCHAR}
+      and department_code = #{departmentCode,jdbcType=VARCHAR}
     </if>
     <if test="status != null and status !=''" >
       and status = #{status,jdbcType=INTEGER}
     </if>
     <if test="ts != null and ts !=''" >
-     and ts = #{ts,jdbcType=VARCHAR}
+      and ts = #{ts,jdbcType=VARCHAR}
     </if>
 
 
+  </select>
+
+
+
+  <select id="selectDpeartmentListPage" resultMap="BaseResultMap" parameterType="map">
+    SELECT * FROM sys_department where 1=1
+
+    <if test="departmentName != null and departmentName !=''" >
+      and department_name  LIKE CONCAT('%',#{departmentName,jdbcType=VARCHAR},'%')
+    </if>
+
+
+    limit #{page} , #{limit}
+
+  </select>
+  <select id="selectDpeartmentCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    SELECT count(*) FROM sys_department where 1=1
+
+    <if test="departmentName != null and departmentName !=''" >
+      and department_name  LIKE CONCAT('%',#{departmentName,jdbcType=VARCHAR},'%')
+    </if>
   </select>
 
 
