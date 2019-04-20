@@ -58,6 +58,7 @@ public class UserController {
 
        //user.setTempVar3(department);//代表部门id
         List<sys_user> list = user_service.selectUserDepar(user);
+        //Integer count = user_service.selectUserCount(user);
         ConcurrentMap concurrentMap = new ConcurrentHashMap<String,Object>();
         //PageInfo<sys_user> info = new PageInfo<>(list);
         concurrentMap.put("count", list.size());
@@ -66,6 +67,32 @@ public class UserController {
         concurrentMap.put("msg", "成功");
         return concurrentMap;
     }
+
+    /**
+     *  根据条件查询用户列表分页
+     */
+  /*  @RequestMapping(value = "/getuserPage")
+    @ResponseBody
+    public ConcurrentMap getuserPage(sys_user user,Integer page, Integer limit){
+        CallbackResult result = new CallbackResult();
+        ConcurrentMap concurrentMap = new ConcurrentHashMap<String,Object>();
+        if(page==1){
+            page =0;
+        }else{
+            page = (page-1)*limit;
+        }
+        List<sys_user> list = user_service.selectUserDepar(user,page,limit);
+
+
+        Integer count = user_service.selectUserCount(user);
+
+        concurrentMap.put("count", count);
+        concurrentMap.put("data", list);
+        concurrentMap.put("code", 0);
+        concurrentMap.put("msg", "成功");
+        return concurrentMap;
+    }*/
+
     @RequestMapping(value = "/de")
     @ResponseBody
     @RequiresPermissions("1")
@@ -202,22 +229,34 @@ public class UserController {
         String old = user.getTempVar3();
         log.info(user.toString());
         user.setTempVar2(null);
-        user_service.updateByPrimaryKeySelective(user);
-        //log.info(user.getUserId());
-        List<String> in = new ArrayList();//新增
-        List<String> de = new ArrayList();//删除
+        try {
+            user_service.updateByPrimaryKeySelective(user);
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setResult(400);
+            result.setMessage("修改失败");
+            return result;
+        }
+
+        Set<String> in = new HashSet();//新增
+        Set<String> de = new HashSet();//删除
+        Set set1 = new HashSet();
+        Set set2 = new HashSet();
             String depars []= depar.split(",");//1,2
             String olds [] = old.split(",");//1
             for(String d:depars){
-                if(old.indexOf(d)==-1){
-                    in.add(d);
-                }
+                set1.add(d);
             }
             for (String dd:olds){
-                if(depar.indexOf(dd)==-1){
-                    de.add(dd);
-                }
+                set2.add(dd);
         }
+        in.addAll(set1);
+        in.removeAll(set2);
+        de.addAll(set2);
+        de.removeAll(set1);
+
+       log.info("新增：" + in);
+        log.info("删除：" + de);
 
         for(String del:de){
             user_departmentService.deleteUserDepar(user.getUserId(),Integer.parseInt(del));
@@ -227,18 +266,27 @@ public class UserController {
         }
 
         result.setResult(200);
-        result.setMessage("添加成功");
+        result.setMessage("修改成功");
         return result;
 
     }
 
     public static void main(String[] args) {
-        String depar= "";
-        String old = "";
+        String depar= "1,2,4";
+        String old = "1,2,3";
         Set in =new HashSet();//新增
         Set up = new HashSet();
         Set de = new HashSet();//dele
-            String depars []= depar.split(",");//1,2
+        String []xxx = depar.split(",");
+        String []ddd = old.split(",");
+
+        //list2.removeAll(list1);
+        //list4.removeAll(list3);
+        //System.out.println(list1.toString());
+       // System.out.println(list3.toString());
+
+
+           /* String depars []= depar.split(",");//1,2
             String olds [] = old.split(",");//1
             for(String d:depars){
 
@@ -251,6 +299,6 @@ public class UserController {
                     de.add(dd);
                 }
                 }
-
+*/
         }
     }
