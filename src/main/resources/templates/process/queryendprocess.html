@@ -23,6 +23,7 @@
 		<script src="./../../static/layui/layui.js"></script>
 		<script>
 			//<![CDATA[
+			var $;
 			Date.prototype.format = function(fmt) {
 				var o = {
 					"M+": this.getMonth() + 1, //月份 
@@ -47,19 +48,60 @@
                 if(fileNameArray=='undefined') {
                     layer.msg("该申请没有附件!");
                 } else {
-                        var arr = fileNameArray.split(",");
-                        for(var i = 0; i < arr.length; i++) {
-                            const iframe = document.createElement("iframe");
-                            iframe.style.display = "none";
-                            iframe.style.height = "0px";
-                            iframe.src = "/file/down?filename="+arr[i];
-                            document.body.appendChild(iframe);
+                    $.ajax({
+                        url: "/file/queryfilenamebyid",
+                        type: "get",
+                        data: {
+                            "idArray": fileNameArray
+                        },
+                        dataType: "json",
+                        success: function(data) {
+                            var list=data;
+                            var txt="";
+                            for(var j = 0,len=list.length; j < len; j++) {
+                                txt = txt + '<tr><td>'+list[j].file_rename+
+                                    '</td><td class="hoverStyle" onclick=\"viewFile(\''+ list[j].file_name+
+                                    '\')\">预览图片</td><td><a href="/file/down?filename='+list[j].file_name+
+                                    '">点击下载</a></td></tr>';
+                            }
+                            layer.open({
+                                type: 1,
+                                shadeClose: true,
+                                shade: 0.8,
+                                skin: 'layui-layer-rim', //加上边框
+                                area: ['100%', '80%'], //宽高
+                                content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>下载附件</legend></fieldset>' +
+                                '<div class="layui-form"><table class="layui-table"><colgroup><col><col><col></colgroup>' +
+                                '<thead><tr><th>文件名</th><th>点击预览</th><th>点击下载</th></tr></thead>' +
+                                '<tbody>' + txt + '</tbody></table></div>'
+                            });
+                        },
+                        error: function() {
+                            layer.msg('加载失败，请重试！', {
+                                icon: 2
+                            });
                         }
+                    });
                 }
             }
-
+            function viewFile(imageName) {
+                var iName=imageName.toLowerCase();
+                var iType = iName.substring(iName.lastIndexOf("."));
+                if(iType!==".png"&&iType!==".jpg"&&iType!==".jpeg"&&iType!==".bmp"&&iType!==".gif"){
+                    layer.msg('只有图片才可以预览！');
+                }else{
+                    layer.open({
+                        type: 1,
+                        shadeClose: true,
+                        shade: 0.8,
+                        skin: 'layui-layer-rim', //加上边框
+                        area: ['100%', '80%'], //宽高
+                        content: '<img src="/file/down?filename='+imageName+'"/>'
+                    });
+                }
+            }
 			layui.use(['layer', 'laypage'], function() {
-				var $ = layui.jquery;
+				$ = layui.jquery;
 				var layer = layui.layer;
 				var laypage = layui.laypage;
 				var nowLen=0;
@@ -183,7 +225,7 @@
                                         shadeClose: true,
                                         shade: 0.8,
                                         skin: 'layui-layer-rim', //加上边框
-                                        area: ['90%', '80%'], //宽高
+                                        area: ['100%', '80%'], //宽高
                                         content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>流程详情</legend></fieldset>' +
                                         '<div class="layui-form"><table class="layui-table"><colgroup><col width="150"><col width="150"></colgroup>' +
                                         '<thead><tr><th>属性名</th><th>属性值</th></tr></thead>' +
@@ -203,7 +245,7 @@
                                 shadeClose: true,
                                 shade: 0.8,
                                 skin: 'layui-layer-rim', //加上边框
-                                area: ['90%', '80%'], //宽高
+                                area: ['100%', '80%'], //宽高
                                 content: '<img src="/process/downloadpng?deploymentId=' + deploymentId + '"/>'
                             });
                         } else {
