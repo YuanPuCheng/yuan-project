@@ -95,7 +95,7 @@ layui.extend({
 					anim: 2,
 					area: [widthMax + "px", heightMax + "px"],
 					shadeClose: false, //开启遮罩关闭
-					content: 'adddepartment.html',
+					content: layui.setter.project+'/sys/adddepartment',
 					success: function(layero, index) {
 
 					},
@@ -190,7 +190,7 @@ layui.extend({
 			anim: 2,
 			area: [widthMax + "px", heightMax + "px"],
 			shadeClose: false, //开启遮罩关闭
-			content: 'editdepartment.html',
+			content: layui.setter.project+'/sys/editdepartment',
 			success: function(layero, index) {
 				var body = layer.getChildFrame('body', index);
 				body.find("#departmentName").val(data.departmentName);
