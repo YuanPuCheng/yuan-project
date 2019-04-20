@@ -55,4 +55,31 @@ public class sys_user_departmentService {
     public List<String> selectDepartmentByUserId(Integer userId){
         return user_departmentMapper.selectDepartmentByUserId(userId);
     }
+    /**
+     *  新增用户部门关联表
+     *  @param userId  传入userid
+     *  @param departmentId  传入部门id
+     *  @return int
+     */
+    public int insertUserDepar(Integer userId, Integer departmentId ){
+        return user_departmentMapper.insertUserDepar(userId,departmentId);
+    };
+    /**
+     *  修改用户部门关联表
+     *  @param userId  传入userid
+     *  @param departmentId  传入部门id
+     *  @return int
+     */
+    public int updateUserDepar(Integer userId, Integer departmentId ){
+        return user_departmentMapper.updateUserDepar(userId,departmentId);
+    };
+    /**
+     *  删除用户部门关联表
+     *  @param userId  传入userid
+     *  @param departmentId  传入部门id
+     *  @return int
+     */
+    public int deleteUserDepar(Integer userId,Integer departmentId ){
+        return user_departmentMapper.deleteUserDepar(userId,departmentId);
+    };
 }

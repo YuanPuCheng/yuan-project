@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class sys_departmentService {
@@ -81,5 +82,19 @@ public class sys_departmentService {
      */
     public List<sys_department> selectDpeartmentList(sys_department record){
         return departmentMapper.selectDpeartmentList(record);
+    };
+
+    /**
+     *  根据条件查询部门
+     *  @param map 部门对象
+     *  @return List sys_department 返回所有部门对象
+     */
+    public List<sys_department> selectDpeartmentListPage(Map map){
+        return departmentMapper.selectDpeartmentListPage(map);
+    };
+
+
+    public Integer selectDpeartmentCount(String departmentName){
+        return departmentMapper.selectDpeartmentCount(departmentName);
     };
 }

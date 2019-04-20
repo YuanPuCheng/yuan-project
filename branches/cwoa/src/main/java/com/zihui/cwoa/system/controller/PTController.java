@@ -85,4 +85,17 @@ public class PTController {
         return "system/menu/editmenu";
     }
 
+    //部门跳转页面
+    @RequestMapping(value = "/department")
+    public String department(){
+        return "system/department/department";
+    }
+    @RequestMapping(value = "/adddepartment")
+    public String adddepartment(){
+        return "system/department/adddepartment";
+    }
+    @RequestMapping(value = "/editdepartment")
+    public String editdepartment(){
+        return "system/department/editdepartment";
+    }
 }

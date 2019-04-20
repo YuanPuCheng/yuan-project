@@ -10,7 +10,7 @@ public class CallbackResult {
     public String message;
     public Map map;
     public List<?> list ;
-	
+
 	public List<?> getList() {
 		return list;
 	}

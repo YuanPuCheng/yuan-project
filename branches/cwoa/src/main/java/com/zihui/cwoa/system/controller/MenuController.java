@@ -119,5 +119,14 @@ public class MenuController {
         return result;
     }
 
+    @RequestMapping(value = "getmenu")
+    @ResponseBody
+    public List<sys_menu> getmenu(sys_department department){
+        ConcurrentMap concurrentMap = new ConcurrentHashMap();
+        List<Integer> menuid = department_menuService.selectMenuIdByUserId(13);
+        List<sys_menu> menu = menuService.selectMenuList(new sys_menu());
+
+        return menu;
+    }
 
 }

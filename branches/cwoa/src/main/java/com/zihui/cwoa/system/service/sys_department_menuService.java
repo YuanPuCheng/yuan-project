@@ -3,6 +3,7 @@ package com.zihui.cwoa.system.service;
 
 import com.zihui.cwoa.system.dao.sys_department_menuMapper;
 import com.zihui.cwoa.system.pojo.sys_department_menu;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,11 +26,12 @@ public class sys_department_menuService {
     }
     /**
      *  新增部门菜单
-     *  @param record id
+     *  @param departmentId id
+     *   @param menuId
      *  @return int 0=新增失败
      */
-    public int insert(sys_department_menu record){
-        return department_menuMapper.insert(record);
+    public int insert(Integer departmentId, Integer menuId){
+        return department_menuMapper.insert(departmentId,menuId);
     }
     /**
      *  根据部门菜单id查询关联信息
@@ -56,4 +58,17 @@ public class sys_department_menuService {
         return department_menuMapper.selectMenuIdByUserId(userId);
     }
 
+    /**
+     *  根据部门id查询菜单id
+     *  @param departmentId 一个部门id
+     *  @return menuId 返回对于的菜单id
+     */
+    public List<Integer> selectMenuIdByDeparId(@Param("departmentId") Integer departmentId){
+        return department_menuMapper.selectMenuIdByDeparId(departmentId);
+    };
+
+
+    public int deleteByDeparIdAndMenuId(@Param("departmentId") Integer departmentId,@Param("menuId") Integer menuId){
+        return department_menuMapper.deleteByDeparIdAndMenuId(departmentId,menuId);
+    };
 }

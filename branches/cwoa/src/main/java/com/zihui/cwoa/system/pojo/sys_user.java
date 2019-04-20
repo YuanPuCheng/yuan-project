@@ -53,7 +53,7 @@ public class sys_user {
 
     private String tempVar3;
 
-    private Integer tempInt1;
+    private Integer tempInt1;// 项目表id
 
     private Integer tempInt2;
 
