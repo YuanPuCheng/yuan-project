@@ -63,7 +63,7 @@ layui.extend({
 					if(item.status == 0) {
 						return '正常';
 					} else {
-						return '失效';
+						return '禁用';
 					}
 
 				}
