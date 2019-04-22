@@ -110,7 +110,7 @@ public class MyShiroRealm extends AuthorizingRealm {
             String pass = user.getUserPassword();
             log.info(result.toString() + "|" + pass);
             // 将数据库中的密码与输入的密码进行比较，这样就可以确定当前用户是否可以正常登录
-            if (result.equals(pass)) {
+            if (!result.toString().equals(pass)) {
                 sys_user erroruser = new sys_user();
                 String errorcount = user.getErrorCount();
                 if (Basecommon.isNullStr(errorcount)) {
