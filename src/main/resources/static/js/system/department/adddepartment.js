@@ -111,7 +111,7 @@ layui.extend({
 		
 		console.log(menuId)
 		$.ajax({
-			url: layui.setter.project + "/department/edit",
+			url: layui.setter.project + "/department/add",
 			type: "post",
 			xhrFields: {
 				withCredentials: true
