@@ -217,7 +217,7 @@ layui.extend({
 		var departmentId = $("#departmentId").val();
 		var departmentName = $("#departmentName").val();
 		var departmentCode = $("#departmentCode").val();
-		var status = $("input[name='status']").val();
+		var status = $("input[name='status']:checked").val();
 		var menuId = treeTable.checked(re).join(',');
 		console.log(departmentId)
 		console.log(menuId)
