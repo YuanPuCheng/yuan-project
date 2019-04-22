@@ -154,13 +154,13 @@
      and  project_id = #{projectId,jdbcType=VARCHAR}
     </if>
     <if test="projectName != null and projectName !=''" >
-     and project_name = #{projectName,jdbcType=VARCHAR}
+     and project_name LIKE CONCAT('%',#{projectName,jdbcType=VARCHAR},'%')
     </if>
     <if test="projectIntroduction != null and projectIntroduction !=''" >
      and project_introduction = #{projectIntroduction,jdbcType=VARCHAR}
     </if>
     <if test="projectAddress != null and projectAddress !=''" >
-     and project_address = #{projectAddress,jdbcType=VARCHAR}
+     and project_address LIKE CONCAT('%',#{projectAddress,jdbcType=VARCHAR},'%')
     </if>
     <if test="status != null and status !=''" >
      and status = #{status,jdbcType=INTEGER}
@@ -174,18 +174,7 @@
     <if test="ts != null and ts !=''" >
      and ts = #{ts,jdbcType=VARCHAR}
     </if>
-    <if test="tempVar1 != null and tempVar1 != ''" >
-     and temp_var1 = #{tempVar1,jdbcType=VARCHAR}
-    </if>
-    <if test="tempVar2 != null and tempVar2 !=''" >
-     and temp_var2 = #{tempVar2,jdbcType=VARCHAR}
-    </if>
-    <if test="tempInt1 != null and tempInt1 !=''" >
-     and temp_int1 = #{tempInt1,jdbcType=INTEGER}
-    </if>
-    <if test="tempInt2 != null and tempInt2 !=''" >
-     and temp_int2 = #{tempInt2,jdbcType=INTEGER}
-    </if>
+    ORDER by  project_id DESC,status
 
   </select>
 
