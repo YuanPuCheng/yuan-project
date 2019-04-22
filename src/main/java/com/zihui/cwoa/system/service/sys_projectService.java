@@ -42,7 +42,10 @@ public class sys_projectService {
         //PageHelper.startPage(page,limit);
         //PageHelper.startPage(pageNum, pageSize);
         //List list = projectMapper.selectProList(record);
-        PageHelper.startPage(page,limit);
+        if(page!=null){
+            PageHelper.startPage(page,limit);
+        }
+
         return projectMapper.selectProList(record);
     };
 }

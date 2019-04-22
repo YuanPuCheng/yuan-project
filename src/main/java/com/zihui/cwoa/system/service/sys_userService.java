@@ -87,8 +87,9 @@ public class sys_userService {
         return userMapper.selectUserList(record);
     };
 
-    public List<sys_user> selectUserDepar(sys_user record){
-        return userMapper.selectUserDepar(record);
+    public List<sys_user> selectUserDepar(sys_user record,Integer page,Integer limit){
+
+        return userMapper.selectUserDepar(record,page,limit);
     };
 
     /**
@@ -98,5 +99,10 @@ public class sys_userService {
      */
     public int deleteByUserCode(String userCode){
         return userMapper.deleteByUserCode(userCode);
+    };
+
+
+    public Integer selectUserCount(sys_user record){
+        return userMapper.selectUserCount(record);
     };
 }
