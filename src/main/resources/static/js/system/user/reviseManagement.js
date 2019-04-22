@@ -88,7 +88,6 @@ layui.extend({
 							"userId": userId,
 							"userCode": usercode,
 							"userName": username,
-							"userPassword": "A!123456",
 							"email": email,
 							"phone": phone,
 							"tempVar3":dep,
