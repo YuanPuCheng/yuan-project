@@ -38,8 +38,8 @@ layui.extend({
 						title: '邮箱'
 					},
 					{
-						field: 'images',
-						title: '头像'
+						field: 'last_time',
+						title: '上次登录时间'
 					},
 					{
 						field: 'phone',
@@ -75,7 +75,7 @@ layui.extend({
 					},
 					{
 						field: 'projects',
-						title: '项目名称',
+						title: '所在项目',
 						templet: function(d) {
 							var a = d.project;
 							var name1 = "";
