@@ -46,7 +46,7 @@ public class UserController {
     public sys_user user(HttpSession session){
         sys_user user =(sys_user) session.getAttribute("user");
 
-        return user_service.selectDepartmentToUser(10);
+        return user_service.selectDepartmentToUser(user.getUserId());
     }
     /**
      *  根据条件查询用户列表
