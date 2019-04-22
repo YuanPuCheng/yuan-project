@@ -98,4 +98,18 @@ public class PTController {
     public String editdepartment(){
         return "system/department/editdepartment";
     }
+
+    //项目跳转页面
+    @RequestMapping(value = "/project")
+    public String project(){
+        return "system/project/project";
+    }
+    @RequestMapping(value = "/addproject")
+    public String addproject(){
+        return "system/project/addproject";
+    }
+    @RequestMapping(value = "/editproject")
+    public String editproject(){
+        return "system/project/editproject";
+    }
 }

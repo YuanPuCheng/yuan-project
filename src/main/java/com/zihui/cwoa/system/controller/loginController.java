@@ -229,8 +229,12 @@ public class loginController {
 
         sys_user user = (sys_user) session.getAttribute("user");
         List<Integer> menuId=department_menuMapper.selectMenuIdByUserId(user.getUserId());
-        List<sys_menu> m =menuService.selectMenuByMenuId(menuId);
-        List list = Common.getmenu(m);
+        List list = new ArrayList();
+        if(menuId.size()!=0){
+            List<sys_menu> m =menuService.selectMenuByMenuId(menuId);
+            list= Common.getmenu(m);
+        }
+
         /*if(user!=null){
             List<Integer> menuId=department_menuMapper.selectMenuIdByUserId(user.getUserId());
             List<sys_menu> m =menuService.selectMenuByMenuId(menuId);
