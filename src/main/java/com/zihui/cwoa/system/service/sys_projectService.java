@@ -1,5 +1,7 @@
 package com.zihui.cwoa.system.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.zihui.cwoa.system.dao.sys_projectMapper;
 import com.zihui.cwoa.system.pojo.sys_project;
 import org.springframework.stereotype.Service;
@@ -36,7 +38,11 @@ public class sys_projectService {
      * @param record
      * @return sys_project 返回所有对象
      */
-    public List<sys_project> selectProList(sys_project record){
+    public List<sys_project> selectProList(sys_project record,Integer page, Integer limit){
+        //PageHelper.startPage(page,limit);
+        //PageHelper.startPage(pageNum, pageSize);
+        //List list = projectMapper.selectProList(record);
+        PageHelper.startPage(page,limit);
         return projectMapper.selectProList(record);
     };
 }
