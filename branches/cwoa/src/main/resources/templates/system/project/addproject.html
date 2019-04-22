@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>项目管理</title>
+		<meta name="renderer" content="webkit" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<link rel="stylesheet" href="../../../static/css/admin.css" media="all" />
+		<link rel="stylesheet" href="../../../static/layui/css/layui.css" media="all" />
+		<style type="text/css">
+			html {
+				background-color: #FFFFFF
+			}
+			.layui-input-block{
+				width: 80%;
+			}
+			.layui-form {
+				padding-top: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="layui-form" lay-filter="myform">
+			<div class="layui-form-item">
+				<label class="layui-form-label">项目名称：</label>
+				<div class="layui-input-block">
+					<input type="text" name="projectName" id="projectName" lay-verify="required" class="layui-input" />
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">开始时间：</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input" id="startTime" placeholder="yyyy-MM-dd">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">结束时间：</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input" id="endTime" placeholder="yyyy-MM-dd">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">项目地址：</label>
+				<div class="layui-input-block">
+					<textarea placeholder="请输入内容" id="projectAddress" lay-verify="required" class="layui-textarea"></textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">项目介绍：</label>
+				<div class="layui-input-block">
+					<textarea placeholder="请输入内容" id="projectIntroduction" class="layui-textarea"></textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">状态：</label>
+				<div class="layui-input-block">
+					<input type="radio" name="status" value="1" title="未开始" checked="checked" />
+					<input type="radio" name="status" value="2" title="进行中" />
+					<input type="radio" name="status" value="3" title="已结束" />
+					<input type="hidden" id="projectId" />
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button id="addtj" class="layui-btn hi" lay-submit="" lay-filter="addproject">确认</button>
+					<button id="addqx" class="layui-btn">取消</button>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script src="../../../static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: "../../../static/js/system/project/"
+
+		}).use(['addproject'], function() {
+
+		});
+	</script>
+
+</html>
