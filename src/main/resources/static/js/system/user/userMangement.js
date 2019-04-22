@@ -1,298 +1,322 @@
 layui.extend({
 	setter: "../../../../static/layui/config"
-		
+
 }).define(["setter", "jquery"], function(e) {
 	var $ = layui.jquery;
 
-layui.use(['form','laypage','layer','table'], function(){
-		  var table = layui.table,
-		  	  laypage = layui.laypage,
-		  	  layer = layui.layer,
-		  	  form = layui.form,
-		  	  $ = layui.jquery;
-		  		
-		  var tabins = table.render({
-		    elem: '#test',
-		    url:layui.setter.project+'/user/getuser',
-		    toolbar:"#barDemo",
-		    method: 'post',
-		    id: 'testReload',
-		    cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-		    cols: [[
-		      {type:'checkbox'},
-		      {field:'userCode',  title: '用户工号', sort: true},
-		      {field:'userName',  title: '用户名称'},
-		      {field:'sex',  title: '性别'},
-		      {field:'email',  title: '邮箱'},
-		      {field:'images',  title: '头像'},
-		      {field:'phone',  title: '电话'},
-		      {field:'ts',  title: '登陆时间', sort: true},
-		      {field:'ip',  title: 'IP'},
-		      {field:'name',  title: '部门',templet:function(d){
-		      	var a = eval(d.departments);
-		      	var name="";
-		      	if(a!=null){
-		      		$.each(a,function(index,value){
-	     				name = value.departmentName+"、"+name;
-					});
-		      	}else{
-		      		name=""
-		      	}
-		      	
-		      	//var ddd=a.departments[0].departmentCode
-		      	name = name.substring(0,name.length-1);
-		      	return name ;
-		      }},
-		      {field:'projects',  title: '项目名称',templet:function(d){
-			      	var a = d.project;
-			      	var name1="";
-			      	if(a!=null){
-			      		name1 = d.project.projectName;
-			      	}
-			      	
-			      	return name1 ;
-			      }}
-		      
-		    ]],
-		  });
-		  //搜索(方法重载)
- 			
-		  $('#Search').on('click', function(){
-		  	var name2 =$('#SearchDepartments').val();
-		  	var name1= names(name2);
-		  	var sex1 = names( $('#SearchSex').val());
-		  	var project1 = names( $('#SearchProjects').val());
- 			function names(obj){
- 				var n = "";
- 				if(obj=="不限"){
- 					return n;
- 				}
- 				return obj;
- 			}
-//				console.log(name1+sex1);
-		      table.reload('testReload', {
-		      	url:layui.setter.project+'/user/getuser',
-		        where: {
-		           	userCode: $('#SearchUserCode').val(),
-		            userName: $('#SearchUserName').val(),
-		            tempVar3: name1,
-		            sex: sex1,
-		            tempInt1: project1
-		        }
-		      });
-		  });
-		  
-		  
-		  //分页
-		  var counts=0;
-		  
-		      $.ajax({
-		      	type:"post",
-		      	url:layui.setter.project+"/user/getuser",
-		      	dataType:'json',
-		      	success:function (data){
-		      		counts=data.data.length;//数据总条数
-		      		laypage.render({
-					    elem: 'demo0',
-					    count: counts,//数据总数
-					    limit: 10,
-					    layout: [ 'count','prev', 'page', 'next', 'refresh', 'skip'],
-					    jump: function(obj){
-					    	
-					    }
-			    	});
-		      	},
-		      	error: function (){
-		      		alert('数据加载失败！');
-		      	}
-		      });
-		  
-		  //头工具栏事件
-		  table.on('toolbar(test)', function(obj){
-		    var checkStatus = table.checkStatus(obj.config.id);
-		    switch(obj.event){
-		      case 'edit':
-		      	//用户编辑
-		    	  
-		    	var widthMax=750,
-	      			heightMax=600;
-					if($(window).width()<768){
-						widthMax=280;
-						heightMax=350
+	layui.use(['form', 'layer', 'table'], function() {
+		var table = layui.table,
+			layer = layui.layer,
+			form = layui.form,
+			$ = layui.jquery;
+
+		table.render({
+			elem: '#test',
+			url: layui.setter.project + '/user/getuserPage',
+			toolbar: "#toolbarDemo",
+			method: 'post',
+			cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+			cols: [
+				[{
+						type: 'checkbox'
+					},
+					{
+						field: 'userCode',
+						title: '用户工号',
+						sort: true
+					},
+					{
+						field: 'userName',
+						title: '用户名称'
+					},
+					{
+						field: 'sex',
+						title: '性别'
+					},
+					{
+						field: 'email',
+						title: '邮箱'
+					},
+					{
+						field: 'images',
+						title: '头像'
+					},
+					{
+						field: 'phone',
+						title: '电话'
+					},
+					{
+						field: 'ts',
+						title: '登陆时间',
+						sort: true
+					},
+					{
+						field: 'ip',
+						title: 'IP'
+					},
+					{
+						field: 'name',
+						title: '部门',
+						templet: function(d) {
+							var a = eval(d.departments);
+							var name = "";
+							if(a != null) {
+								$.each(a, function(index, value) {
+									name = value.departmentName + "、" + name;
+								});
+							} else {
+								name = ""
+							}
+
+							//var ddd=a.departments[0].departmentCode
+							name = name.substring(0, name.length - 1);
+							return name;
+						}
+					},
+					{
+						field: 'projects',
+						title: '项目名称',
+						templet: function(d) {
+							var a = d.project;
+							var name1 = "";
+							if(a != null) {
+								name1 = d.project.projectName;
+							}
+							return name1;
+						}
+					}, {
+						//fixed: 'right',
+						title: '操作',
+						toolbar: '#barDemo',
+						width: 120
 					}
-		        var data = checkStatus.data;
-		        sessionStorage.setItem('key',JSON.stringify(data));
-		        if(data.length==1){//判断每次只能选择一条数据进行修改
-		        	layer.open({//弹框
-		                type: 2,
-		                //skin: 'layui-layer-demo', //样式类名
-		                title: '用户编辑',
-		                maxmin: true,
-		                btn: [],
-		                yes: function(index, layero){
-		                	var iframeWindow = window['layui-layer-iframe'+ index],
-		                    submitID = 'LAY-user-front-submit',
-		                    submit = layero.find('iframe').contents().find('#'+ submitID);
 
-		                    //监听提交
-		                	console.log(iframeWindow);
-		                    iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
-		                      var field = data.field; //获取提交的字段
-		                      
-		                      //提交 Ajax 成功后，静态更新表格中的数据
-		                      //$.ajax({});
-		                      table.reload('LAY-user-front-submit'); //数据刷新
-		                      layer.close(index); //关闭弹层
-		                    });  
-		                    
-		                    submit.trigger('click')
-
-		                },
-		                success: function(){
-		                	laypage.render({
-							    elem: 'demo0',
-							    count: counts,//数据总数
-							    layout: [ 'count','prev', 'page', 'next', 'refresh', 'skip'],
-							    jump: function(obj){
-							    	
-							    }
-					    	});
-		                },
-		                closeBtn: 1, //不显示关闭按钮
-		                anim: 2,
-		                area: [widthMax+"px", heightMax+"px"],
-		                shadeClose: false, //开启遮罩关闭
-		                content: layui.setter.project+'/sys/reviseManagement',
-		            });
-		        	
-		        }else{
-		        	layer.alert("请一次选中一个！");
-		        }
-		      break;
-		      case 'add':
-		      	//用户添加
-				var widthMax=750,
-        			heightMax=600;
-				if($(window).width()<768){
-					widthMax=280;
-					heightMax=350
-				}
-	        	
-		    	  layer.open({
-		                type: 2,
-		                //skin: 'layui-layer-demo', //样式类名
-		                title: '用户添加',
-		                closeBtn: 1, //不显示关闭按钮
-		                anim: 2,
-		                fixed: false,
-		                maxmin: true,
-		                
-		                success: function(){
-		                	laypage.render({
-							    elem: 'demo0',
-							    count: counts,//数据总数
-							    layout: [ 'count','prev', 'page', 'next', 'refresh', 'skip'],
-							    jump: function(obj){
-							    	
-							    }
-					    	});
-		                },
-		                btn: [],
-		                area: [widthMax+'px', heightMax+'px'],
-		                shadeClose: false, //开启遮罩关闭
-		                content: 'addMangement.html?data='+data
-		            });
-		      break;
-		      case 'del':
-		      	//用户删除
-//		        var checkStatus = table.checkStatus('test');
-				if(checkStatus.data.length==0){
-					parent.layer.msg('请先选择要删除的数据行！', {icon: 2});
-					return ;
-				}
-				var ids = "";
-				for(var i=0;i<checkStatus.data.length;i++){
-					ids += checkStatus.data[i].userCode+",";
-				}
-				ids=ids.substring(0,ids.length-1);
-				var usercodes=ids;
-				parent.layer.msg('删除中...', {icon: 16,shade: 0.3,time:5000});
-				 $.ajax({
-				 	
-        	  	type:"post",
-        	  	url:layui.setter.project+"/user/delete",
-        	  	xhrFields: {
-					withCredentials: true
-				},
-				data: {
-					"usercodes": ids
-				},
-        	  	dataType:"json",
-        	  	success:function(data){
-    	  		 if(data.result==200){
-			      layer.msg(data.message);
-    	  		 	table.reload('testReload', {
-			      	url:layui.setter.project+'/user/getuser'
-			      });
-            	laypage.render({
-				    elem: 'demo0',
-				    count: counts,//数据总数
-				    layout: [ 'count','prev', 'page', 'next', 'refresh', 'skip'],
-				    jump: function(obj){
-				    	
-				    	}
-	                })
-    	  		 }else{
-    	  		 	layer.alert(result.message);
-    	  		 }
-        	  	},
-        	  	error:function(jqx){
-        	  		alert("发生错误："+jqx);
-        	  	}
-        	  });
-			 
-		      break;
-		    };
-		  });
-		  
-		 //部门下拉框加载
-		 $.get(layui.setter.project+'/department/getdepartment', {}, function (data) {
-                var $html = "<option>不限</option>";
-                if(data.data != null){
-                    $.each(data.data, function (index, item) {
-                        if (item.proType){
-                            $html += "<option class='generate'>不限</option>";
-                        }else{
-                            $html += "<option value='" + item.departmentId + "'>" + item.departmentName + "</option>";
-                        }
-                    });
-                 $("select[name='departments']").append($html);
-                 //反选
-                 $("select[name='departments']").val($("#SearchDepartments").val());
-                 //append后必须从新渲染
-                 form.render('select');
-             }
+				]
+			],
+			page: true
 		});
-		 
+		//搜索(方法重载)
+		function renderTable() {
+			var name2 = $('#SearchDepartments').val();
+			var name1 = names(name2);
+			var sex1 = names($('#SearchSex').val());
+			var project1 = names($('#SearchProjects').val());
+
+			function names(obj) {
+				var n = "";
+				if(obj == "不限") {
+					return n;
+				}
+				return obj;
+			}
+			//				console.log(name1+sex1);
+			table.reload('test', {
+				url: layui.setter.project + '/user/getuserPage',
+				where: {
+					userCode: $('#SearchUserCode').val(),
+					userName: $('#SearchUserName').val(),
+					tempVar3: name1,
+					sex: sex1,
+					tempInt1: project1
+				}
+			});
+		}
+
+		$('#Search').on('click', function() {
+			renderTable();
+		});
+
+		var widthMax = 750,
+			heightMax = 600;
+		if($(window).width() < 768) {
+			widthMax = 280;
+			heightMax = 350
+		}
+		//头工具栏事件
+		table.on('toolbar(test)', function(obj) {
+			var checkStatus = table.checkStatus(obj.config.id);
+			switch(obj.event) {
+				case 'add':
+					//用户添加
+					var widthMax = 750,
+						heightMax = 600;
+					if($(window).width() < 768) {
+						widthMax = 280;
+						heightMax = 350
+					}
+
+					layer.open({
+						type: 2,
+						//skin: 'layui-layer-demo', //样式类名
+						title: '用户添加',
+						closeBtn: 1, //不显示关闭按钮
+						anim: 2,
+						fixed: false,
+						maxmin: true,
+
+						success: function() {},
+						btn: [],
+						area: [widthMax + 'px', heightMax + 'px'],
+						shadeClose: false, //开启遮罩关闭
+						content: layui.setter.project +'/sys/addMangement'
+					});
+					break;
+				case 'deletes':
+					var data = checkStatus.data;
+				if(data.length == 0) {
+					layer.alert("未选中数据");
+					return false;
+				}
+				var name = "";
+				var id = "";
+				$.each(data, function(index, value) {
+					name = name + value.userName + "、";
+					id = id + value.userId + ","
+				});
+				if(name != "" || name != null) {
+					name = name.substring(0, name.length - 1);
+					id = id.substring(0, id.length - 1);
+				}
+				layer.confirm('已选择' + name + "，是否删除？", function(index) {
+					$.ajax({
+						url: layui.setter.project + "/user/deletes",
+						type: "post",
+						xhrFields: {
+							withCredentials: true
+						},
+						data: {
+							"userIds": id
+						},
+						//contentType:"application/json",
+						dataType: "json",
+						success: function(data) {
+							if(data.result == 200) {
+								renderTable();
+								layer.close(index);
+							}
+						}
+					});
+
+				})
+					break;
+			};
+		});
+
+		//监听行工具事件
+		table.on('tool(test)', function(obj) {
+			var data = obj.data;
+			console.log(data);
+			if(obj.event === 'del') {
+				layer.confirm('真的删除行么', function(index) {
+					$.ajax({
+						url: layui.setter.project + "/user/del",
+						type: "post",
+						xhrFields: {
+							withCredentials: true
+						},
+						data: {
+							"userId": data.userId
+						},
+						//contentType:"application/json",
+						dataType: "json",
+						success: function(data) {
+							if(data.result == 200) {
+								renderTable();
+								layer.close(index);
+							}
+						}
+					});
+
+				});
+			} else if(obj.event === 'edit') {
+				console.log(data)
+				layer.open({ //弹框
+					//id: 'insert-form',
+					type: 2,
+					//skin: 'layui-layer-demo', //样式类名
+					title: '修改用户',
+					maxmin: true,
+					btn: [],
+					yes: function(index, layero) {
+
+					},
+					closeBtn: 1, //不显示关闭按钮
+					anim: 2,
+					area: [widthMax + "px", heightMax + "px"],
+					shadeClose: false, //开启遮罩关闭
+					content: layui.setter.project +'/sys/reviseManagement',
+					success: function(layero, index) {
+						var body = layer.getChildFrame('body', index);
+						body.find("#usercode").val(data.userCode);
+						body.find("#username").val(data.userName);
+						body.find("#email").val(data.email);
+						body.find("#phone").val(data.phone);
+						var id = "";
+						if(data.departments != null) {
+							$.each(data.departments, function(index, value) {
+								id = id + value.departmentId + ",";
+							});
+							id = id.substring(0, id.length - 1);
+
+						}
+						console.log(id)
+						body.find("#departmentId").val(id);
+
+						if(data.project != null) {
+							body.find("#projectId").val(data.project.projectId);
+						}
+						body.find("#idNum").val(data.idNum);
+						body.find("#bankCardNum").val(data.bankCardNum);
+						body.find("input[name=status][value=" + data.status + "]").attr("checked", "checked");
+						console.log(data.status)
+						body.find("#userId").val(data.userId);
+					},
+					end: function() {
+
+					},
+
+				});
+			}
+		});
+
+		//部门下拉框加载
+		$.get(layui.setter.project + '/department/getdepartment', {}, function(data) {
+			var $html = "<option  value=''>全部</option>";
+			if(data.data != null) {
+				$.each(data.data, function(index, item) {
+					if(item.proType) {
+						$html += "<option class='generate' value=''>全部</option>";
+					} else {
+						$html += "<option value='" + item.departmentId + "'>" + item.departmentName + "</option>";
+					}
+				});
+				$("select[name='departments']").append($html);
+				//反选
+				$("select[name='departments']").val($("#SearchDepartments").val());
+				//append后必须从新渲染
+				form.render('select');
+			}
+		});
+
 		//项目下拉框加载
-		 $.get(layui.setter.project+'/project/getproject', {}, function (data) {
-                var $html = "<option>不限</option>";
-                if(data.data != null){
-                    $.each(data.data, function (index, item) {
-                        if (item.proType){
-                            $html += "<option class='generate'>不限</option>";
-                        }else{
-                            $html += "<option value='" + item.projectId + "'>" + item.projectName + "</option>";
-                        }
-                    });
-                 $("select[name='projects']").append($html);
-                 //反选
-                 $("select[name='projects']").val($("#SearchProjects").val());
-                 //append后必须从新渲染
-                 form.render('select');
-             }
+		$.get(layui.setter.project + '/project/getproject', {}, function(data) {
+			var $html = "<option  value=''>全部</option>";
+			if(data.data != null) {
+				$.each(data.data, function(index, item) {
+					if(item.proType) {
+						$html += "<option class='generate' value=''>全部</option>";
+					} else {
+						$html += "<option value='" + item.projectId + "'>" + item.projectName + "</option>";
+					}
+				});
+				$("select[name='projects']").append($html);
+				//反选
+				$("select[name='projects']").val($("#SearchProjects").val());
+				//append后必须从新渲染
+				form.render('select');
+			}
 		});
-})
+	});
 
-e("userMangement", {})
+	e("userMangement", {})
 });

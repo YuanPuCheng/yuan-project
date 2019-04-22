@@ -7,31 +7,20 @@ layui.extend({
 	
 	var $ = layui.jquery,
 		formSelects = layui.formSelects,
-	    form=layui.form;
+	    form=layui.form,
+	    o=layui.$,
+	    index = parent.layer.getFrameIndex(window.name),
+	    a = o("body");
 	
-
-	var data = JSON.parse(sessionStorage.getItem('key'));
-	console.log(data)
-		$('#usercode').val(data[0].userCode);
-		$('#username').val(data[0].userName);
-		$('#email').val(data[0].email);
-		$('#phone').val(data[0].phone);
-	if(data[0].departments!=null){
-	var depArr=[];
-	var dep="";
-	for(var i=0;i<data[0].departments.length;i++){
-		dep=dep+data[0].departments[i].departmentId+",";
-		depArr.push(data[0].departments[i].departmentId);
-	}
-		if(dep!=null||dep!=""){
-			dep=dep.substring(0,dep.length-1);
-		}
-		console.log(dep)
-	}
+	
+	  
+	var departmentIds = $("#departmentId").val();
+	let arr = JSON.parse('[' + departmentIds + ']');//字符数组转int 数组
 	setTimeout(function(){
-		
-		formSelects.value('select1',depArr, true);
-	},50)
+		 $("select[name='projects']").val($("#projectId").val());
+		form.render('select');
+		formSelects.value('select1',arr, true);
+	},200);
 
 	//多选
 		layui.formSelects.config('select1', {
@@ -52,25 +41,9 @@ layui.extend({
 		}).data('select1', 'server', {
 			url: layui.setter.project+'/department/getdepartment'
 		});
-		
-		//部门下拉框加载
-		/* $.get(layui.setter.project+'/department/getdepartment', {}, function (data) {
-               var $html = "<option>请选择</option>";
-               if(data.data != null){
-                   $.each(data.data, function (index, item) {
-                       if (item.proType){
-                           $html += "<option class='generate'>请选择</option>";
-                       }else{
-                           $html += "<option value='" + item.departmentId + "'>" + item.departmentName + "</option>";
-                       }
-                   });
-                $("select[name='departments']").append($html);
-                //反选
-                $("select[name='departments']").val($("#SearchDepartments").val());
-                //append后必须从新渲染
-                form.render('select');
-            }
-		});*/
+		a.on('click', "#addqx", function(o) {
+				parent.layer.close(index);
+			})
 		 
 		//项目下拉框加载
 		 $.get(layui.setter.project+'/project/getproject', {}, function (data) {
@@ -92,18 +65,19 @@ layui.extend({
 		});
 		
 		//提交
-			form.on('submit(LAY-user-login-submit)', function(obj) {
+			form.on('submit(edisuser)', function(obj) {
 				console.log(formSelects.value('select1', 'valStr'))
 					var usercode = $("#usercode").val();
 					var username = $("#username").val();
 					var email = $("#email").val();
 					var phone = $("#phone").val();
 					var departments =formSelects.value('select1', 'valStr');
+					var dep = departmentIds;
 					var projects = $("#project").val();
 					var idNum = $('#idNum').val();
 					var bankCardNum = $('#bankCardNum').val();
 					var state = $('input[name="state"]:checked').val();
-					
+					var userId = $("#userId").val();
 					$.ajax({
 						url: layui.setter.project+"/user/edit",
 						type: "post",
@@ -111,7 +85,7 @@ layui.extend({
 							withCredentials: true
 						},
 						data: {
-							"userId": data[0].userId,
+							"userId": userId,
 							"userCode": usercode,
 							"userName": username,
 							"userPassword": "A!123456",
@@ -128,13 +102,12 @@ layui.extend({
 						dataType: "json",
 						success: function(data) {
 							console.log(data)
-							if(data.result==400){
-								layer.msg(data.message);
-								var index = parent.layer.getFrameIndex(window.name); 
-								//再执行关闭 
+							if(data.result==200){
+								parent.layer.alert(data.message, function() {
 								parent.layer.close(index);  
-								//关闭父级页面的表格
-								parent.layui.table.reload('table');
+								//重新加载父页面
+								parent.location.reload();
+								})
 							}else{
 								layer.msg(data.message);
 							}
