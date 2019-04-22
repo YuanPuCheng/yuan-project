@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>用户管理</title>
-		<link rel="stylesheet" type="text/css" href="../../../static/css/reset.css"/>
-		<link rel="stylesheet" type="text/css" href="../../../static/css/admin.css"/>
-		<link rel="stylesheet" type="text/css" href="../../../static/layui/css/layui.css"/>
-		<link rel="stylesheet" type="text/css" href="../../../static/layui/css/layui.mobile.css"/>
-		<link rel="stylesheet" type="text/css" href="../../../static/css/userManagement/users.css"/>
+		<link rel="stylesheet" type="text/css" href="../../../static/css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../../../static/css/admin.css" />
+		<link rel="stylesheet" type="text/css" href="../../../static/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="../../../static/layui/css/layui.mobile.css" />
+		<link rel="stylesheet" type="text/css" href="../../../static/css/userManagement/users.css" />
 		<style type="text/css">
-			.layui-laypage select{
+			.layui-laypage select {
 				height: 28px;
 				padding: 0 3px;
 			}
-			.layui-table-box{
+			
+			.layui-table-box {
 				overflow: visible;
 			}
+			
 			@media only screen and (min-width: 100px) and (max-width: 320px) {
-				.layui-btn+.layui-btn{
+				.layui-btn+.layui-btn {
 					margin-left: 2px;
 				}
-				.layui-table-tool-temp{
+				.layui-table-tool-temp {
 					padding-right: 100px;
 				}
-				.layui-laypage .layui-laypage-count{
-					
-				}
+				.layui-laypage .layui-laypage-count {}
 			}
 		</style>
 	</head>
+
 	<body>
 		<div class="layui-fluid">
 			<div class="layui-card">
@@ -38,79 +40,84 @@
 						<div class="layui-inline">
 							<label class="layui-form-label">用户工号：</label>
 							<div class="layui-input-block">
-				              <input type="text" name="username" id="SearchUserCode" placeholder="请输入" autocomplete="off" class="layui-input" />
-				            </div>
+								<input type="text" name="username" id="SearchUserCode" placeholder="请输入" autocomplete="off" class="layui-input" />
+							</div>
 						</div>
 						<div class="layui-inline">
 							<label class="layui-form-label">用户名称：</label>
 							<div class="layui-input-block">
-				              <input type="text" name="username" id="SearchUserName" placeholder="请输入" autocomplete="off" class="layui-input" />
-				            </div>
+								<input type="text" name="username" id="SearchUserName" placeholder="请输入" autocomplete="off" class="layui-input" />
+							</div>
 						</div>
 						<div class="layui-inline">
 							<label class="layui-form-label">用户部门：</label>
 							<div class="layui-input-block Departments">
-								<select name="departments"  id="SearchDepartments">
-									
+								<select name="departments" id="SearchDepartments">
+
 								</select>
-				            </div>
+							</div>
 						</div>
 						<div class="layui-inline">
 							<label class="layui-form-label">项目名称：</label>
 							<div class="layui-input-block Departments">
-								<select name="projects"  id="SearchProjects">
-									
+								<select name="projects" id="SearchProjects">
+
 								</select>
-				            </div>
+							</div>
 						</div>
 						<div class="layui-inline">
 							<label class="layui-form-label">性别：</label>
 							<div class="layui-input-block">
-								<select name="sex"  id="SearchSex">
-									<option>不限</option>
+								<select name="sex" id="SearchSex">
+									<option value="">全部</option>
 									<option value="男">男</option>
 									<option value="女">女</option>
 								</select>
-				            </div>
+							</div>
 						</div>
 						<div class="layui-inline">
-				            <button class="layui-btn layuiadmin-btn-useradmin" id="Search">
+							<button class="layui-btn layuiadmin-btn-useradmin" id="Search">
 				            	<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
 				            </button>
-			          	</div>
+						</div>
 					</div>
 				</div>
-				
+
 				<!--表单内容-->
 				<div class="layui-card-body">
-					
-			        <div class="layui-form layui-border-box layui-table-view">
-			        	<div class="layui-table-box">
-			        		<div class="layui-table-header">
-			        			<table class="layui-hide" id="test" lay-filter="test"></table>
-			        			<div id="demo0"></div>
-			        		</div>
-			        	</div>
-			        </div>
+
+					<div class="layui-form layui-border-box layui-table-view">
+						<div class="layui-table-box">
+							<div class="layui-table-header">
+								<table class="layui-hide" id="test" lay-filter="test"></table>
+								<div id="demo0"></div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		
-		
+
 	</body>
-	<script src="../../../static/layui/layui.js" type="text/javascript" charset="utf-8"></script>
-	<script type="text/html" id="barDemo">
-	  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-	  <a class="layui-btn layui-btn-xs" lay-event="add">添加</a>
-	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+	<script type="text/html" id="toolbarDemo">
+		<div class="layui-btn-container">
+			<button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+			<button class="layui-btn layui-btn-sm" lay-event="deletes">批量删除</button>
+		</div>
 	</script>
-	
+	<script type="text/html" id="barDemo">
+		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+	</script>
+	<script src="../../../static/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+
+
 	<script>
 		layui.config({
-     		base: '../../../static/js/system/user/' //静态资源所在路径
-		}).use(['userMangement','jquery','layer'], function(){
-			
-  
-});
+			base: '../../../static/js/system/user/' //静态资源所在路径
+		}).use(['userMangement', 'jquery', 'layer'], function() {
+
+		});
 	</script>
+
 </html>
