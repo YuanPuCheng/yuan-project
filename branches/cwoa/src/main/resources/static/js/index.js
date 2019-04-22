@@ -18,7 +18,7 @@ layui.extend({
 			for(var i=0;i<data.length;i++){
 				var lis=$('<li>');
 				lis.attr('class','layui-nav-item');
-				var als='<a href="javascript:;"><i class="layui-icon layui-icon-home"></i><cite>'+data[i].menuName+'</cite><span class="layui-nav-more"></span></a>';
+				var als='<a href="javascript:;"><i class="layui-icon '+data[i].tempVar1+'"></i><cite>'+data[i].menuName+'</cite><span class="layui-nav-more"></span></a>';
 				var dds="";
 				if(data[i].menus!=null){
                     for(var j=0;j<data[i].menus.length;j++){
