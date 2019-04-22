@@ -83,7 +83,7 @@ public class UserController {
         }
         List<sys_user> list = user_service.selectUserDepar(user,page,limit);
 
-
+        log.info("事实上事实上身上试试"+list.toString());
         Integer count = user_service.selectUserCount(user);
 
         concurrentMap.put("count", count);
