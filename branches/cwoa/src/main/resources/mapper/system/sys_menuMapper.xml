@@ -56,11 +56,13 @@
   <select id="selectMenuByMenuId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
       <include refid="Base_Column_List" />
-    from sys_menu where menu_id in
+    from sys_menu where 1=1
+    and menu_id in
     <foreach item="menuId" collection="list" open="(" separator=","
              close=")">
       #{menuId,jdbcType=INTEGER}
     </foreach>
+    and status=0
   </select>
 
   <!--根据菜单id查询菜单 返回一条记录-->
