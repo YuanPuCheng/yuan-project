@@ -3,6 +3,7 @@ package com.zihui.cwoa.system.dao;
 import com.zihui.cwoa.system.pojo.sys_department;
 import com.zihui.cwoa.system.pojo.sys_user;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -25,7 +26,9 @@ public interface sys_userMapper {
 
     List<sys_user> selectUserList(sys_user record);
 
-    List<sys_user> selectUserDepar(sys_user record);
+    List<sys_user> selectUserDepar(@Param("user")sys_user record, @Param("page")Integer page,@Param("limit")Integer limit);
+
+    Integer selectUserCount(@Param("user")sys_user record);
 
     int deleteByUserCode(String userCode);
 

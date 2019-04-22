@@ -51,7 +51,7 @@ public class UserController {
     /**
      *  根据条件查询用户列表
      */
-    @RequestMapping(value = "/getuser")
+    /*@RequestMapping(value = "/getuser")
     @ResponseBody
     public ConcurrentMap getuser(sys_user user){
         CallbackResult result = new CallbackResult();
@@ -66,12 +66,12 @@ public class UserController {
         concurrentMap.put("code", 0);
         concurrentMap.put("msg", "成功");
         return concurrentMap;
-    }
+    }*/
 
     /**
      *  根据条件查询用户列表分页
      */
-  /*  @RequestMapping(value = "/getuserPage")
+    @RequestMapping(value = "/getuserPage")
     @ResponseBody
     public ConcurrentMap getuserPage(sys_user user,Integer page, Integer limit){
         CallbackResult result = new CallbackResult();
@@ -91,7 +91,7 @@ public class UserController {
         concurrentMap.put("code", 0);
         concurrentMap.put("msg", "成功");
         return concurrentMap;
-    }*/
+    }
 
     @RequestMapping(value = "/de")
     @ResponseBody
@@ -121,22 +121,43 @@ public class UserController {
         result.setMessage("修改成功");
         return result;
     }
+    /**
+     *  根据用户工号删除用户
+     */
+    @RequestMapping(value="/del")
+    @ResponseBody
+    public CallbackResult del(@RequestParam Integer userId){
+        CallbackResult result = new CallbackResult();
+        try{
+                int count =user_service.deleteByPrimaryKey(userId);
+        }catch (Exception e) {
+            e.printStackTrace();
+            result.setResult(400);
+            result.setMessage("删除失败");
+        }
+        if(result.getResult()!=400){
+            result.setResult(200);
+            result.setMessage("删除成功");
+        }
+        return result;
+
+    }
 
     /**
      *  根据用户工号删除用户
      */
-    @RequestMapping(value="/delete")
+    @RequestMapping(value="/deletes")
     @ResponseBody
-    public CallbackResult delete(@RequestParam String usercodes){
+    public CallbackResult delete(@RequestParam String userIds){
         CallbackResult result = new CallbackResult();
-        String a[] = usercodes.split(",");
+        String a[] = userIds.split(",");
         StringBuffer mess = new StringBuffer();
         try{
-            for (String usercode:a) {
-                log.info(usercode);
-                int count =user_service.deleteByUserCode(usercode);
+            for (String userId:a) {
+                log.info(userId);
+                int count =user_service.deleteByPrimaryKey(Integer.parseInt(userId));
                 if(count==0){
-                    mess.append("工号："+usercode+",删除失败。");
+                    mess.append("工号："+userId+",删除失败。");
                     result.setResult(400);
                 }
             }
@@ -243,7 +264,7 @@ public class UserController {
         Set set1 = new HashSet();
         Set set2 = new HashSet();
             String depars []= depar.split(",");//1,2
-            String olds [] = old.split(",");//1
+            String []  olds  = old.split(",");//1
             for(String d:depars){
                 set1.add(d);
             }
@@ -257,14 +278,22 @@ public class UserController {
 
        log.info("新增：" + in);
         log.info("删除：" + de);
+        if(de.size()!=0){
+            for(String del:de){
+                if(!Basecommon.isNullStr(del)){
+                    user_departmentService.deleteUserDepar(user.getUserId(),Integer.parseInt(del));
+                }
 
-        for(String del:de){
-            user_departmentService.deleteUserDepar(user.getUserId(),Integer.parseInt(del));
+            }
         }
-        for(String ins:in){
-            user_departmentService.insertUserDepar(user.getUserId(),Integer.parseInt(ins));
-        }
+        if(!Basecommon.isEmpty(in)) {
+            for (String ins : in) {
+                if(!Basecommon.isNullStr(ins)){
+                    user_departmentService.insertUserDepar(user.getUserId(), Integer.parseInt(ins));
+                }
 
+            }
+        }
         result.setResult(200);
         result.setMessage("修改成功");
         return result;
@@ -273,13 +302,15 @@ public class UserController {
 
     public static void main(String[] args) {
         String depar= "1,2,4";
-        String old = "1,2,3";
+        String old = "";
         Set in =new HashSet();//新增
         Set up = new HashSet();
         Set de = new HashSet();//dele
         String []xxx = depar.split(",");
         String []ddd = old.split(",");
-
+        for (String a:ddd){
+            System.out.println(ddd.length);
+        }
         //list2.removeAll(list1);
         //list4.removeAll(list3);
         //System.out.println(list1.toString());

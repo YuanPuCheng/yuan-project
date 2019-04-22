@@ -29,7 +29,7 @@ public class ProjectController {
 
     @RequestMapping(value = "/getproject")
     @ResponseBody
-    public ConcurrentMap getuser(sys_project project,Integer page, Integer limit){
+    public ConcurrentMap getuser(sys_project project,@RequestParam(required = false) Integer page, @RequestParam(required = false)Integer limit){
         log.info(project.toString());
         log.info(page+"|||"+limit);
         ConcurrentMap concurrentMap = new ConcurrentHashMap<String,Object>();
