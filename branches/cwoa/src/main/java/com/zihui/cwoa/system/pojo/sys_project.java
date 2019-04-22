@@ -120,4 +120,22 @@ public class sys_project {
     public void setTempInt2(Integer tempInt2) {
         this.tempInt2 = tempInt2;
     }
+
+    @Override
+    public String toString() {
+        return "sys_project{" +
+                "projectId=" + projectId +
+                ", projectName='" + projectName + '\'' +
+                ", projectIntroduction='" + projectIntroduction + '\'' +
+                ", projectAddress='" + projectAddress + '\'' +
+                ", status=" + status +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", ts='" + ts + '\'' +
+                ", tempVar1='" + tempVar1 + '\'' +
+                ", tempVar2='" + tempVar2 + '\'' +
+                ", tempInt1=" + tempInt1 +
+                ", tempInt2=" + tempInt2 +
+                '}';
+    }
 }
