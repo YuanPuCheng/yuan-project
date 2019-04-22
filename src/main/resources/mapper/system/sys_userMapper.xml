@@ -285,7 +285,7 @@
         last_time = #{lastTime,jdbcType=VARCHAR},
       </if>
       <if test="loginTime != null and loginTime !=''" >
-        login_time = #{lastTime,jdbcType=VARCHAR},
+        login_time = #{loginTime,jdbcType=VARCHAR},
       </if>
       <if test="idNum != null and idNum !=''" >
         id_num = #{idNum,jdbcType=VARCHAR},
@@ -426,22 +426,22 @@
   <!--根据用户id查询部门 返回多个部门-->
   <select id="selectUserDepar"  resultMap="userDepartmentsMap">
     SELECT
-    tableone.user_id,
-    tableone.user_code,
-    tableone.status,
-    tableone.user_name,
-    tableone.email,
-    tableone.create_time,
-    tableone.error_count,
-    tableone.images,
-    tableone.phone,
-    tableone.ts,
-    tableone.ip,
-    tableone.sex,
-    tableone.last_time,
-    tableone.login_time,
-    tableone.bank_card_num,
-    tableone.id_num,
+    tableone.user_id as user_id,
+    tableone.user_code as user_code,
+    tableone.status as status,
+    tableone.user_name as user_name,
+    tableone.email as email,
+    tableone.create_time as create_time,
+    tableone.error_count as error_count,
+    tableone.images as images,
+    tableone.phone as phone,
+    tableone.ts as ts,
+    tableone.ip as ip,
+    tableone.sex as sex,
+    tableone.last_time as last_time,
+    tableone.login_time as login_time,
+    tableone.bank_card_num as bank_card_num,
+    tableone.id_num as id_num,
     d.department_id AS departmentId,
     d.department_name AS departmentName,
     d.department_code AS departmentCode,
