@@ -60,18 +60,6 @@
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<lable class="layui-form-label">邮箱地址</lable>
-					<div class="layui-input-inline">
-						<input type="text" name="" lay-verify="email" id="email" placeholder="请输入邮箱地址" autocomplete="off" class="layui-input" />
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<lable class="layui-form-label">联系电话</lable>
-					<div class="layui-input-inline">
-						<input type="text" name="" id="phone" placeholder="请输入联系电话" autocomplete="off" class="layui-input" />
-					</div>
-				</div>
-				<div class="layui-form-item">
 					<lable class="layui-form-label"><span class="layui-badge-dot"></span>部门名称</lable>
 					<div class="layui-input-inline">
 				      <select name="departments" id="department" lay-verify="select" xm-select="select1" xm-select-skin="primary">
@@ -94,6 +82,20 @@
 					</div>
 				</div>
 				<div class="layui-form-item">
+					<lable class="layui-form-label">邮箱地址</lable>
+					<div class="layui-input-inline">
+						<input type="text" name="" lay-verify="email" id="email" placeholder="请输入邮箱地址" autocomplete="off" class="layui-input" />
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<lable class="layui-form-label">联系电话</lable>
+					<div class="layui-input-inline">
+						<input type="text" name="" id="phone" placeholder="请输入联系电话" autocomplete="off" class="layui-input" />
+					</div>
+				</div>
+				
+				
+				<div class="layui-form-item">
 					<lable class="layui-form-label">银行卡号</lable>
 					<div class="layui-input-inline">
 						<input type="text" name="" id="bankCardNum" placeholder="请输入银行卡号" autocomplete="off" class="layui-input" />
@@ -102,11 +104,19 @@
 				<div class="layui-form-item">
 					<lable class="layui-form-label">状态</lable>
 					<div class="layui-input-block">
-				      <input type="radio" name="state" value="0" title="正常" checked="checked" />
-				      <input type="radio" name="state" value="1" title="失效" />
+				      <input type="radio" name="status" value="0" title="正常" checked="checked" />
+				      <input type="radio" name="status" value="1" title="失效" />
+				      <input type="hidden" id="userId" />
+				      <input type="hidden" id="departmentId" />
+				      <input type="hidden" id="projectId" />
 				    </div>
 				</div>
-				<button id="sub" class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="LAY-user-login-submit">登 入</button>
+				<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button id="addtj" class="layui-btn hi" lay-submit="" lay-filter="edisuser">确认</button>
+					<button id="addqx" class="layui-btn">取消</button>
+				</div>
+			</div>
 			</div>
 		</form>
 	</body>
