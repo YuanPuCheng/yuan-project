@@ -12,14 +12,6 @@ public class QueryService {
     @Autowired
     private QueryMapper queryMapper;
 
-    /**
-     *  根据用户工号查询他发起的未完成的流程的ID
-     *  @param userCode 用户工号
-     *  @return 流程ID的集合
-     */
-    public List<String> queryProcessActiveByUserCode(String userCode){
-        return queryMapper.queryProcessActiveByUserCode(userCode);
-    }
 
     /**
      *  根据流程实例ID查询流程状态
@@ -30,14 +22,6 @@ public class QueryService {
         return queryMapper.queryProStatuByProInstanceId(processInstanceId);
     }
 
-    /**
-     *  根据流程实例ID查询流程名称
-     *  @param processInstanceId 流程实例ID
-     *  @return 流程名称
-     */
-    public String queryProNameByProInstanceId(String processInstanceId){
-        return queryMapper.queryProNameByProInstanceId(processInstanceId);
-    }
 
     /**
      *  根据用户名查用户工号
