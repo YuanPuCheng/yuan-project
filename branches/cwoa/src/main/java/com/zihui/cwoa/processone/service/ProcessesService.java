@@ -133,15 +133,15 @@ public class ProcessesService {
      *  @return 查询结果
      */
     public Map<String,Object> queryProcess(String userCode) {
-        //自定义方法 查询用户在途的流程Id
-        List<String> strings = queryService.queryProcessActiveByUserCode(userCode);
         List<Map<String,Object>> list = new LinkedList();
-        for (String processInstanceId: strings) {
-            Map<String, Object> variables = runtimeService.getVariables(processInstanceId);
-            //自定义方法 查询用户在途的流程节点
-            variables.put("processStatus",queryService.queryProStatuByProInstanceId(processInstanceId));
+
+        List<ProcessInstance> proList = runtimeService.createProcessInstanceQuery().startedBy(userCode).list();
+        for (ProcessInstance pro: proList) {
+            String processInstanceId=pro.getProcessInstanceId();
+            Map<String, Object> variables=runtimeService.getVariables(processInstanceId);
             variables.put("processInstanceId",processInstanceId);
-            variables.put("processName",queryService.queryProNameByProInstanceId(processInstanceId));
+            variables.put("processName",pro.getProcessDefinitionName());
+            variables.put("processStatus",queryService.queryProStatuByProInstanceId(processInstanceId));
             list.add(variables);
         }
         Map<String,Object> map =new HashMap<>();
@@ -207,9 +207,8 @@ public class ProcessesService {
         for (HistoricVariableInstance hisInstance:hisList) {
             variables.put(hisInstance.getVariableName(),hisInstance.getValue());
         }
-        List<HistoricProcessInstance> list =
-                historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).list();
-        for (HistoricProcessInstance ins:list) {
+        HistoricProcessInstance ins
+                = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
             variables.put("startTime",ins.getStartTime());
             Date endTime = ins.getEndTime();
             variables.put("endTime",endTime);
@@ -223,7 +222,6 @@ public class ProcessesService {
             }else{
                 variables.put("deleteReason","审批中");
             }
-        }
         return variables;
     }
 
