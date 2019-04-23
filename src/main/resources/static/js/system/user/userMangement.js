@@ -23,7 +23,8 @@ layui.extend({
 					{
 						field: 'userCode',
 						title: '用户工号',
-						sort: true
+						sort: true,
+                        width: 60
 					},
 					{
 						field: 'userName',
@@ -31,19 +32,21 @@ layui.extend({
 					},
 					{
 						field: 'sex',
-						title: '性别'
+						title: '性别',
+                        width: 50
 					},
 					{
 						field: 'email',
 						title: '邮箱'
 					},
 					{
-						field: 'last_time',
+						field: 'lastTime',
 						title: '上次登录时间'
 					},
 					{
 						field: 'phone',
-						title: '电话'
+						title: '电话',
+                        width: 60
 					},
 					{
 						field: 'ts',
