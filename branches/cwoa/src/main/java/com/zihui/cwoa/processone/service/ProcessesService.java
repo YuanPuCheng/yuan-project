@@ -133,7 +133,7 @@ public class ProcessesService {
      *  @return 查询结果
      */
     public Map<String,Object> queryProcess(String userCode) {
-        List<Map<String,Object>> list = new LinkedList();
+        List<Map<String,Object>> list = new LinkedList<>();
 
         List<ProcessInstance> proList = runtimeService.createProcessInstanceQuery().startedBy(userCode).list();
         for (ProcessInstance pro: proList) {
@@ -169,7 +169,7 @@ public class ProcessesService {
         int size = historyService.createHistoricProcessInstanceQuery()
                 .startedBy(userCode).finished().list().size();
         for (HistoricProcessInstance ins:historicProcessInstanceList) {
-            Map<String,Object> variables=new HashMap();
+            Map<String,Object> variables=new HashMap<>();
             variables.put("processName",ins.getProcessDefinitionName());
             variables.put("processInstanceId",ins.getId());
             variables.put("startTime",ins.getStartTime());
@@ -197,7 +197,7 @@ public class ProcessesService {
     public  Map<String,Object> queryProcessDetail(String processInstanceId){
         List<HistoricVariableInstance> hisList =
                 historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstanceId).list();
-        Map<String,Object> variables=new HashMap();
+        Map<String,Object> variables=new HashMap<>();
         if(hisList.isEmpty()){
             variables.put("flag",false);
             return variables;
@@ -244,11 +244,9 @@ public class ProcessesService {
             return getActivityPngStream(processInstance.getDeploymentId());
         }
         DefaultProcessDiagramGenerator processDiagramGenerator= new DefaultProcessDiagramGenerator();
-        InputStream png =
-                processDiagramGenerator.generateDiagram(bpmnModel, "png", list,
-                        Collections.<String>emptyList(), "宋体","宋体",
-                        "宋体", null, 1.0D);
-        return png;
+        return processDiagramGenerator.generateDiagram(bpmnModel, "png", list,
+                Collections.<String>emptyList(), "宋体","宋体",
+                "宋体", null, 1.0D);
     }
 
     /**
@@ -259,9 +257,7 @@ public class ProcessesService {
     public InputStream getActivityPngStream(String deploymentId) {
         ProcessDefinition processDefinition =
                 repositoryService.createProcessDefinitionQuery().deploymentId(deploymentId).singleResult();
-        InputStream is =
-                repositoryService.getResourceAsStream(deploymentId, processDefinition.getDiagramResourceName());
-        return is;
+        return repositoryService.getResourceAsStream(deploymentId, processDefinition.getDiagramResourceName());
     }
 
     /**
@@ -356,7 +352,7 @@ public class ProcessesService {
                 List<HistoricVariableInstance> hisList =
                         historyService.createHistoricVariableInstanceQuery()
                                 .processInstanceId(processInstanceId).list();
-                Map<String,Object> variables=new HashMap();
+                Map<String,Object> variables=new HashMap<>();
                 for (HistoricVariableInstance hisInstance:hisList) {
                     variables.put(hisInstance.getVariableName(),hisInstance.getValue());
                 }
