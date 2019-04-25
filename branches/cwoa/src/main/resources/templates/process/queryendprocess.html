@@ -9,6 +9,11 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link rel="stylesheet" href="../../static/css/reset.css" />
 		<link rel="stylesheet" href="./../../static/layui/css/layui.css" />
+		<style type="text/css">
+			.hoverStyle:hover {
+				cursor: pointer;
+			}
+		</style>
 	</head>
 
 	<body layadmin-themealias="default">
@@ -219,7 +224,7 @@
                                     txt = txt + "<tr><td>发起时间</td><td>" + startTime + "</td></tr>";
                                     txt = txt + "<tr><td>结束时间</td><td>" + endTime + "</td></tr>";
                                     txt = txt + "<tr><td>结束说明</td><td>" + data.deleteReason + "</td></tr>";
-                                    txt = txt + '<tr><td>下载附件</td><td onclick=\"downFile(\''+data.fileName+'\')\">点击下载</td></tr>';
+                                    txt = txt + '<tr><td>下载附件</td><td class=\"hoverStyle\" onclick=\"downFile(\''+data.fileName+'\')\">点击下载</td></tr>';
                                     layer.open({
                                         type: 1,
                                         shadeClose: true,
