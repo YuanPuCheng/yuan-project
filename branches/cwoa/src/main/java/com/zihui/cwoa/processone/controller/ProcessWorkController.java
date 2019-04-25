@@ -94,8 +94,6 @@ public class ProcessWorkController {
     @RequestMapping("/queryendprocess")
     @ResponseBody
     public Map<String, Object> queryEndProcess(String userCode,int page,int num) {
-        System.out.println("page========="+page);
-        System.out.println("num=========="+num);
         return processesService.queryEndProcess(userCode,page,num);
     }
 
