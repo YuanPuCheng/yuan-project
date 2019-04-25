@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>项目请款记录表</title>
+		<meta name="renderer" content="webkit" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../../static/css/reset.css" />
+		<link rel="stylesheet" href="./../../static/layui/css/layui.css" />
+		<style type="text/css">
+			.hoverStyle:hover {
+				cursor: pointer;
+			}
+		</style>
+	</head>
+
+	<body>
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend style="font-size: 30px;font-weight: 500;">项目请款记录表</legend>
+		</fieldset>
+		<table class="layui-hide" id="test" lay-filter="demoEvent"></table>
+		<script src="./../../static/layui/layui.js"></script>
+		<script>
+			//<![CDATA[
+			var $;
+			Date.prototype.format = function(fmt) {
+				var o = {
+					"M+": this.getMonth() + 1, //月份
+					"d+": this.getDate(), //日
+					"h+": this.getHours(), //小时
+					"m+": this.getMinutes(), //分
+					"s+": this.getSeconds(), //秒
+					"q+": Math.floor((this.getMonth() + 3) / 3), //季度
+					"S": this.getMilliseconds() //毫秒
+				};
+				if(/(y+)/.test(fmt)) {
+					fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+				}
+				for(var k in o) {
+					if(new RegExp("(" + k + ")").test(fmt)) {
+						fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+					}
+				}
+				return fmt;
+			}
+
+			function downFile(fileNameArray) {
+				if(fileNameArray == 'undefined') {
+					layer.msg("该申请没有附件!");
+				} else {
+					$.ajax({
+						url: "/file/queryfilenamebyid",
+						type: "get",
+						data: {
+							"idArray": fileNameArray
+						},
+						dataType: "json",
+						success: function(data) {
+							var list = data;
+							var txt = "";
+							for(var j = 0, len = list.length; j < len; j++) {
+								txt = txt + '<tr><td>' + list[j].file_rename +
+									'</td><td class="hoverStyle" onclick=\"viewFile(\'' + list[j].file_name +
+									'\')\">预览图片</td><td><a href="/file/down?filename=' + list[j].file_name +
+									'">点击下载</a></td></tr>';
+							}
+							layer.open({
+								type: 1,
+								shadeClose: true,
+								shade: 0.8,
+								skin: 'layui-layer-rim', //加上边框
+								area: ['100%', '80%'], //宽高
+								content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>下载附件</legend></fieldset>' +
+									'<div class="layui-form"><table class="layui-table"><colgroup><col><col><col></colgroup>' +
+									'<thead><tr><th>文件名</th><th>点击预览</th><th>点击下载</th></tr></thead>' +
+									'<tbody>' + txt + '</tbody></table></div>'
+							});
+						},
+						error: function() {
+							layer.msg('加载失败，请重试！', {
+								icon: 2
+							});
+						}
+					});
+				}
+			}
+
+			function viewFile(imageName) {
+				var iName = imageName.toLowerCase();
+				var iType = iName.substring(iName.lastIndexOf("."));
+				if(iType !== ".png" && iType !== ".jpg" && iType !== ".jpeg" && iType !== ".bmp" && iType !== ".gif") {
+					layer.msg('只有图片才可以预览！');
+				} else {
+					layer.open({
+						type: 1,
+						shadeClose: true,
+						shade: 0.8,
+						skin: 'layui-layer-rim', //加上边框
+						area: ['100%', '80%'], //宽高
+						content: '<img src="/file/down?filename=' + imageName + '"/>'
+					});
+				}
+			}
+			layui.use(['layer', 'table'], function() {
+				var table = layui.table;
+				$ = layui.jquery;
+				var layer = layui.layer;
+				var projectName = $("#dataPlaceOne", parent.document).text();
+				var year = $("#dataPlaceTwo", parent.document).text();
+				var month = $("#dataPlaceThree", parent.document).text();
+				table.render({
+					elem: '#test',
+					url: '/financial/queryProjectMonthOutDetail?project_name=' + projectName + '&year=' + year + '&month=' + month,
+					cellMinWidth: 80,
+					cols: [
+						[{
+							type: 'numbers',
+							title: '序号'
+						}, {
+							field: 'project_name',
+							title: '项目名称'
+						}, {
+							field: 'flow_year',
+							title: '年',
+							width: 80
+						}, {
+							field: 'flow_month',
+							title: '月',
+							width: 80,
+							templet: '<div>{{d.flow_month}}月</div>'
+						}, {
+							field: 'user_name',
+							title: '请款人'
+						}, {
+							field: 'flow_money_out',
+							title: '请款金额（元）'
+						}, {
+							field: 'flow_date',
+							title: '请款日期'
+						}, {
+							field: 'flow_process_id',
+							title: '相关流程',
+							event: 'process',
+							style: 'cursor: pointer;'
+						}]
+					]
+				});
+				table.on('tool(demoEvent)', function(obj) {
+					var data = obj.data;
+					if(obj.event === 'process') {
+						var processInstanceId = data.flow_process_id;
+						$.ajax({
+							url: "/process/queryprocessdetail",
+							type: "get",
+							data: {
+								"processInstanceId": processInstanceId
+							},
+							dataType: "json",
+							success: function(data) {
+								if(data.flag === true) {
+									var txt = "<tr><td>流程名称</td><td>" + data.processName + "</td></tr>";
+									txt = txt + "<tr><td>发起人</td><td>" + data.userName + "</td></tr>";
+									var arrList = data.processSummary;
+									for(var i = 0; i < arrList.length; i++) {
+										txt = txt + "<tr><td>" + arrList[i].indexName + "</td><td>" + arrList[i].indexValue + "</td></tr>";
+									}
+									var startTime = new Date(data.startTime).format("yyyy-MM-dd hh:mm:ss");
+									var endTime = new Date(data.endTime).format("yyyy-MM-dd hh:mm:ss");
+									txt = txt + "<tr><td>发起时间</td><td>" + startTime + "</td></tr>";
+									txt = txt + "<tr><td>结束时间</td><td>" + endTime + "</td></tr>";
+									txt = txt + "<tr><td>结束说明</td><td>" + data.deleteReason + "</td></tr>";
+									txt = txt + '<tr><td>下载附件</td><td class=\"hoverStyle\" onclick=\"downFile(\'' + data.fileName + '\')\">点击下载</td></tr>';
+									layer.open({
+										type: 1,
+										shadeClose: true,
+										shade: 0.8,
+										skin: 'layui-layer-rim', //加上边框
+										area: ['100%', '80%'], //宽高
+										content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>流程详情</legend></fieldset>' +
+											'<div class="layui-form"><table class="layui-table"><colgroup><col width="150"><col width="150"></colgroup>' +
+											'<thead><tr><th>属性名</th><th>属性值</th></tr></thead>' +
+											'<tbody>' + txt + '</tbody></table></div>'
+									});
+								} else {
+									this.error();
+								}
+							},
+							error: function() {
+								layer.msg('发生了未知错误！', {
+									icon: 2
+								});
+							}
+						});
+					}
+				});
+			});
+			//]]>
+		</script>
+	</body>
+
+</html>
