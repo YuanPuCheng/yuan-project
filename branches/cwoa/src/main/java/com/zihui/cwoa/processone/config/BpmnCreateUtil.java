@@ -132,8 +132,6 @@ public class BpmnCreateUtil {
 	
 	/**
 	 * 创建结束节点
-	 * @since 2017年3月3日 下午7:03:35
-	 * @param id 结束节点ID
 	 * @return FlowElement
 	 */
 	public static FlowElement createEndEvent(String id) {
@@ -141,8 +139,18 @@ public class BpmnCreateUtil {
 		endEvent.setId(id);
 		return endEvent;
 	}
-	
-	
-	
+
+	/**
+	 * 创建并行网关
+	 * @param id 网关ID
+	 * @param name 网关名称
+	 * @return FlowElement --> ExclusiveGateway
+	 */
+	public static ParallelGateway createParallelGateway(String id, String name){
+		ParallelGateway parallelGateway=new ParallelGateway();
+		parallelGateway.setId(id);
+		parallelGateway.setName(name);
+		return parallelGateway;
+	}
 	
 }

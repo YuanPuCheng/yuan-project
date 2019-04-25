@@ -1,6 +1,9 @@
 package com.zihui.cwoa.processone.service;
 
+import com.zihui.cwoa.processone.config.BpmnCreateUtil;
+import org.activiti.bpmn.BpmnAutoLayout;
 import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.bpmn.model.Process;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricVariableInstance;
@@ -55,10 +58,10 @@ public class ProcessesService {
         //业务主键 businessKey
         Long currentTimeMillis = System.currentTimeMillis();
         String businessKey=currentTimeMillis.toString();
-        //注意 在bpmn的 start节点里 要进行设置: activiti:initiator="applyuser"
-        this.identityService.setAuthenticatedUserId((String)variables.get("userCode"));
         //启动流程
         try {
+            //注意 在bpmn的 start节点里 要进行设置: activiti:initiator="applyuser"
+            this.identityService.setAuthenticatedUserId((String)variables.get("userCode"));
             this.runtimeService.startProcessInstanceByKey(processKey, businessKey, variables);
         } catch (Exception e) {
             e.printStackTrace();
@@ -375,5 +378,29 @@ public class ProcessesService {
         map.put("result",size);
         map.put("queryResultList",resultList);
         return map;
+    }
+
+    public boolean createLiveProcess(String userName){
+        // 1. Build up the model from scratch
+        BpmnModel model = new BpmnModel();
+        Process process = new Process();
+        model.addProcess(process);
+        process.setId("my-process");
+        process.setName("动态任务");
+        process.addFlowElement(BpmnCreateUtil.createStartEvent());
+        process.addFlowElement(BpmnCreateUtil.createParallelGateway("gateway1","gateway1"));
+        process.addFlowElement(BpmnCreateUtil.createUserTask("task1", "First task", "张三",null));
+        process.addFlowElement(BpmnCreateUtil.createUserTask("task2", "Second task", "Nancy",null));
+        process.addFlowElement(BpmnCreateUtil.createEndEvent("end"));
+        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow1","flow1","start", "gateway1"));
+        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow2", "flow2","gateway1","task1"));
+        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow3", "flow3","gateway1","task2"));
+        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow4", "flow4","task1","end"));
+        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow5", "flow5","task2","end"));
+        // 2. Generate graphical information
+        new BpmnAutoLayout(model).execute();
+        // 3. Deploy the process to the engine
+        repositoryService.createDeployment().addBpmnModel("my-process.bpmn", model).name("my-process").deploy();
+        return true;
     }
 }

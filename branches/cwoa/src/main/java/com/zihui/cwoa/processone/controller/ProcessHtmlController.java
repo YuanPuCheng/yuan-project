@@ -46,4 +46,9 @@ public class ProcessHtmlController {
     public String queryProcessByVo(){
         return "process/queryprocessbyvo";
     }
+
+    @RequestMapping("/liveprocess")
+    public String liveProcess(){
+        return "process/liveprocess";
+    }
 }
