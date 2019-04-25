@@ -36,7 +36,7 @@ public class FinancialController {
     }
 
     /**
-     *  查询项目单月请款和报销详情
+     *  查询项目单月请款详情
      *  @return 查询结果
      */
     @RequestMapping("/queryProjectMonthOutDetail")
@@ -46,7 +46,7 @@ public class FinancialController {
     }
 
     /**
-     *  查询项目单月请款和报销详情
+     *  查询项目单月报销详情
      *  @return 查询结果
      */
     @RequestMapping("/queryProjectMonthInDetail")

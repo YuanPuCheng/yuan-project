@@ -15,6 +15,15 @@ public class ProjectMonthDetail {
     private String user_name;
     private String flow_date;
     private String user_id;
+    private String flow_process_id;
+
+    public String getFlow_process_id() {
+        return flow_process_id;
+    }
+
+    public void setFlow_process_id(String flow_process_id) {
+        this.flow_process_id = flow_process_id;
+    }
 
     public String getUser_id() {
         return user_id;
