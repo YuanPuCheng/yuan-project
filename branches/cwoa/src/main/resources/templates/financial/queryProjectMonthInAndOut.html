@@ -39,10 +39,13 @@
 							title: '项目名称'
 						}, {
 							field: 'flow_year',
-							title: '年'
+							title: '年',
+                            width: 80,
 						}, {
 							field: 'flow_month',
-							title: '月'
+							title: '月',
+                            width: 80,
+                            templet: '<div>{{d.flow_month}}月</div>'
 						}, {
 							field: 'all_out',
 							title: '该月请款总额（元）',
