@@ -12,6 +12,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -229,5 +230,21 @@ public class ProcessWorkController {
     public Map<String,Object> queryProcessByVo(String processDefinitionKey,String userName
             ,Long date,int page,int num) {
         return processesService.queryProcessByVo(processDefinitionKey,userName,date,page,num);
+    }
+
+    /**
+     * 启动动态流程
+     * @return 成功/失败 true/false
+     */
+    @RequestMapping("/startliveprocess")
+    @ResponseBody
+    public boolean startLiveProcess(@RequestBody Map<String, Object> variables) {
+        return processesService.startProcess("my-process", variables);
+    }
+
+    @RequestMapping("/chwtest")
+    @ResponseBody
+    public boolean chwTest(){
+        return processesService.createLiveProcess("Carl");
     }
 }
