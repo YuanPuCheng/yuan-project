@@ -24,7 +24,7 @@ public class FinancialService {
     public Map<String,Object> queryProjectAllInAndOut(){
         List<ProjectInAndOut> projectInAndOuts = financialMapper.queryProjectAllInAndOut();
         Map<String,Object> map =new HashMap<>();
-        map.put("code",200);
+        map.put("code",0);
         map.put("msg","请求成功");
         map.put("count",projectInAndOuts.size());
         map.put("data",projectInAndOuts);
@@ -39,7 +39,7 @@ public class FinancialService {
         List<ProjectMonthInAndOut> projectMonthInAndOuts =
                 financialMapper.queryProjectMonthInAndOut(project_name);
         Map<String,Object> map =new HashMap<>();
-        map.put("code",200);
+        map.put("code",0);
         map.put("msg","请求成功");
         map.put("count",projectMonthInAndOuts.size());
         map.put("data",projectMonthInAndOuts);
@@ -48,14 +48,14 @@ public class FinancialService {
 
 
     /**
-     *  查询项目单月请款和报销详情
+     *  查询项目单月请款详情
      *  @return 查询结果
      */
     public Map<String,Object> queryProjectMonthOutDetail(String project_name, String year, String month){
         List<ProjectMonthDetail> projectMonthDetails =
                 financialMapper.queryProjectMonthOutDetail(project_name, year, month);
         Map<String,Object> map =new HashMap<>();
-        map.put("code",200);
+        map.put("code",0);
         map.put("msg","请求成功");
         map.put("count",projectMonthDetails.size());
         map.put("data",projectMonthDetails);
@@ -63,14 +63,14 @@ public class FinancialService {
     }
 
     /**
-     *  查询项目单月请款和报销详情
+     *  查询项目单月报销详情
      *  @return 查询结果
      */
     public Map<String,Object> queryProjectMonthInDetail(String project_name, String year, String month){
         List<ProjectMonthDetail> projectMonthDetails =
                 financialMapper.queryProjectMonthInDetail(project_name, year, month);
         Map<String,Object> map =new HashMap<>();
-        map.put("code",200);
+        map.put("code",0);
         map.put("msg","请求成功");
         map.put("count",projectMonthDetails.size());
         map.put("data",projectMonthDetails);
