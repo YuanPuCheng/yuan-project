@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zihui.cwoa.financial.dao.FinancialMapper">
+
+    <insert id="insertMoneyFlowOut" parameterType="String">
+      INSERT INTO fin_money_flow (
+        user_code,
+        user_project,
+        flow_year,
+        flow_month,
+        flow_date,
+        flow_money_out,
+        flow_process_id)
+      VALUES(
+        #{arg0},
+        #{arg1},
+        YEAR(NOW()),
+        MONTH(NOW()),
+        NOW(),
+        #{arg2},
+        #{arg3})
+    </insert>
+
+    <insert id="insertMoneyFlowIn" parameterType="String">
+        INSERT INTO fin_money_flow (
+        user_code,
+        user_project,
+        flow_year,
+        flow_month,
+        flow_date,
+        flow_money_in,
+        flow_process_id)
+        VALUES(
+        #{arg0},
+        #{arg1},
+        YEAR(NOW()),
+        MONTH(NOW()),
+        NOW(),
+        #{arg2},
+        #{arg3})
+    </insert>
+</mapper>
