@@ -31,7 +31,7 @@ public class ProcessWorkController {
     @RequestMapping("/deployprocess")
     @ResponseBody
     public boolean deployProcess(String processPath) {
-        processPath = "processes/askforbusiness.bpmn";
+        processPath = "processes/askforreimburse.bpmn";
         return processesService.deployProcess(processPath);
     }
 
@@ -238,6 +238,32 @@ public class ProcessWorkController {
     @ResponseBody
     public boolean startLiveProcess(@RequestBody Map<String, Object> variables) {
         return processesService.startProcess("my-process", variables);
+    }
+
+    /**
+     * 启动请款流程
+     * @return 成功/失败 true/false
+     */
+    @RequestMapping("/askformoney")
+    @ResponseBody
+    public boolean startAskForMoney(@RequestBody Map<String, Object> variables) {
+        //添加假数据
+        variables.put("firstman", "Nancy");
+        variables.put("secondman", "Nancy");
+        return processesService.startProcess("askformoney", variables);
+    }
+
+    /**
+     * 启动请款流程
+     * @return 成功/失败 true/false
+     */
+    @RequestMapping("/askforreimburse")
+    @ResponseBody
+    public boolean startAskForReimburse(@RequestBody Map<String, Object> variables) {
+        //添加假数据
+        variables.put("firstman", "Nancy");
+        variables.put("secondman", "Nancy");
+        return processesService.startProcess("askforreimburse", variables);
     }
 
     @RequestMapping("/chwtest")

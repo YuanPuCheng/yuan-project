@@ -51,4 +51,9 @@ public class ProcessHtmlController {
     public String liveProcess(){
         return "process/liveprocess";
     }
+
+    @RequestMapping("/askformoney")
+    public String askForMoney(){
+        return "process/askformoney";
+    }
 }
