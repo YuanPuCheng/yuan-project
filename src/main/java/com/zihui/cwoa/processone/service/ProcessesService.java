@@ -391,12 +391,14 @@ public class ProcessesService {
         process.addFlowElement(BpmnCreateUtil.createParallelGateway("gateway1","gateway1"));
         process.addFlowElement(BpmnCreateUtil.createUserTask("task1", "First task", "张三",null));
         process.addFlowElement(BpmnCreateUtil.createUserTask("task2", "Second task", "Nancy",null));
+        process.addFlowElement(BpmnCreateUtil.createParallelGateway("gateway2","gateway2"));
         process.addFlowElement(BpmnCreateUtil.createEndEvent("end"));
         process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow1","flow1","start", "gateway1"));
         process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow2", "flow2","gateway1","task1"));
         process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow3", "flow3","gateway1","task2"));
-        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow4", "flow4","task1","end"));
-        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow5", "flow5","task2","end"));
+        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow4", "flow4","task1","gateway2"));
+        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow5", "flow5","task2","gateway2"));
+        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow6", "flow6","gateway2","end"));
         // 2. Generate graphical information
         new BpmnAutoLayout(model).execute();
         // 3. Deploy the process to the engine
