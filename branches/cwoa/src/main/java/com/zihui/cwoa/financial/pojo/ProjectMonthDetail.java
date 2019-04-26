@@ -16,6 +16,15 @@ public class ProjectMonthDetail {
     private String flow_date;
     private String user_id;
     private String flow_process_id;
+    private String flow_type;
+
+    public String getFlow_type() {
+        return flow_type;
+    }
+
+    public void setFlow_type(String flow_type) {
+        this.flow_type = flow_type;
+    }
 
     public String getFlow_process_id() {
         return flow_process_id;
