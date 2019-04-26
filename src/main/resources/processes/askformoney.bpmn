@@ -39,7 +39,7 @@
           <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="_2" targetElement="taskone">
+      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="start" targetElement="taskone">
         <omgdi:waypoint x="177.0" y="236.0"/>
         <omgdi:waypoint x="245.0" y="237.5"/>
         <bpmndi:BPMNLabel>
@@ -53,7 +53,7 @@
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="tasktwo" targetElement="_5">
+      <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="tasktwo" targetElement="end">
         <omgdi:waypoint x="540.0" y="237.5"/>
         <omgdi:waypoint x="625.0" y="236.0"/>
         <bpmndi:BPMNLabel>
