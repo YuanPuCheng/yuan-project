@@ -19,19 +19,19 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">报销人：</label>
 				<div class="layui-input-block">
-					<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入姓名..." class="layui-input" id='username' disabled="disabled" />
+					<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入姓名..." class="layui-input" id='username'  />
 				</div>
 			</div>
 			<div class="layui-form-item">
 				<label class="layui-form-label">所在部门：</label>
 				<div class="layui-input-block">
-					<input type="text" name="username" lay-verify="required" placeholder="现所在部门..." autocomplete="off" class="layui-input" id='department' disabled="disabled" />
+					<input type="text" name="username" lay-verify="required" placeholder="现所在部门或职位..." autocomplete="off" class="layui-input" id='department'  />
 				</div>
 			</div>
 			<div class="layui-form-item">
 				<label class="layui-form-label">所在项目：</label>
 				<div class="layui-input-block">
-					<input type="text" name="username" lay-verify="required" placeholder="现在正在负责的项目..." autocomplete="off" class="layui-input" id='project' disabled="disabled" />
+					<input type="text" name="username" lay-verify="required" placeholder="现在正在负责的项目..." autocomplete="off" class="layui-input" id='project'  />
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -40,16 +40,22 @@
 					<select name="modules" lay-verify="required" lay-search="" id="reimburseType">
 						<option value="">直接选择或搜索选择</option>
 						<option value="差旅费">差旅费</option>
-						<option value="打车费">打车费</option>
-						<option value="采购费">采购费</option>
-						<option value="其他">其他</option>
+						<option value="员工餐费">员工餐费</option>
+						<option value="对外招待费">对外招待费</option>
+						<option value="主材主料费">主材主料费</option>
+						<option value="辅材辅料费">辅材辅料费</option>
+						<option value="车辆使用费">车辆使用费</option>
+						<option value="工资">工资</option>
+						<option value="固定资产">固定资产</option>
+						<option value="运费">运费</option>
+						<option value="其它">其它</option>
 					</select>
 				</div>
 			</div>
 			<div class="layui-form-item">
-				<label class="layui-form-label">关联ID：</label>
+				<label class="layui-form-label">报销金额：</label>
 				<div class="layui-input-block">
-					<input type="text" class="layui-input" id="linkProId" placeholder="请输入相关流程的ID..." />
+					<input type="text" class="layui-input" id="linkProId" placeholder="请输入报销金额..." />
 				</div>
 			</div>
 		</form>
@@ -81,6 +87,7 @@
 				var layer = layui.layer;
 				var upload = layui.upload;
 				var form = layui.form;
+				var haveClick=false;
 				var fileNameList = new Array();
 				var selectNum = 0;
 				var successNum = 0;
@@ -119,7 +126,7 @@
 						});
 					},
 					done: function(res, index, upload) {
-						if(res.result == 200) { //上传成功
+						if(res.result === 200) { //上传成功
 							var tr = demoListView.find('tr#upload-' + index),
 								tds = tr.children();
 							tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
@@ -155,12 +162,24 @@
 					var project = $('#project').val();
 					var reimburseType = $('#reimburseType option:selected').prop("value");
 					var linkProId = $('#linkProId').val();
-					if(reimburseType == "") {
+                    if(name === "") {
+                        layer.msg('请输入请款人姓名！');
+                        return;
+                    }
+                    if(department === "") {
+                        layer.msg('请输入所在部门或职位！');
+                        return;
+                    }
+                    if(project === "") {
+                        layer.msg('请输入所在项目！');
+                        return;
+                    }
+					if(reimburseType === "") {
 						layer.msg('请选择报销类型！');
 						return;
 					}
-					if(linkProId == "") {
-						layer.msg('请输入相关流程的ID！如没有相关流程,请写"无"！');
+					if(linkProId === "") {
+						layer.msg('请输入报销金额！');
 						return;
 					}
 					var jsonTest = {
@@ -174,32 +193,40 @@
 								"indexValue": reimburseType
 							},
 							{
-								"indexName": "相关流程",
+								"indexName": "报销金额",
 								"indexValue": linkProId
 							}
 						]
 					};
-					$.ajax({
-						url: "/process/askforbusiness",
-						type: "post", //post请求
-						data: JSON.stringify(jsonTest), //这里发送的数据必须得是Json格式的字符串
-						contentType: "application/json", //告诉服务端你发送的是json数据
-						dataType: "text", //预测服务端返回的数据类型
-						success: function(data) { //请求成功的回调
-							layer.msg('提交申请成功！', {
-								icon: 1,
-								btn: ['知道了']
-							}, function() {
-								//知道了触发的事件
-								location.reload();
-							});
-						},
-						error: function() { //请求失败的回调
-							layer.msg('发生了未知错误！', {
-								icon: 2
-							});
-						}
-					});
+					if(!haveClick){
+                        haveClick=true;
+                        $.ajax({
+                            url: "/process/askforreimburse",
+                            type: "post", //post请求
+                            data: JSON.stringify(jsonTest), //这里发送的数据必须得是Json格式的字符串
+                            contentType: "application/json", //告诉服务端你发送的是json数据
+                            dataType: "text", //预测服务端返回的数据类型
+                            success: function(data) { //请求成功的回调
+                                if(data==='true'){
+                                    layer.msg('提交申请成功！', {
+                                        icon: 1,
+                                        btn: ['知道了']
+                                    }, function() {
+                                        //知道了触发的事件
+                                        location.reload();
+                                    });
+                                }else {
+                                    this.error();
+                                }
+                            },
+                            error: function() { //请求失败的回调
+                                haveClick=false;
+                                layer.msg('发生了未知错误！', {
+                                    icon: 2
+                                });
+                            }
+                        });
+					}
 				}
 				$(document).ready(function() {
 					$('#username').val($("#uName", parent.document).attr("name"));

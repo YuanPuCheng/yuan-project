@@ -182,13 +182,17 @@
 							contentType: "application/json", //告诉服务端你发送的是json数据
 							dataType: "text", //预测服务端返回的数据类型
 							success: function(data) { //请求成功的回调
-								layer.msg('提交申请成功！', {
-									icon: 1,
-									btn: ['知道了']
-								}, function() {
-									//知道了触发的事件
-									location.reload();
-								});
+								if(data==='true'){
+                                    layer.msg('提交申请成功！', {
+                                        icon: 1,
+                                        btn: ['知道了']
+                                    }, function() {
+                                        //知道了触发的事件
+                                        location.reload();
+                                    });
+								}else {
+								    this.error();
+								}
 							},
 							error: function() { //请求失败的回调
 								layer.msg('发生了未知错误！', {
