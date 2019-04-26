@@ -101,6 +101,11 @@
 			<artifactId>activiti-spring-boot-starter-basic</artifactId>
 			<version>6.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-bpmn-layout</artifactId>
+			<version>6.0.0.RC1</version>
+		</dependency>
 		<!--kaptcha图像验证码-->
 		<dependency>
 			<groupId>com.github.penggle</groupId>
