@@ -2,123 +2,108 @@
 <html>
 <head>
     <meta charset="utf-8"></meta>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <title></title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/reset.css"/>
     <link rel="stylesheet" href="../../static/layui/css/layui.css"></link>
-    <script src="../../static/js/jquery-3.3.1.min.js"/>
-    <script src="../../static/layui/layui.js"/>
+    
     <style type="text/css">
-        .box {
-            width: 99%;
-            border: 1px solid red;
-            margin: 0 auto;
-            margin-top: 30px;
+        .box{
+        	padding: 10px;
         }
-
-        button {
-            margin: 10px 10px;
-            padding: 5px 20px;
+        .btn-box button{
+        	margin-bottom: 5px;
         }
-
-        .boxs {
-            width: 20%;
-            float: left;
+        form{
+        	margin: 5px 0;
         }
-
-        .row {
-            overflow: hidden;
-            padding: 20px;
+        form>div{
+        	margin: 5px 0;
         }
-
-        select {
-            width: 50%;
-        }
-
-        .font {
-            text-align: center;
-            font-size: 30px;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-        }
-
-        th {
-            width: 9%;
-        }
-
-        td {
-            text-align: center;
+        #serch{
+        	margin-left: 110px;
         }
     </style>
 </head>
 <body>
-<div class="box">
-
-    <div class="">
-        <button>修改</button>
-        <button>删除</button>
-        <button>过滤</button>
-        <button>还原</button>
-        <button>打印</button>
-        <button>导入</button>
-        <button>导出</button>
-    </div>
-    <hr style="margin: 10px 0;border:0.5px solid red;"/>
-    <div class="row">
-        <div class="boxs">
-            <div class="">
-                发票号码：<input type="" name="" id="" value=""/>
-            </div>
-            <div class="">
-                付款单位：<input type="" name="" id="" value=""/>
-            </div>
-        </div>
-        <div class="boxs">
-            <div class="">
-                发票金额：<input type="" name="" id="" value=""/>——<input type="" name="" id="" value=""/>
-            </div>
-            <div class="">
-                发票类型：
-                <select name="modules" lay-verify="required" lay-search="" id="">
-                    <option value="">2</option>
-                </select>
-            </div>
-        </div>
-        <div class="boxs">
-            <div class="">
-                录入人：<input type="" name="" id="" value=""/>
-            </div>
-        </div>
-        <div class="boxs">
-            <div class="">
-                项目名称；<input type="" name="" id="" value=""/>
-            </div>
-            <div class="">
-                审批状态：
-                <select name="modules" lay-verify="required" lay-search="" id="reimburseType">
-                    <option value="">2</option>
-                </select>
-            </div>
-        </div>
-        <div class="boxs">
-            <div class="">
-                收款单位：<input type="" name="" id="" value=""/>
-            </div>
-            <div class="">
-                <button>发票查询</button>
-            </div>
-        </div>
-
-    </div>
-    <div class=" font">
-        收票登记列表
-    </div>
-    <div id="">
-        <table class="layui-hide" id="test">
-        </table>
-    </div>
-</div>
+	<div class="box">
+		<!--头部按钮事件-->
+	    <div class="btn-box">
+	        <button class="layui-btn">修改</button>
+	        <button class="layui-btn">删除</button>
+	        <button class="layui-btn">过滤</button>
+	        <button class="layui-btn">还原</button>
+	        <button class="layui-btn">打印</button>
+	        <button class="layui-btn">导入</button>
+	        <button class="layui-btn">导出</button>
+	    </div>
+	    <!--表单-->
+	    <form action="javascript:;">
+	    	<div class="layui-inline">
+		      <label class="layui-form-label">发票号码</label>
+		      <div class="layui-input-inline">
+		        <input type="tel" name="phone" autocomplete="off" class="layui-input">
+		      </div>
+		    </div>
+		    <div class="layui-inline">
+		      <label class="layui-form-label">付款单位</label>
+		      <div class="layui-input-inline">
+		        <input type="tel" name="phone" autocomplete="off" class="layui-input">
+		      </div>
+		    </div>
+		    <div class="layui-inline">
+		      <label class="layui-form-label">发票金额</label>
+		      <div class="layui-input-inline">
+		        <input type="tel" name="phone" autocomplete="off" class="layui-input">
+		      </div>
+		    </div>
+		    <div class="layui-inline">
+		      <label class="layui-form-label">发票类型</label>
+		      <div class="layui-input-inline">
+		        <input type="tel" name="phone" autocomplete="off" class="layui-input">
+		      </div>
+		    </div>
+		    <div class="layui-inline">
+		      <label class="layui-form-label">录入人</label>
+		      <div class="layui-input-inline">
+		        <input type="tel" name="phone" autocomplete="off" class="layui-input">
+		      </div>
+		    </div>
+		    <div class="layui-inline">
+		      <label class="layui-form-label">项目名称</label>
+		      <div class="layui-input-inline">
+		        <input type="tel" name="phone" autocomplete="off" class="layui-input">
+		      </div>
+		    </div>
+		    <div class="layui-inline">
+		      <label class="layui-form-label">审批状态</label>
+		      <div class="layui-input-inline">
+		        <input type="tel" name="phone" autocomplete="off" class="layui-input">
+		      </div>
+		    </div>
+		    <div class="layui-inline">
+		      <label class="layui-form-label">收款单位</label>
+		      <div class="layui-input-inline">
+		        <input type="tel" name="phone" autocomplete="off" class="layui-input">
+		      </div>
+		    </div>
+		    <div class="layui-inline">
+		      <button class="layui-btn" id="serch">发票查询</button>
+		    </div>
+	    </form>
+	    
+	    <div class=" font">
+	        收票登记列表
+	    </div>
+	    <!--表格-->
+	    <div id="">
+	        <table class="layui-hide" id="test">
+	        </table>
+	    </div>
+	</div>
+</body>
+    <script src="../../static/js/jquery-3.3.1.min.js"/>
+    <script src="../../static/layui/layui.js"/>
 <script>
     layui.use('table', function () {
         var table = layui.table;
@@ -142,5 +127,4 @@
         });
     });
 </script>
-</body>
 </html>

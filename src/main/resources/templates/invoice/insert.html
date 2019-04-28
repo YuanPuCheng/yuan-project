@@ -2,62 +2,39 @@
 <html>
 <head>
     <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <title></title>
     <link rel="stylesheet" href="../../static/layui/css/layui.css"></link>
+    <link rel="stylesheet" type="text/css" href="../../static/css/reset.css"/>
     <style type="text/css">
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        .box {
-            width: 99%;
-            border: 1px solid red;
-            margin: 0 auto;
-            margin-top: 30px;
-        }
-
-        button {
-            margin: 10px 10px;
-            padding: 5px 20px;
-        }
-
-        .boxs {
-            width: 24%;
-            float: left;
-        }
-
-        .row {
-            overflow: hidden;
-            padding: 20px;
-        }
-
-        input {
-            width: 60%;
-        }
-
-        .font {
-            width: 100%;
-            margin: 20px;
-        }
-
-        textarea {
-            width: 80%;
-
-        }
-
-        select {
-            width: 60%;
-        }
+    	.header-title{
+    		text-align: center;
+    		line-height: 50px;
+    		font-size: 20px;
+    		font-weight: 800;
+    	}
+    	form{
+    		padding: 10px;
+    	}
+       .layui-form-label{
+       	width: 126px;
+       }
+       .layui-input-block{
+       	margin-left: 156px;
+		margin-right: 20px;
+       }
+       .layui-input{
+       	margin-bottom: 10px;
+       }
+       .layui-textarea{
+       	resize: none;
+       }
+       .layui-form-select .layui-input{
+       	padding-right: 0px;
+       }
     </style>
 </head>
 <body>
-<div class="">
-    <button onclick="">新增</button>
-    <button>保存</button>
-    <button>保存且新增</button>
-    <button>删除</button>
-    <button>打印</button>
    <!-- |
     <button>提交审批</button>
     <button>撤销审批</button>
@@ -72,133 +49,143 @@
     |
     <button>导入</button>
     <button>协同按钮</button>-->
-</div>
-<form name="for01" action="" method="post">
+<form class="layui-form" action="javascript:;" method="post">
     <div class="box">
-        <div style="margin: 10px; margin-left: 20px;">
-            基本信息
-        </div>
-        <hr/>
-
-        <div class="row">
-            <div class="boxs">
-                <div class="">
-                    日期：<input type="date" name="" id="" value=""/>
-                </div>
-                <div class="">
-                    金额大写：<input type="" name="" id="" value=""/>
-                </div>
-                <div class="">
-                    开户银行及账号：<input type="" name="" id="" value=""/>
-                </div>
-                <div class="">
-                    发票号码：<input type="" name="" id="" value=""/>
-                </div>
-
-
-            </div>
-            <div class="boxs">
-                <div class="">
-                    登记编号：<input readonly="readonly" name="" id="" value="" placeholder="保存后自动生成"/>
-                </div>
-                <div class="">
-                    发票类型：
-                    <select name="invType" lay-verify="required" lay-search="" id="invType">
-                        <option value="">--请选择--</option>
-                    </select>
-                </div>
-                <div class="">
-                    收款单位：<input type="" name="" id="" value=""/>
-                </div>
-                <div class="">
-                    填报人：<input type="" name="" id="" value=""/>
-                </div>
-            </div>
-            <div class="boxs">
-                <div class="">
-                    开票类型：
-                    <select name="invApplyfortype" lay-verify="required" lay-search="" id="invApplyfortype">
-                        <option value="">--请选择--</option>
-                    </select>
-                </div>
-                <div class="">
-                    项目名称:
-                    <select name="itemName" lay-verify="required" lay-search="" id="itemName">
-                        <option value="">--请选择--</option>
-                    </select>
-                </div>
-                <div class="">
-                    付款单位：<input type="" name="" id="" value=""/>
-                </div>
-            </div>
-            <div class="boxs">
-                <div class="">
-                    发票金额：<input type="" name="" id="" value=""/>
-                </div>
-                <div class="">
-                    纳税人识别号：<input type="" name="" id="" value=""/>
-                </div>
-                <div class="">
-                    组织机构代码整证号：<input type="" name="" id="" value=""/>
-                </div>
-            </div>
-
-        </div>
-        <div class="font">
-            备注：<textarea placeholder="请输入内容" class="layui-textarea" id='reason'></textarea>
-        </div>
-        <hr style="margin: 10px 0;border:1px solid red;"/>
-        <div class="layui-upload">
-            <button type="button" class="layui-btn" id="test1">发票照片</button>
-            <div class="layui-upload-list">
-                <img class="layui-upload-img" id="demo1"></img>
-                <p id="demoText"></p>
-            </div>
-            <div class="layui-upload-list">
-                <table class="layui-table">
-                    <thead>
-                    <tr>
-                        <th>文件名</th>
-                        <th>大小</th>
-                        <th>状态</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody id="demoList"></tbody>
-                </table>
-            </div>
-        </div>
-        <!--<div class="layui-upload">
-            <button type="button" class="layui-btn layui-btn-normal" id="test8">选择文件</button>
-            <button type="button" class="layui-btn" id="test9">开始上传</button>
-        </div>
-        <div class="layui-upload">
-            <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
-            <div class="layui-upload-list">
-                <table class="layui-table">
-                    <thead>
-                    <tr>
-                        <th>文件名</th>
-                        <th>大小</th>
-                        <th>状态</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody id="demoList"></tbody>
-                </table>
-            </div>
-            <button type="button" class="layui-btn" id="testListAction">开始上传</button>
-        </div>-->
-        <hr style="margin: 10px 0;border:1px solid red;"/>
-        <div class="" style="height: 150px;">
-
-        </div>
+        <h3 class="header-title" style="text-align: center;">
+           	 基本信息
+        </h3>
+		
+		<form action="javascript:;">
+			<div class="layui-inline">
+		      <label class="layui-form-label">日期</label>
+		      <div class="layui-input-inline">
+		        <input type="text" class="layui-input" placeholder="yyyy-MM-dd">
+		      </div>
+		    </div>
+			<div class="layui-inline">
+			  <label class="layui-form-label">金额大写</label>
+			  <div class="layui-input-inline">
+				<input type="tel" name="phone" autocomplete="off" class="layui-input">
+			  </div>
+			</div>
+			<div class="layui-inline">
+			  <label class="layui-form-label">开户银行及账号</label>
+			  <div class="layui-input-inline">
+				<input type="tel" name="phone" autocomplete="off" class="layui-input">
+			  </div>
+			</div>
+			<div class="layui-inline">
+			  <label class="layui-form-label">发票号码</label>
+			  <div class="layui-input-inline">
+				<input type="tel" name="phone" autocomplete="off" class="layui-input">
+			  </div>
+			</div>
+			<div class="layui-inline">
+			  <label class="layui-form-label">登记编号</label>
+			  <div class="layui-input-inline">
+				<input type="tel" name="phone" autocomplete="off" class="layui-input">
+			  </div>
+			</div>
+			<div class="layui-inline">
+		      <label class="layui-form-label">发票类型</label>
+		      <div class="layui-input-inline">
+		        <select lay-filter="type">
+		          <option value="">请选择</option>
+		          <option value="1">layer</option>
+		          <option value="2">form</option>
+		          <option value="3">layim</option>
+		        </select>
+		      </div>
+		    </div>
+			<div class="layui-inline">
+			  <label class="layui-form-label">收款单位</label>
+			  <div class="layui-input-inline">
+				<input type="tel" name="phone" autocomplete="off" class="layui-input">
+			  </div>
+			</div>
+			<div class="layui-inline">
+			  <label class="layui-form-label">填报人</label>
+			  <div class="layui-input-inline">
+				<input type="tel" name="phone" autocomplete="off" class="layui-input">
+			  </div>
+			</div>
+			<div class="layui-inline">
+			  <label class="layui-form-label">开票类型</label>
+			  <div class="layui-input-inline">
+		        <select>
+		          <option value="">请选择</option>
+		          <option value="1">layer</option>
+		          <option value="2">form</option>
+		          <option value="3">layim</option>
+		        </select>
+		      </div>
+			</div>
+			<div class="layui-inline">
+			  <label class="layui-form-label">项目名称</label>
+			  <div class="layui-input-inline">
+				<input type="tel" name="phone" autocomplete="off" class="layui-input">
+			  </div>
+			</div>
+			<div class="layui-inline">
+			  <label class="layui-form-label">付款单位</label>
+			  <div class="layui-input-inline">
+				<input type="tel" name="phone" autocomplete="off" class="layui-input">
+			  </div>
+			</div>
+			<div class="layui-inline">
+			  <label class="layui-form-label">发票金额</label>
+			  <div class="layui-input-inline">
+				<input type="tel" name="phone" autocomplete="off" class="layui-input">
+			  </div>
+			</div>
+			<div class="layui-inline">
+			  <label class="layui-form-label">纳税人识别号</label>
+			  <div class="layui-input-inline">
+				<input type="tel" name="phone" autocomplete="off" class="layui-input">
+			  </div>
+			</div>
+			<div class="layui-inline">
+			  <label class="layui-form-label">组织机构代码整证号</label>
+			  <div class="layui-input-inline">
+				<input type="tel" name="phone" autocomplete="off" class="layui-input">
+			  </div>
+			</div>
+			<div class="layui-form-item layui-form-text">
+			  <label class="layui-form-label">备注</label>
+			  <div class="layui-input-block">
+			    <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+			  </div>
+			</div>
+			<div class="layui-upload">
+			  <button type="button" class="layui-btn" id="test1">上传图片</button>
+			  <div class="layui-upload-list">
+			    <img class="layui-upload-img" id="demo1">
+			    <p id="demoText"></p>
+			  </div>
+			</div>
+			<div class="layui-upload-list">
+			    <table class="layui-table">
+			      <thead>
+			        <tr>
+			        	<th>文件名</th>
+			        	<th>大小</th>
+			        	<th>状态</th>
+			        	<th>操作</th>
+			      	</tr>
+			      </thead>
+			      <tbody id="demoList"></tbody>
+			    </table>
+  			</div>
+		</form>
+        
+	    <button class="layui-btn">保存</button>
+	    <button class="layui-btn">删除</button>
+	    <button class="layui-btn">打印</button>
     </div>
 </form>
 </body>
-<script src="./../../static/js/jquery-3.3.1.min.js"></script>
-<script src="../static/js/jquery-3.3.1.min.js"/>
-<script src="../static/layui/layui.js"/>
+<script src="../../static/js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/layui/layui.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     $(function () {
         $.post("/invType/selectAll",
@@ -237,9 +224,10 @@
                 });
             }, "json");
     })
-    layui.use('upload', function () {
-        var $ = layui.jquery, upload = layui.upload;
-
+    layui.use(['form','laydate','upload','layedit'], function () {
+        var laydate = layui.laydate,upload=layui.upload,layer = layui.layer,layedit = layui.layedit;
+        var form=layui.form;
+        form.render();
         //普通图片上传
         var demoListView = $('#demoList')
             ,uploadInst = upload.render({
