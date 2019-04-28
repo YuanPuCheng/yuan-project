@@ -43,4 +43,25 @@
         #{arg3},
         #{arg4})
     </insert>
+
+    <insert id="insertProMoneyFlowIn" parameterType="String">
+        INSERT INTO fin_pro_money_flow (
+        user_code,
+        user_project,
+        flow_year,
+        flow_month,
+        flow_date,
+        flow_money_in,
+        flow_process_id,
+        flow_type)
+        VALUES(
+        #{arg0},
+        #{arg1},
+        YEAR(NOW()),
+        MONTH(NOW()),
+        NOW(),
+        #{arg2},
+        #{arg3},
+        #{arg4})
+    </insert>
 </mapper>
