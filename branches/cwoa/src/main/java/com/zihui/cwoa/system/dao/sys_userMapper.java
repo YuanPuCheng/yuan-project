@@ -32,4 +32,6 @@ public interface sys_userMapper {
 
     int deleteByUserCode(String userCode);
 
+    List<sys_user> selectGetUser ();
+
 }

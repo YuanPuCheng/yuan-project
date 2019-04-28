@@ -50,15 +50,17 @@ public class fileController {
      */
     @RequestMapping(value = "/upload")
     @ResponseBody
-    public CallbackResult login(@RequestParam("file")MultipartFile file,@RequestParam("filetype") String filetype, HttpSession session){
+    public CallbackResult login(@RequestParam("file")MultipartFile file,@RequestParam("filetype") String filetype,
+                                @RequestParam(required = false)Integer id, HttpSession session){
         Map map = new HashMap<>();
         CallbackResult result = new CallbackResult();
         String filename = null;
         String path = fileCommon.USER_IMG_PATH;//默认用户路径
         switch (filetype){
-            case "FA" : path= fileCommon.INVOICE_PATH ;break;
-            case "TX" : path= fileCommon.USER_IMG_PATH ;break;
-            case "AC" : path= fileCommon.ENCLOSYRE_PATH ;break;
+            case "FA" : path= fileCommon.INVOICE_PATH ;break;//发票路径
+            case "TX" : path= fileCommon.USER_IMG_PATH ;break;//发头像路径
+            case "AC" : path= fileCommon.ENCLOSYRE_PATH ;break;//流程路径
+            case "TH" : path= fileCommon.CONTRACT_PATH ;break;//合同路径
         };
         log.info(path+"文件类型"+filetype);
         // 如果文件不为空，写入上传路径
@@ -79,6 +81,9 @@ public class fileController {
             fileobj.setFileType(filetype);
             fileobj.setFileUrl(path);
             fileobj.setStatus(0);
+            if(id!=null){
+                fileobj.setTempInt1(id);
+            }
             fileobj.setTs(DateUtils.getDate());
             sys_user user = (sys_user) session.getAttribute("user");
             //fileobj.setUserId(user.getUserId());

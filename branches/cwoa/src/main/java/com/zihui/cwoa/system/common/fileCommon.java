@@ -25,6 +25,10 @@ public class fileCommon {
 
     public static final String INVOICE_TYPE = "FA";//发票类型
 
+    public static final String CONTRACT_PATH = "C:/upload/contract/";//合同附件类型
+
+    public static final String CONTRACT_TYPE = "HT";//发票类型
+
 
 
 

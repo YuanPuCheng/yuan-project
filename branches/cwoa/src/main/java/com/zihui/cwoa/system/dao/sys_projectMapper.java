@@ -2,6 +2,7 @@ package com.zihui.cwoa.system.dao;
 
 import com.zihui.cwoa.system.pojo.sys_project;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,6 +17,10 @@ public interface sys_projectMapper {
 
     int updateByPrimaryKeySelective(sys_project record);
 
-    List<sys_project> selectProList(sys_project record);
+    List<sys_project> selectProList(@Param("sys_project") sys_project record, @Param("page") Integer page, @Param("limit")Integer limit);
+
+    Integer selectProListCount(@Param("sys_project") sys_project record);
+
+    List<sys_project> projectListToSelect();
 
 }

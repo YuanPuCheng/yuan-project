@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zihui.cwoa.system.dao.sys_projectMapper;
 import com.zihui.cwoa.system.pojo.sys_project;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -39,13 +40,23 @@ public class sys_projectService {
      * @return sys_project 返回所有对象
      */
     public List<sys_project> selectProList(sys_project record,Integer page, Integer limit){
-        //PageHelper.startPage(page,limit);
-        //PageHelper.startPage(pageNum, pageSize);
-        //List list = projectMapper.selectProList(record);
-        if(page!=null){
-            PageHelper.startPage(page,limit);
+        if(page==1){
+            page =0;
+        }else{
+            page = (page-1)*limit;
         }
 
-        return projectMapper.selectProList(record);
+        return projectMapper.selectProList(record,page,limit);
     };
+
+
+     public Integer selectProListCount(@Param("sys_project") sys_project record){
+        return projectMapper.selectProListCount(record);
+    };
+
+
+    public List<sys_project> projectListToSelect(){
+        return projectMapper.projectListToSelect();
+    }
+
 }
