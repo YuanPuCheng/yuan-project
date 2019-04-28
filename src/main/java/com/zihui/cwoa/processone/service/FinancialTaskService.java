@@ -10,11 +10,15 @@ public class FinancialTaskService {
     @Autowired
     private FinancialTaskMapper financialTaskMapper;
 
-    public Integer insertMoneyFlowOut(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType){
-        return financialTaskMapper.insertMoneyFlowOut(userCode, userProject, flowMoneyOut, processInstanceId,flowType);
+    public void insertMoneyFlowOut(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType){
+       financialTaskMapper.insertMoneyFlowOut(userCode, userProject, flowMoneyOut, processInstanceId,flowType);
     }
 
-    public Integer insertMoneyFlowIn(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType){
-        return financialTaskMapper.insertMoneyFlowIn(userCode, userProject, flowMoneyOut, processInstanceId,flowType);
+    public void insertMoneyFlowIn(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType){
+        financialTaskMapper.insertMoneyFlowIn(userCode, userProject, flowMoneyOut, processInstanceId,flowType);
     }
+    public void insertProMoneyFlowIn(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType){
+        financialTaskMapper.insertProMoneyFlowIn(userCode, userProject, flowMoneyOut, processInstanceId,flowType);
+    }
+
 }

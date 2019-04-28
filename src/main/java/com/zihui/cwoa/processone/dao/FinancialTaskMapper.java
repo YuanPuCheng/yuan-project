@@ -6,7 +6,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface FinancialTaskMapper {
 
-    Integer insertMoneyFlowOut(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType);
+    void insertMoneyFlowOut(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType);
 
-    Integer insertMoneyFlowIn(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType);
+    void insertMoneyFlowIn(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType);
+
+    void insertProMoneyFlowIn(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType);
 }
