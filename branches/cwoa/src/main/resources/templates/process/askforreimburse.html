@@ -31,7 +31,9 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">所在项目：</label>
 				<div class="layui-input-block">
-					<input type="text" name="username" lay-verify="required" placeholder="现在正在负责的项目..." autocomplete="off" class="layui-input" id='project'  />
+					<select name="modules"  lay-search="" id="project">
+						<option value="">直接选择或搜索选择所在项目</option>
+					</select>
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -159,7 +161,7 @@
 					var userCode="Nancy";
 					var name = $('#uName').val();
 					var department = $('#department').val();
-					var project = $('#project').val();
+					var project = $('#project option:selected').prop("value");
 					var reimburseType = $('#reimburseType option:selected').prop("value");
 					var linkProId = $('#linkProId').val();
                     if(name === "") {
@@ -171,7 +173,7 @@
                         return;
                     }
                     if(project === "") {
-                        layer.msg('请输入所在项目！');
+                        layer.msg('请选择所在项目！');
                         return;
                     }
 					if(reimburseType === "") {
@@ -231,7 +233,25 @@
 				$(document).ready(function() {
 					$('#uName').val($("#userName", parent.document).attr("name"));
 					$('#department').val($("#userDepartmentName", parent.document).attr("name"));
-					$('#project').val($("#userProject", parent.document).attr("name"));
+                    $.ajax({
+                        url: "/project/getprojecttoselect",
+                        type: "get",
+                        dataType: "json", //预测服务端返回的数据类型
+                        success: function(data) { //请求成功的回调
+                            var proList=data;
+                            console.log(proList);
+                            var proListLen=proList.length;
+                            for(var i=0;i<proListLen;i++){
+                                $("#project").append('<option value="'+proList[i].projectName+'">'+proList[i].projectName+'</option>');
+                            }
+                            form.render('select');
+                        },
+                        error: function() { //请求失败的回调
+                            layer.msg('发生了未知错误！', {
+                                icon: 2
+                            });
+                        }
+                    });
 				});
 				$('#go').click(function() {
 					if(successNum === selectNum) {
