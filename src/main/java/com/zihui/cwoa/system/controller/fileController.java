@@ -55,12 +55,12 @@ public class fileController {
         Map map = new HashMap<>();
         CallbackResult result = new CallbackResult();
         String filename = null;
-        String path = fileCommon.USER_IMG_PATH;//默认用户路径
+        String path = fileCommon.PATH;//默认用户路径
         switch (filetype){
             case "FA" : path= fileCommon.INVOICE_PATH ;break;//发票路径
             case "TX" : path= fileCommon.USER_IMG_PATH ;break;//发头像路径
             case "AC" : path= fileCommon.ENCLOSYRE_PATH ;break;//流程路径
-            case "TH" : path= fileCommon.CONTRACT_PATH ;break;//合同路径
+            case "HT" : path= fileCommon.CONTRACT_PATH ;break;//合同路径
         };
         log.info(path+"文件类型"+filetype);
         // 如果文件不为空，写入上传路径
