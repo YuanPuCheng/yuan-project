@@ -23,8 +23,7 @@ layui.extend({
 					{
 						field: 'userCode',
 						title: '用户工号',
-						sort: true,
-                        width: 60
+						sort: true
 					},
 					{
 						field: 'userName',
@@ -32,8 +31,7 @@ layui.extend({
 					},
 					{
 						field: 'sex',
-						title: '性别',
-                        width: 50
+						title: '性别'
 					},
 					{
 						field: 'email',
@@ -45,8 +43,7 @@ layui.extend({
 					},
 					{
 						field: 'phone',
-						title: '电话',
-                        width: 60
+						title: '电话'
 					},
 					{
 						field: 'ts',
@@ -302,10 +299,10 @@ layui.extend({
 		});
 
 		//项目下拉框加载
-		$.get(layui.setter.project + '/project/getproject', {}, function(data) {
+		$.get(layui.setter.project + '/project/getprojecttoselect', {}, function(data) {
 			var $html = "<option  value=''>全部</option>";
-			if(data.data != null) {
-				$.each(data.data, function(index, item) {
+			if(data != null) {
+				$.each(data, function(index, item) {
 					if(item.proType) {
 						$html += "<option class='generate' value=''>全部</option>";
 					} else {
