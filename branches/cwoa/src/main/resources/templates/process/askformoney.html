@@ -19,7 +19,7 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">请款人：</label>
 				<div class="layui-input-block">
-					<input type="text"   placeholder="请输入姓名..." autocomplete="off" class="layui-input" id='username' />
+					<input type="text"   placeholder="请输入姓名..." autocomplete="off" class="layui-input" id='uName' />
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -144,9 +144,8 @@
 						return;
 					}
 					var fileName = fileNameList.toString();
-					//var userCode = $("#uCode", parent.document).attr("name");
-					var userCode="Nancy";
-					var name = $('#username').val();
+					var userCode = $("#userCode", parent.document).attr("name");
+					var name = $('#uName').val();
 					var project = $('#project').val();
 					var reimburseType = $('#reimburseType option:selected').prop("value");
 					var linkProId = $('#linkProId').val();
@@ -208,9 +207,9 @@
 					});
 				}
 				$(document).ready(function() {
-					$('#username').val($("#uName", parent.document).attr("name"));
-					$('#department').val($("#uDepartment", parent.document).attr("name"));
-					$('#project').val($("#uProject", parent.document).attr("name"));
+					$('#uName').val($("#userName", parent.document).attr("name"));
+					$('#department').val($("#userDepartmentName", parent.document).attr("name"));
+					$('#project').val($("#userProject", parent.document).attr("name"));
 				});
 				$('#go').click(function() {
 					if(successNum === selectNum) {
