@@ -69,7 +69,6 @@
 							layer.open({
 								type: 1,
 								shadeClose: true,
-								shade: 0.8,
 								skin: 'layui-layer-rim', //加上边框
 								area: ['100%', '80%'], //宽高
 								content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>下载附件</legend></fieldset>' +
@@ -96,7 +95,6 @@
 					layer.open({
 						type: 1,
 						shadeClose: true,
-						shade: 0.8,
 						skin: 'layui-layer-rim', //加上边框
 						area: ['100%', '80%'], //宽高
 						content: '<img src="/file/down?filename=' + imageName + '"/>'
@@ -113,7 +111,7 @@
 				table.render({
 					elem: '#test',
 					url: '/financial/queryProjectMonthOutDetail?project_name=' + projectName + '&year=' + year + '&month=' + month,
-					cellMinWidth: 80,
+					cellMinWidth: 120,
 					cols: [
 						[{
 							type: 'numbers',
@@ -124,11 +122,11 @@
 						}, {
 							field: 'flow_year',
 							title: '年',
-							width: 80
+                            minWidth:70
 						}, {
 							field: 'flow_month',
 							title: '月',
-							width: 80,
+                            minWidth:40,
 							templet: '<div>{{d.flow_month}}月</div>'
 						}, {
 							field: 'user_name',
@@ -178,7 +176,7 @@
 									layer.open({
 										type: 1,
 										shadeClose: true,
-										shade: 0.8,
+
 										skin: 'layui-layer-rim', //加上边框
 										area: ['100%', '80%'], //宽高
 										content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>流程详情</legend></fieldset>' +
