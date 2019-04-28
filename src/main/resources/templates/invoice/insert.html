@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <link rel="stylesheet" href="../static/layui/css/layui.css"></link>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 99%;
+            border: 1px solid red;
+            margin: 0 auto;
+            margin-top: 30px;
+        }
+
+        button {
+            margin: 10px 10px;
+            padding: 5px 20px;
+        }
+
+        .boxs {
+            width: 24%;
+            float: left;
+        }
+
+        .row {
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        input {
+            width: 60%;
+        }
+
+        .font {
+            width: 100%;
+            margin: 20px;
+        }
+
+        textarea {
+            width: 80%;
+
+        }
+
+        select {
+            width: 60%;
+        }
+    </style>
+</head>
+<body>
+<div class="">
+    <button onclick="">新增</button>
+    <button>保存</button>
+    <button>保存且新增</button>
+    <button>删除</button>
+    <button>打印</button>
+   <!-- |
+    <button>提交审批</button>
+    <button>撤销审批</button>
+    <button>审批</button>
+    <button>流程图</button>
+    |
+    <button>首张</button>
+    <button>上张</button>
+    <button>下账</button>
+    <button>未长</button>
+    <button>定位</button>
+    |
+    <button>导入</button>
+    <button>协同按钮</button>-->
+</div>
+<form name="for01" action="" method="post">
+    <div class="box">
+        <div style="margin: 10px; margin-left: 20px;">
+            基本信息
+        </div>
+        <hr/>
+
+        <div class="row">
+            <div class="boxs">
+                <div class="">
+                    日期：<input type="date" name="" id="" value=""/>
+                </div>
+                <div class="">
+                    金额大写：<input type="" name="" id="" value=""/>
+                </div>
+                <div class="">
+                    开户银行及账号：<input type="" name="" id="" value=""/>
+                </div>
+                <div class="">
+                    发票号码：<input type="" name="" id="" value=""/>
+                </div>
+
+
+            </div>
+            <div class="boxs">
+                <div class="">
+                    登记编号：<input readonly="readonly" name="" id="" value="" placeholder="保存后自动生成"/>
+                </div>
+                <div class="">
+                    发票类型：
+                    <select name="invType" lay-verify="required" lay-search="" id="invType">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="">
+                    收款单位：<input type="" name="" id="" value=""/>
+                </div>
+                <div class="">
+                    填报人：<input type="" name="" id="" value=""/>
+                </div>
+            </div>
+            <div class="boxs">
+                <div class="">
+                    开票类型：
+                    <select name="invApplyfortype" lay-verify="required" lay-search="" id="invApplyfortype">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="">
+                    项目名称:
+                    <select name="itemName" lay-verify="required" lay-search="" id="itemName">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+                <div class="">
+                    付款单位：<input type="" name="" id="" value=""/>
+                </div>
+            </div>
+            <div class="boxs">
+                <div class="">
+                    发票金额：<input type="" name="" id="" value=""/>
+                </div>
+                <div class="">
+                    纳税人识别号：<input type="" name="" id="" value=""/>
+                </div>
+                <div class="">
+                    组织机构代码整证号：<input type="" name="" id="" value=""/>
+                </div>
+            </div>
+
+        </div>
+        <div class="font">
+            备注：<textarea placeholder="请输入内容" class="layui-textarea" id='reason'></textarea>
+        </div>
+        <hr style="margin: 10px 0;border:1px solid red;"/>
+        <div class="layui-upload">
+            <button type="button" class="layui-btn" id="test1">发票照片</button>
+            <div class="layui-upload-list">
+                <img class="layui-upload-img" id="demo1"></img>
+                <p id="demoText"></p>
+            </div>
+            <div class="layui-upload-list">
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th>文件名</th>
+                        <th>大小</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="demoList"></tbody>
+                </table>
+            </div>
+        </div>
+        <!--<div class="layui-upload">
+            <button type="button" class="layui-btn layui-btn-normal" id="test8">选择文件</button>
+            <button type="button" class="layui-btn" id="test9">开始上传</button>
+        </div>
+        <div class="layui-upload">
+            <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
+            <div class="layui-upload-list">
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th>文件名</th>
+                        <th>大小</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="demoList"></tbody>
+                </table>
+            </div>
+            <button type="button" class="layui-btn" id="testListAction">开始上传</button>
+        </div>-->
+        <hr style="margin: 10px 0;border:1px solid red;"/>
+        <div class="" style="height: 150px;">
+
+        </div>
+    </div>
+</form>
+</body>
+<script src="./../../static/js/jquery-3.3.1.min.js"></script>
+<script src="../static/js/jquery-3.3.1.min.js"/>
+<script src="../static/layui/layui.js"/>
+<script type="text/javascript">
+    $(function () {
+        $.post("/invType/selectAll",
+            function (data) {
+                //alert("Data: " + data + "\nStatus: " + status);
+                $.each(data, function (index) {
+                    //循环获取数据
+                    //var id = data[index].typeId;
+                    var invType = data[index].invType;
+                    var option = "<option value=" + invType + ">" + invType + "</option>";
+                    $("#invType").append(option);
+                });
+            }, "json");
+
+        $.post("/invApplyfortype/selectAll",
+            function (data) {
+                //alert("Data: " + data + "\nStatus: " + status);
+                $.each(data, function (index, item) {
+                    //循环获取数据
+                    //var id = data[index].invApplyfortypeid;
+                    var invApplyfortype = data[index].invApplyfortype;
+                    var option = "<option value=" + invApplyfortype + ">" + invApplyfortype + "</option>";
+                    $("#invApplyfortype").append(option);
+                });
+            }, "json");
+        $.post("/project/getproject",
+            function (data) {
+                //alert("Data: " + data + "\nStatus: " + status);
+                var datas = data.data;
+                $.each(datas, function (index, item) {
+                    //循环获取数据
+                    //var id = data[index].invApplyfortypeid;
+                    var projectName = datas[index].projectName;
+                    var option = "<option value=" + projectName + ">" + projectName + "</option>";
+                    $("#itemName").append(option);
+                });
+            }, "json");
+    })
+    layui.use('upload', function () {
+        var $ = layui.jquery, upload = layui.upload;
+
+        //普通图片上传
+        var demoListView = $('#demoList')
+            ,uploadInst = upload.render({
+            elem: '#test1',
+            url: '/file/upload?filetype=FA',
+            before: function (obj) {
+                //读取本地文件
+                obj.preview(function (index, file, result) {
+                    var tr = $(['<tr id="upload-' + index + '">'
+                        , '<td>' + file.name + '</td>'
+                        , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
+                        , '<td>等待上传</td>'
+                        , '<td>'
+                        , '<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                        , '<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                        , '</td>'
+                        , '</tr>'].join(''));
+
+                    //单个重传
+                    tr.find('.demo-reload').on('click', function () {
+                        obj.upload(index, file);
+                    });
+
+                    //删除
+                    tr.find('.demo-delete').on('click', function () {
+                        delete files[index]; //删除对应的文件
+                        tr.remove();
+                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                    });
+
+                    demoListView.append(tr);
+                });
+                //预读本地文件示例，不支持ie8
+                //obj.preview(function (index, file, result) {
+                 //   $('#demo1').attr('src', result); //图片链接（base64）
+                //});
+            },
+            done: function (res) {
+                //如果上传失败
+                console.log(res)
+                if (res.code > 0) {
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+            },
+            error: function () {
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+        //选完文件后不自动上传
+        /*upload.render({
+            elem: '#test8'
+            , url: '#'
+            , auto: false
+            //,multiple: true
+            , bindAction: '#test9'
+            , done: function (res) {
+                console.log(res)
+            }
+        });*/
+        //多文件列表示例
+        /*var demoListView = $('#demoList')
+            , uploadListIns = upload.render({
+            elem: '#testList'
+            , url: '/file/upload?filetype=FA'
+            , accept: 'file'
+            , multiple: true
+            , auto: false
+            , bindAction: '#testListAction'
+            , choose: function (obj) {
+                var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                //读取本地文件
+                obj.preview(function (index, file, result) {
+                    var tr = $(['<tr id="upload-' + index + '">'
+                        , '<td>' + file.name + '</td>'
+                        , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
+                        , '<td>等待上传</td>'
+                        , '<td>'
+                        , '<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                        , '<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                        , '</td>'
+                        , '</tr>'].join(''));
+
+                    //单个重传
+                    tr.find('.demo-reload').on('click', function () {
+                        obj.upload(index, file);
+                    });
+
+                    //删除
+                    tr.find('.demo-delete').on('click', function () {
+                        delete files[index]; //删除对应的文件
+                        tr.remove();
+                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                    });
+
+                    demoListView.append(tr);
+                });
+            }
+            , done: function (res, index, upload) {
+                console.log(res.result);
+                if (res.result == 200) { //上传成功
+                    var tr = demoListView.find('tr#upload-' + index)
+                        , tds = tr.children();
+                    tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                    tds.eq(3).html('<button class="layui-btn layui-btn-xs demo-reload layui-hide">查看</button>'); //清空操作
+                    //单个查询
+                    tr.find('.demo-reload').on('click', function () {
+                        obj.upload(index, file);
+                    });
+                    return delete this.files[index]; //删除文件队列已经上传成功的文件
+                }
+                this.error(index, upload);
+            }
+            , error: function (index, upload) {
+                var tr = demoListView.find('tr#upload-' + index)
+                    , tds = tr.children();
+                tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+            }
+        });*/
+    });
+</script>
+</html>
