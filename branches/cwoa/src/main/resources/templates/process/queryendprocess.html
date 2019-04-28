@@ -50,7 +50,7 @@
 				return fmt;
 			}
             function downFile(fileNameArray) {
-                if(fileNameArray=='undefined') {
+                if(fileNameArray==='undefined') {
                     layer.msg("该申请没有附件!");
                 } else {
                     $.ajax({
@@ -177,10 +177,10 @@
 ;                   var txt = "";
                     for(var i = start; i < end; i++) {
                         var processStatus = "";
-                        if(list[i].deleteReason == "同意申请") {
+                        if(list[i].deleteReason === "同意申请") {
                             processStatus = "已通过";
                             proColor = "green";
-                        } else if(list[i].deleteReason == "用户撤销") {
+                        } else if(list[i].deleteReason === "用户撤销") {
                             processStatus = "已撤销";
                             proColor = "#FFB800";
                         } else {
@@ -203,7 +203,7 @@
                     }
                     $("#queryProcessBox").html(txt);
                     $("button").click(function() {
-                        if($(this).text() == "查看详情") {
+                        if($(this).text() === "查看详情") {
                             var processInstanceId = $(this).attr("pid");
                             $.ajax({
                                 url: "/process/queryprocessdetail",
@@ -243,7 +243,7 @@
                                     });
                                 }
                             });
-                        } else if($(this).text() == "查看流程") {
+                        } else if($(this).text() === "查看流程") {
                             var deploymentId = $(this).attr("pid");
                             layer.open({
                                 type: 1,
