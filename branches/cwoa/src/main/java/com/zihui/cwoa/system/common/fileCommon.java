@@ -13,6 +13,8 @@ import java.util.UUID;
 
 public class fileCommon {
 
+    public static final String PATH = "C:/upload/";  //默认路径
+
     public static final String USER_IMG_PATH="C:/upload/user/img/";//用户头像路径
 
     public static final String USER_IMG_TYPE = "TX";//类型 用于头像
