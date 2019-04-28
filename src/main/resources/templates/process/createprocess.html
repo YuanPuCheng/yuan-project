@@ -39,16 +39,13 @@
 				<div class="layui-colla-content layui-show">
 					<div class="layui-row">
 						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
-							<button class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" proUrl="/pro/askforleave">借款申请</button>
+							<button class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" proUrl="/pro/askformoney">请款申请</button>
 						</div>
 						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
-							<button class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" proUrl="/pro/askforreimburse">报销申请</button>
+							<button class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" proUrl="/pro/askforreimburse">公司报销申请</button>
 						</div>
 						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
-							<button class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" proUrl="/pro/askforleave">预算申请</button>
-						</div>
-						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
-							<button class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" proUrl="/pro/askforleave">预算调整</button>
+							<button class="layui-btn layui-btn-lg layui-btn-primary layui-btn-radius" proUrl="/pro/askforproreimburse">项目报销申请</button>
 						</div>
 					</div>
 				</div>
@@ -67,11 +64,11 @@
 				</div>
 			</div>
 		</div>
-        <div class="news" style="display: none">
-            <span id="uCode" name="Nancy" title="工号"></span>
-            <span id="uName" name="张三" title="姓名"></span>
-            <span id="uDepartment" name="工程部" title="部门"></span>
-            <span id="uProject" name="白水湖数据中心" title="项目"></span>
+        <div style="display: none">
+            <span id="userCode" name="Nancy" title="工号"></span>
+            <span id="userName" name="张三" title="姓名"></span>
+            <span id="userDepartmentName" name="工程部" title="部门"></span>
+            <span id="userProject" name="白水湖数据中心" title="项目"></span>
         </div>
 		<script src="./../../static/layui/layui.js"></script>
 		<script>
@@ -92,10 +89,10 @@
 					});
 				});
                 $(document).ready(function() {
-                    // $('#uName').attr("name",$("#userName",parent.document).attr("name"));
-                    // $('#uDepartment').attr("name",$("#userDepartment",parent.document).attr("name"));
-                    // $('#uProject').attr("name",$("#userProject",parent.document).attr("name"));
-                    // $('#uCode').attr("name",$("#userCode",parent.document).attr("name"));
+                    $('#userName').attr("name",$("#userName",parent.document).attr("name"));
+                    $('#userDepartmentName').attr("name",$("#userDepartmentName",parent.document).attr("name"));
+                    $('#userProject').attr("name",$("#userProject",parent.document).attr("name"));
+                    $('#userCode').attr("name",$("#userCode",parent.document).attr("name"));
                 });
 			});
 			//]]>

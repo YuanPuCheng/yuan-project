@@ -39,7 +39,7 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">请假人：</label>
 				<div class="layui-input-block">
-					<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入姓名..." class="layui-input" id='username' disabled="disabled" />
+					<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入姓名..." class="layui-input" id='uName' disabled="disabled" />
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -96,15 +96,15 @@
 					type: 'date',
 				});
 				$(document).ready(function() {
-					$('#username').val($("#uName",parent.document).attr("name"));
-					$('#department').val($("#uDepartment",parent.document).attr("name"));
-					$('#project').val($("#uProject",parent.document).attr("name"));
+					$('#uName').val($("#userName",parent.document).attr("name"));
+					$('#department').val($("#userDepartmentName",parent.document).attr("name"));
+					$('#project').val($("#userProject",parent.document).attr("name"));
 				});
 				$("#go").click(function() {
 					if(!click) {
 						click = true;
 						var userCode=$("#uCode",parent.document).attr("name");
-						var name = $('#username').val();
+						var name = $('#uName').val();
 						var department = $('#department').val();
 						var project = $('#project').val();
 						var timeone = $('#test16').val();
@@ -124,7 +124,7 @@
                             click=false;
 							return;
 						}
-						if(reason == "") {
+						if(reason === "") {
 							layer.msg('请输入请假理由！');
                             click=false;
 							return;

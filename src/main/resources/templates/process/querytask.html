@@ -99,7 +99,7 @@
 						}
 						$("#queryProcessBox").html(txt);
 						$("button").click(function() {
-							if($(this).text() == "查看流程") {
+							if($(this).text() === "查看流程") {
 								var processInstanceId = $(this).attr("cid");
 								layer.open({
 									type: 1,
@@ -111,7 +111,7 @@
 								});
 							} else if($(this).text() == "下载附件") {
 								var fName = $(this).attr("uid");
-								if(fName=='undefined') {
+								if(fName==='undefined') {
                                     layer.msg('该申请没有附件！');
 								} else {
                                     $.ajax({
@@ -149,7 +149,7 @@
                                         }
                                     });
 								}
-							} else if($(this).text() == "同意申请") {
+							} else if($(this).text() === "同意申请") {
 								var taskId = $(this).attr("tid");
 								var processInstanceId = $(this).attr("pid");
 								var click = false;
@@ -167,7 +167,7 @@
 											},
 											dataType: "text", //预测服务端返回的数据类型
 											success: function(data) { //请求成功的回调
-												if(data=='true'){
+												if(data==='true'){
                                                     layer.msg('成功批准申请！', {
                                                         icon: 1,
                                                         btn: ['知道了']
@@ -194,7 +194,7 @@
 								}, function() {
 									//再想想触发的事件
 								});
-							} else if($(this).text() == "驳回申请") {
+							} else if($(this).text() === "驳回申请") {
 								var processInstanceId = $(this).attr("pid");
 								var click = false;
 								layer.prompt({
@@ -214,7 +214,7 @@
 											},
 											dataType: "text", //预测服务端返回的数据类型
 											success: function(data) { //请求成功的回调
-												if(data=='true'){
+												if(data==='true'){
                                                     layer.msg('成功驳回申请！', {
                                                         icon: 1,
                                                         btn: ['知道了']
@@ -246,7 +246,7 @@
 						});
 					}
 					var userCode=$("#userCode",parent.document).attr("name");
-					if((typeof(userCode)=='undefined') || (userCode='')){
+					if((typeof(userCode)==='undefined') || (userCode='')){
 					    userCode="Nancy";
 					}
 					$.ajax({

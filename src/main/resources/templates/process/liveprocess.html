@@ -39,19 +39,19 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">发起人：</label>
 				<div class="layui-input-block">
-					<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入姓名..." class="layui-input" id='username' />
+					<input type="text" autocomplete="off" placeholder="请输入姓名..." class="layui-input" id='uName' />
 				</div>
 			</div>
 			<div class="layui-form-item">
 				<label class="layui-form-label">所在部门：</label>
 				<div class="layui-input-block">
-					<input type="text" name="username" lay-verify="required" placeholder="现所在部门..." autocomplete="off" class="layui-input" id='department' />
+					<input type="text"  placeholder="现所在部门..." autocomplete="off" class="layui-input" id='department' />
 				</div>
 			</div>
 			<div class="layui-form-item">
 				<label class="layui-form-label">所在项目：</label>
 				<div class="layui-input-block">
-					<input type="text" name="username" lay-verify="required" placeholder="现在正在负责的项目..." autocomplete="off" class="layui-input" id='project' />
+					<input type="text"   placeholder="现在正在负责的项目..." autocomplete="off" class="layui-input" id='project' />
 				</div>
 			</div>
 			<div class="layui-form-item layui-form-text">
@@ -75,19 +75,19 @@
 				var layer = layui.layer;
 				var click = false;
 				$(document).ready(function() {
-					$('#username').val($("#uName",parent.document).attr("name"));
-					$('#department').val($("#uDepartment",parent.document).attr("name"));
-					$('#project').val($("#uProject",parent.document).attr("name"));
+					$('#uName').val($("#userName",parent.document).attr("name"));
+					$('#department').val($("#userDepartmentName",parent.document).attr("name"));
+					$('#project').val($("#userProject",parent.document).attr("name"));
 				});
 				$("#go").click(function() {
 					if(!click) {
 						click = true;
-						var userCode=$("#uCode",parent.document).attr("name");
-						var name = $('#username').val();
+						var userCode=$("#userCode",parent.document).attr("name");
+						var name = $('#uName').val();
 						var department = $('#department').val();
 						var project = $('#project').val();
 						var reason = $('#reason').val();
-						if(reason == "") {
+						if(reason === "") {
 							layer.msg('请输入请假理由！');
                             click=false;
 							return;

@@ -112,8 +112,10 @@
 				var nowLen=0;
                 var dataList;
 				$(document).ready(function() {
-                    //var userCode=$("#userCode",parent.document).attr("name");
-					var userCode="Nancy";
+                    var userCode=$("#userCode",parent.document).attr("name");
+                    if((typeof(userCode)==='undefined') || (userCode='')){
+                        userCode="Nancy";
+                    }
 					$.ajax({
 						url: "/process/queryendprocess",
 						type: "get",

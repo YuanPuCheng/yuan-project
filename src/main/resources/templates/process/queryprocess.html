@@ -121,7 +121,7 @@
 						}
 						$("#queryProcessBox").html(txt);
 						$("button").click(function() {
-							if($(this).text() == "查看流程") {
+							if($(this).text() === "查看流程") {
 								var pInstanceId = $(this).attr("cid");
 								var fileName=$(this).attr("fid");
 								var txt="";
@@ -138,7 +138,7 @@
                                     '<thead><tr><th>属性名</th><th>属性值</th></tr></thead>' +
                                     '<tbody>' + txt + '</tbody></table></div>'
 								});
-							} else if($(this).text() == "撤销申请") {
+							} else if($(this).text() === "撤销申请") {
 								var processInstanceId = $(this).attr("pid");
 								var click = false;
 								layer.confirm('您确定要撤销申请吗？', {
@@ -157,7 +157,7 @@
 											},
 											dataType: "text", //预测服务端返回的数据类型
 											success: function(data) { //请求成功的回调
-												if(data=='true'){
+												if(data==='true'){
                                                     layer.msg('申请撤销成功！', {
                                                         icon: 1,
                                                         btn: ['知道了']
@@ -190,8 +190,10 @@
 							}
 						});
 					}
-					//var userCode=$("#userCode",parent.document).attr("name");
-					var userCode="Nancy";
+					var userCode=$("#userCode",parent.document).attr("name");
+                    if((typeof(userCode)==='undefined') || (userCode='')){
+                        userCode="Nancy";
+                    }
 					$.ajax({
 						url: "/process/queryprocess",
 						type: "get",
