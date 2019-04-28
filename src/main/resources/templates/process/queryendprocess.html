@@ -113,7 +113,7 @@
                 var dataList;
 				$(document).ready(function() {
                     var userCode=$("#userCode",parent.document).attr("name");
-                    if((typeof(userCode)==='undefined') || (userCode='')){
+                    if((typeof(userCode)==='undefined') || (userCode==='')){
                         userCode="Nancy";
                     }
 					$.ajax({
