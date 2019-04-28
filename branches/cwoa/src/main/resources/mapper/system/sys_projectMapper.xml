@@ -10,14 +10,60 @@
     <result column="start_time" property="startTime" jdbcType="VARCHAR" />
     <result column="end_time" property="endTime" jdbcType="VARCHAR" />
     <result column="ts" property="ts" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="project_money" property="projectMoney" jdbcType="DOUBLE" />
+    <result column="project_schedule" property="projectSchedule" jdbcType="INTEGER" />
+    <result column="progress_introduction" property="progressIntroduction" jdbcType="VARCHAR" />
+    <result column="cooperation_corporate" property="cooperationCorporate" jdbcType="VARCHAR" />
+    <result column="legal_representative" property="legalRepresentative" jdbcType="VARCHAR" />
+    <result column="project_user_id" property="projectUserId" jdbcType="INTEGER" />
     <result column="temp_var1" property="tempVar1" jdbcType="VARCHAR" />
     <result column="temp_var2" property="tempVar2" jdbcType="VARCHAR" />
     <result column="temp_int1" property="tempInt1" jdbcType="INTEGER" />
     <result column="temp_int2" property="tempInt2" jdbcType="INTEGER" />
+    <collection property="schedules" ofType="com.zihui.cwoa.system.pojo.pro_schedule">
+        <id column="schedule_id" property="scheduleId" jdbcType="INTEGER" />
+        <result column="project_id" property="projectId" jdbcType="INTEGER" />
+        <result column="sch_start_time" property="schStartTime" jdbcType="VARCHAR" />
+        <result column="sch_end_time" property="schEndTime" jdbcType="VARCHAR" />
+        <result column="sch_content" property="schContent" jdbcType="VARCHAR" />
+        <result column="ts" property="ts" jdbcType="VARCHAR" />
+        <result column="temp_var1" property="tempVar1" jdbcType="VARCHAR" />
+        <result column="temp_var2" property="tempVar2" jdbcType="VARCHAR" />
+        <result column="temp_int1" property="tempInt1" jdbcType="INTEGER" />
+        <result column="temp_int2" property="tempInt2" jdbcType="INTEGER" />
+    </collection>
+    <collection property="user" ofType="com.zihui.cwoa.system.pojo.sys_user">
+      <result column="user_id" property="userId" jdbcType="INTEGER" />
+      <result column="user_name" property="userName" jdbcType="VARCHAR" />
+
+    </collection>
   </resultMap>
+  <sql id="ProjectList">
+    sys_project.project_id,
+    sys_project.project_name,
+    sys_project.project_introduction,
+    sys_project.project_address,
+    sys_user.user_name,
+    sys_user.user_id,
+    sys_project.status,
+    sys_project.start_time,
+    sys_project.end_time,
+    sys_project.attachment,
+    sys_project.project_money,
+    sys_project.progress_introduction,
+    sys_project.cooperation_corporate,
+    sys_project.legal_representative,
+    pro_schedule.schedule_id,
+    pro_schedule.sch_start_time,
+    pro_schedule.sch_end_time,
+    pro_schedule.sch_content
+  </sql>
+
   <sql id="Base_Column_List" >
     project_id, project_name, project_introduction, project_address, status, start_time, 
-    end_time, ts, temp_var1, temp_var2, temp_int1, temp_int2
+    end_time, ts,attachment,project_money,project_schedule,progress_introduction, cooperation_corporate,
+    legal_representative,project_user_id,temp_var1, temp_var2, temp_int1, temp_int2
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -30,153 +76,267 @@
     where project_id = #{projectId,jdbcType=INTEGER}
   </delete>
 
-  <insert id="insertSelective" parameterType="com.zihui.cwoa.system.pojo.sys_project" >
+  <insert id="insertSelective" parameterType="com.zihui.cwoa.system.pojo.sys_project" keyProperty="projectId" useGeneratedKeys="true">
     insert into sys_project
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="projectId != null and projectId !=''" >
-        project_id,
-      </if>
-      <if test="projectName != null and projectName !=''" >
+
+      <if test="projectName != null" >
         project_name,
       </if>
-      <if test="projectIntroduction != null and projectIntroduction !=''" >
+      <if test="projectIntroduction != null" >
         project_introduction,
       </if>
-      <if test="projectAddress != null and projectAddress !=''" >
+      <if test="projectAddress != null" >
         project_address,
       </if>
-      <if test="status != null and status !=''" >
+      <if test="projectUserId != null" >
+        project_user_id,
+      </if>
+      <if test="status != null" >
         status,
       </if>
-      <if test="startTime != null and startTime !=''" >
+      <if test="startTime != null" >
         start_time,
       </if>
-      <if test="endTime != null and endTime !=''" >
+      <if test="endTime != null" >
         end_time,
       </if>
-      <if test="ts != null and ts !=''" >
+      <if test="ts != null" >
         ts,
       </if>
-      <if test="tempVar1 != null and tempVar1 != ''" >
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="projectMoney != null" >
+        project_money,
+      </if>
+      <if test="projectSchedule != null" >
+        project_schedule,
+      </if>
+      <if test="progressIntroduction != null" >
+        progress_introduction,
+      </if>
+      <if test="cooperationCorporate != null" >
+        cooperation_corporate,
+      </if>
+      <if test="legalRepresentative != null" >
+        legal_representative,
+      </if>
+      <if test="tempVar1 != null" >
         temp_var1,
       </if>
-      <if test="tempVar2 != null and tempVar2 !=''" >
+      <if test="tempVar2 != null" >
         temp_var2,
       </if>
-      <if test="tempInt1 != null and tempInt1 !=''" >
+      <if test="tempInt1 != null" >
         temp_int1,
       </if>
-      <if test="tempInt2 != null and tempInt2 !=''" >
+      <if test="tempInt2 != null" >
         temp_int2,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="projectId != null and projectId !=''" >
-        #{projectId,jdbcType=INTEGER},
-      </if>
-      <if test="projectName != null and projectName !=''" >
+
+      <if test="projectName != null" >
         #{projectName,jdbcType=VARCHAR},
       </if>
-      <if test="projectIntroduction != null and projectIntroduction !=''" >
+      <if test="projectIntroduction != null" >
         #{projectIntroduction,jdbcType=VARCHAR},
       </if>
-      <if test="projectAddress != null and projectAddress !=''" >
+      <if test="projectAddress != null" >
         #{projectAddress,jdbcType=VARCHAR},
       </if>
-      <if test="status != null and status !=''" >
+      <if test="projectUserId != null" >
+        #{projectUserId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="startTime != null and startTime !=''" >
+      <if test="startTime != null" >
         #{startTime,jdbcType=VARCHAR},
       </if>
-      <if test="endTime != null and endTime !=''" >
+      <if test="endTime != null" >
         #{endTime,jdbcType=VARCHAR},
       </if>
-      <if test="ts != null and ts !=''" >
+      <if test="ts != null" >
         #{ts,jdbcType=VARCHAR},
       </if>
-      <if test="tempVar1 != null and tempVar1 != ''" >
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="projectMoney != null" >
+        #{projectMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="projectSchedule != null" >
+        #{projectSchedule,jdbcType=INTEGER},
+      </if>
+      <if test="progressIntroduction != null" >
+        #{progressIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="cooperationCorporate != null" >
+        #{cooperationCorporate,jdbcType=VARCHAR},
+      </if>
+      <if test="legalRepresentative != null" >
+        #{legalRepresentative,jdbcType=VARCHAR},
+      </if>
+      <if test="tempVar1 != null" >
         #{tempVar1,jdbcType=VARCHAR},
       </if>
-      <if test="tempVar2 != null and tempVar2 !=''" >
+      <if test="tempVar2 != null" >
         #{tempVar2,jdbcType=VARCHAR},
       </if>
-      <if test="tempInt1 != null and tempInt1 !=''" >
+      <if test="tempInt1 != null" >
         #{tempInt1,jdbcType=INTEGER},
       </if>
-      <if test="tempInt2 != null and tempInt2 !=''" >
+      <if test="tempInt2 != null" >
         #{tempInt2,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.zihui.cwoa.system.pojo.sys_project" >
-    update sys_project
-    <set >
-      <if test="projectName != null and projectName !=''" >
-        project_name = #{projectName,jdbcType=VARCHAR},
-      </if>
-      <if test="projectIntroduction != null and projectIntroduction !=''" >
-        project_introduction = #{projectIntroduction,jdbcType=VARCHAR},
-      </if>
-      <if test="projectAddress != null and projectAddress !=''" >
-        project_address = #{projectAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null and status !=''" >
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="startTime != null and startTime !=''" >
-        start_time = #{startTime,jdbcType=VARCHAR},
-      </if>
-      <if test="endTime != null and endTime !=''" >
-        end_time = #{endTime,jdbcType=VARCHAR},
-      </if>
-      <if test="ts != null and ts !=''" >
-        ts = #{ts,jdbcType=VARCHAR},
-      </if>
-      <if test="tempVar1 != null and tempVar1 != ''" >
-        temp_var1 = #{tempVar1,jdbcType=VARCHAR},
-      </if>
-      <if test="tempVar2 != null and tempVar2 !=''" >
-        temp_var2 = #{tempVar2,jdbcType=VARCHAR},
-      </if>
-      <if test="tempInt1 != null and tempInt1 !=''" >
-        temp_int1 = #{tempInt1,jdbcType=INTEGER},
-      </if>
-      <if test="tempInt2 != null and tempInt2 !=''" >
-        temp_int2 = #{tempInt2,jdbcType=INTEGER},
-      </if>
-    </set>
-    where project_id = #{projectId,jdbcType=INTEGER}
+  update sys_project
+  <set >
+    <if test="projectName != null" >
+      project_name = #{projectName,jdbcType=VARCHAR},
+    </if>
+    <if test="projectIntroduction != null" >
+      project_introduction = #{projectIntroduction,jdbcType=VARCHAR},
+    </if>
+    <if test="projectAddress != null" >
+      project_address = #{projectAddress,jdbcType=VARCHAR},
+    </if>
+    <if test="projectUserId != null" >
+      project_user_id = #{projectUserId,jdbcType=INTEGER},
+    </if>
+    <if test="status != null" >
+      status = #{status,jdbcType=INTEGER},
+    </if>
+    <if test="startTime != null" >
+      start_time = #{startTime,jdbcType=VARCHAR},
+    </if>
+    <if test="endTime != null" >
+      end_time = #{endTime,jdbcType=VARCHAR},
+    </if>
+    <if test="ts != null" >
+      ts = #{ts,jdbcType=VARCHAR},
+    </if>
+    <if test="attachment != null" >
+      attachment = #{attachment,jdbcType=VARCHAR},
+    </if>
+    <if test="projectMoney != null" >
+      project_money = #{projectMoney,jdbcType=DOUBLE},
+    </if>
+    <if test="projectSchedule != null" >
+      project_schedule = #{projectSchedule,jdbcType=INTEGER},
+    </if>
+    <if test="progressIntroduction != null" >
+      progress_introduction = #{progressIntroduction,jdbcType=VARCHAR},
+    </if>
+    <if test="cooperationCorporate != null" >
+      cooperation_corporate = #{cooperationCorporate,jdbcType=VARCHAR},
+    </if>
+    <if test="legalRepresentative != null" >
+      legal_representative = #{legalRepresentative,jdbcType=VARCHAR},
+    </if>
+    <if test="tempVar1 != null" >
+      temp_var1 = #{tempVar1,jdbcType=VARCHAR},
+    </if>
+    <if test="tempVar2 != null" >
+      temp_var2 = #{tempVar2,jdbcType=VARCHAR},
+    </if>
+    <if test="tempInt1 != null" >
+      temp_int1 = #{tempInt1,jdbcType=INTEGER},
+    </if>
+    <if test="tempInt2 != null" >
+      temp_int2 = #{tempInt2,jdbcType=INTEGER},
+    </if>
+  </set>
+  where project_id = #{projectId,jdbcType=INTEGER}
   </update>
   <select id="selectProList" parameterType="com.zihui.cwoa.system.pojo.sys_project" resultMap="BaseResultMap">
-    SELECT * from sys_project where 1= 1
-    <if test="projectId != null and projectId !=''" >
-     and  project_id = #{projectId,jdbcType=VARCHAR}
+    SELECT
+    <include refid="ProjectList" />
+     from  (SELECT * FROM sys_project LIMIT #{page}, #{limit}) sys_project
+    left JOIN sys_user ON sys_user.user_id = sys_project.project_user_id
+    LEFT JOIN pro_schedule ON sys_project.project_id = pro_schedule.project_id
+
+    WHERE
+    1 = 1
+    <if test="sys_project.projectId != null and sys_project.projectId !=''" >
+     and  sys_project.project_id = #{sys_project.projectId,jdbcType=VARCHAR}
     </if>
-    <if test="projectName != null and projectName !=''" >
-     and project_name LIKE CONCAT('%',#{projectName,jdbcType=VARCHAR},'%')
+    <if test="sys_project.projectName != null and sys_project.projectName !=''" >
+     and sys_project.project_name LIKE CONCAT('%',#{sys_project.projectName,jdbcType=VARCHAR},'%')
     </if>
-    <if test="projectIntroduction != null and projectIntroduction !=''" >
-     and project_introduction = #{projectIntroduction,jdbcType=VARCHAR}
+    <if test="sys_project.projectIntroduction != null and sys_project.projectIntroduction !=''" >
+     and sys_project.project_introduction = #{sys_project.projectIntroduction,jdbcType=VARCHAR}
     </if>
-    <if test="projectAddress != null and projectAddress !=''" >
-     and project_address LIKE CONCAT('%',#{projectAddress,jdbcType=VARCHAR},'%')
+    <if test="sys_project.projectAddress != null and sys_project.projectAddress !=''" >
+     and sys_project.project_address LIKE CONCAT('%',#{sys_project.projectAddress,jdbcType=VARCHAR},'%')
     </if>
-    <if test="status != null and status !=''" >
-     and status = #{status,jdbcType=INTEGER}
+    <if test="sys_project.status != null and sys_project.status !=''" >
+     and sys_project.status = #{sys_project.status,jdbcType=INTEGER}
     </if>
-    <if test="startTime != null and startTime !=''" >
-     and start_time = #{startTime,jdbcType=VARCHAR}
+    <if test="sys_project.startTime != null and sys_project.startTime !=''" >
+     and sys_project.start_time = #{sys_project.startTime,jdbcType=VARCHAR}
     </if>
-    <if test="endTime != null and endTime !=''" >
-     and end_time = #{endTime,jdbcType=VARCHAR}
+    <if test="sys_project.endTime != null and sys_project.endTime !=''" >
+     and sys_project.end_time = #{sys_project.endTime,jdbcType=VARCHAR}
     </if>
-    <if test="ts != null and ts !=''" >
-     and ts = #{ts,jdbcType=VARCHAR}
+    <if test="sys_project.ts != null and sys_project.ts !=''" >
+     and ts = #{sys_project.ts,jdbcType=VARCHAR}
     </if>
     ORDER by  project_id DESC,status
 
   </select>
+<select id="selectProListCount" resultType="java.lang.Integer" parameterType="com.zihui.cwoa.system.pojo.sys_project">
 
+  SELECT
+  count(DISTINCT sys_project.project_id)
+  from  (SELECT * FROM sys_project ) sys_project
+  left JOIN sys_user ON sys_user.user_id = sys_project.project_user_id
+  LEFT JOIN pro_schedule ON sys_project.project_id = pro_schedule.project_id
+
+  WHERE
+  1 = 1
+    <if test="sys_project.projectId != null and sys_project.projectId !=''" >
+      and  sys_project.project_id = #{sys_project.projectId,jdbcType=VARCHAR}
+    </if>
+    <if test="sys_project.projectName != null and sys_project.projectName !=''" >
+      and sys_project.project_name LIKE CONCAT('%',#{sys_project.projectName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="sys_project.projectIntroduction != null and sys_project.projectIntroduction !=''" >
+      and sys_project.project_introduction = #{sys_project.projectIntroduction,jdbcType=VARCHAR}
+    </if>
+    <if test="sys_project.projectAddress != null and sys_project.projectAddress !=''" >
+      and sys_project.project_address LIKE CONCAT('%',#{sys_project.projectAddress,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="sys_project.status != null and sys_project.status !=''" >
+      and sys_project.status = #{sys_project.status,jdbcType=INTEGER}
+    </if>
+    <if test="sys_project.startTime != null and sys_project.startTime !=''" >
+      and sys_project.start_time = #{sys_project.startTime,jdbcType=VARCHAR}
+    </if>
+    <if test="sys_project.endTime != null and sys_project.endTime !=''" >
+      and sys_project.end_time = #{sys_project.endTime,jdbcType=VARCHAR}
+    </if>
+    <if test="sys_project.ts != null and sys_project.ts !=''" >
+      and ts = #{sys_project.ts,jdbcType=VARCHAR}
+    </if>
+
+</select>
+  <select id="projectListToSelect" resultType="com.zihui.cwoa.system.pojo.sys_project">
+    SELECT
+    sys_project.project_id as projectId,
+    sys_project.project_name as projectName,
+    sys_project.project_introduction as projectIntroduction,
+    sys_project.project_address as projectAddress,
+    sys_project.status as status,
+    sys_project.start_time as startTime,
+    sys_project.end_time as endTime
+
+    FROM sys_project where 1=1
+
+  </select>
  
 </mapper>
