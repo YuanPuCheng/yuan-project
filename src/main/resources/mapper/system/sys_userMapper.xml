@@ -423,7 +423,7 @@
     </if>
   </select>
 
-  <!--根据用户id查询部门 返回多个部门-->
+  <!--分页查询-->
   <select id="selectUserDepar"  resultMap="userDepartmentsMap">
     SELECT
     tableone.user_id as user_id,
@@ -587,5 +587,13 @@
     <if test="user.tempInt3 != null and user.tempInt3 !=''" >
       and  tableone.temp_int3 = #{user.tempInt3,jdbcType=INTEGER}
     </if>
+  </select>
+
+
+  <select id="selectGetUser" resultType="com.zihui.cwoa.system.pojo.sys_user">
+    SELECT user_id as userId,
+    user_name as userName,
+    user_code AS userCode FROM  sys_user
+
   </select>
 </mapper>

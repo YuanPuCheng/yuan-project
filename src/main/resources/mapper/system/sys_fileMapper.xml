@@ -211,4 +211,19 @@
       #{temp}
     </foreach>
   </select>
+
+  <!--查询项目合同附件，参数 ，HT,tempInt1为项目表主键-->
+  <select id="selectFileByProjectId" resultMap="BaseResultMap" >
+    SELECT * from sys_file where 1=1
+     and file_type ='HT'
+      and temp_int1 = #{projectId}
+      limit #{page},#{limit}
+  </select>
+
+  <select id="selectFileByProjectIdCount" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+    SELECT count(file_id) from sys_file where 1=1
+    and file_type ='HT'
+    and temp_int1 = #{projectId}
+
+  </select>
 </mapper>
