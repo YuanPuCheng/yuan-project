@@ -76,4 +76,47 @@ public class FinancialService {
         map.put("data",projectMonthDetails);
         return map;
     }
+
+    /**
+     *  查询所有项目的内部总报销
+     *  @return 查询结果
+     */
+    public Map<String,Object> queryProjectAllIn(){
+        List<ProjectInAndOut> queryProjectAllIn = financialMapper.queryProjectAllIn();
+        Map<String,Object> map =new HashMap<>();
+        map.put("code",0);
+        map.put("msg","请求成功");
+        map.put("count",queryProjectAllIn.size());
+        map.put("data",queryProjectAllIn);
+        return map;
+    }
+
+    /**
+     *  查询项目内部单月总请款和总报销
+     *  @return 查询结果
+     */
+    public Map<String,Object> queryProjectMonthIn(String project_name){
+        List<ProjectMonthInAndOut> queryProjectAllIn = financialMapper.queryProjectMonthIn(project_name);
+        Map<String,Object> map =new HashMap<>();
+        map.put("code",0);
+        map.put("msg","请求成功");
+        map.put("count",queryProjectAllIn.size());
+        map.put("data",queryProjectAllIn);
+        return map;
+    }
+
+    /**
+     *  查询项目内部单月报销详情
+     *  @return 查询结果
+     */
+    public Map<String,Object> queryProMonthInDetail(String project_name,String year,String month){
+        List<ProjectMonthDetail> queryProMonthInDetail =
+                financialMapper.queryProMonthInDetail(project_name, year, month);
+        Map<String,Object> map =new HashMap<>();
+        map.put("code",0);
+        map.put("msg","请求成功");
+        map.put("count",queryProMonthInDetail.size());
+        map.put("data",queryProMonthInDetail);
+        return map;
+    }
 }

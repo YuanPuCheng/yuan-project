@@ -35,4 +35,22 @@ public interface FinancialMapper {
      *  @return 查询结果
      */
     List<ProjectMonthDetail> queryProjectMonthInDetail(String project_name,String year,String month);
+
+    /**
+     *  查询所有项目的内部总报销
+     *  @return 查询结果
+     */
+    List<ProjectInAndOut> queryProjectAllIn();
+
+    /**
+     *  查询项目内部单月总请款和总报销
+     *  @return 查询结果
+     */
+    List<ProjectMonthInAndOut> queryProjectMonthIn(String project_name);
+
+    /**
+     *  查询项目内部单月报销详情
+     *  @return 查询结果
+     */
+    List<ProjectMonthDetail> queryProMonthInDetail(String project_name,String year,String month);
 }

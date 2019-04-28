@@ -26,4 +26,19 @@ public class FinancialHtmlController {
     public String queryProjectMonthInDetail(){
         return "financial/queryProjectMonthInDetail";
     }
+
+    @RequestMapping("/queryProAllIn")
+    public String queryProjectAllIn(){
+        return "financial/queryProjectAllIn";
+    }
+
+    @RequestMapping("/queryProMonthIn")
+    public String queryProjectMonthIn(){
+        return "financial/queryProjectMonthIn";
+    }
+
+    @RequestMapping("/queryProMonInDetail")
+    public String queryProMonthInDetail(){
+        return "financial/queryProMonthInDetail";
+    }
 }
