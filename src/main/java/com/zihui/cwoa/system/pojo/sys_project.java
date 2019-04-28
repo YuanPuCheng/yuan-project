@@ -1,21 +1,37 @@
 package com.zihui.cwoa.system.pojo;
 
+import java.util.List;
+
 public class sys_project {
     private Integer projectId;
 
-    private String projectName;
+    private String projectName;  //项目名称
 
-    private String projectIntroduction;
+    private String projectIntroduction;  //项目介绍
 
-    private String projectAddress;
+    private String projectAddress; //项目地址
 
-    private Integer status;
+    private Integer status;  //状态
 
-    private String startTime;
+    private String startTime;  //开始时间
 
-    private String endTime;
+    private String endTime;//结束时间
 
     private String ts;
+
+    private String attachment;  //附件
+
+    private Double projectMoney;  //项目总金额
+
+    private Integer projectSchedule;  //项目进度
+
+    private String progressIntroduction;   //进度介绍
+
+    private String cooperationCorporate;  //合作公司名称
+
+    private String legalRepresentative;  //法定代表人
+
+    private Integer projectUserId;  //项目负责人
 
     private String tempVar1;
 
@@ -24,6 +40,27 @@ public class sys_project {
     private Integer tempInt1;
 
     private Integer tempInt2;
+
+    private List<pro_schedule> schedules;//进度表
+
+    private sys_user user;//用户
+
+
+    public List<pro_schedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(List<pro_schedule> schedules) {
+        this.schedules = schedules;
+    }
+
+    public sys_user getUser() {
+        return user;
+    }
+
+    public void setUser(sys_user user) {
+        this.user = user;
+    }
 
     public Integer getProjectId() {
         return projectId;
@@ -81,6 +118,62 @@ public class sys_project {
         this.endTime = endTime == null ? null : endTime.trim();
     }
 
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
+    }
+
+    public Double getProjectMoney() {
+        return projectMoney;
+    }
+
+    public void setProjectMoney(Double projectMoney) {
+        this.projectMoney = projectMoney;
+    }
+
+    public Integer getProjectSchedule() {
+        return projectSchedule;
+    }
+
+    public void setProjectSchedule(Integer projectSchedule) {
+        this.projectSchedule = projectSchedule;
+    }
+
+    public String getProgressIntroduction() {
+        return progressIntroduction;
+    }
+
+    public void setProgressIntroduction(String progressIntroduction) {
+        this.progressIntroduction = progressIntroduction;
+    }
+
+    public String getCooperationCorporate() {
+        return cooperationCorporate;
+    }
+
+    public void setCooperationCorporate(String cooperationCorporate) {
+        this.cooperationCorporate = cooperationCorporate;
+    }
+
+    public String getLegalRepresentative() {
+        return legalRepresentative;
+    }
+
+    public void setLegalRepresentative(String legalRepresentative) {
+        this.legalRepresentative = legalRepresentative;
+    }
+
+    public Integer getProjectUserId() {
+        return projectUserId;
+    }
+
+    public void setProjectUserId(Integer projectUserId) {
+        this.projectUserId = projectUserId;
+    }
+
     public String getTs() {
         return ts;
     }
@@ -132,10 +225,19 @@ public class sys_project {
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
                 ", ts='" + ts + '\'' +
+                ", attachment='" + attachment + '\'' +
+                ", projectMoney=" + projectMoney +
+                ", projectSchedule=" + projectSchedule +
+                ", progressIntroduction='" + progressIntroduction + '\'' +
+                ", cooperationCorporate='" + cooperationCorporate + '\'' +
+                ", legalRepresentative='" + legalRepresentative + '\'' +
+                ", projectUserId=" + projectUserId +
                 ", tempVar1='" + tempVar1 + '\'' +
                 ", tempVar2='" + tempVar2 + '\'' +
                 ", tempInt1=" + tempInt1 +
                 ", tempInt2=" + tempInt2 +
+                ", schedules=" + schedules +
+                ", user=" + user +
                 '}';
     }
 }

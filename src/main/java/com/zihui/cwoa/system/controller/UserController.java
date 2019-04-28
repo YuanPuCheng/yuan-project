@@ -45,28 +45,19 @@ public class UserController {
     @ResponseBody
     public sys_user user(HttpSession session){
         sys_user user =(sys_user) session.getAttribute("user");
-
+        log.info(user.toString());
         return user_service.selectDepartmentToUser(user.getUserId());
     }
     /**
      *  根据条件查询用户列表
      */
-    /*@RequestMapping(value = "/getuser")
+    @RequestMapping(value = "/getuser")
     @ResponseBody
-    public ConcurrentMap getuser(sys_user user){
-        CallbackResult result = new CallbackResult();
-
-       //user.setTempVar3(department);//代表部门id
-        List<sys_user> list = user_service.selectUserDepar(user);
-        //Integer count = user_service.selectUserCount(user);
-        ConcurrentMap concurrentMap = new ConcurrentHashMap<String,Object>();
-        //PageInfo<sys_user> info = new PageInfo<>(list);
-        concurrentMap.put("count", list.size());
-        concurrentMap.put("data", list);
-        concurrentMap.put("code", 0);
-        concurrentMap.put("msg", "成功");
-        return concurrentMap;
-    }*/
+    public List<sys_user> selectGetUser(sys_user user){
+        List<sys_user> list = user_service.selectGetUser();
+        log.info(list.toString());
+        return list;
+    }
 
     /**
      *  根据条件查询用户列表分页

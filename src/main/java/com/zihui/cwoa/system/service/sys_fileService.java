@@ -2,6 +2,7 @@ package com.zihui.cwoa.system.service;
 
 import com.zihui.cwoa.system.dao.sys_fileMapper;
 import com.zihui.cwoa.system.pojo.sys_file;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,4 +47,23 @@ public class sys_fileService {
         String[] arr = idArray.split(",");
         return fileMapper.queryFileNameById(arr);
     }
+
+    /**
+     * 查询项目合同附件 分页
+     * @param projectId 项目查询
+     * @return list 返回list
+     */
+    public List<sys_file> selectFileByProjectId(Integer projectId,Integer page,Integer limit){
+        if(page==1){
+            page =0;
+        }else{
+            page = (page-1)*limit;
+        }
+        return fileMapper.selectFileByProjectId(projectId,page,limit);
+    };
+
+    //查询合同附件总数
+    public Integer selectFileByProjectIdCount(Integer projectId){
+        return fileMapper.selectFileByProjectIdCount(projectId);
+    };
 }

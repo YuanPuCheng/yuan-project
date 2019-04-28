@@ -105,4 +105,8 @@ public class sys_userService {
     public Integer selectUserCount(sys_user record){
         return userMapper.selectUserCount(record);
     };
+
+   public List<sys_user> selectGetUser (){
+        return userMapper.selectGetUser();
+    };
 }
