@@ -52,7 +52,8 @@ layui.extend({
                 }
             })
             $('#refresh').on('click',function(){
-            	$('#LAY_app_body .layui-show .iframe').attr.src=$('#LAY_app_body .layui-show .iframe').attr.src;
+                console.log($('#LAY_app_body .layui-show iframe').attr("src"));
+            	$('#LAY_app_body .layui-show iframe').attr("src",$('#LAY_app_body .layui-show iframe').attr("src"));
             })
             //荧幕开关
             function shade_on(){
