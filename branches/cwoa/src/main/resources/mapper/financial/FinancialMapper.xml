@@ -28,4 +28,23 @@
     AND flow_money_in IS NOT NULL) tableone
     LEFT JOIN sys_user su ON su.user_code=tableone.user_code ORDER BY flow_date DESC
   </select>
+
+  <select id="queryProjectAllIn" resultType="com.zihui.cwoa.financial.pojo.ProjectInAndOut">
+    SELECT user_project AS project_name,SUM(flow_money_in) AS all_in
+    FROM fin_pro_money_flow GROUP BY user_project
+  </select>
+
+  <select id="queryProjectMonthIn" parameterType="String" resultType="com.zihui.cwoa.financial.pojo.ProjectMonthInAndOut">
+    SELECT user_project AS project_name,SUM(flow_money_in) AS all_in,
+    flow_year,flow_month FROM fin_pro_money_flow WHERE user_project=#{project_name} GROUP BY flow_year,flow_month
+    ORDER BY flow_year DESC,flow_month DESC
+  </select>
+
+  <select id="queryProMonthInDetail" parameterType="String" resultType="com.zihui.cwoa.financial.pojo.ProjectMonthDetail">
+    SELECT tableone.*,user_name FROM
+    (SELECT user_project AS project_name,flow_money_in,flow_year,flow_month,flow_date,user_code,flow_process_id,flow_type
+    FROM fin_pro_money_flow WHERE  user_project=#{arg0} AND flow_year=#{arg1} AND flow_month=#{arg2}
+    AND flow_money_in IS NOT NULL) tableone
+    LEFT JOIN sys_user su ON su.user_code=tableone.user_code ORDER BY flow_date DESC
+  </select>
 </mapper>

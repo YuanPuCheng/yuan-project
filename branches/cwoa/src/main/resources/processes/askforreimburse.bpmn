@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1555123371427" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
-  <process id="askforreimburse" isClosed="false" isExecutable="true" name="报销申请" processType="None">
+  <process id="askforreimburse" isClosed="false" isExecutable="true" name="公司报销申请" processType="None">
     <startEvent id="start" name="StartEvent"/>
-    <userTask activiti:assignee="${firstman}" activiti:exclusive="true" id="taskone" name="部门负责人审批"/>
+    <userTask activiti:assignee="${firstman}" activiti:exclusive="true" id="taskone" name="总经理审批"/>
     <userTask activiti:assignee="${secondman}" activiti:exclusive="true" id="tasktwo" name="公司财务审批">
       <extensionElements>
         <activiti:taskListener class="com.zihui.cwoa.processone.config.AskForReimburseTaskListener" event="delete"/>
@@ -39,7 +39,7 @@
           <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="_2" targetElement="taskone">
+      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="start" targetElement="taskone">
         <omgdi:waypoint x="177.0" y="236.0"/>
         <omgdi:waypoint x="245.0" y="237.5"/>
         <bpmndi:BPMNLabel>
@@ -53,7 +53,7 @@
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="tasktwo" targetElement="_5">
+      <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="tasktwo" targetElement="end">
         <omgdi:waypoint x="540.0" y="237.5"/>
         <omgdi:waypoint x="625.0" y="236.0"/>
         <bpmndi:BPMNLabel>
