@@ -4,6 +4,7 @@ import com.zihui.cwoa.financial.dao.FinancialMapper;
 import com.zihui.cwoa.financial.pojo.ProjectInAndOut;
 import com.zihui.cwoa.financial.pojo.ProjectMonthDetail;
 import com.zihui.cwoa.financial.pojo.ProjectMonthInAndOut;
+import com.zihui.cwoa.processone.service.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,9 @@ public class FinancialService {
 
     @Autowired
     private FinancialMapper financialMapper;
+
+    @Autowired
+    private QueryService queryService;
 
     /**
      *  查询所有项目的总请款和总报销
@@ -117,6 +121,41 @@ public class FinancialService {
         map.put("msg","请求成功");
         map.put("count",queryProMonthInDetail.size());
         map.put("data",queryProMonthInDetail);
+        return map;
+    }
+
+    /**
+     *  根据条件查询请销款记录
+     *  @return 查询结果
+     */
+    public Map<String,Object> queryMoneyFlowByVos(String proType, String  name, String project,
+                                                  String flowYear, String flowMonth, String flowType,
+                                                  int page,int num){
+        int size;
+        String userCode=null;
+        if(name!=null && name!=""){
+            userCode = queryService.queryCodeByName(name);
+            if(userCode==null){
+                Map<String,Object> map =new HashMap<>();
+                map.put("result",0);
+                return map;
+            }
+        }
+        List<ProjectMonthDetail> queryMoneyFlowByVos;
+        if(proType.equals("c")){
+            queryMoneyFlowByVos =
+                    financialMapper.queryMoneyFlowByVoc(userCode,project,flowYear,flowMonth,flowType,page,num);
+            size=financialMapper.countMoneyFlowByVoc(userCode,project,flowYear,flowMonth,flowType);
+        }else{
+            queryMoneyFlowByVos =
+                    financialMapper.queryMoneyFlowByVop(userCode,project,flowYear,flowMonth,flowType,page,num);
+            size=financialMapper.countMoneyFlowByVop(userCode,project,flowYear,flowMonth,flowType);
+        }
+        Map<String,Object> map =new HashMap<>();
+        map.put("code",0);
+        map.put("msg","请求成功");
+        map.put("count",size);
+        map.put("data",queryMoneyFlowByVos);
         return map;
     }
 }

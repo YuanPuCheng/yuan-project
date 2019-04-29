@@ -53,4 +53,32 @@ public interface FinancialMapper {
      *  @return 查询结果
      */
     List<ProjectMonthDetail> queryProMonthInDetail(String project_name,String year,String month);
+
+    /**
+     *  根据条件查询公司请销款记录
+     *  @return 查询结果
+     */
+    List<ProjectMonthDetail> queryMoneyFlowByVoc(String  userCode, String project, String flowYear,
+                                                 String flowMonth, String flowType,int page, int num);
+
+    /**
+     *  根据条件查询公司请销款记录数
+     *  @return 查询结果
+     */
+    Integer countMoneyFlowByVoc(String  userCode, String project, String flowYear, String flowMonth,
+                                String flowType);
+
+    /**
+     *  根据条件查询项目请销款记录
+     *  @return 查询结果
+     */
+    List<ProjectMonthDetail> queryMoneyFlowByVop(String  userCode, String project, String flowYear,
+                                                 String flowMonth, String flowType,int page, int num);
+
+    /**
+     *  根据条件查询项目请销款记录数
+     *  @return 查询结果
+     */
+    Integer countMoneyFlowByVop(String  userCode, String project, String flowYear, String flowMonth,
+                                String flowType);
 }

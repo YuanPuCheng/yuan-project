@@ -41,4 +41,9 @@ public class FinancialHtmlController {
     public String queryProMonthInDetail(){
         return "financial/queryProMonthInDetail";
     }
+
+    @RequestMapping("/queryMoneyFlowByVo")
+    public String queryMoneyFlowByVo(){
+        return "financial/queryMoneyFlowByVo";
+    }
 }

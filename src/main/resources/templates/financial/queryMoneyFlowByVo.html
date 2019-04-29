@@ -133,7 +133,7 @@
                     var flowMonth = $('#flowMonth option:selected').prop("value");
                     var flowType = $('#flowType option:selected').prop("value");
                     $.ajax({
-                        url: "/process/queryMoneyFlowByVo",
+                        url: "/financial/queryMoneyFlowByVos",
                         type: "get",
                         data: {
                             "proType":proType,
@@ -151,15 +151,7 @@
                                 elem: 'demo6',
                                 count: 0
                             });
-                            if(result.flag) {
-                                list=[];
-                                list.push(result);
-                                $('#messageBox').hide();
-                                creatHtml(0, 1);
-                            } else {
-                                $('#messageBox').text("没有找到符合条件的流程！");
-                                $('#messageBox').show();
-                            }
+							console.log(result);
                         },
                         error: function() {
                             $('#messageBox').text("网络错误！");
@@ -176,7 +168,6 @@
                         dataType: "json", //预测服务端返回的数据类型
                         success: function(data) { //请求成功的回调
                             var proList=data;
-                            console.log(proList);
                             var proListLen=proList.length;
                             for(var i=0;i<proListLen;i++){
                                 $("#project").append('<option value="'+proList[i].projectName+'">'+proList[i].projectName+'</option>');
