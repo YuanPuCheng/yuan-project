@@ -34,4 +34,6 @@ public interface sys_userMapper {
 
     List<sys_user> selectGetUser ();
 
+    List<sys_user> selectUserAndProject();
+
 }

@@ -202,8 +202,26 @@ public class fileController {
     @RequestMapping("/del")
     @ResponseBody
     public CallbackResult delfilebyId(Integer fileId){
-
         CallbackResult result = new CallbackResult();
+        sys_file fileobj = fileService.selectByPrimaryKey(fileId);
+
+        String filepath = fileobj.getFileUrl()+fileobj.getFileName();
+        File file = new File(filepath);
+        if (file.exists()) {
+            if (file.delete()) {
+
+                result.setResult(200);
+                result.setMessage("删除成功");
+            } else {
+                result.setResult(200);
+                result.setMessage("删除失败");
+            }
+        } else {
+            result.setResult(200);
+            result.setMessage("文件不存在");
+        }
+
+
         try{
             fileService.deleteByPrimaryKey(fileId);
         }catch (Exception e){
@@ -211,8 +229,8 @@ public class fileController {
             result.setResult(400);
             result.setMessage("删除失败");
         }
-        result.setResult(200);
-        result.setMessage("删除成功");
+
+
         return result;
     }
 
@@ -226,7 +244,15 @@ public class fileController {
         try{
            for(String fileid:id ){
                if(!Basecommon.isNullStr(fileid)){
+                   sys_file f =fileService.selectByPrimaryKey(Integer.parseInt(fileid));
+                   String path = f.getFileUrl()+f.getFileName();
+                   File file = new File(path);
+                   if (file.exists()) {
+                       if (file.delete()) {
+                            log.info(f.getFileName()+",删除成功");
+                       }}
                    fileService.deleteByPrimaryKey(Integer.parseInt(fileid));
+
                }
            }
 
