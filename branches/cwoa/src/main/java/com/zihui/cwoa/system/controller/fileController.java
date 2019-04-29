@@ -69,6 +69,8 @@ public class fileController {
 
             filename = file.getOriginalFilename();//文件名
             String suffixName = filename.substring(filename.lastIndexOf("."));  // 后缀名
+            String houzui = suffixName.substring(1);
+
             String refilename = UUID.randomUUID() + suffixName; // 新文件名
             File filepath = new File(path, filename);
             // 判断路径是否存在，如果不存在就创建一个
@@ -81,6 +83,7 @@ public class fileController {
             fileobj.setFileType(filetype);
             fileobj.setFileUrl(path);
             fileobj.setStatus(0);
+            fileobj.setTempVar1(houzui);
             if(id!=null){
                 fileobj.setTempInt1(id);
             }
@@ -193,5 +196,52 @@ public class fileController {
     public List<Map<String,Object>> queryFileNameById(String idArray){
         return fileService.queryFileNameById(idArray);
     }
+
+
+    //根据id删除文件
+    @RequestMapping("/del")
+    @ResponseBody
+    public CallbackResult delfilebyId(Integer fileId){
+
+        CallbackResult result = new CallbackResult();
+        try{
+            fileService.deleteByPrimaryKey(fileId);
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setResult(400);
+            result.setMessage("删除失败");
+        }
+        result.setResult(200);
+        result.setMessage("删除成功");
+        return result;
+    }
+
+    //批量删除
+    @RequestMapping("/deletes")
+    @ResponseBody
+    public CallbackResult delIds(String fileIds){
+
+        CallbackResult result = new CallbackResult();
+        String id[] = fileIds.split(",");
+        try{
+           for(String fileid:id ){
+               if(!Basecommon.isNullStr(fileid)){
+                   fileService.deleteByPrimaryKey(Integer.parseInt(fileid));
+               }
+           }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setResult(400);
+            result.setMessage("删除失败");
+        }
+        result.setResult(200);
+        result.setMessage("删除成功");
+        return result;
+    }
+
+
+
+
 
 }
