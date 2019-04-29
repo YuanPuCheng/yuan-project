@@ -3,10 +3,22 @@
 <mapper namespace="com.zihui.cwoa.processone.dao.QueryMapper" >
 
   <select id="queryProStatuByProInstanceId" parameterType="String" resultType="String">
-    SELECT NAME_ FROM act_ru_task WHERE PROC_INST_ID_=#{processInstanceId}
+    SELECT NAME_ FROM act_ru_task WHERE PROC_INST_ID_=#{processInstanceId} LIMIT 1
   </select>
 
   <select id="queryCodeByName" parameterType="String" resultType="String">
-    SELECT user_code FROM sys_user WHERE user_name=#{userName}
+    SELECT user_code FROM sys_user WHERE user_name=#{userName} LIMIT 1
+  </select>
+
+  <select id="queryActProCountByCode" parameterType="String" resultType="Integer">
+    SELECT COUNT(ID_) FROM act_hi_procinst WHERE START_USER_ID_=#{userCode} AND DURATION_ IS NULL
+  </select>
+
+  <select id="queryEndProCountByCode" parameterType="String" resultType="Integer">
+    SELECT COUNT(ID_) FROM act_hi_procinst WHERE START_USER_ID_=#{userCode} AND DURATION_ IS NOT NULL
+  </select>
+
+  <select id="queryTaskCountByCode" parameterType="String" resultType="Integer">
+    SELECT COUNT(ID_) FROM act_ru_task WHERE ASSIGNEE_=#{userCode}
   </select>
 </mapper>

@@ -20,5 +20,26 @@ public interface QueryMapper {
      *  @param userName 用户名
      *  @return 用户工号
      */
-    List<String> queryCodeByName(String userName);
+    String queryCodeByName(String userName);
+
+    /**
+     *  根据用户工号查询用户在途流程数
+     *  @param userCode 用户工号
+     *  @return 查询结果
+     */
+    Integer queryActProCountByCode(String userCode);
+
+    /**
+     *  根据用户工号查询用户结束流程数
+     *  @param userCode 用户工号
+     *  @return 查询结果
+     */
+    Integer queryEndProCountByCode(String userCode);
+
+    /**
+     *  根据用户工号查询用户任务数
+     *  @param userCode 用户工号
+     *  @return 查询结果
+     */
+    Integer queryTaskCountByCode(String userCode);
 }

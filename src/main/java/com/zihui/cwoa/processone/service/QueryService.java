@@ -28,7 +28,34 @@ public class QueryService {
      *  @param userName 用户名
      *  @return 用户工号
      */
-    public List<String> queryCodeByName(String userName){
+    public String queryCodeByName(String userName){
         return queryMapper.queryCodeByName(userName);
+    }
+
+    /**
+     *  根据用户工号查询用户在途流程数
+     *  @param userCode 用户工号
+     *  @return 查询结果
+     */
+    public Integer queryActProCountByCode(String userCode){
+        return queryMapper.queryActProCountByCode(userCode);
+    }
+
+    /**
+     *  根据用户工号查询用户结束流程数
+     *  @param userCode 用户工号
+     *  @return 查询结果
+     */
+    public Integer queryEndProCountByCode(String userCode){
+        return queryMapper.queryEndProCountByCode(userCode);
+    }
+
+    /**
+     *  根据用户工号查询用户任务数
+     *  @param userCode 用户工号
+     *  @return 查询结果
+     */
+    public Integer queryTaskCountByCode(String userCode){
+        return queryMapper.queryTaskCountByCode(userCode);
     }
 }
