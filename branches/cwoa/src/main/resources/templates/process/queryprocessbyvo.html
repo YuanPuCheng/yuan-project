@@ -24,7 +24,7 @@
 
 	<body>
 		<fieldset class="layui-elem-field layui-field-title">
-			<legend>查询流程</legend>
+			<legend style="font-size: 30px;font-weight: 500;">查询流程</legend>
 		</fieldset>
 		<div class="layui-collapse" lay-accordion="">
 			<div class="layui-colla-item">
@@ -118,7 +118,7 @@
                     layer.open({
                         type: 1,
                         shadeClose: true,
-                        shade: 0.8,
+
                         skin: 'layui-layer-rim', //加上边框
                         area: ['100%', '80%'], //宽高
                         content: '<img src="/file/down?filename='+imageName+'"/>'
@@ -188,7 +188,7 @@
 							layer.open({
 								type: 1,
 								shadeClose: true,
-								shade: 0.8,
+
 								skin: 'layui-layer-rim', //加上边框
 								area: ['100%', '80%'], //宽高
 								content: '<img src="/process/download?processInstanceId=' + processInstanceId + '"/>'
@@ -217,9 +217,9 @@
                                         layer.open({
                                             type: 1,
                                             shadeClose: true,
-                                            shade: 0.8,
+
                                             skin: 'layui-layer-rim', //加上边框
-                                            area: ['100%', '80%'], //宽高
+                                            area: ['100%', '85%'], //宽高
                                             content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>下载附件</legend></fieldset>' +
                                             '<div class="layui-form"><table class="layui-table"><colgroup><col><col><col></colgroup>' +
                                             '<thead><tr><th>文件名</th><th>点击预览</th><th>点击下载</th></tr></thead>' +

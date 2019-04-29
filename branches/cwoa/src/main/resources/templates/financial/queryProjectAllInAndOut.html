@@ -20,16 +20,7 @@
 		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
 			<legend style="font-size: 30px;font-weight: 500;">项目请销款记录总表</legend>
 		</fieldset>
-		<table class="layui-table" lay-data="{url:'/financial/queryProjectAllInAndOut',cellMinWidth: 120}" lay-filter="demoEvent">
-			<thead>
-				<tr>
-					<th lay-data="{type:'numbers'}">序号</th>
-					<th lay-data="{field:'project_name', event: 'setSign', style:'cursor: pointer;'}">项目名称</th>
-					<th lay-data="{field:'all_out', event: 'setSign', style:'cursor: pointer;'}">请款总额（元）</th>
-					<th lay-data="{field:'all_in', event: 'setSign', style:'cursor: pointer;'}">报销总额（元）</th>
-				</tr>
-			</thead>
-		</table>
+		<table class="layui-hide" id="test" lay-filter="demoEvent"></table>
 		<p style="display: none;" id="dataPlace">项目名称存值隐藏域</p>
 		<script src="./../../static/layui/layui.js"></script>
 		<script>
@@ -38,6 +29,52 @@
 				var table = layui.table;
 				var $ = layui.jquery;
 				var layer = layui.layer;
+                table.render({
+                    elem: '#test',
+                    url: '/financial/queryProjectAllInAndOut',
+                    cols: [
+                        [{
+                            type: 'numbers',
+                            title: '序号',
+                            event: 'setSign'
+                        }, {
+                            field: 'project_name',
+                            title: '项目名称',
+                            event: 'setSign',
+                            style: 'cursor: pointer;'
+                        },{
+                            field: 'all_out',
+                            title: '请款总额（元）',
+                            event: 'setSign',
+                            style: 'cursor: pointer;'
+						},{
+                            field: 'all_in',
+                            title: '报销总额（元）',
+                            event: 'setSign',
+                            style: 'cursor: pointer;'
+                        }]
+                    ],
+                    done:function () {
+                        $(".laytable-cell-1-0-1").mouseover(function () {
+                            layer.tips('点击可查看相应项目月度请销记录表！', '.laytable-cell-1-0-1',{tips:1,time:0});
+                        })
+                        $(".laytable-cell-1-0-2").mouseover(function () {
+                            layer.tips('点击可查看相应项目月度请销记录表！', '.laytable-cell-1-0-2',{tips:1,time:0});
+                        });
+                        $(".laytable-cell-1-0-3").mouseover(function () {
+                            layer.tips('点击可查看相应项目月度请销记录表！', '.laytable-cell-1-0-3',{tips:1,time:0});
+                        });
+                        $(".laytable-cell-1-0-1").mouseout(function () {
+                            layer.closeAll('tips');
+                        });
+                        $(".laytable-cell-1-0-2").mouseout(function () {
+                            layer.closeAll('tips');
+                        });
+                        $(".laytable-cell-1-0-3").mouseout(function () {
+                            layer.closeAll('tips');
+                        });
+                    }
+                });
 				table.on('tool(demoEvent)', function(obj) {
 					var data = obj.data;
 					if(obj.event === 'setSign') {
@@ -46,20 +83,11 @@
 						type: 2,
 						title: '项目请销款记录表',
 						shadeClose: true,
-						area: ['100%', '80%'],
+						area: ['100%', '85%'],
 						content: '/fin/queryProMonthInAndOut'
 					});
 					}
 				});
-                $(".laytable-cell-1-0-1").mouseover(function () {
-                    layer.tips('点击下方单元格可查看相应项目月度请销记录表！', '.laytable-cell-1-0-1',{tips:1,time:5000});
-                })
-                $(".laytable-cell-1-0-2").mouseover(function () {
-                    layer.tips('点击下方单元格可查看相应项目月度请销记录表！', '.laytable-cell-1-0-2',{tips:1,time:5000});
-                });
-                $(".laytable-cell-1-0-3").mouseover(function () {
-                    layer.tips('点击下方单元格可查看相应项目月度请销记录表！', '.laytable-cell-1-0-3',{tips:1,time:5000});
-                });
 			});
 			//]]>
 		</script>
