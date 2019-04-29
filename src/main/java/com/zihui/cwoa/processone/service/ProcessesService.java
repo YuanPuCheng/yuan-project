@@ -135,10 +135,11 @@ public class ProcessesService {
      *  @param userCode 用户工号
      *  @return 查询结果
      */
-    public Map<String,Object> queryProcess(String userCode) {
+    public Map<String,Object> queryProcess(String userCode,int page, int num) {
         List<Map<String,Object>> list = new LinkedList<>();
-
-        List<ProcessInstance> proList = runtimeService.createProcessInstanceQuery().startedBy(userCode).list();
+        int size = runtimeService.createProcessInstanceQuery().startedBy(userCode).list().size();
+        List<ProcessInstance> proList =
+                runtimeService.createProcessInstanceQuery().startedBy(userCode).listPage(page,num);
         for (ProcessInstance pro: proList) {
             String processInstanceId=pro.getProcessInstanceId();
             Map<String, Object> variables=runtimeService.getVariables(processInstanceId);
@@ -148,12 +149,8 @@ public class ProcessesService {
             list.add(variables);
         }
         Map<String,Object> map =new HashMap<>();
-        if(list.isEmpty()) {
-            map.put("result", false);
-        }else{
-            map.put("result", true);
+            map.put("result", size);
             map.put("queryResultList",list);
-        }
         return map;
     }
 
