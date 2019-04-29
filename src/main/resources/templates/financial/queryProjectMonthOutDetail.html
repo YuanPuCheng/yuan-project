@@ -70,7 +70,7 @@
 								type: 1,
 								shadeClose: true,
 								skin: 'layui-layer-rim', //加上边框
-								area: ['100%', '80%'], //宽高
+								area: ['100%', '85%'], //宽高
 								content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>下载附件</legend></fieldset>' +
 									'<div class="layui-form"><table class="layui-table"><colgroup><col><col><col></colgroup>' +
 									'<thead><tr><th>文件名</th><th>点击预览</th><th>点击下载</th></tr></thead>' +
@@ -96,7 +96,7 @@
 						type: 1,
 						shadeClose: true,
 						skin: 'layui-layer-rim', //加上边框
-						area: ['100%', '80%'], //宽高
+						area: ['100%', '85%'], //宽高
 						content: '<img src="/file/down?filename=' + imageName + '"/>'
 					});
 				}
@@ -122,11 +122,13 @@
 						}, {
 							field: 'flow_year',
 							title: '年',
+                            width:70,
                             minWidth:70
 						}, {
 							field: 'flow_month',
 							title: '月',
-                            minWidth:40,
+                            width:60,
+                            minWidth:60,
 							templet: '<div>{{d.flow_month}}月</div>'
 						}, {
 							field: 'user_name',
@@ -146,7 +148,15 @@
 							event: 'process',
 							style: 'cursor: pointer;'
 						}]
-					]
+					],
+					done:function () {
+                        $(".laytable-cell-1-0-8").mouseover(function () {
+                            layer.tips('点击可查看相应流程！', '.laytable-cell-1-0-8',{tips:4,time:0});
+                        });
+                        $(".laytable-cell-1-0-8").mouseout(function () {
+                            layer.closeAll('tips');
+                        });
+                    }
 				});
 				table.on('tool(demoEvent)', function(obj) {
 					var data = obj.data;
@@ -178,7 +188,7 @@
 										shadeClose: true,
 
 										skin: 'layui-layer-rim', //加上边框
-										area: ['100%', '80%'], //宽高
+										area: ['100%', '85%'], //宽高
 										content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>流程详情</legend></fieldset>' +
 											'<div class="layui-form"><table class="layui-table"><colgroup><col width="150"><col width="150"></colgroup>' +
 											'<thead><tr><th>属性名</th><th>属性值</th></tr></thead>' +
@@ -196,9 +206,6 @@
 						});
 					}
 				});
-                $(".laytable-cell-1-0-8").mouseover(function () {
-                    layer.tips('点击下方单元格可查看相应流程！', '.laytable-cell-1-0-8',{tips:4,time:5000});
-                });
 			});
 			//]]>
 		</script>

@@ -41,11 +41,13 @@
 						}, {
 							field: 'flow_year',
 							title: '年',
+                            width:70,
                             minWidth:70
 						}, {
 							field: 'flow_month',
 							title: '月',
-                            minWidth:40,
+                            width:60,
+                            minWidth:60,
                             templet: '<div>{{d.flow_month}}月</div>'
 						}, {
 							field: 'all_out',
@@ -58,7 +60,21 @@
 							event: 'baoxiao',
 							style: 'cursor: pointer;'
 						}]
-					]
+					],
+					done:function () {
+                        $(".laytable-cell-1-0-4").mouseover(function () {
+                            layer.tips('点击可查看相应项目单月请款详细记录表！', '.laytable-cell-1-0-4',{tips:1,time:0});
+                        });
+                        $(".laytable-cell-1-0-5").mouseover(function () {
+                            layer.tips('点击可查看相应项目单月报销详细记录表！', '.laytable-cell-1-0-5',{tips:1,time:0});
+                        });
+                        $(".laytable-cell-1-0-4").mouseout(function () {
+                            layer.closeAll('tips');
+                        });
+                        $(".laytable-cell-1-0-5").mouseout(function () {
+                            layer.closeAll('tips');
+                        });
+                    }
 				});
 				table.on('tool(demoEvent)', function(obj) {
 					var data = obj.data;
@@ -71,7 +87,7 @@
 							title: '项目请款记录表',
 							shadeClose: true,
 
-							area: ['100%', '80%'],
+							area: ['100%', '85%'],
 							content: '/fin/queryProMonthOutDetail'
 						});
 					} else if(obj.event === 'baoxiao') {
@@ -82,17 +98,11 @@
 							type: 2,
 							title: '项目报销记录表',
 							shadeClose: true,
-							area: ['100%', '80%'],
+							area: ['100%', '85%'],
 							content: '/fin/queryProMonthInDetail'
 						});
 					}
 				});
-                $(".laytable-cell-1-0-4").mouseover(function () {
-                    layer.tips('点击下方单元格可查看相应项目单月请款详细记录表！', '.laytable-cell-1-0-4',{tips:1,time:5000});
-                });
-                $(".laytable-cell-1-0-5").mouseover(function () {
-                    layer.tips('点击下方单元格可查看相应项目单月报销详细记录表！', '.laytable-cell-1-0-5',{tips:1,time:5000});
-                });
 			});
 			//]]>
 		</script>
