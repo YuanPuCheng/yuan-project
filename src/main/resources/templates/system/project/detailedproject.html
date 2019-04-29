@@ -69,8 +69,7 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">项目负责人</label>
 				<div class="layui-input-block">
-					<select name="projectUserId" id="projectUserId" lay-verify="required" lay-search="">
-					</select>
+					<input type="text" class="layui-input" id="userName1" />
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -100,25 +99,16 @@
 				<legend>项目进度</legend>
 			</fieldset>
 			<div class="layui-card-body layui-text">
-				<div id="toolbar">
-					<div>
-						<button type="button" class="layui-btn layui-btn-sm" data-type="addRow" title="添加一行">
-							<i class="layui-icon layui-icon-add-1"></i> 添加一行
-						</button>
-					</div>
-				</div>
 				<div id="tableRes" class="table-overlay">
 					<table id="dataTable" lay-filter="dataTable" class="layui-hide"></table>
 				</div>
 			</div>
-					<div class="layui-form-item">
+			</div>
+			<div class="layui-form-item">
 						<div class="layui-input-block">
-							<button id="addtj" class="layui-btn hi" lay-submit="" lay-filter="addproject">保存</button>
-							<button id="addqx" class="layui-btn">取消</button>
+							<button id="addqx" class="layui-btn">返回</button>
 						</div>
 					</div>
-				
-			</div>
 			
 
 	</body>
@@ -127,7 +117,7 @@
 		layui.config({
 			base: "../../../static/js/system/project/"
 
-		}).use(['editproject'], function() {
+		}).use(['detailedproject'], function() {
 
 		});
 	</script>

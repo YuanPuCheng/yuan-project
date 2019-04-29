@@ -14,52 +14,82 @@
 			html {
 				background-color: #FFFFFF
 			}
-			.layui-input-block{
+			
+			.layui-input-block {
 				width: 80%;
 			}
-			.layui-form {
-				padding-top: 15px;
-			}
+			
+			
 		</style>
 	</head>
 
 	<body>
+		<fieldset class="layui-elem-field layui-field-title">
+			<legend>项目基本信息</legend>
+		</fieldset>
 
 		<div class="layui-form" lay-filter="myform">
 			<div class="layui-form-item">
-				<label class="layui-form-label">项目名称：</label>
-				<div class="layui-input-block">
-					<input type="text" name="projectName" id="projectName" lay-verify="required" class="layui-input" />
+				<div class="layui-inline">
+					<label class="layui-form-label">项目名称</label>
+					<div class="layui-input-inline">
+						<input type="text" name="projectName" id="projectName" lay-verify="required" class="layui-input" />
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">开始时间</label>
+					<div class="layui-input-inline">
+						<input type="text" class="layui-input" id="startTime" placeholder="yyyy-MM-dd" />
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">结束时间</label>
+					<div class="layui-input-inline">
+						<input type="text" class="layui-input" id="endTime" placeholder="yyyy-MM-dd" />
+					</div>
 				</div>
 			</div>
-
 			<div class="layui-form-item">
-				<label class="layui-form-label">开始时间：</label>
-				<div class="layui-input-block">
-					<input type="text" class="layui-input" id="startTime" placeholder="yyyy-MM-dd" />
+				<div class="layui-inline">
+					<label class="layui-form-label">合作公司</label>
+					<div class="layui-input-inline">
+						<input type="text" name="cooperationCorporate" id="cooperationCorporate" lay-verify="required" class="layui-input" />
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">合同金额</label>
+					<div class="layui-input-inline">
+						<input type="text" lay-verify="number" class="layui-input" id="projectMoney" />
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">法定代表人</label>
+					<div class="layui-input-inline">
+						<input type="text" class="layui-input" id="legalRepresentative" />
+					</div>
 				</div>
 			</div>
-
 			<div class="layui-form-item">
-				<label class="layui-form-label">结束时间：</label>
+				<label class="layui-form-label">项目负责人</label>
 				<div class="layui-input-block">
-					<input type="text" class="layui-input" id="endTime" placeholder="yyyy-MM-dd" />
+					<select name="projectUserId" id="projectUserId" lay-verify="required" lay-search="">
+					</select>
 				</div>
 			</div>
 			<div class="layui-form-item">
-				<label class="layui-form-label">项目地址：</label>
+				<label class="layui-form-label">项目地址</label>
 				<div class="layui-input-block">
 					<textarea placeholder="请输入内容" id="projectAddress" lay-verify="required" class="layui-textarea"></textarea>
 				</div>
 			</div>
 			<div class="layui-form-item">
-				<label class="layui-form-label">项目介绍：</label>
+				<label class="layui-form-label">项目介绍</label>
 				<div class="layui-input-block">
 					<textarea placeholder="请输入内容" id="projectIntroduction" class="layui-textarea"></textarea>
 				</div>
 			</div>
 			<div class="layui-form-item">
-				<label class="layui-form-label">状态：</label>
+				<label class="layui-form-label">状态</label>
 				<div class="layui-input-block">
 					<input type="radio" name="status" value="1" title="未开始" checked="checked" />
 					<input type="radio" name="status" value="2" title="进行中" />
@@ -67,15 +97,30 @@
 					<input type="hidden" id="projectId" />
 				</div>
 			</div>
-
-			<div class="layui-form-item">
-				<div class="layui-input-block">
-					<button id="addtj" class="layui-btn hi" lay-submit="" lay-filter="addproject">确认</button>
-					<button id="addqx" class="layui-btn">取消</button>
+			<fieldset class="layui-elem-field layui-field-title">
+				<legend>项目进度</legend>
+			</fieldset>
+			<div class="layui-card-body layui-text">
+				<div id="toolbar">
+					<div>
+						<button type="button" class="layui-btn layui-btn-sm" data-type="addRow" title="添加一行">
+							<i class="layui-icon layui-icon-add-1"></i> 添加一行
+						</button>
+					</div>
+				</div>
+				<div id="tableRes" class="table-overlay">
+					<table id="dataTable" lay-filter="dataTable" class="layui-hide"></table>
 				</div>
 			</div>
-		</div>
-
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<button id="addtj" class="layui-btn hi" lay-submit="" lay-filter="addproject">保存</button>
+							<button id="addqx" class="layui-btn">取消</button>
+						</div>
+					</div>
+				
+			</div>
+			
 	</body>
 	<script src="../../../static/layui/layui.js"></script>
 	<script>
