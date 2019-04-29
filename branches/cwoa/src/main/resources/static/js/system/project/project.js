@@ -116,10 +116,12 @@ layui.extend({
 		var projectName = $('#projectName').val();
 		var projectAddress = $('#projectAddress').val();
 		var status = $('#status').val();
-						console.log(status);
+        var userid = $('#users').val();
+						console.log(userid);
 		table.reload('test', {
 			url: layui.setter.project + '/project/getproject',
 			where: {
+                "projectUserId": userid,
 				"projectName": projectName,
 				"projectAddress": projectAddress,
 				"status": status
@@ -199,6 +201,25 @@ layui.extend({
 
 		};
 	});
+
+    //项目下拉框加载
+    $.get(layui.setter.project + '/user/getprouser', {}, function(data) {
+        var $html = "<option  value=''  class='generate'>全部</option>";
+        if(data != null) {
+            $.each(data, function(index, item) {
+                if(item.proType) {
+                    $html += "<option value=''  class='generate'>全部</option>";
+                } else {
+                    $html += "<option value='" + item.userId + "'>" + item.userName + "</option>";
+                }
+            });
+            $("select[name='users']").append($html);
+            //反选
+            $("select[name='users']").val($("#SearchProjects").val());
+            //append后必须从新渲染
+            form.render('select');
+        }
+    })
 
 	//监听行工具事件
 	table.on('tool(test)', function(obj) {
