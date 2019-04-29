@@ -162,8 +162,10 @@
 						return;
 					}
 					var fileName = fileNameList.toString();
-					//var userCode = $("#uCode", parent.document).attr("name");
-					var userCode="Nancy";
+					var userCode = $("#uCode", parent.document).attr("name");
+                    if((typeof(userCode)==='undefined') || (userCode==='')){
+                        userCode="Nancy";
+                    }
 					var name = $('#uName').val();
 					var department = $('#department').val();
 					var project = $('#project option:selected').prop("value");
