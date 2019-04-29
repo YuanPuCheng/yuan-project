@@ -80,9 +80,8 @@ public class ProcessesService {
         List<Task> tasks =
                 taskService.createTaskQuery().taskAssignee(userCode).orderByTaskCreateTime().desc().listPage(page,num);
         Map<String,Object> map =new HashMap<>();
-        int size =
-                taskService.createTaskQuery().taskAssignee(userCode).orderByTaskCreateTime().desc().list().size();
-            map.put("result",size);
+        int size = queryService.queryTaskCountByCode(userCode);
+        map.put("result",size);
             List<Map<String,Object>> queryResultList = new LinkedList<>();
             for (Task task : tasks) {
                 Map<String, Object> variables = taskService.getVariables(task.getId());
@@ -137,7 +136,7 @@ public class ProcessesService {
      */
     public Map<String,Object> queryProcess(String userCode,int page, int num) {
         List<Map<String,Object>> list = new LinkedList<>();
-        int size = runtimeService.createProcessInstanceQuery().startedBy(userCode).list().size();
+        int size = queryService.queryActProCountByCode(userCode);
         List<ProcessInstance> proList =
                 runtimeService.createProcessInstanceQuery().startedBy(userCode).listPage(page,num);
         for (ProcessInstance pro: proList) {
@@ -166,8 +165,7 @@ public class ProcessesService {
         List<HistoricProcessInstance> historicProcessInstanceList =
                 historyService.createHistoricProcessInstanceQuery()
                         .startedBy(userCode).finished().orderByProcessInstanceEndTime().desc().listPage(page,num);
-        int size = historyService.createHistoricProcessInstanceQuery()
-                .startedBy(userCode).finished().list().size();
+        int size = queryService.queryEndProCountByCode(userCode);
         for (HistoricProcessInstance ins:historicProcessInstanceList) {
             Map<String,Object> variables=new HashMap<>();
             variables.put("processName",ins.getProcessDefinitionName());
@@ -273,10 +271,11 @@ public class ProcessesService {
         int size;
         String userCode=null;
         if(userName!="" && userName!=null){
-            List<String> userCodeList = queryService.queryCodeByName(userName);
-            int listSize = userCodeList.size();
-            if (listSize==1){
-                userCode=userCodeList.get(0);
+            userCode = queryService.queryCodeByName(userName);
+            if(userCode==null){
+                Map<String,Object> map =new HashMap<>();
+                map.put("result",0);
+                return map;
             }
         }
         if (userCode != null && userCode!="") {
