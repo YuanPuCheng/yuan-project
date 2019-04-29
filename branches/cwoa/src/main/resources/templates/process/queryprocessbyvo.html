@@ -249,6 +249,10 @@
 						},
 						dataType: "json",
 						success: function(result) {
+                            laypage.render({
+                                elem: 'demo6',
+                                count: 0
+                            });
 							if(result.flag) {
 							    list=[];
 								list.push(result);
@@ -328,6 +332,10 @@
                                 })
                                 creatHtml(0, nowLen);
 							} else {
+                                laypage.render({
+                                    elem: 'demo6',
+									count: 0
+                                });
 								$('#messageBox').text("没有找到符合条件的流程！");
 								$('#messageBox').show();
 							}
