@@ -8,7 +8,7 @@ layui.extend({
 		layer = layui.layer,
 		form = layui.form,
 		$ = layui.jquery;
-	var widthMax = 850,
+	var widthMax = 1050,
 		heightMax = 570;
 	if($(window).width() < 768) {
 		widthMax = 280;
@@ -29,14 +29,46 @@ layui.extend({
 					sort: true
 				},
 				{
-					field: 'projectIntroduction',
-					title: '项目介绍'
-				},
-				{
 					field: 'projectAddress',
 					title: '项目地址'
 				}
 				,
+				{
+					field: 'projectIntroduction',
+					title: '项目介绍'
+				},
+				{
+					field: 'userName',
+					title: '项目负责人',
+					sort: true,
+					templet: function(d) {
+						var u = d.user;
+						console.log(u);
+						var name = "";
+						if(u!=null){
+							name = u.userName;
+						}
+						
+						return name;
+					}
+				},
+				{
+					field: 'cooperationCorporate',
+					title: '合作公司名称',
+					sort: true
+				}
+				,
+				{
+					field: 'projectMoney',
+					title: '合同总金额',
+					sort: true
+				}
+				,
+				{
+					field: 'legalRepresentative',
+					title: '法定代表人',
+					sort: true
+				},
 				{
 					field: 'startTime',
 					title: '开始时间',
@@ -52,14 +84,15 @@ layui.extend({
 					field: 'status',
 					title: '状态',
 					sort: true,
+					width:80,
 					templet: function(d) {
 						var name = ""
 						if(d.status == 1) {
-							name = "未开始"
+							name = "<span style='color:green'>未开始</span>"
 						} else if(d.status==2){
-							name = "进行中"
+							name = "<span style='color:red'>进行中</span>"
 						}else if(d.status==3){
-							name = "已结束"
+							name = "<span style='color:'black'>已结束</span>"
 						}
 						return name;
 					}
@@ -67,7 +100,8 @@ layui.extend({
 					//fixed: 'right',
 					title: '操作',
 					toolbar: '#barDemo',
-					width: 120
+					width:210,
+					
 				}
 			]
 		],
@@ -113,7 +147,7 @@ layui.extend({
 					anim: 2,
 					area: [widthMax + "px", heightMax + "px"],
 					shadeClose: false, //开启遮罩关闭
-					content: layui.setter.project +'/sys/addproject',
+					content: 'addproject.html',
 					success: function(layero, index) {
 
 					},
@@ -208,16 +242,24 @@ layui.extend({
 			anim: 2,
 			area: [widthMax + "px", heightMax + "px"],
 			shadeClose: false, //开启遮罩关闭
-			content: layui.setter.project +'/sys/editproject',
+			content: layui.setter.project + '/sys/editproject',
 			success: function(layero, index) {
 				var body = layer.getChildFrame('body', index);
 				body.find("#projectName").val(data.projectName);
 				body.find("#projectIntroduction").val(data.projectIntroduction);
 				body.find("#projectAddress").val(data.projectAddress);
+				body.find("#cooperationCorporate").val(data.cooperationCorporate);
+				body.find("#projectMoney").val(data.projectMoney);
+				body.find("#legalRepresentative").val(data.legalRepresentative);
 				body.find("#startTime").val(data.startTime);
 				body.find("#endTime").val(data.endTime);
 				body.find("input[name=status][value="+data.status+"]").attr("checked","checked");
-				console.log(data.status)
+				if(data.user!=null){
+					console.log(data.user.userId)
+					body.find("#userId").val(data.user.userId);
+				}
+				
+				body.find("#schedules").val(JSON.stringify(data.schedules));
 				body.find("#projectId").val(data.projectId);
 				
 
@@ -227,6 +269,84 @@ layui.extend({
 			},
 
 		});
+		}else if(obj.event === 'hetong') {
+			var widthMax1 = 80,
+			heightMax1 = 80;
+			/*if($(window).width() < 768) {
+				widthMax = 280;
+				heightMax = 350
+			}*/
+			
+			layer.open({ //弹框
+			//id: 'insert-form',
+			type: 2,
+			//skin: 'layui-layer-demo', //样式类名
+			
+			title: '合同信息',
+			maxmin: true,
+			btn: [],
+			yes: function(index, layero) {
+
+			},
+			closeBtn: 1, //不显示关闭按钮
+			anim: 2,
+			area: [widthMax1 + "%", heightMax1 + "%"],
+			shadeClose: false, //开启遮罩关闭
+			content: layui.setter.project + '/sys/projecthetong',
+			success: function(layero, index) {
+				var body = layer.getChildFrame('body', index);
+				body.find("#projectId").val(data.projectId);
+			},
+			end: function() {
+
+			},
+
+		});
+			
+		}else if(obj.event === 'xiangxi'){
+			layer.open({ //弹框
+			//id: 'insert-form',
+			type: 2,
+			//skin: 'layui-layer-demo', //样式类名
+			title: '详细信息',
+			maxmin: true,
+			btn: [],
+			yes: function(index, layero) {
+
+			},
+			closeBtn: 1, //不显示关闭按钮
+			anim: 2,
+			area: [widthMax + "px", heightMax + "px"],
+			shadeClose: false, //开启遮罩关闭
+			content: layui.setter.project + '/sys/detailedproject',
+			success: function(layero, index) {
+				var body = layer.getChildFrame('body', index);
+				body.find("#projectName").val(data.projectName);
+				body.find("#projectIntroduction").val(data.projectIntroduction);
+				body.find("#projectAddress").val(data.projectAddress);
+				body.find("#cooperationCorporate").val(data.cooperationCorporate);
+				body.find("#projectMoney").val(data.projectMoney);
+				body.find("#legalRepresentative").val(data.legalRepresentative);
+				body.find("#startTime").val(data.startTime);
+				body.find("#endTime").val(data.endTime);
+				body.find("input[name=status][value="+data.status+"]").attr("checked","checked");
+				if(data.user!=null){
+					console.log(data.user.userId)
+					body.find("#userId").val(data.user.userName);
+					//body.find("#userId").val(data.user.userId);
+				}
+				
+				body.find("#schedules").val(JSON.stringify(data.schedules));
+				body.find("#projectId").val(data.projectId);
+				
+
+			},
+			end: function() {
+
+			},
+
+		});
+			
 		}
 	});
 	e("project", {})
