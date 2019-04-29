@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>根据条件查询请销记录</title>
+		<meta name="renderer" content="webkit" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../../static/css/reset.css" />
+		<link rel="stylesheet" href="./../../static/layui/css/layui.css" />
+		<style type="text/css">
+			input{
+				margin-top: 18px;
+			}
+			.layui-colla-content {
+				padding: 10px 0px;
+			}
+			.layui-form-label{
+				font-weight: 500;
+				font-size: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<fieldset class="layui-elem-field layui-field-title">
+			<legend style="font-size: 30px;font-weight: 500;">查询请销记录</legend>
+		</fieldset>
+		<div class="layui-collapse" lay-accordion="">
+			<div class="layui-colla-item">
+				<h2 class="layui-colla-title">根据条件查询</h2>
+				<div class="layui-colla-content">
+					<form class="layui-form" action="">
+						<div class="layui-form-item">
+							<label class="layui-form-label">流程类型：</label>
+							<div class="layui-input-block">
+								<select name="modules"  lay-search="" id="proType">
+									<option value="c">公司请销款</option>
+									<option value="p">项目请销款</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">发起人：</label>
+							<div class="layui-input-block">
+								<input type="text" placeholder="请输入流程发起人..." class="layui-input" id="userName" />
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">项目：</label>
+							<div class="layui-input-block">
+								<select name="modules"  lay-search="" id="project">
+									<option value="">直接选择或搜索选择所在项目</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">年份：</label>
+							<div class="layui-input-block">
+								<input type="text" placeholder="请输入年份...例：2019" class="layui-input" id="flowYear" />
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">月份：</label>
+							<div class="layui-input-block">
+								<select name="modules" lay-verify="required" lay-search="" id="flowMonth">
+									<option value="">请选择或输入月份...</option>
+									<option value="1">一月</option>
+									<option value="2">二月</option>
+									<option value="3">三月</option>
+									<option value="4">四月</option>
+									<option value="5">五月</option>
+									<option value="6">六月</option>
+									<option value="7">七月</option>
+									<option value="8">八月</option>
+									<option value="9">九月</option>
+									<option value="10">十月</option>
+									<option value="11">十一月</option>
+									<option value="12">十二月</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">费用类型：</label>
+							<div class="layui-input-block">
+								<select name="modules" lay-verify="required" lay-search="" id="flowType">
+									<option value="">直接选择或搜索选择</option>
+									<option value="差旅费">差旅费</option>
+									<option value="员工餐费">员工餐费</option>
+									<option value="对外招待费">对外招待费</option>
+									<option value="主材主料费">主材主料费</option>
+									<option value="辅材辅料费">辅材辅料费</option>
+									<option value="车辆使用费">车辆使用费</option>
+									<option value="工资">工资</option>
+									<option value="固定资产">固定资产</option>
+									<option value="运费">运费</option>
+									<option value="其它">其它</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button type="button" class="layui-btn layui-btn-lg  layui-btn-radius" id="byVo">点击查询</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<h1 id="messageBox" style="display: none;">查询中ing...</h1>
+		<div class="layui-fluid" style="margin-top: 10px;" id="queryProcessBox"></div>
+		<center>
+			<div id="demo6"></div>
+		</center>
+		<script src="./../../static/layui/layui.js"></script>
+		<script>
+			//<![CDATA[
+			layui.use(['layer', 'element', 'form', 'laydate','laypage'], function() {
+				var $ = layui.jquery;
+				var layer = layui.layer;
+				var laydate = layui.laydate;
+				var element = layui.element;
+				var form = layui.form;
+                var laypage = layui.laypage;
+                $('#byVo').click(function() {
+                    $('#messageBox').text("查询中ing...");
+                    $('#messageBox').show();
+                    $("#queryProcessBox").html("");
+                    var proType = $('#proType option:selected').prop("value");
+                    var name = $('#userName').val();
+                    var project = $('#project option:selected').prop("value");
+                    var flowYear = $('#flowYear').val();
+                    var flowMonth = $('#flowMonth option:selected').prop("value");
+                    var flowType = $('#flowType option:selected').prop("value");
+                    $.ajax({
+                        url: "/process/queryMoneyFlowByVo",
+                        type: "get",
+                        data: {
+                            "proType":proType,
+                            "name": name,
+							"project":project,
+							"flowYear":flowYear,
+							"flowMonth":flowMonth,
+							"flowType":flowType,
+							"page":0,
+							"num":10
+                        },
+                        dataType: "json",
+                        success: function(result) {
+                            laypage.render({
+                                elem: 'demo6',
+                                count: 0
+                            });
+                            if(result.flag) {
+                                list=[];
+                                list.push(result);
+                                $('#messageBox').hide();
+                                creatHtml(0, 1);
+                            } else {
+                                $('#messageBox').text("没有找到符合条件的流程！");
+                                $('#messageBox').show();
+                            }
+                        },
+                        error: function() {
+                            $('#messageBox').text("网络错误！");
+                            $('#messageBox').show();
+                        }
+                    });
+                });
+                $(document).ready(function() {
+                    $('#uName').val($("#userName", parent.document).attr("name"));
+                    $('#department').val($("#userDepartmentName", parent.document).attr("name"));
+                    $.ajax({
+                        url: "/project/getprojecttoselect",
+                        type: "get",
+                        dataType: "json", //预测服务端返回的数据类型
+                        success: function(data) { //请求成功的回调
+                            var proList=data;
+                            console.log(proList);
+                            var proListLen=proList.length;
+                            for(var i=0;i<proListLen;i++){
+                                $("#project").append('<option value="'+proList[i].projectName+'">'+proList[i].projectName+'</option>');
+                            }
+                            form.render('select');
+                        },
+                        error: function() { //请求失败的回调
+                            layer.msg('发生了未知错误！', {
+                                icon: 2
+                            });
+                        }
+                    });
+                });
+			});
+			//]]>
+		</script>
+	</body>
+</html>
