@@ -112,4 +112,16 @@ public class PTController {
     public String editproject(){
         return "system/project/editproject";
     }
+    @RequestMapping(value = "/detailedproject")
+    public String detailedproject(){
+        return "system/project/detailedproject";
+    }
+    @RequestMapping(value = "/projecthetong")
+    public String projecthetong(){
+        return "system/project/projecthetong";
+    }
+    @RequestMapping(value = "/addhetong")
+    public String addhetong(){
+        return "system/project/addhetong";
+    }
 }

@@ -48,6 +48,16 @@ public class UserController {
         log.info(user.toString());
         return user_service.selectDepartmentToUser(user.getUserId());
     }
+
+    /**
+     *  项目首页用户下拉展示
+     */
+    @RequestMapping(value = "/getprouser")
+    @ResponseBody
+    public List<sys_user> getprouser(){
+        List<sys_user> list = user_service.selectUserAndProject();
+        return list;
+    }
     /**
      *  根据条件查询用户列表
      */

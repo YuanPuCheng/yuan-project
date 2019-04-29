@@ -109,4 +109,9 @@ public class sys_userService {
    public List<sys_user> selectGetUser (){
         return userMapper.selectGetUser();
     };
+
+
+    public List<sys_user> selectUserAndProject(){
+        return userMapper.selectUserAndProject();
+    };
 }
