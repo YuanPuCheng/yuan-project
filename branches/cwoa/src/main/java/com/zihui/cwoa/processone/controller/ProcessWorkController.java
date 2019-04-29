@@ -80,8 +80,8 @@ public class ProcessWorkController {
      */
     @RequestMapping("/queryprocess")
     @ResponseBody
-    public Map<String, Object> queryProcess(String userCode) {
-        return processesService.queryProcess(userCode);
+    public Map<String, Object> queryProcess(String userCode,int page, int num) {
+        return processesService.queryProcess(userCode,page,num);
     }
 
     /**
