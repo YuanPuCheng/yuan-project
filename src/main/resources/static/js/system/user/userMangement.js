@@ -58,6 +58,7 @@ layui.extend({
 						field: 'name',
 						title: '部门',
 						templet: function(d) {
+							console.log(d)
 							var a = eval(d.departments);
 							var name = "";
 							if(a != null) {
