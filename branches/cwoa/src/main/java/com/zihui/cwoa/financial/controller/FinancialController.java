@@ -1,16 +1,11 @@
 package com.zihui.cwoa.financial.controller;
 
-import com.zihui.cwoa.financial.pojo.ProjectInAndOut;
-import com.zihui.cwoa.financial.pojo.ProjectMonthDetail;
-import com.zihui.cwoa.financial.pojo.ProjectMonthInAndOut;
 import com.zihui.cwoa.financial.service.FinancialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -89,7 +84,18 @@ public class FinancialController {
     @RequestMapping("/queryProMonthInDetail")
     @ResponseBody
     public Map<String,Object> queryProMonthInDetail(String project_name,String year,String month){
-
         return financialService.queryProMonthInDetail(project_name,year,month);
+    }
+
+    /**
+     *  根据条件查询请销款记录
+     *  @return 查询结果
+     */
+    @RequestMapping("/queryMoneyFlowByVos")
+    @ResponseBody
+    public Map<String,Object> queryMoneyFlowByVos(String proType, String  name, String project,
+                                                  String flowYear, String flowMonth, String flowType,
+                                                  int page, int num){
+        return financialService.queryMoneyFlowByVos(proType,name,project,flowYear,flowMonth,flowType,page,num);
     }
 }

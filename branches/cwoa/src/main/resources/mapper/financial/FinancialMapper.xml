@@ -47,4 +47,48 @@
     AND flow_money_in IS NOT NULL) tableone
     LEFT JOIN sys_user su ON su.user_code=tableone.user_code ORDER BY flow_date DESC
   </select>
+
+  <select id="queryMoneyFlowByVoc" parameterType="String" resultType="com.zihui.cwoa.financial.pojo.ProjectMonthDetail">
+    SELECT user_project AS project_name,flow_year,flow_month,flow_date,
+    IFNULL(flow_money_out,0) AS flow_money_out,IFNULL(flow_money_in,0) AS flow_money_in,flow_type,flow_process_id
+    FROM fin_money_flow WHERE  1=1
+    <if test="arg0!=null and arg0!=''"> and  user_code=#{arg0}</if>
+    <if test="arg1!=null and arg1!=''"> and  user_project=#{arg1}</if>
+    <if test="arg2!=null and arg2!=''"> and  flow_year=#{arg2}</if>
+    <if test="arg3!=null and arg3!=''"> and  flow_month=#{arg3}</if>
+    <if test="arg4!=null and arg4!=''"> and  flow_type=#{arg4}</if>
+    LIMIT #{arg5},#{arg6}
+  </select>
+
+  <select id="countMoneyFlowByVoc" parameterType="String" resultType="Integer">
+    SELECT COUNT(flow_id)
+    FROM fin_money_flow WHERE  1=1
+    <if test="arg0!=null and arg0!=''"> and  user_code=#{arg0}</if>
+    <if test="arg1!=null and arg1!=''"> and  user_project=#{arg1}</if>
+    <if test="arg2!=null and arg2!=''"> and  flow_year=#{arg2}</if>
+    <if test="arg3!=null and arg3!=''"> and  flow_month=#{arg3}</if>
+    <if test="arg4!=null and arg4!=''"> and  flow_type=#{arg4}</if>
+  </select>
+
+  <select id="queryMoneyFlowByVop" parameterType="String" resultType="com.zihui.cwoa.financial.pojo.ProjectMonthDetail">
+    SELECT user_project AS project_name,flow_year,flow_month,flow_date,
+    IFNULL(flow_money_in,0) AS flow_money_in,flow_type,flow_process_id
+    FROM fin_pro_money_flow WHERE  1=1
+    <if test="arg0!=null and arg0!=''"> and  user_code=#{arg0}</if>
+    <if test="arg1!=null and arg1!=''"> and  user_project=#{arg1}</if>
+    <if test="arg2!=null and arg2!=''"> and  flow_year=#{arg2}</if>
+    <if test="arg3!=null and arg3!=''"> and  flow_month=#{arg3}</if>
+    <if test="arg4!=null and arg4!=''"> and  flow_type=#{arg4}</if>
+    LIMIT #{arg5},#{arg6}
+  </select>
+
+  <select id="countMoneyFlowByVop" parameterType="String" resultType="Integer">
+    SELECT COUNT(flow_id)
+    FROM fin_pro_money_flow WHERE  1=1
+    <if test="arg0!=null and arg0!=''"> and  user_code=#{arg0}</if>
+    <if test="arg1!=null and arg1!=''"> and  user_project=#{arg1}</if>
+    <if test="arg2!=null and arg2!=''"> and  flow_year=#{arg2}</if>
+    <if test="arg3!=null and arg3!=''"> and  flow_month=#{arg3}</if>
+    <if test="arg4!=null and arg4!=''"> and  flow_type=#{arg4}</if>
+  </select>
 </mapper>
