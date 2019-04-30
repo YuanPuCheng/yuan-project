@@ -124,4 +124,18 @@ public class PTController {
     public String addhetong(){
         return "system/project/addhetong";
     }
+
+    //角色跳转页面
+    @RequestMapping(value = "/role")
+    public String role(){
+        return "system/role/role";
+    }
+    @RequestMapping(value = "/addrole")
+    public String addrole(){
+        return "system/role/addrole";
+    }
+    @RequestMapping(value = "/editrole")
+    public String editrole(){
+        return "system/role/editrole";
+    }
 }
