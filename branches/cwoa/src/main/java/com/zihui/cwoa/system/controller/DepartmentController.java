@@ -3,11 +3,8 @@ package com.zihui.cwoa.system.controller;
 
 import com.zihui.cwoa.system.common.Basecommon;
 import com.zihui.cwoa.system.common.CallbackResult;
-import com.zihui.cwoa.system.common.Common;
 import com.zihui.cwoa.system.common.DateUtils;
-import com.zihui.cwoa.system.dao.sys_department_menuMapper;
 import com.zihui.cwoa.system.pojo.sys_department;
-import com.zihui.cwoa.system.pojo.sys_menu;
 import com.zihui.cwoa.system.service.sys_departmentService;
 import com.zihui.cwoa.system.service.sys_department_menuService;
 import com.zihui.cwoa.system.service.sys_menuService;
@@ -18,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+
 
 @Controller
 @RequestMapping(value = "department")
