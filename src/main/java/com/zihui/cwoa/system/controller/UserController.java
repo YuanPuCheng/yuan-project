@@ -251,6 +251,7 @@ public class UserController {
         String old = user.getTempVar3();
         log.info(user.toString());
         user.setTempVar2(null);
+        user.setTempVar3(null);
         try {
             user_service.updateByPrimaryKeySelective(user);
         }catch (Exception e){

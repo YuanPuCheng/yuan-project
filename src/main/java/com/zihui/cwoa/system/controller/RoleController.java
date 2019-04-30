@@ -21,6 +21,13 @@ public class RoleController {
     private sys_roleService roleService;
 
 
+    @RequestMapping(value = "/roleselect")
+    @ResponseBody
+    public List<sys_role> roleselect( ){
+
+        return roleService.selectRolebySelect();
+    }
+
 
     @RequestMapping(value = "/getrolePage")
     @ResponseBody

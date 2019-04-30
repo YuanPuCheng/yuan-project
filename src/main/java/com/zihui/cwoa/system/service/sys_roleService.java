@@ -43,5 +43,9 @@ public class sys_roleService {
     public Integer selectRoleListCount(){
         return roleMapper.selectRoleListCount();
     };
+    //展示角色下拉
+    public List<sys_role> selectRolebySelect(){
+        return roleMapper.selectRolebySelect();
+    };
 }
 

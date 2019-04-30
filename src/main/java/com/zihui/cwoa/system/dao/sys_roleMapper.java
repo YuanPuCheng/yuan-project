@@ -21,4 +21,6 @@ public interface sys_roleMapper {
 
     Integer selectRoleListCount();
 
+    List<sys_role> selectRolebySelect();
+
 }
