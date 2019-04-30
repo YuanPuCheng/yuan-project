@@ -9,7 +9,9 @@
 
   <select id="queryProjectMonthInAndOut" parameterType="String" resultType="com.zihui.cwoa.financial.pojo.ProjectMonthInAndOut">
    SELECT user_project AS project_name,SUM(flow_money_out) AS all_out,SUM(flow_money_in) AS all_in,
-   flow_year,flow_month FROM fin_money_flow WHERE user_project=#{project_name} GROUP BY flow_year,flow_month
+   flow_year,flow_month FROM fin_money_flow WHERE 1=1
+   <if test="_parameter!=null and _parameter!=''">AND user_project=#{arg0}</if>
+  GROUP BY flow_year,flow_month
    ORDER BY flow_year DESC,flow_month DESC
   </select>
 
@@ -36,7 +38,9 @@
 
   <select id="queryProjectMonthIn" parameterType="String" resultType="com.zihui.cwoa.financial.pojo.ProjectMonthInAndOut">
     SELECT user_project AS project_name,SUM(flow_money_in) AS all_in,
-    flow_year,flow_month FROM fin_pro_money_flow WHERE user_project=#{project_name} GROUP BY flow_year,flow_month
+    flow_year,flow_month FROM fin_pro_money_flow WHERE 1=1
+    <if test="_parameter!=null and _parameter!=''">AND user_project=#{arg0}</if>
+    GROUP BY flow_year,flow_month
     ORDER BY flow_year DESC,flow_month DESC
   </select>
 
@@ -94,5 +98,56 @@
     <if test="arg2!=null and arg2!=''"> and  flow_year=#{arg2}</if>
     <if test="arg3!=null and arg3!=''"> and  flow_month=#{arg3}</if>
     <if test="arg4!=null and arg4!=''"> and  flow_type=#{arg4}</if>
+  </select>
+
+  <select id="queryMoneyFlowSumByVo" parameterType="String" resultType="com.zihui.cwoa.financial.pojo.ProjectMonthDetail">
+    SELECT
+      user_project AS project_name,
+      <if test="(arg2==null or arg2=='') and arg3=='monthSum'">'至今' AS flow_year,</if>
+      <if test="(arg2!=null and arg2!='') or arg3!='monthSum'">flow_year,</if>
+      <if test="arg3!='monthSum'">flow_month,</if>
+      <if test="arg3=='monthSum'">'全年' AS flow_month,</if>
+      <if test="arg4!='typeSum'">flow_type,</if>
+      <if test="arg4=='typeSum'">'无' AS flow_type,</if>
+      <if test="arg5!='project'">IFNULL(SUM(flow_money_out),0) AS flow_money_out,</if>
+      <if test="arg5=='project'">0 AS flow_money_out,</if>
+      IFNULL(SUM(flow_money_in),0) AS flow_money_in
+    FROM
+      <if test="arg5=='company'">fin_money_flow</if>
+      <if test="arg5=='project'">fin_pro_money_flow</if>
+      <if test="arg5!='company' and arg5!='project'">fin_money_flow</if>
+    WHERE 1=1
+      <if test="arg0!=null and arg0!=''"> and  user_code=#{arg0}</if>
+      <if test="arg1!=null and arg1!=''"> and  user_project=#{arg1}</if>
+      <if test="arg2!=null and arg2!=''"> and  flow_year=#{arg2}</if>
+      <if test="arg3!='monthSum' and arg3!='monthAll'"> and  flow_month=#{arg3}</if>
+      <if test="arg4!='typeSum' and arg4!='typeAll'"> and  flow_type=#{arg4}</if>
+    GROUP BY
+    <trim suffixOverrides=",">
+      user_project,
+      <if test="arg3!='monthSum'">flow_year DESC,flow_month DESC,</if>
+      <if test="arg4!='typeSum'">flow_type</if>
+    </trim>
+    LIMIT #{arg6},#{arg7}
+  </select>
+
+  <select id="countMoneyFlowSumByVo" parameterType="String" resultType="Integer">
+    SELECT COUNT(*) FROM
+    (SELECT COUNT(*)
+    FROM
+    <if test="arg5=='company'">fin_money_flow</if>
+    <if test="arg5=='project'">fin_pro_money_flow</if>
+    <if test="arg5!='company' and arg5!='project'">fin_money_flow</if>
+    WHERE 1=1<if test="arg0!=null and arg0!=''">and user_code=#{arg0}</if>
+    <if test="arg1!=null and arg1!=''">and user_project=#{arg1}</if>
+    <if test="arg2!=null and arg2!=''">and flow_year=#{arg2}</if>
+    <if test="arg3!='monthSum' and arg3!='monthAll'">and flow_month=#{arg3}</if>
+    <if test="arg4!='typeSum' and arg4!='typeAll'">and flow_type=#{arg4}</if>
+    GROUP BY
+    <trim suffixOverrides=",">
+      user_project,
+      <if test="arg3!='monthSum'">flow_year,flow_month,</if>
+      <if test="arg4!='typeSum'">flow_type</if>
+    </trim>) table_one
   </select>
 </mapper>

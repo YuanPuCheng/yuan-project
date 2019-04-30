@@ -173,4 +173,30 @@ public class FinancialService {
         map.put("data",queryMoneyFlowByVop);
         return map;
     }
+
+    /**
+     *  根据条件分析项目请销款记录
+     *  @return 查询结果
+     */
+    public Map<String,Object> queryMoneyFlowSumByVo(int size,String  userCode, String project,
+                                                    String flowYear, String flowMonth, String flowType,
+                                                    String proType,int page,int num){
+        List<ProjectMonthDetail> queryMoneyFlowSumByVo =
+                financialMapper.queryMoneyFlowSumByVo(userCode,project,flowYear,flowMonth,flowType,proType,page,num);
+        Map<String,Object> map =new HashMap<>();
+        map.put("code",0);
+        map.put("msg","请求成功");
+        map.put("count",size);
+        map.put("data",queryMoneyFlowSumByVo);
+        return map;
+    }
+
+    /**
+     *  根据条件查询分析项目请销款记录数
+     *  @return 查询结果
+     */
+    public Integer countMoneyFlowSumByVo(String userCode, String project, String flowYear,
+                                                    String flowMonth, String flowType, String proType){
+        return financialMapper.countMoneyFlowSumByVo(userCode,project,flowYear,flowMonth,flowType,proType);
+    }
 }
