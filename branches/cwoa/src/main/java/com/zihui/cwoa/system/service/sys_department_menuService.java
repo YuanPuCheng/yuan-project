@@ -67,7 +67,12 @@ public class sys_department_menuService {
         return department_menuMapper.selectMenuIdByDeparId(departmentId);
     };
 
-
+    /**
+     *  删除部门菜单关联表
+     *  @param departmentId 一个部门id
+     *  @param menuId 一个菜单id
+     *  @return
+     */
     public int deleteByDeparIdAndMenuId(@Param("departmentId") Integer departmentId,@Param("menuId") Integer menuId){
         return department_menuMapper.deleteByDeparIdAndMenuId(departmentId,menuId);
     };

@@ -49,12 +49,12 @@ public class sys_projectService {
         return projectMapper.selectProList(record,page,limit);
     };
 
-
+    //分页查询总数
      public Integer selectProListCount(@Param("sys_project") sys_project record){
         return projectMapper.selectProListCount(record);
     };
 
-
+    //用户展示项目下拉
     public List<sys_project> projectListToSelect(){
         return projectMapper.projectListToSelect();
     }

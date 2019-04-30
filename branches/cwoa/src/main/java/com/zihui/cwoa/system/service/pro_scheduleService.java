@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+//项目进度表
 @Service
 public class pro_scheduleService {
 
@@ -30,6 +31,7 @@ public class pro_scheduleService {
         return scheduleMapper.updateByPrimaryKeySelective(record);
     };
 
+    //删除项目id删除当前项目的进度表
      public int deleteByProjectId(@Param("projectId") Integer projectId){
         return scheduleMapper.deleteByProjectId(projectId);
     };

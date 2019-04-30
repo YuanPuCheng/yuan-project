@@ -101,16 +101,17 @@ public class sys_userService {
         return userMapper.deleteByUserCode(userCode);
     };
 
-
+    //分页查询总数
     public Integer selectUserCount(sys_user record){
         return userMapper.selectUserCount(record);
     };
 
-   public List<sys_user> selectGetUser (){
+    //展示用户 下拉
+    public List<sys_user> selectGetUser (){
         return userMapper.selectGetUser();
     };
 
-
+    //用于展示项目首页页面用户下拉,只查询有关联到项目的用户
     public List<sys_user> selectUserAndProject(){
         return userMapper.selectUserAndProject();
     };
