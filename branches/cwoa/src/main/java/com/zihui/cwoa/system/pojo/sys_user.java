@@ -63,6 +63,8 @@ public class sys_user {
 
     private sys_project project;//项目对象
 
+    private sys_role role;//角色对象
+
     public sys_project getProject() {
         return project;
     }
@@ -287,6 +289,14 @@ public class sys_user {
         this.tempInt3 = tempInt3;
     }
 
+    public sys_role getRole() {
+        return role;
+    }
+
+    public void setRole(sys_role role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "sys_user{" +
@@ -318,6 +328,7 @@ public class sys_user {
                 ", tempInt3=" + tempInt3 +
                 ", departments=" + departments +
                 ", project=" + project +
+                ", role=" + role +
                 '}';
     }
 }

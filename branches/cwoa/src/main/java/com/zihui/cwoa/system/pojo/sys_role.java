@@ -30,4 +30,14 @@ public class sys_role {
     public void setRoleLevel(Integer roleLevel) {
         this.roleLevel = roleLevel;
     }
+
+
+    @Override
+    public String toString() {
+        return "sys_role{" +
+                "roleId=" + roleId +
+                ", roleName='" + roleName + '\'' +
+                ", roleLevel=" + roleLevel +
+                '}';
+    }
 }
