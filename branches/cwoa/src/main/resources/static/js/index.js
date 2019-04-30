@@ -3,7 +3,9 @@ layui.extend({
 
 }).define(["setter", "jquery"], function(e) {
 	var $ = layui.jquery;
-	
+	$("#info").attr("lay-href",layui.setter.project+"/sys/userinfo");
+	$("#pass").attr("lay-href",layui.setter.project+"/sys/updatepass");
+	$("#logout").attr("lay-href",layui.setter.project+"/sys/logoutuser");
 	//目录ajax  post请求
 	$.ajax({
 		type:"post",
@@ -385,12 +387,14 @@ layui.extend({
                 //累计偏移量清零
                 left_ul=0;
             });
+            
             $.ajax({
         	  	type:"post",
         	  	url:layui.setter.project+"/user/getuserinfo",
         	  	async:true,
         	  	dataType:"json",
         	  	success:function(data){
+        	  		$('#UserName').html(data.userName);
         	  		var tst="";
         	  		var departmentsName="";
         	  		var departmentsId="";
@@ -408,9 +412,10 @@ layui.extend({
 						'<span id="userDepartmentName" name="'+  departmentsName  +'" title="部门名称"></span>'+
 						'<span id="userProject" name="'+    +'" title="项目"></span>';
         				$('.news').append(tst);
+        			
         	  	},
         	  	error:function(jqx){
-        	  		alert("发生错误："+jqx);
+        	  		console.log("获取用户信息失败");
         	  	}
         	  });
 		},
