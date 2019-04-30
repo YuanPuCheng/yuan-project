@@ -34,7 +34,7 @@
 		</fieldset>
 		<div class="layui-collapse" lay-accordion="">
 			<div class="layui-colla-item">
-				<h2 class="layui-colla-title">根据条件查询请销记录详情</h2>
+				<h2 class="layui-colla-title">根据条件查询请销记录</h2>
 				<div class="layui-colla-content">
 					<form class="layui-form" action="">
 						<div class="layui-form-item">
@@ -56,21 +56,21 @@
 							<label class="layui-form-label">项目：</label>
 							<div class="layui-input-block">
 								<select name="modules"  lay-search="" id="project">
-									<option value="">直接选择或搜索选择所在项目</option>
+									<option value="">直接选择或搜索选择所在项目,默认查找所有项目</option>
 								</select>
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">年份：</label>
 							<div class="layui-input-block">
-								<input type="text" placeholder="请输入年份...例：2019" class="layui-input" id="flowYear" />
+								<input type="text" placeholder="请输入年份...例：2019...默认查询所有年份" class="layui-input" id="flowYear" />
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">月份：</label>
 							<div class="layui-input-block">
 								<select name="modules" lay-verify="required" lay-search="" id="flowMonth">
-									<option value="">请选择或输入月份...</option>
+									<option value="">请选择或输入月份...默认所有</option>
 									<option value="1">一月</option>
 									<option value="2">二月</option>
 									<option value="3">三月</option>
@@ -90,7 +90,7 @@
 							<label class="layui-form-label">费用类型：</label>
 							<div class="layui-input-block">
 								<select name="modules" lay-verify="required" lay-search="" id="flowType">
-									<option value="">直接选择或搜索选择</option>
+									<option value="">直接选择或搜索选择...默认所有</option>
 									<option value="差旅费">差旅费</option>
 									<option value="员工餐费">员工餐费</option>
 									<option value="对外招待费">对外招待费</option>
@@ -113,15 +113,15 @@
 				</div>
 			</div>
 			<div class="layui-colla-item">
-				<h2 class="layui-colla-title">根据条件查询请销记录之和</h2>
-				<div class="layui-colla-content">
+				<h2 class="layui-colla-title">根据条件分析请销记录</h2>
+				<div class="layui-colla-content layui-show" >
 					<form class="layui-form" action="">
 						<div class="layui-form-item">
 							<label class="layui-form-label">流程类型：</label>
 							<div class="layui-input-block">
 								<select name="modules"  lay-search="" id="proTypeSum">
-									<option value="c">公司请销款</option>
-									<option value="p">项目请销款</option>
+									<option value="company">公司请销款</option>
+									<option value="project">项目请销款</option>
 								</select>
 							</div>
 						</div>
@@ -135,21 +135,22 @@
 							<label class="layui-form-label">项目：</label>
 							<div class="layui-input-block">
 								<select name="modules"  lay-search="" id="projectSum">
-									<option value="">直接选择或搜索选择所在项目</option>
+									<option value="">直接选择或搜索选择所在项目,默认查找所有项目</option>
 								</select>
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">年份：</label>
 							<div class="layui-input-block">
-								<input type="text" placeholder="请输入年份...例：2019" class="layui-input" id="flowYearSum" />
+								<input type="text" placeholder="请输入年份...例：2019...默认查询所有年份" class="layui-input" id="flowYearSum" />
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">月份：</label>
 							<div class="layui-input-block">
 								<select name="modules" lay-verify="required" lay-search="" id="flowMonthSum">
-									<option value="">请选择或输入月份...</option>
+									<option value="monthSum">求和</option>
+									<option value="monthAll">不限</option>
 									<option value="1">一月</option>
 									<option value="2">二月</option>
 									<option value="3">三月</option>
@@ -169,7 +170,8 @@
 							<label class="layui-form-label">费用类型：</label>
 							<div class="layui-input-block">
 								<select name="modules" lay-verify="required" lay-search="" id="flowTypeSum">
-									<option value="">直接选择或搜索选择</option>
+									<option value="typeSum">求和</option>
+									<option value="typeAll">不限</option>
 									<option value="差旅费">差旅费</option>
 									<option value="员工餐费">员工餐费</option>
 									<option value="对外招待费">对外招待费</option>
@@ -279,35 +281,7 @@
 				var table = layui.table;
 				var element = layui.element;
 				var form = layui.form
-                function createTable(queryUrl,size, userCode, project, flowYear, flowMonth, flowType) {
-                    table.render({
-                        elem: '#test',
-                        url: queryUrl,
-                        where: {
-                            "size": size,
-                            "userCode": userCode,
-                            "project": project,
-                            "flowYear": flowYear,
-                            "flowMonth": flowMonth,
-                            "flowType": flowType
-                        },
-                        cols: [[
-                            {type: 'numbers', title: '序号'},
-                            {field: 'project_name', title: '项目名称'},
-                            {field: 'flow_year', title: '年', width: 70, minWidth: 70},
-                            {
-                                field: 'flow_month', title: '月', width: 60, minWidth: 60,
-                                templet: '<div>{{d.flow_month}}月</div>'
-                            },
-                            {field: 'user_name', title: '发起人'},
-                            {field: 'flow_money_out', title: '请款金额（元）'},
-                            {field: 'flow_money_in', title: '报销金额（元）'},
-                            {field: 'flow_type', title: '费用类型'},
-                            {field: 'flow_date', title: '费用日期'},
-                            {field: 'flow_process_id', title: '相关流程', event: 'process', style: 'cursor: pointer;'}
-                        ]],
-                        page: true
-                    });
+                function createTable() {
                     table.on('tool(demoEvent)', function(obj) {
                         var data = obj.data;
                         if(obj.event === 'process') {
@@ -365,7 +339,6 @@
                 $('#byVo').click(function() {
                     $('#messageBox').text("查询中ing...");
                     $('#messageBox').show();
-                    $("#queryProcessBox").html("");
                     var proType = $('#proType option:selected').prop("value");
                     var name = $('#userName').val();
                     var project = $('#project option:selected').prop("value");
@@ -399,10 +372,106 @@
                                 $('#messageBox').show();
 							}else{
                                 var userCode=data.userCode;
-                                createTable(queryUrl,size, userCode, project, flowYear, flowMonth, flowType);
+                                table.render({
+                                    elem: '#test',
+                                    url: queryUrl,
+                                    where: {
+                                        "size": size,
+                                        "userCode": userCode,
+                                        "project": project,
+                                        "flowYear": flowYear,
+                                        "flowMonth": flowMonth,
+                                        "flowType": flowType
+                                    },
+                                    cols: [[
+                                        {type: 'numbers', title: '序号'},
+                                        {field: 'project_name', title: '项目名称'},
+                                        {field: 'flow_year', title: '年', width: 70, minWidth: 70},
+                                        {
+                                            field: 'flow_month', title: '月', width: 60, minWidth: 60,
+                                            templet: '<div>{{d.flow_month}}月</div>'
+                                        },
+                                        {field: 'user_name', title: '发起人'},
+                                        {field: 'flow_money_out', title: '请款金额（元）'},
+                                        {field: 'flow_money_in', title: '报销金额（元）'},
+                                        {field: 'flow_type', title: '费用类型'},
+                                        {field: 'flow_date', title: '费用日期'},
+                                        {field: 'flow_process_id', title: '相关流程', event: 'process', style: 'cursor: pointer;'}
+                                    ]],
+                                    page: true
+                                });
+                                createTable();
                                 $('#messageBox').text("查询成功！");
                                 $('#messageBox').show();
 							}
+                        },
+                        error: function() { //请求失败的回调
+                            layer.msg('发生了未知错误！', {
+                                icon: 2
+                            });
+                        }
+                    });
+                });
+                $('#byVoSum').click(function() {
+                    $('#messageBox').text("查询中ing...");
+                    $('#messageBox').show();
+                    var proTypeSum = $('#proTypeSum option:selected').prop("value");
+                    var nameSum = $('#userNameSum').val();
+                    var projectSum = $('#projectSum option:selected').prop("value");
+                    var flowYearSum = $('#flowYearSum').val();
+                    var flowMonthSum = $('#flowMonthSum option:selected').prop("value");
+                    var flowTypeSum = $('#flowTypeSum option:selected').prop("value");
+                    $.ajax({
+                        url: '/financial/countMoneyFlowSumByVo',
+                        type: "get",
+                        data: {
+                            "name": nameSum,
+                            "project": projectSum,
+                            "flowYear": flowYearSum,
+                            "flowMonth": flowMonthSum,
+                            "flowType": flowTypeSum,
+							"proTypeSum":proTypeSum
+                        },
+                        dataType: "json",
+                        success: function(data) { //请求成功的回调
+                            var size=data.count;
+                            if (size===0){
+                                $('#messageBox').text("没有找到符合条件的记录！");
+                                $('#messageBox').show();
+                            }else{
+                                var userCode=data.userCode;
+                                table.render({
+                                    elem: '#test',
+                                    url: '/financial/queryMoneyFlowSumByVo',
+                                    where: {
+                                        "size": size,
+                                        "userCode": userCode,
+                                        "project": projectSum,
+                                        "flowYear": flowYearSum,
+                                        "flowMonth": flowMonthSum,
+                                        "flowType": flowTypeSum,
+                                        "proTypeSum":proTypeSum
+                                    },
+                                    cols: [[
+                                        {type: 'numbers', title: '序号'},
+                                        {field: 'project_name', title: '项目名称'},
+                                        {field: 'flow_year', title: '年', width: 70, minWidth: 70},
+                                        {field: 'flow_month', title: '月', width: 60, minWidth: 60},
+                                        {field: 'flow_money_out', title: '请款金额（元）'},
+                                        {field: 'flow_money_in', title: '报销金额（元）'},
+                                        {field: 'flow_type', title: '费用类型'},
+                                    ]],
+                                    page: true
+                                });
+                                $('#messageBox').text("查询成功！");
+                                $('#messageBox').show();
+                                layer.open({
+                                    type: 1,
+                                    shadeClose: true,
+                                    area: ['99%', '85%'], //宽高
+                                    content: $('#tableBox')
+                                });
+                            }
                         },
                         error: function() { //请求失败的回调
                             layer.msg('发生了未知错误！', {

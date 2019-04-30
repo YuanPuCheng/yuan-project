@@ -81,4 +81,18 @@ public interface FinancialMapper {
      */
     Integer countMoneyFlowByVop(String  userCode, String project, String flowYear, String flowMonth,
                                 String flowType);
+
+    /**
+     *  根据条件分析项目请销款记录
+     *  @return 查询结果
+     */
+    List<ProjectMonthDetail> queryMoneyFlowSumByVo(String userCode, String project, String flowYear,
+                                  String flowMonth, String flowType,String proType,int page, int num);
+
+    /**
+     *  根据条件查询分析项目请销款记录数
+     *  @return 查询结果
+     */
+    Integer countMoneyFlowSumByVo(String userCode, String project, String flowYear,
+                                  String flowMonth, String flowType, String proType);
 }

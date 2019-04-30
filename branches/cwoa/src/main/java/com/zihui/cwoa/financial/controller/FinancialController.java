@@ -161,4 +161,39 @@ public class FinancialController {
         map.put("count",financialService.countMoneyFlowByVoc(userCode,project,flowYear,flowMonth,flowType));
         return map;
     }
+
+    /**
+     *  根据条件分析项目请销款记录
+     *  @return 查询结果
+     */
+    @RequestMapping("/queryMoneyFlowSumByVo")
+    @ResponseBody
+    public Map<String,Object> queryMoneyFlowSumByVo(int size,String  userCode, String project,
+                                                    String flowYear, String flowMonth, String flowType,
+                                                    String proTypeSum,int page,int limit){
+        page=(page-1)*limit;
+        return financialService.queryMoneyFlowSumByVo(size,userCode,project,flowYear,flowMonth,flowType,proTypeSum,page,limit);
+    }
+
+    /**
+     *  根据条件查询分析项目请销款记录数
+     *  @return 查询结果
+     */
+    @RequestMapping("/countMoneyFlowSumByVo")
+    @ResponseBody
+    public Map<String,Object> countMoneyFlowSumByVo(String  name, String project, String flowYear,
+                                                    String flowMonth, String flowType, String proTypeSum){
+        String userCode=null;
+        Map<String,Object> map =new HashMap<>();
+        if((name!=null) && (!"".equals(name))){
+            userCode = queryService.queryCodeByName(name);
+            if(userCode==null){
+                map.put("count",0);
+                return map;
+            }
+        }
+        map.put("userCode",userCode);
+        map.put("count",financialService.countMoneyFlowSumByVo(userCode,project,flowYear,flowMonth,flowType,proTypeSum));
+        return map;
+    }
 }
