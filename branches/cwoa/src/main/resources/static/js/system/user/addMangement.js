@@ -56,8 +56,25 @@ layui.extend({
 			//append后必须从新渲染
 			form.render('select');
 		}
-	})
-
+	});
+    //角色下拉框加载
+    $.get(layui.setter.project + '/role/roleselect', {}, function(data) {
+        var $html = "<option  value=''>全部</option>";
+        if(data != null) {
+            $.each(data, function(index, item) {
+                if(item.proType) {
+                    $html += "<option class='generate' value=''>全部</option>";
+                } else {
+                    $html += "<option value='" + item.roleId + "'>" + item.roleName + "</option>";
+                }
+            });
+            $("select[name='roles']").append($html);
+            //反选
+            $("select[name='roles']").val($("#roles").val());
+            //append后必须从新渲染
+            form.render('select');
+        }
+    });
 	//提交
 	form.on('submit(adduser)', function(obj) {
 		var usercode = $("#usercode").val();
@@ -66,6 +83,7 @@ layui.extend({
 		var phone = $("#phone").val();
 		var departments = formSelects.value('select1', 'valStr');
 		var projects = $("#project").val();
+        var roleId = $("#roles").val();
 		var idNum = $('#idNum').val();
 		var bankCardNum = $('#bankCardNum').val();
 		var state = $('input[name="state"]:checked').val();
@@ -83,6 +101,7 @@ layui.extend({
 				"email": email,
 				"phone": phone,
 				"tempVar2": departments,
+                "roleId": roleId,
 				"tempInt1": projects,
 				"idNum": idNum,
 				"bankCardNum": bankCardNum,

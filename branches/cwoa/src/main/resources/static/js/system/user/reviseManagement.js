@@ -18,6 +18,7 @@ layui.extend({
 	let arr = JSON.parse('[' + departmentIds + ']');//字符数组转int 数组
 	setTimeout(function(){
 		 $("select[name='projects']").val($("#projectId").val());
+        $("select[name='roles']").val($("#roleId").val());
 		form.render('select');
 		formSelects.value('select1',arr, true);
 	},200);
@@ -63,6 +64,24 @@ layui.extend({
                 form.render('select');
             }
 		});
+    //角色下拉框加载
+    $.get(layui.setter.project + '/role/roleselect', {}, function(data) {
+        var $html = "<option  value=''>全部</option>";
+        if(data != null) {
+            $.each(data, function(index, item) {
+                if(item.proType) {
+                    $html += "<option class='generate' value=''>全部</option>";
+                } else {
+                    $html += "<option value='" + item.roleId + "'>" + item.roleName + "</option>";
+                }
+            });
+            $("select[name='roles']").append($html);
+            //反选
+            $("select[name='roles']").val($("#roles").val());
+            //append后必须从新渲染
+            form.render('select');
+        }
+    });
 		
 		//提交
 			form.on('submit(edisuser)', function(obj) {
@@ -73,6 +92,7 @@ layui.extend({
 					var phone = $("#phone").val();
 					var departments =formSelects.value('select1', 'valStr');
 					var dep = departmentIds;
+                	var roleId = $("#roles").val();
 					var projects = $("#project").val();
 					var idNum = $('#idNum').val();
 					var bankCardNum = $('#bankCardNum').val();
@@ -90,6 +110,7 @@ layui.extend({
 							"userName": username,
 							"email": email,
 							"phone": phone,
+							"roleId":roleId,
 							"tempVar3":dep,
 							"tempVar2": departments,
 							"tempInt1": projects,
