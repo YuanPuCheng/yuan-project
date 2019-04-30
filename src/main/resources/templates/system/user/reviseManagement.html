@@ -48,48 +48,56 @@
 		<form class="layui-form" action="javascript:;">
 			<div class="layui-form" style="padding: 20px 20px 20px 0;">
 				<div class="layui-form-item">
-					<lable class="layui-form-label"><span class="layui-badge-dot"></span>用户工号</lable>
-					<div class="layui-input-inline">
+					<lable class="layui-form-label">用户工号</lable>
+					<div class="layui-input-block">
 						<input type="text" name="" lay-verify="required|usercode" id="usercode" placeholder="请输入用户工号" autocomplete="off" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<lable class="layui-form-label"><span class="layui-badge-dot"></span>用户名称</lable>
-					<div class="layui-input-inline">
+					<lable class="layui-form-label">用户名称</lable>
+					<div class="layui-input-block">
 						<input type="text" name="" lay-verify="required" id="username" placeholder="请输入用户名称" autocomplete="off" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<lable class="layui-form-label"><span class="layui-badge-dot"></span>部门名称</lable>
-					<div class="layui-input-inline">
+					<lable class="layui-form-label">选择部门</lable>
+					<div class="layui-input-block">
 				      <select name="departments" id="department" lay-verify="select" xm-select="select1" xm-select-skin="primary">
 				      	
 				      </select>
 				   </div>
 				</div>
 				<div class="layui-form-item">
-					<lable class="layui-form-label">项目名称</lable>
-					<div class="layui-input-inline">
-				      <select name="projects" id="project">
+					<lable class="layui-form-label">选择项目</lable>
+					<div class="layui-input-block">
+				      <select name="projects" id="project"  lay-search="">
 				      	
 				      </select>
 				   </div>
 				</div>
 				<div class="layui-form-item">
+					<lable class="layui-form-label">选择角色</lable>
+					<div class="layui-input-block">
+						<select name="roles" lay-verify="required" id="roles" lay-search="">
+
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
 					<lable class="layui-form-label">身份证号</lable>
-					<div class="layui-input-inline">
+					<div class="layui-input-block">
 						<input type="text" name="" id="idNum" placeholder="请输入身份证号" autocomplete="off" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<lable class="layui-form-label">邮箱地址</lable>
-					<div class="layui-input-inline">
+					<div class="layui-input-block">
 						<input type="text" name="" id="email" placeholder="请输入邮箱地址" autocomplete="off" class="layui-input" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<lable class="layui-form-label">联系电话</lable>
-					<div class="layui-input-inline">
+					<div class="layui-input-block">
 						<input type="text" name="" id="phone" placeholder="请输入联系电话" autocomplete="off" class="layui-input" />
 					</div>
 				</div>
@@ -97,7 +105,7 @@
 				
 				<div class="layui-form-item">
 					<lable class="layui-form-label">银行卡号</lable>
-					<div class="layui-input-inline">
+					<div class="layui-input-block">
 						<input type="text" name="" id="bankCardNum" placeholder="请输入银行卡号" autocomplete="off" class="layui-input" />
 					</div>
 				</div>
@@ -109,6 +117,7 @@
 				      <input type="hidden" id="userId" />
 				      <input type="hidden" id="departmentId" />
 				      <input type="hidden" id="projectId" />
+						<input type="hidden" id="roleId" />
 				    </div>
 				</div>
 				<div class="layui-form-item">
