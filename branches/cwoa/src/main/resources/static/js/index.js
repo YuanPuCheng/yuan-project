@@ -5,6 +5,10 @@ layui.extend({
 	var $ = layui.jquery;
 	
 	//目录ajax  post请求
+	
+	$("#userInfo").attr("href",layui.setter.project+"/sys/userinfo");
+	$("#userInfo").attr("href",layui.setter.project+"/sys/updatepass");
+	$("#logout").attr("href",layui.setter.project+"/sys/logoutuser");
 	$.ajax({
 		type:"post",
 		url:layui.setter.project+"/system/index",
