@@ -149,7 +149,7 @@ layui.extend({
 					anim: 2,
 					area: [widthMax + "px", heightMax + "px"],
 					shadeClose: false, //开启遮罩关闭
-					content: 'addproject.html',
+					content: layui.setter.project + '/sys/addproject',
 					success: function(layero, index) {
 
 					},
