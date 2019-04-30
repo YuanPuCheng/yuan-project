@@ -274,6 +274,15 @@
                     $('#messageBox').show();
 					$("#queryProcessBox").html("");
 					var processDefinitionKey = $('#proType option:selected').prop("value");
+					if(processDefinitionKey===""){
+                        $('#messageBox').text("没有找到符合条件的流程！");
+                        $('#messageBox').show();
+                        laypage.render({
+                            elem: 'demo6',
+                            count: 0
+                        });
+                        return
+					}
 					var userQueryName = $('#userName').val();
 					var dateTime = new Date($('#startTime').val()).getTime();
 					if(isNaN(dateTime)) {
