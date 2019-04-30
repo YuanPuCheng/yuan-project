@@ -25,7 +25,7 @@ public class sys_user {
 
     private String errorCount;//登录失败次数
 
-    private String departmentId;//部门id
+    private String roleId;//部门id
 
     private String images;//头像路径
 
@@ -199,12 +199,12 @@ public class sys_user {
         this.errorCount = errorCount == null ? null : errorCount.trim();
     }
 
-    public String getDepartmentId() {
-        return departmentId;
+    public String getRoleId() {
+        return roleId;
     }
 
-    public void setDepartmentId(String departmentId) {
-        this.departmentId = departmentId == null ? null : departmentId.trim();
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 
     public String getImages() {
@@ -299,7 +299,7 @@ public class sys_user {
                 ", email='" + email + '\'' +
                 ", createTime='" + createTime + '\'' +
                 ", errorCount='" + errorCount + '\'' +
-                ", departmentId='" + departmentId + '\'' +
+                ", roleId='" + roleId + '\'' +
                 ", images='" + images + '\'' +
                 ", phone='" + phone + '\'' +
                 ", ts='" + ts + '\'' +

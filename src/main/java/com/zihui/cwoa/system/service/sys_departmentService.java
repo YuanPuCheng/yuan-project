@@ -93,7 +93,7 @@ public class sys_departmentService {
         return departmentMapper.selectDpeartmentListPage(map);
     };
 
-
+    //分页查询总数
     public Integer selectDpeartmentCount(String departmentName){
         return departmentMapper.selectDpeartmentCount(departmentName);
     };
