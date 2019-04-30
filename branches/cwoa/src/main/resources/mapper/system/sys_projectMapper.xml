@@ -277,6 +277,9 @@
     <if test="sys_project.status != null and sys_project.status !=''" >
      and sys_project.status = #{sys_project.status,jdbcType=INTEGER}
     </if>
+    <if test="sys_project.projectUserId != null and sys_project.projectUserId !=''" >
+      and sys_project.project_user_id = #{sys_project.projectUserId,jdbcType=INTEGER}
+    </if>
     <if test="sys_project.startTime != null and sys_project.startTime !=''" >
      and sys_project.start_time = #{sys_project.startTime,jdbcType=VARCHAR}
     </if>
@@ -314,6 +317,9 @@
     <if test="sys_project.status != null and sys_project.status !=''" >
       and sys_project.status = #{sys_project.status,jdbcType=INTEGER}
     </if>
+  <if test="sys_project.projectUserId != null and sys_project.projectUserId !=''" >
+    and sys_project.project_user_id = #{sys_project.projectUserId,jdbcType=INTEGER}
+  </if>
     <if test="sys_project.startTime != null and sys_project.startTime !=''" >
       and sys_project.start_time = #{sys_project.startTime,jdbcType=VARCHAR}
     </if>

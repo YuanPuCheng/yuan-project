@@ -11,7 +11,7 @@
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="error_count" property="errorCount" jdbcType="VARCHAR" />
-    <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
     <result column="images" property="images" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="ts" property="ts" jdbcType="VARCHAR" />
@@ -57,12 +57,12 @@
   </resultMap>
 
   <sql id="Base_Column_List" >
-    user_id, user_code, user_password, salt, status, user_name, email, create_time, error_count, 
-    department_id, images, phone, ts, ip,age,sex,last_time,login_time,bank_card_num,id_num, temp_var1, temp_var2, temp_var3, temp_int1,
+    user_id, user_code, user_password, salt, status, user_name, email, create_time, error_count,
+    role_id, images, phone, ts, ip,age,sex,last_time,login_time,bank_card_num,id_num, temp_var1, temp_var2, temp_var3, temp_int1,
     temp_int2, temp_int3
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from sys_user
     where user_id = #{userId,jdbcType=VARCHAR}
@@ -103,8 +103,8 @@
       <if test="errorCount != null and errorCount !=''" >
         error_count,
       </if>
-      <if test="departmentId != null and departmentId !=''" >
-        department_id,
+      <if test="roleId != null and roleId !=''" >
+        role_id,
       </if>
       <if test="images != null and images !=''" >
         images,
@@ -180,8 +180,8 @@
       <if test="errorCount != null and errorCount !=''" >
         #{errorCount,jdbcType=VARCHAR},
       </if>
-      <if test="departmentId != null and departmentId !=''" >
-        #{departmentId,jdbcType=VARCHAR},
+      <if test="roleId != null and roleId !=''" >
+        #{roleId,jdbcType=VARCHAR},
       </if>
       <if test="images != null and images !=''" >
         #{images,jdbcType=VARCHAR},
@@ -260,8 +260,8 @@
       <if test="errorCount != null and errorCount !=''" >
         error_count = #{errorCount,jdbcType=VARCHAR},
       </if>
-      <if test="departmentId != null and departmentId !=''" >
-        department_id = #{departmentId,jdbcType=VARCHAR},
+      <if test="roleId != null and roleId !=''" >
+        role_id = #{roleId,jdbcType=VARCHAR},
       </if>
       <if test="images != null and images !=''" >
         images = #{images,jdbcType=VARCHAR},
@@ -370,8 +370,8 @@
     <if test="errorCount != null and errorCount !=''" >
       and  error_count = #{errorCount,jdbcType=VARCHAR}
     </if>
-    <if test="departmentId != null and departmentId !=''" >
-      and  department_id = #{departmentId,jdbcType=VARCHAR}
+    <if test="roleId != null and roleId !=''" >
+      and  role_id = #{roleId,jdbcType=VARCHAR}
     </if>
     <if test="images != null and images !=''" >
       and  images = #{images,jdbcType=VARCHAR}
@@ -589,11 +589,20 @@
     </if>
   </select>
 
-
+  <!--用于页面展示下拉框-->
   <select id="selectGetUser" resultType="com.zihui.cwoa.system.pojo.sys_user">
     SELECT user_id as userId,
     user_name as userName,
     user_code AS userCode FROM  sys_user
 
   </select>
+
+  <!--用于展示项目首页页面用户下拉-->
+  <select id="selectUserAndProject" resultType="com.zihui.cwoa.system.pojo.sys_user">
+    SELECT DISTINCT user_id as userId,
+    user_name as userName,
+    user_code AS userCode FROM  sys_user join sys_project on sys_user.user_id = sys_project.project_user_id
+
+  </select>
+
 </mapper>
