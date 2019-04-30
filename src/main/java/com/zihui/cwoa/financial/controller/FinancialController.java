@@ -1,11 +1,13 @@
 package com.zihui.cwoa.financial.controller;
 
 import com.zihui.cwoa.financial.service.FinancialService;
+import com.zihui.cwoa.processone.service.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -14,6 +16,9 @@ public class FinancialController {
 
     @Autowired
     private FinancialService financialService;
+
+    @Autowired
+    private QueryService queryService;
 
     /**
      *  查询所有项目的总请款和总报销
@@ -88,14 +93,72 @@ public class FinancialController {
     }
 
     /**
-     *  根据条件查询请销款记录
+     *  根据条件查询公司请销款记录
      *  @return 查询结果
      */
-    @RequestMapping("/queryMoneyFlowByVos")
+    @RequestMapping("/queryMoneyFlowByVoc")
     @ResponseBody
-    public Map<String,Object> queryMoneyFlowByVos(String proType, String  name, String project,
+    public Map<String,Object> queryMoneyFlowByVoc(int size, String userCode, String project,
                                                   String flowYear, String flowMonth, String flowType,
-                                                  int page, int num){
-        return financialService.queryMoneyFlowByVos(proType,name,project,flowYear,flowMonth,flowType,page,num);
+                                                  int page, int limit){
+        page=(page-1)*limit;
+        return financialService.queryMoneyFlowByVoc(size,userCode,project,flowYear,flowMonth,flowType,page,limit);
+    }
+
+    /**
+     *  根据条件查询项目请销款记录
+     *  @return 查询结果
+     */
+    @RequestMapping("/queryMoneyFlowByVop")
+    @ResponseBody
+    public Map<String,Object> queryMoneyFlowByVop(int size, String userCode, String project,
+                                                  String flowYear, String flowMonth, String flowType,
+                                                  int page, int limit){
+        page=(page-1)*limit;
+        return financialService.queryMoneyFlowByVop(size,userCode,project,flowYear,flowMonth,flowType,page,limit);
+    }
+
+    /**
+     *  根据条件查询项目请销款记录数
+     *  @return 查询结果
+     */
+    @RequestMapping("/countMoneyFlowByVop")
+    @ResponseBody
+    public Map<String,Object> countMoneyFlowByVop(String name, String project, String flowYear,
+                                       String flowMonth, String flowType){
+        String userCode=null;
+        Map<String,Object> map =new HashMap<>();
+        if((name!=null) && (!name.equals(""))){
+            userCode = queryService.queryCodeByName(name);
+            if(userCode==null){
+                map.put("count",0);
+                return map;
+            }
+        }
+        map.put("userCode",userCode);
+        map.put("count",financialService.countMoneyFlowByVop(userCode,project,flowYear,flowMonth,flowType));
+        return map;
+    }
+
+    /**
+     *  根据条件查询公司请销款记录数
+     *  @return 查询结果
+     */
+    @RequestMapping("/countMoneyFlowByVoc")
+    @ResponseBody
+    public Map<String,Object> countMoneyFlowByVoc(String name, String project, String flowYear,
+                                                  String flowMonth, String flowType){
+        String userCode=null;
+        Map<String,Object> map =new HashMap<>();
+        if((!"".equals(name)) && (name!=null)){
+            userCode = queryService.queryCodeByName(name);
+            if(userCode==null){
+                map.put("count",0);
+                return map;
+            }
+        }
+        map.put("userCode",userCode);
+        map.put("count",financialService.countMoneyFlowByVoc(userCode,project,flowYear,flowMonth,flowType));
+        return map;
     }
 }
