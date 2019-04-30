@@ -39,15 +39,15 @@
 				</li>
 				<li class="layui-nav-item" id="_user" >
             <a href="javascript:;">
-              <cite></cite>
+              <cite id="UserName"></cite>
               <span class="layui-nav-more" id="_user-icon"></span>
             	<!--<span class="layui-nav-more"></span>-->
             </a>
             <dl class="layui-nav-child layui-anim layui-anim-upbit" id="layui-na">
-              <dd><a lay-href="http://127.0.0.1:8080/sys/userinfo">基本资料</a></dd>
-              <dd><a lay-href="http://127.0.0.1:8080/sys/updatepass">修改密码</a></dd>
+              <dd><a id="info" >基本资料</a></dd>
+              <dd><a id="pass" >修改密码</a></dd>
               <hr/>
-              <dd id="exit" layadmin-event="logout" style="text-align: center;"><a href="login.html">退出</a></dd>
+              <dd id="exit" layadmin-event="logout" style="text-align: center;"><a id="logout" >退出</a></dd>
             </dl>
        	</li>
 				<span class="layui-nav-bar" style="left: 0px; top: 0px; width: 0px; opacity: 0;"></span>
@@ -58,7 +58,7 @@
 	<div class="layui-side layui-side-menu" id="lay_lis">
 		<div class="layui-side-scroll">
 			<div class="layui-logo" lay-href="home/index.html">
-				<span></span>
+				<span>admin</span>
 			</div>
 			<ul class="layui-nav layui-nav-tree" id="lay_animate3">
 				<!--<li class="layui-nav-item">
