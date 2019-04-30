@@ -28,8 +28,10 @@ layui.extend({
 				console.log(data);
 				var de = eval(data.departments);
 				var pr = data.project;
+				var ro = data.role;
 				var name="";
                 var pro="";
+                var rolename="";
 				if(pr!=null){
                     pro = pr.projectName;
 				}
@@ -39,6 +41,10 @@ layui.extend({
 					})
 					name = name.substring(0,name.length-1);
 				}
+				if(ro!=null){
+                    rolename =ro.roleName;
+				}
+
 				
 				console.log(name);
 				filename = data.images;
@@ -53,7 +59,8 @@ layui.extend({
 					"sex": data.sex,
 					"bankCardNum": data.bankCardNum,
 					"departmentName":name,
-					"projectName":pro
+					"projectName":pro,
+					"roleName":rolename
 				})
 			}
 		});

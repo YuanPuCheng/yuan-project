@@ -53,7 +53,16 @@ layui.extend({
 					{
 						field: 'ip',
 						title: 'IP'
-					},
+					}
+                    ,
+                    {
+                        field: 'roleName',
+                        title: '角色',
+                        templet: function(d) {
+                            var a = d.role;
+                            return a.roleName;
+						}
+                    },
 					{
 						field: 'name',
 						title: '部门',
@@ -65,12 +74,13 @@ layui.extend({
 								$.each(a, function(index, value) {
 									name = value.departmentName + "、" + name;
 								});
+                                name = name.substring(0, name.length - 1);
 							} else {
 								name = ""
 							}
 
 							//var ddd=a.departments[0].departmentCode
-							name = name.substring(0, name.length - 1);
+
 							return name;
 						}
 					},
@@ -99,25 +109,18 @@ layui.extend({
 		//搜索(方法重载)
 		function renderTable() {
 			var name2 = $('#SearchDepartments').val();
-			var name1 = names(name2);
-			var sex1 = names($('#SearchSex').val());
-			var project1 = names($('#SearchProjects').val());
+			var project1 = $('#SearchProjects').val();
+            var roleId =$('#roles').val();
 
-			function names(obj) {
-				var n = "";
-				if(obj == "不限") {
-					return n;
-				}
-				return obj;
-			}
+
 			//				console.log(name1+sex1);
 			table.reload('test', {
 				url: layui.setter.project + '/user/getuserPage',
 				where: {
 					userCode: $('#SearchUserCode').val(),
 					userName: $('#SearchUserName').val(),
-					tempVar3: name1,
-					sex: sex1,
+					tempVar3: name2,
+                    tempVar2: roleId,
 					tempInt1: project1
 				}
 			});
@@ -266,6 +269,7 @@ layui.extend({
 						if(data.project != null) {
 							body.find("#projectId").val(data.project.projectId);
 						}
+                        body.find("#roleId").val(data.role.roleId);
 						body.find("#idNum").val(data.idNum);
 						body.find("#bankCardNum").val(data.bankCardNum);
 						body.find("input[name=status][value=" + data.status + "]").attr("checked", "checked");
@@ -280,6 +284,24 @@ layui.extend({
 			}
 		});
 
+        //角色下拉框加载
+        $.get(layui.setter.project + '/role/roleselect', {}, function(data) {
+            var $html = "<option  value=''>全部</option>";
+            if(data != null) {
+                $.each(data, function(index, item) {
+                    if(item.proType) {
+                        $html += "<option class='generate' value=''>全部</option>";
+                    } else {
+                        $html += "<option value='" + item.roleId + "'>" + item.roleName + "</option>";
+                    }
+                });
+                $("select[name='roles']").append($html);
+                //反选
+                $("select[name='roles']").val($("#roles").val());
+                //append后必须从新渲染
+                form.render('select');
+            }
+        });
 		//部门下拉框加载
 		$.get(layui.setter.project + '/department/getdepartment', {}, function(data) {
 			var $html = "<option  value=''>全部</option>";
@@ -318,6 +340,7 @@ layui.extend({
 			}
 		});
 	});
+
 
 	e("userMangement", {})
 });
