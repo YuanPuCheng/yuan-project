@@ -28,6 +28,7 @@
     <result column="temp_int1" property="tempInt1" jdbcType="INTEGER" />
     <result column="temp_int2" property="tempInt2" jdbcType="INTEGER" />
     <result column="temp_int3" property="tempInt3" jdbcType="INTEGER" />
+    <collection property="role" ofType="com.zihui.cwoa.system.pojo.sys_role" resultMap="roleMap"></collection>
     <collection property="project" ofType="com.zihui.cwoa.system.pojo.sys_project">
       <id column="project_id" property="projectId" jdbcType="INTEGER" />
       <result column="project_name" property="projectName" jdbcType="VARCHAR" />
@@ -42,8 +43,14 @@
       <result column="pro_temp_int1" property="tempInt1" jdbcType="INTEGER" />
       <result column="pro_temp_int2" property="tempInt2" jdbcType="INTEGER" />
     </collection>
+
   </resultMap>
 
+  <resultMap id="roleMap" type="com.zihui.cwoa.system.pojo.sys_role" >
+    <id column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="role_level" property="roleLevel" jdbcType="INTEGER" />
+  </resultMap>
   <!-- 使用resultMap的<collection>标签进行一对多查询 -->
   <resultMap id="userDepartmentsMap" extends="BaseResultMap" type="com.zihui.cwoa.system.pojo.sys_user">
     <!-- 部门的集合 -->
@@ -327,6 +334,7 @@
     d.department_code AS departmentCode,
     d.status status,
     d.ts AS ts_b,
+    sys_role.role_name as role_name,
     p.project_id AS project_id,
     p.project_name as project_name,
     p.project_introduction as project_introduction,
@@ -338,6 +346,7 @@
     from sys_user u left join sys_user_department ud on u.user_id = ud.user_id
     left join sys_department d on ud.department_id  =d.department_id
     left join sys_project p on u.temp_int1 = p.project_id
+    left join sys_role sys_role on u.role_id = sys_role.role_id
     where u.user_id = #{userId}
   </select>
   <!--多条件查询用户用于展示页面，返回List-->
@@ -441,6 +450,8 @@
     tableone.last_time as last_time,
     tableone.login_time as login_time,
     tableone.bank_card_num as bank_card_num,
+    r.role_id as role_id,
+    r.role_name as role_name,
     tableone.id_num as id_num,
     d.department_id AS departmentId,
     d.department_name AS departmentName,
@@ -465,7 +476,7 @@
     *
     FROM
     sys_user
-    limit #{page} , #{limit}  ) u
+    limit #{page} , #{limit} ) u
     LEFT JOIN (
     SELECT
     user_id AS u_id,
@@ -476,6 +487,7 @@
     ) tableone
     LEFT JOIN sys_department d ON tableone.d_id = d.department_id
     LEFT JOIN sys_project p ON tableone.temp_int1 = p.project_id
+    LEFT JOIN sys_role r ON tableone.role_id = r.role_id
 
     where 1 =1
 
@@ -500,8 +512,9 @@
     <if test="user.tempVar1 != null and user.tempVar1 !=''" >
       and tableone.temp_var1 = #{user.tempVar1,jdbcType=VARCHAR}
     </if>
+    <!--关联角色id-->
     <if test="user.tempVar2 != null and user.tempVar2 !=''" >
-      and  tableone.temp_var2 = #{user.tempVar2,jdbcType=VARCHAR}
+      and  r.role_id = #{user.tempVar2,jdbcType=VARCHAR}
     </if>
     <!--关联部门id-->
     <if test="user.tempVar3 != null and user.tempVar3 != ''" >
@@ -547,6 +560,7 @@
     ) tableone
     LEFT JOIN sys_department d ON tableone.d_id = d.department_id
     LEFT JOIN sys_project p ON tableone.temp_int1 = p.project_id
+    LEFT JOIN sys_role r ON tableone.role_id = r.role_id
     where 1 =1
 
     <if test="user.userCode != null and user.userCode != ''" >
@@ -570,8 +584,9 @@
     <if test="user.tempVar1 != null and user.tempVar1 !=''" >
       and tableone.temp_var1 = #{user.tempVar1,jdbcType=VARCHAR}
     </if>
+    <!--关联角色id-->
     <if test="user.tempVar2 != null and user.tempVar2 !=''" >
-      and  tableone.temp_var2 = #{user.tempVar2,jdbcType=VARCHAR}
+      and  r.role_id = #{user.tempVar2,jdbcType=VARCHAR}
     </if>
     <!--关联部门id-->
     <if test="user.tempVar3 != null and user.tempVar3 != ''" >

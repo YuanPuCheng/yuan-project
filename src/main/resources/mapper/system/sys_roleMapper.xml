@@ -65,8 +65,11 @@
 </select>
 
   <select id="selectRoleListCount" resultType="java.lang.Integer">
-
     select count(DISTINCT role_id) from sys_role where 1= 1
+  </select>
 
+  <!--展示角色下拉-->
+  <select id="selectRolebySelect" resultMap="BaseResultMap">
+    select * from sys_role where 1=1
   </select>
 </mapper>
