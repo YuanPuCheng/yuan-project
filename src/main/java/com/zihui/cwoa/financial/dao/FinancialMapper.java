@@ -95,4 +95,11 @@ public interface FinancialMapper {
      */
     Integer countMoneyFlowSumByVo(String userCode, String project, String flowYear,
                                   String flowMonth, String flowType, String proType);
+
+    /**
+     *  校正请销记录
+     *  @return 插入的记录数
+     */
+    Integer editMoneyFlow(String userCode, String project, String flowYear,
+                          String flowMonth,  String flowMoney,String flowType, String proType);
 }

@@ -46,4 +46,9 @@ public class FinancialHtmlController {
     public String queryMoneyFlowByVo(){
         return "financial/queryMoneyFlowByVo";
     }
+
+    @RequestMapping("/editMoneyFlowHtml")
+    public String editMoneyFlow(){
+        return "financial/editMoneyFlow";
+    }
 }
