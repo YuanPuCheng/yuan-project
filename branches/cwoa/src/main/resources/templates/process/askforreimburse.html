@@ -187,8 +187,9 @@
 						layer.msg('请选择报销类型！');
 						return;
 					}
-					if(linkProId === "") {
-						layer.msg('请输入报销金额！');
+                    var flag=/^[0-9]+\.?[0-9]+?$/.test(linkProId);
+					if(!flag) {
+						layer.msg('请输入正确的报销金额！');
 						return;
 					}
 					var jsonTest = {

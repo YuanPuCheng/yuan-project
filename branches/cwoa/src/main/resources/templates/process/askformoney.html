@@ -168,8 +168,9 @@
 						layer.msg('请选择请款类型！');
 						return;
 					}
-                    if(linkProId === "") {
-                        layer.msg('请输入请款金额！');
+                    var flag=/^[0-9]+\.?[0-9]+?$/.test(linkProId);
+                    if(!flag) {
+                        layer.msg('请输入正确的请款金额！');
                         return;
                     }
 					var jsonTest = {
