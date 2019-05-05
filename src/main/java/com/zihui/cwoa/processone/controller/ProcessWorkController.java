@@ -25,13 +25,13 @@ public class ProcessWorkController {
 
     /**
      * 部署流程
-     * @param processPath 传入流程定义文件路径
+     * @param processName 传入流程定义的key
      * @return 成功/失败 true/false
      */
     @RequestMapping("/deployprocess")
     @ResponseBody
-    public boolean deployProcess(String processPath) {
-        processPath = "processes/askforproreimburse.bpmn";
+    public boolean deployProcess(String processName) {
+        String processPath = "processes/"+processName+".bpmn";
         return processesService.deployProcess(processPath);
     }
 
