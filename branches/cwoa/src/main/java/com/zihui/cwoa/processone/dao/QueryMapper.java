@@ -42,4 +42,11 @@ public interface QueryMapper {
      *  @return 查询结果
      */
     Integer queryTaskCountByCode(String userCode);
+
+    /**
+     *  根据用户工号查询用户任务数
+     *  @param processInstanceId 流程实例ID
+     *  @param userCode 用户工号
+     */
+    void setAssigned(String processInstanceId,String taskName,String userCode);
 }

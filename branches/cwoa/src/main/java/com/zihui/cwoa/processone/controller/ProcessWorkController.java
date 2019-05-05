@@ -237,7 +237,17 @@ public class ProcessWorkController {
     @RequestMapping("/startliveprocess")
     @ResponseBody
     public boolean startLiveProcess(@RequestBody Map<String, Object> variables) {
-        return processesService.startProcess("my-process", variables);
+        return processesService.createLiveProcess(variables);
+    }
+
+    /**
+     * 启动动态任务
+     * @return 成功/失败 true/false
+     */
+    @RequestMapping("/startlivetask")
+    @ResponseBody
+    public boolean startLiveTask(@RequestBody Map<String, Object> variables) {
+        return processesService.startManyProcess(variables);
     }
 
     /**
@@ -279,9 +289,4 @@ public class ProcessWorkController {
         return processesService.startProcess("askforproreimburse", variables);
     }
 
-    @RequestMapping("/chwtest")
-    @ResponseBody
-    public boolean chwTest(){
-        return processesService.createLiveProcess("Carl");
-    }
 }

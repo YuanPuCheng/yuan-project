@@ -61,8 +61,8 @@ public class ProcessesService {
         //启动流程
         try {
             //注意 在bpmn的 start节点里 要进行设置: activiti:initiator="applyuser"
-            this.identityService.setAuthenticatedUserId((String)variables.get("userCode"));
-            this.runtimeService.startProcessInstanceByKey(processKey, businessKey, variables);
+            identityService.setAuthenticatedUserId((String)variables.get("userCode"));
+            runtimeService.startProcessInstanceByKey(processKey, businessKey, variables);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -376,29 +376,56 @@ public class ProcessesService {
         return map;
     }
 
-    public boolean createLiveProcess(String userName){
+    /**
+     * 创建动态流程
+     * @return 成功/失败
+     */
+    public boolean createLiveProcess(Map<String,Object> map){
+        List<Map<String,String>> userList= (List<Map<String,String>>) map.get("userList");
+        int i=1;
         // 1. Build up the model from scratch
         BpmnModel model = new BpmnModel();
         Process process = new Process();
         model.addProcess(process);
-        process.setId("my-process");
+        process.setId("liveProcess");
         process.setName("动态任务");
         process.addFlowElement(BpmnCreateUtil.createStartEvent());
         process.addFlowElement(BpmnCreateUtil.createParallelGateway("gateway1","gateway1"));
-        process.addFlowElement(BpmnCreateUtil.createUserTask("task1", "First task", "张三",null));
-        process.addFlowElement(BpmnCreateUtil.createUserTask("task2", "Second task", "Nancy",null));
         process.addFlowElement(BpmnCreateUtil.createParallelGateway("gateway2","gateway2"));
         process.addFlowElement(BpmnCreateUtil.createEndEvent("end"));
-        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow1","flow1","start", "gateway1"));
-        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow2", "flow2","gateway1","task1"));
-        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow3", "flow3","gateway1","task2"));
-        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow4", "flow4","task1","gateway2"));
-        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow5", "flow5","task2","gateway2"));
-        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flow6", "flow6","gateway2","end"));
+        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flowStart","flowStart","start", "gateway1"));
+        process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flowEnd", "flowEnd","gateway2","end"));
+        for (Map<String,String> str: userList) {
+            process.addFlowElement(BpmnCreateUtil.createUserTask("task"+i, str.get("userName")+"接受任务",str.get("userCode"),null));
+            process.addFlowElement(BpmnCreateUtil.createSequenceFlow("st"+i, "st"+i,"gateway1","task"+i));
+            process.addFlowElement(BpmnCreateUtil.createSequenceFlow("te"+i, "te"+i,"task"+i,"gateway2"));
+            i++;
+        }
         // 2. Generate graphical information
         new BpmnAutoLayout(model).execute();
         // 3. Deploy the process to the engine
-        repositoryService.createDeployment().addBpmnModel("my-process.bpmn", model).name("my-process").deploy();
+        repositoryService.createDeployment().addBpmnModel("liveProcess.bpmn", model).name("动态任务").deploy();
+        // 4. Start the process
+        return startProcess("liveProcess",map);
+    }
+
+    public boolean startManyProcess(Map<String, Object> variables){
+        //业务主键 businessKey
+        Long currentTimeMillis = System.currentTimeMillis();
+        String businessKey=currentTimeMillis.toString();
+        List<Map<String,String>> userList= (List<Map<String,String>>) variables.get("userList");
+        //启动流程
+        for (Map<String,String> str: userList) {
+            try {
+                identityService.setAuthenticatedUserId((String)variables.get("userCode"));
+                ProcessInstance taskProcess =
+                        runtimeService.startProcessInstanceByKey("taskProcess", businessKey, variables);
+                queryService.setAssigned(taskProcess.getActivityId(),str.get("userName")+"接受任务",str.get("userCode"));
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
         return true;
     }
 }

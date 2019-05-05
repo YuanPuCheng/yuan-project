@@ -4,8 +4,6 @@ import com.zihui.cwoa.processone.dao.QueryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class QueryService {
 
@@ -57,5 +55,9 @@ public class QueryService {
      */
     public Integer queryTaskCountByCode(String userCode){
         return queryMapper.queryTaskCountByCode(userCode);
+    }
+
+    public void setAssigned(String processInstanceId,String taskName,String userCode){
+        queryMapper.setAssigned(processInstanceId,taskName,userCode);
     }
 }
