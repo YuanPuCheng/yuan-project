@@ -171,7 +171,7 @@
 						txt = txt + "<div class=\"layuiadmin-card-text\" style=\"background-color: gainsboro;margin-top:10px ;\"" +
 							"\"><div class=\"layui-card-header\"><i class=\"layui-icon layui-icon-table\">" + list[i].processName + "</i>" +
 							"<span style=\"position: absolute;right: 15px; color:" + proColor + "\">" + processStatus +
-							"</span></div><div class=\"layui-card-body\"><h3>" + list[i].userDepartment + "-" + list[i].userName + "</h3>" +
+							"</span></div><div class=\"layui-card-body\">"+list[i].userProject+"<h3>" + list[i].userDepartment + "-" + list[i].userName + "</h3>" +
 							"<p>流程ID：" + list[i].processInstanceId + "</p>" +
 							"<p>流程在途时间：" + startTime + "--" + endTime + "</p>" + summary +
 							"<p>流程结束说明：" + list[i].deleteReason + "</p>" +
