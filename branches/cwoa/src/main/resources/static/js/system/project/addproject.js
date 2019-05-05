@@ -272,7 +272,6 @@ layui.extend({
 			});
 			$("select[name='projectUserId']").append($html);
 			//反选
-			$("select[name='projectUserId']").val($("#SearchDepartments").val());
 			//append后必须从新渲染
 			form.render('select');
 		}
