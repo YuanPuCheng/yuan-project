@@ -196,4 +196,16 @@ public class FinancialController {
         map.put("count",financialService.countMoneyFlowSumByVo(userCode,project,flowYear,flowMonth,flowType,proTypeSum));
         return map;
     }
+
+    /**
+     *  校正请销记录
+     *  @return 成功/失败
+     */
+    @RequestMapping("/editMoneyFlow")
+    @ResponseBody
+    public boolean editMoneyFlow(String userCode, String project, String flowYear,
+                                String flowMonth,  String flowMoney,String flowType, String proType){
+        return financialService.editMoneyFlow(userCode,project,flowYear,flowMonth,flowMoney,flowType,proType);
+    }
+
 }

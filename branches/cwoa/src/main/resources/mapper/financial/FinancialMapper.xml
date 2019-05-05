@@ -150,4 +150,27 @@
       <if test="arg4!='typeSum'">flow_type</if>
     </trim>) table_one
   </select>
+
+  <insert id="editMoneyFlow" parameterType="String" >
+      INSERT INTO fin_money_flow (
+        user_code,
+        user_project,
+        flow_year,
+        flow_month,
+        flow_date,
+        <if test="arg6=='ask'">flow_money_out,</if>
+        <if test="arg6=='rem'">flow_money_in,</if>
+        <if test="arg6!='ask' and arg6!='rem'">flow_money_out,</if>
+        flow_process_id,
+        flow_type)
+      VALUES(
+        #{arg0},
+        #{arg1},
+        #{arg2},
+        #{arg3},
+        NOW(),
+        #{arg4},
+        '无',
+        #{arg5})
+  </insert>
 </mapper>

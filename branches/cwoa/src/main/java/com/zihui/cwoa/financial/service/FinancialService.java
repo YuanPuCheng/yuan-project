@@ -199,4 +199,14 @@ public class FinancialService {
                                                     String flowMonth, String flowType, String proType){
         return financialMapper.countMoneyFlowSumByVo(userCode,project,flowYear,flowMonth,flowType,proType);
     }
+
+    /**
+     *  校正请销记录
+     *  @return 成功/失败
+     */
+    public boolean editMoneyFlow(String userCode, String project, String flowYear,
+                                 String flowMonth,  String flowMoney,String flowType, String proType){
+        int count=financialMapper.editMoneyFlow(userCode,project,flowYear,flowMonth,flowMoney,flowType,proType);
+        return (count>0);
+    }
 }
