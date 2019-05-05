@@ -420,7 +420,7 @@ layui.extend({
         	  });
 		},
 		error:function(){
-			alert('服务器请求失败!');
+			alert('登录超时!，请重新登录！');
 		}
 	});
 	
