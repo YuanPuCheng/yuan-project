@@ -89,7 +89,8 @@
 							txt = txt + "<div class=\"layuiadmin-card-text\" style=\"background-color: gainsboro;margin-top:10px ;\" id=\"" + list[i].processInstanceId +
 								"\"><div class=\"layui-card-header\"><i class=\"layui-icon layui-icon-table\">" + list[i].processName + "</i>" +
 								"<span style=\"position: absolute;right: 15px;\">" + startTimeFormat +
-								"</span></div><div class=\"layui-card-body\"><h3>" + list[i].userDepartment + "-" + list[i].userName + "</h3>" + summary +
+								"</span></div><div class=\"layui-card-body\">"+list[i].userProject+"<h3>"
+								+list[i].userDepartment + "-" + list[i].userName + "</h3>" + summary +
 								"<hr class=\"layui-bg-gray\" />" +
 								"<button class=\"layui-btn  layui-btn-radius layui-btn-primary\" cid=\"" + list[i].processInstanceId +
 								"\">查看流程</button>" +
