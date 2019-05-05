@@ -21,4 +21,8 @@
   <select id="queryTaskCountByCode" parameterType="String" resultType="Integer">
     SELECT COUNT(ID_) FROM act_ru_task WHERE ASSIGNEE_=#{userCode}
   </select>
+
+  <update id="setAssigned" parameterType="String">
+    UPDATE act_ru_task SET NAME_=#{arg1},ASSIGNEE_=#{arg2} WHERE PROC_INST_ID_=#{arg0}
+  </update>
 </mapper>
