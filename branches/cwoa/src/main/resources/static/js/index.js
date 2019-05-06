@@ -410,7 +410,8 @@ layui.extend({
 						'<span id="sex" name="'+  data.sex  +'" title="性别"></span>'+
 						'<span id="userDepartmentId" name="'+  departmentsId  +'" title="部门ID"></span>'+
 						'<span id="userDepartmentName" name="'+  departmentsName  +'" title="部门名称"></span>'+
-						'<span id="userProject" name="'+    +'" title="项目"></span>';
+						'<span id="userProject" name="'+ data.project.projectName   +'" title="项目"></span>'+
+						'<span id="userrole" name="'+  data.role.roleName  +'" title="角色"></span>';
         				$('.news').append(tst);
         			
         	  	},
