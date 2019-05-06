@@ -228,12 +228,22 @@ public class loginController {
     public List d( HttpSession session){
 
         sys_user user = (sys_user) session.getAttribute("user");
-        List<Integer> menuId=department_menuMapper.selectMenuIdByUserId(user.getUserId());
         List list = new ArrayList();
-        if(menuId.size()!=0){
-            List<sys_menu> m =menuService.selectMenuByMenuId(menuId);
-            list= Common.getmenu(m);
+        if(user==null){
+            try {
+                throw new Exception("当前用户未登录，请重新登录");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else {
+            List<Integer> menuId=department_menuMapper.selectMenuIdByUserId(user.getUserId());
+
+            if(menuId.size()!=0){
+                List<sys_menu> m =menuService.selectMenuByMenuId(menuId);
+                list= Common.getmenu(m);
+            }
         }
+
 
         /*if(user!=null){
             List<Integer> menuId=department_menuMapper.selectMenuIdByUserId(user.getUserId());
