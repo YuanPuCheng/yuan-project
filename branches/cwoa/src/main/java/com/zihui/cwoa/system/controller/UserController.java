@@ -45,8 +45,18 @@ public class UserController {
     @ResponseBody
     public sys_user user(HttpSession session){
         sys_user user =(sys_user) session.getAttribute("user");
-        log.info(user.toString());
-        return user_service.selectDepartmentToUser(user.getUserId());
+        sys_user u = new sys_user();
+        if(user==null){
+            try {
+                throw new Exception("当前用户未登录，请重新登录");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else{
+            u= user_service.selectDepartmentToUser(user.getUserId());
+        }
+
+       return u;
     }
 
     /**

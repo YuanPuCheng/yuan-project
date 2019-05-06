@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.mail.Session;
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping(value = "/sys")
 public class PTController {
@@ -45,7 +48,8 @@ public class PTController {
     }
     //用户退出
     @RequestMapping(value = "/logoutuser")
-    public String loginlout(){
+    public String loginlout(HttpSession session){
+        session.removeAttribute("user");
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
         return "login";
