@@ -54,7 +54,9 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">所在项目：</label>
 				<div class="layui-input-block">
-					<input type="text" name="username" lay-verify="required" placeholder="现在正在负责的项目..." autocomplete="off" class="layui-input" id='project' disabled="disabled" />
+					<select name="modules"  lay-search="" id="project">
+						<option value="">直接选择或搜索选择所在项目</option>
+					</select>
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -97,23 +99,41 @@
 		<script src="./../../static/layui/layui.js"></script>
 		<script>
 			//<![CDATA[
-			layui.use(['layer', 'laydate'], function() {
+			layui.use(['layer', 'laydate','form'], function() {
 				var laydate = layui.laydate;
 				var $ = layui.jquery;
 				var layer = layui.layer;
+                var form = layui.form;
 				var click = false;
 				laydate.render({
 					elem: '#test16',
-					type: 'date',
+					type: 'date'
 				});
 				laydate.render({
 					elem: '#test17',
-					type: 'date',
+					type: 'date'
 				});
 				$(document).ready(function() {
 					$('#uName').val($("#userName",parent.document).attr("name"));
 					$('#department').val($("#userDepartmentName",parent.document).attr("name"));
-					$('#project').val($("#userProject",parent.document).attr("name"));
+                    $.ajax({
+                        url: "/project/getprojecttoselect",
+                        type: "get",
+                        dataType: "json", //预测服务端返回的数据类型
+                        success: function(data) { //请求成功的回调
+                            var proList=data;
+                            var proListLen=proList.length;
+                            for(var i=0;i<proListLen;i++){
+                                $("#project").append('<option value="'+proList[i].projectName+'">'+proList[i].projectName+'</option>');
+                            }
+                            form.render('select');
+                        },
+                        error: function() { //请求失败的回调
+                            layer.msg('发生了未知错误！', {
+                                icon: 2
+                            });
+                        }
+                    });
 				});
 				$("#go").click(function() {
 					if(!click) {
@@ -142,6 +162,11 @@
                             click=false;
 							return;
 						}
+                        if(project === "") {
+                            layer.msg('请选择所在项目！');
+                            click=false;
+                            return;
+                        }
                         if(leavePlace === "") {
                             layer.msg('请输入出发地！');
                             click=false;
