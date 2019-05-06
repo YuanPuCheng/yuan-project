@@ -203,7 +203,6 @@
 						dataType: "json", //预测服务端返回的数据类型
 						success: function(data) { //请求成功的回调
 							var proList = data;
-							console.log(proList);
 							var proListLen = proList.length;
 							for(var i = 0; i < proListLen; i++) {
 								$("#project").append('<option value="' + proList[i].projectName + '">' + proList[i].projectName + '</option>');
