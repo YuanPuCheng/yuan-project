@@ -58,7 +58,9 @@ layui.extend({
 							name = "<span style='color:green'>制单</span>"
 						}else if(d.taskStatus==2){
 							name = "<span style='color:red'>已指派</span>"
-						}
+						}else if(d.taskStatus==3){
+                            name = "<span style='color:black'>已全部完成</span>"
+                        }
 						return name;
 					}
 				}
@@ -108,7 +110,7 @@ layui.extend({
 					anim: 2,
 					area: [widthMax + "px", heightMax + "px"],
 					shadeClose: false, //开启遮罩关闭
-					content: 'addtask.html',
+					content: layui.setter.project +'/sys/addtask',
 					success: function(layero, index) {
 
 					},
@@ -199,7 +201,7 @@ layui.extend({
 			anim: 2,
 			area: [widthMax + "px", heightMax + "px"],
 			shadeClose: false, //开启遮罩关闭
-			content:  'edittask.html',
+			content:  layui.setter.project +'/sys/edittask',
 			success: function(layero, index) {
 				var body = layer.getChildFrame('body', index);
 				body.find("#taskb").val(JSON.stringify(data.taskBs));

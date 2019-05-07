@@ -108,10 +108,11 @@ layui.extend({
 			anim: 2,
 			area: [widthMax + "px", heightMax + "px"],
 			shadeClose: false, //开启遮罩关闭
-			content:  'editmytask.html',
+			content:  layui.setter.project+'/sys/editmytask',
 			success: function(layero, index) {
 				var body = layer.getChildFrame('body', index);
 				body.find("#taskbId").val(data.taskBs[0].taskBId);
+                body.find("#taskId").val(data.taskId);
 				body.find("#taskName").val(data.taskBs[0].users.userName);
 				body.find("#taskRemark").val(data.taskRemark);
 				body.find("#userName").val(data.users.userName);
@@ -141,7 +142,7 @@ layui.extend({
 			anim: 2,
 			area: [widthMax + "px", heightMax + "px"],
 			shadeClose: false, //开启遮罩关闭
-			content:  'mytaskinfo.html',
+			content:  layui.setter.project+'/sys/mytaskinfo',
 			success: function(layero, index) {
 				var body = layer.getChildFrame('body', index);
 				body.find("#taskbId").val(data.taskBs[0].taskBId);
