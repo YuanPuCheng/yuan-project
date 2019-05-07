@@ -6,6 +6,7 @@ import com.zihui.cwoa.system.common.CallbackResult;
 import com.zihui.cwoa.system.common.DateUtils;
 import com.zihui.cwoa.system.pojo.sys_task;
 import com.zihui.cwoa.system.pojo.sys_task_b;
+import com.zihui.cwoa.system.pojo.sys_user;
 import com.zihui.cwoa.system.service.sys_taskSerivce;
 import com.zihui.cwoa.system.service.sys_task_bService;
 import org.apache.log4j.Logger;
@@ -36,8 +37,9 @@ public class MyTaskController {
     @ResponseBody
     public ConcurrentMap getrolePage(Integer page, Integer limit, HttpSession session){
         ConcurrentMap concurrentMap =new ConcurrentHashMap();
-        List<sys_task> list = taskSerivce.myTaskbyQuery(46,page,limit);
-        Integer count = taskSerivce.myTaskbyQueryCount(46);
+        sys_user user = (sys_user) session.getAttribute("user");
+        List<sys_task> list = taskSerivce.myTaskbyQuery(user.getUserId(),page,limit);
+        Integer count = taskSerivce.myTaskbyQueryCount(user.getUserId());
         concurrentMap.put("count",count);
         concurrentMap.put("data", list);
         concurrentMap.put("code", 0);
@@ -52,6 +54,25 @@ public class MyTaskController {
         CallbackResult result =new CallbackResult();
         task.setTaskStatus(4);
         task.setTaskEndTime(DateUtils.getDate());
+        Integer taskId = task.getTaskId();
+        task.setTaskId(null);
+        List<sys_task_b> task_bs = task_bService.taskbQuery(taskId);
+        Integer count = 0;
+        Integer size = task_bs.size();
+        for(sys_task_b b:task_bs){
+            //判断所有任务人的状态是否为完成
+            if(b.getTaskStatus()==4){
+                count+=1;
+            };
+        }
+        //判断是否是最后一人完成任务
+        if((size-count)==1){
+            sys_task task1 = new sys_task();
+            task1.setTaskId(taskId);
+            task1.setTaskStatus(3);
+            log.info("设置任务完成");
+            taskSerivce.updateByPrimaryKeySelective(task1);
+        }
         try{
             task_bService.updateByPrimaryKeySelective(task);
         }catch (Exception e){
@@ -60,7 +81,7 @@ public class MyTaskController {
             result.setMessage("系统错误，请联系管理员");
         }
         result.setResult(200);
-        result.setMessage("完成成功");
+        result.setMessage("已完成任务");
         return result;
     }
 
@@ -81,7 +102,7 @@ public class MyTaskController {
             result.setMessage("系统错误，请联系管理员");
         }
         result.setResult(200);
-        result.setMessage("已完成任务");
+        result.setMessage("");
         return result;
     }
 

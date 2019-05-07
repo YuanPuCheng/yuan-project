@@ -32,7 +32,7 @@ public class sys_task_bService {
     };
 
 
-    public List<sys_task_b> taskbQueryw(Integer taskId){
+    public List<sys_task_b> taskbQuery(Integer taskId){
         return task_bMapper.taskbQuery(taskId);
     };
 
