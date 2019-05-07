@@ -188,6 +188,7 @@
 		left join sys_file ff on sys_task_b.task_attachment = ff.file_id
     where 1=1
     and sys_task.task_user_id = #{userId}
+    order by sys_task.task_status
   </select>
 
   <select id="selectTaskByPageCount" resultType="Integer">
@@ -235,7 +236,7 @@ SELECT
     where 1=1
     and sys_task_b.task_user_id_chan=#{userId}
     and sys_task.task_status=2
-    order by sys_task.task_status DESC
+    order by sys_task_b.task_status
 
   </select>
 
