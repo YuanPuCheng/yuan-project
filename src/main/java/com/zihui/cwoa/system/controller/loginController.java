@@ -140,6 +140,7 @@ public class loginController {
             return result;
         }
         try {
+            //UsernamePasswordToken token = new UsernamePasswordToken(usercode, password);
             UsernamePasswordToken token = new UsernamePasswordToken(usercode, password,Common.getIpAddr(request));
             System.out.println(token);
             SecurityUtils.getSubject().login(token);
