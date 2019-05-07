@@ -3,7 +3,7 @@
 <mapper namespace="com.zihui.cwoa.processone.dao.LeaveTaskMapper">
 
     <insert id="insertLeave" parameterType="List">
-        INSERT INTO  sys_user_leave (user_code,lea_date,lea_type) VALUES
+        INSERT INTO  sys_user_leave (user_code,user_project,lea_year,lea_month,lea_date,lea_type) VALUES
         <foreach collection="list" separator=","  item="temp">
             ${temp}
         </foreach>

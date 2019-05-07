@@ -19,6 +19,7 @@ public class AskForBusinessTaskListener implements TaskListener {
     public void notify(DelegateTask delegateTask) {
         List<String> list=new ArrayList<>();
         String userCode = (String) delegateTask.getVariable("userCode");
+        String userProject = (String) delegateTask.getVariable("userProject");
         List<Map> processSummary = (List<Map>) delegateTask.getVariable("processSummary");
         int leavedays=(int) delegateTask.getVariable("leavedays");
         String leaveTime="";
@@ -30,8 +31,7 @@ public class AskForBusinessTaskListener implements TaskListener {
             }
         }
         String startTime = leaveTime.substring(0, 10);
-        System.out.println("-----------------"+startTime);
-        list.add("('"+userCode+"','"+startTime+"','出差')");
+        list.add("('"+userCode+"','"+userProject+"',YEAR('"+startTime+"'),MONTH('"+startTime+"'),'"+startTime+"','出差')");
         if (leavedays>1){
             SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd");
             try {
@@ -39,7 +39,8 @@ public class AskForBusinessTaskListener implements TaskListener {
                 long parseTime = parse.getTime();
                 for (int i=1;i<leavedays;i++){
                     Date date=new Date(parseTime+86400000*i);
-                    list.add("('"+userCode+"','"+sdt.format(date)+"','出差')");
+                    String format = sdt.format(date);
+                    list.add("('"+userCode+"','"+userProject+"',YEAR('"+format+"'),MONTH('"+format+"'),'"+format+"','出差')");
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
