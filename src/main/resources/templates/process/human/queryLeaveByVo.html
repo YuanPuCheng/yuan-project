@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>查询请假出差记录</title>
+		<meta name="renderer" content="webkit" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../../static/css/reset.css" />
+		<link rel="stylesheet" href="./../../static/layui/css/layui.css" />
+		<style type="text/css">
+			html{
+				background-color: #ffffff;
+			}
+			input{
+				margin-top: 18px;
+			}
+			.layui-colla-content {
+				padding: 10px 0px;
+			}
+			.layui-form-label{
+				font-weight: 500;
+				font-size: 15px;
+			}
+			.hoverStyle:hover {
+				cursor: pointer;
+			}
+		</style>
+	</head>
+
+	<body>
+		<fieldset class="layui-elem-field layui-field-title">
+			<legend style="font-size: 30px;font-weight: 500;">查询请假出差记录</legend>
+		</fieldset>
+					<form class="layui-form" action="">
+						<div class="layui-form-item">
+							<label class="layui-form-label">流程类型：</label>
+							<div class="layui-input-block">
+								<select name="modules"  lay-search="" id="proType">
+									<option value="c">公司请销款</option>
+									<option value="p">项目请销款</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">发起人：</label>
+							<div class="layui-input-block">
+								<input type="text" placeholder="请输入流程发起人..." class="layui-input" id="userName" />
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">项目：</label>
+							<div class="layui-input-block">
+								<select name="modules"  lay-search="" id="project">
+									<option value="">直接选择或搜索选择所在项目,默认查找所有项目</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">年份：</label>
+							<div class="layui-input-block">
+								<input type="text" placeholder="请输入年份...例：2019...默认查询所有年份" class="layui-input" id="flowYear" />
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">月份：</label>
+							<div class="layui-input-block">
+								<select name="modules" lay-verify="required" lay-search="" id="flowMonth">
+									<option value="">请选择或输入月份...默认所有</option>
+									<option value="1">一月</option>
+									<option value="2">二月</option>
+									<option value="3">三月</option>
+									<option value="4">四月</option>
+									<option value="5">五月</option>
+									<option value="6">六月</option>
+									<option value="7">七月</option>
+									<option value="8">八月</option>
+									<option value="9">九月</option>
+									<option value="10">十月</option>
+									<option value="11">十一月</option>
+									<option value="12">十二月</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">费用类型：</label>
+							<div class="layui-input-block">
+								<select name="modules" lay-verify="required" lay-search="" id="flowType">
+									<option value="">直接选择或搜索选择...默认所有</option>
+									<option value="差旅费">差旅费</option>
+									<option value="员工餐费">员工餐费</option>
+									<option value="对外招待费">对外招待费</option>
+									<option value="主材主料费">主材主料费</option>
+									<option value="辅材辅料费">辅材辅料费</option>
+									<option value="车辆使用费">车辆使用费</option>
+									<option value="工资">工资</option>
+									<option value="固定资产">固定资产</option>
+									<option value="运费">运费</option>
+									<option value="其它">其它</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button type="button" class="layui-btn layui-btn-lg  layui-btn-radius" id="byVo">点击查询</button>
+							</div>
+						</div>
+					</form>
+		<h1 id="messageBox" style="display: none;">查询中ing...</h1>
+		<script src="./../../static/layui/layui.js"></script>
+		<script>
+			//<![CDATA[
+            var $;
+            Date.prototype.format = function(fmt) {
+                var o = {
+                    "M+": this.getMonth() + 1, //月份
+                    "d+": this.getDate(), //日
+                    "h+": this.getHours(), //小时
+                    "m+": this.getMinutes(), //分
+                    "s+": this.getSeconds(), //秒
+                    "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                    "S": this.getMilliseconds() //毫秒
+                };
+                if(/(y+)/.test(fmt)) {
+                    fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+                }
+                for(var k in o) {
+                    if(new RegExp("(" + k + ")").test(fmt)) {
+                        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+                    }
+                }
+                return fmt;
+            }
+
+            function downFile(fileNameArray) {
+                if(fileNameArray === 'undefined') {
+                    layer.msg("该申请没有附件!");
+                } else {
+                    $.ajax({
+                        url: "/file/queryfilenamebyid",
+                        type: "get",
+                        data: {
+                            "idArray": fileNameArray
+                        },
+                        dataType: "json",
+                        success: function(data) {
+                            var list = data;
+                            var txt = "";
+                            for(var j = 0, len = list.length; j < len; j++) {
+                                txt = txt + '<tr><td>' + list[j].file_rename +
+                                    '</td><td class="hoverStyle" onclick=\"viewFile(\'' + list[j].file_name +
+                                    '\')\">预览图片</td><td><a href="/file/down?filename=' + list[j].file_name +
+                                    '">点击下载</a></td></tr>';
+                            }
+                            layer.open({
+                                type: 1,
+                                shadeClose: true,
+                                skin: 'layui-layer-rim', //加上边框
+                                area: ['99%', '85%'], //宽高
+                                content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>下载附件</legend></fieldset>' +
+                                '<div class="layui-form"><table class="layui-table"><colgroup><col><col><col></colgroup>' +
+                                '<thead><tr><th>文件名</th><th>点击预览</th><th>点击下载</th></tr></thead>' +
+                                '<tbody>' + txt + '</tbody></table></div>'
+                            });
+                        },
+                        error: function() {
+                            layer.msg('加载失败，请重试！', {
+                                icon: 2
+                            });
+                        }
+                    });
+                }
+            }
+
+            function viewFile(imageName) {
+                var iName = imageName.toLowerCase();
+                var iType = iName.substring(iName.lastIndexOf("."));
+                if(iType !== ".png" && iType !== ".jpg" && iType !== ".jpeg" && iType !== ".bmp" && iType !== ".gif") {
+                    layer.msg('只有图片才可以预览！');
+                } else {
+                    layer.open({
+                        type: 1,
+                        shadeClose: true,
+                        skin: 'layui-layer-rim', //加上边框
+                        area: ['99%', '85%'], //宽高
+                        content: '<img src="/file/down?filename=' + imageName + '"/>'
+                    });
+                }
+            }
+			layui.use(['layer', 'element', 'form', 'table','laypage'], function() {
+				$ = layui.jquery;
+				var layer = layui.layer;
+				var table = layui.table;
+				var element = layui.element;
+				var form = layui.form
+                function createTable() {
+                    table.on('tool(demoEvent)', function(obj) {
+                        var data = obj.data;
+                        if(obj.event === 'process') {
+                            var processInstanceId = data.flow_process_id;
+                            $.ajax({
+                                url: "/process/queryprocessdetail",
+                                type: "get",
+                                data: {
+                                    "processInstanceId": processInstanceId
+                                },
+                                dataType: "json",
+                                success: function(data) {
+                                    if(data.flag === true) {
+                                        var txt = "<tr><td>流程名称</td><td>" + data.processName + "</td></tr>";
+                                        txt = txt + "<tr><td>发起人</td><td>" + data.userName + "</td></tr>";
+                                        var arrList = data.processSummary;
+                                        for(var i = 0; i < arrList.length; i++) {
+                                            txt = txt + "<tr><td>" + arrList[i].indexName + "</td><td>" + arrList[i].indexValue + "</td></tr>";
+                                        }
+                                        var startTime = new Date(data.startTime).format("yyyy-MM-dd hh:mm:ss");
+                                        var endTime = new Date(data.endTime).format("yyyy-MM-dd hh:mm:ss");
+                                        txt = txt + "<tr><td>发起时间</td><td>" + startTime + "</td></tr>";
+                                        txt = txt + "<tr><td>结束时间</td><td>" + endTime + "</td></tr>";
+                                        txt = txt + "<tr><td>结束说明</td><td>" + data.deleteReason + "</td></tr>";
+                                        txt = txt + '<tr><td>下载附件</td><td class=\"hoverStyle\" onclick=\"downFile(\'' + data.fileName + '\')\">点击下载</td></tr>';
+                                        layer.open({
+                                            type: 1,
+                                            shadeClose: true,
+                                            skin: 'layui-layer-rim', //加上边框
+                                            area: ['99%', '85%'], //宽高
+                                            content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>流程详情</legend></fieldset>' +
+                                            '<div class="layui-form"><table class="layui-table"><colgroup><col width="150"><col width="150"></colgroup>' +
+                                            '<thead><tr><th>属性名</th><th>属性值</th></tr></thead>' +
+                                            '<tbody>' + txt + '</tbody></table></div>'
+                                        });
+                                    } else {
+                                        this.error();
+                                    }
+                                },
+                                error: function() {
+                                    layer.msg('发生了未知错误！', {
+                                        icon: 2
+                                    });
+                                }
+                            });
+                        }
+                    });
+                    layer.open({
+                        type: 1,
+                        shadeClose: true,
+                        area: ['99%', '85%'], //宽高
+                        content: $('#tableBox')
+                    });
+                }
+                $('#byVo').click(function() {
+                    $('#messageBox').text("查询中ing...");
+                    $('#messageBox').show();
+                    var proType = $('#proType option:selected').prop("value");
+                    var name = $('#userName').val();
+                    var project = $('#project option:selected').prop("value");
+                    var flowYear = $('#flowYear').val();
+                    var flowMonth = $('#flowMonth option:selected').prop("value");
+                    var flowType = $('#flowType option:selected').prop("value");
+                    var countUrl;
+                    var queryUrl;
+                    if(proType==="c"){
+                        countUrl="/financial/countMoneyFlowByVoc";
+                        queryUrl="/financial/queryMoneyFlowByVoc";
+					}else {
+                        countUrl="/financial/countMoneyFlowByVop";
+                        queryUrl="/financial/queryMoneyFlowByVop";
+					}
+                    $.ajax({
+                        url: countUrl,
+                        type: "get",
+						data: {
+                            "name": name,
+                            "project": project,
+                            "flowYear": flowYear,
+                            "flowMonth": flowMonth,
+                            "flowType": flowType
+                        },
+                        dataType: "json",
+                        success: function(data) { //请求成功的回调
+                            var size=data.count;
+                            if (size===0){
+                                $('#messageBox').text("没有找到符合条件的记录！");
+                                $('#messageBox').show();
+							}else{
+                                var userCode=data.userCode;
+                                table.render({
+                                    elem: '#test',
+                                    url: queryUrl,
+                                    toolbar: true,
+                                    where: {
+                                        "size": size,
+                                        "userCode": userCode,
+                                        "project": project,
+                                        "flowYear": flowYear,
+                                        "flowMonth": flowMonth,
+                                        "flowType": flowType
+                                    },
+                                    cols: [[
+                                        {type: 'numbers', title: '序号'},
+                                        {field: 'project_name', title: '项目名称'},
+                                        {field: 'flow_year', title: '年', width: 70, minWidth: 70},
+                                        {
+                                            field: 'flow_month', title: '月', width: 60, minWidth: 60,
+                                            templet: '<div>{{d.flow_month}}月</div>'
+                                        },
+                                        {field: 'user_name', title: '发起人'},
+                                        {field: 'flow_money_out', title: '请款金额（元）'},
+                                        {field: 'flow_money_in', title: '报销金额（元）'},
+                                        {field: 'flow_type', title: '费用类型'},
+                                        {field: 'flow_date', title: '费用日期'},
+                                        {field: 'flow_process_id', title: '相关流程', event: 'process', style: 'cursor: pointer;'}
+                                    ]],
+                                    page: true
+                                });
+                                createTable();
+                                $('#messageBox').text("查询成功！");
+                                $('#messageBox').show();
+							}
+                        },
+                        error: function() { //请求失败的回调
+                            layer.msg('发生了未知错误！', {
+                                icon: 2
+                            });
+                        }
+                    });
+                });
+                $('#byVoSum').click(function() {
+                    $('#messageBox').text("查询中ing...");
+                    $('#messageBox').show();
+                    var proTypeSum = $('#proTypeSum option:selected').prop("value");
+                    var nameSum = $('#userNameSum').val();
+                    var projectSum = $('#projectSum option:selected').prop("value");
+                    var flowYearSum = $('#flowYearSum').val();
+                    var flowMonthSum = $('#flowMonthSum option:selected').prop("value");
+                    var flowTypeSum = $('#flowTypeSum option:selected').prop("value");
+                    $.ajax({
+                        url: '/financial/countMoneyFlowSumByVo',
+                        type: "get",
+                        data: {
+                            "name": nameSum,
+                            "project": projectSum,
+                            "flowYear": flowYearSum,
+                            "flowMonth": flowMonthSum,
+                            "flowType": flowTypeSum,
+							"proTypeSum":proTypeSum
+                        },
+                        dataType: "json",
+                        success: function(data) { //请求成功的回调
+                            var size=data.count;
+                            if (size===0){
+                                $('#messageBox').text("没有找到符合条件的记录！");
+                                $('#messageBox').show();
+                            }else{
+                                var userCode=data.userCode;
+                                table.render({
+                                    elem: '#test',
+                                    url: '/financial/queryMoneyFlowSumByVo',
+                                    toolbar: true,
+                                    where: {
+                                        "size": size,
+                                        "userCode": userCode,
+                                        "project": projectSum,
+                                        "flowYear": flowYearSum,
+                                        "flowMonth": flowMonthSum,
+                                        "flowType": flowTypeSum,
+                                        "proTypeSum":proTypeSum
+                                    },
+                                    cols: [[
+                                        {type: 'numbers', title: '序号'},
+                                        {field: 'project_name', title: '项目名称'},
+                                        {field: 'flow_year', title: '年', width: 70, minWidth: 70},
+                                        {field: 'flow_month', title: '月', width: 60, minWidth: 60},
+                                        {field: 'flow_money_out', title: '请款金额（元）'},
+                                        {field: 'flow_money_in', title: '报销金额（元）'},
+                                        {field: 'flow_type', title: '费用类型'},
+                                    ]],
+                                    page: true
+                                });
+                                $('#messageBox').text("查询成功！");
+                                $('#messageBox').show();
+                                layer.open({
+                                    type: 1,
+                                    shadeClose: true,
+                                    area: ['99%', '85%'], //宽高
+                                    content: $('#tableBox')
+                                });
+                            }
+                        },
+                        error: function() { //请求失败的回调
+                            layer.msg('发生了未知错误！', {
+                                icon: 2
+                            });
+                        }
+                    });
+                });
+                $(document).ready(function() {
+                    $('#uName').val($("#userName", parent.document).attr("name"));
+                    $('#department').val($("#userDepartmentName", parent.document).attr("name"));
+                    $.ajax({
+                        url: "/project/getprojecttoselect",
+                        type: "get",
+                        dataType: "json", //预测服务端返回的数据类型
+                        success: function(data) { //请求成功的回调
+                            var proList=data;
+                            var proListLen=proList.length;
+                            for(var i=0;i<proListLen;i++){
+                                $("#project").append('<option value="'+proList[i].projectName+'">'+proList[i].projectName+'</option>');
+                                $("#projectSum").append('<option value="'+proList[i].projectName+'">'+proList[i].projectName+'</option>');
+                            }
+                            form.render('select');
+                        },
+                        error: function() { //请求失败的回调
+                            layer.msg('发生了未知错误！', {
+                                icon: 2
+                            });
+                        }
+                    });
+                });
+			});
+			//]]>
+		</script>
+	</body>
+	<div id="tableBox" style="display: none">
+		<table class="layui-hide" id="test" lay-filter="demoEvent"></table>
+	</div>
+</html>
