@@ -5,6 +5,10 @@
     <id column="role_id" property="roleId" jdbcType="INTEGER" />
     <result column="role_name" property="roleName" jdbcType="VARCHAR" />
     <result column="role_level" property="roleLevel" jdbcType="INTEGER" />
+    <collection property="users" ofType="com.zihui.cwoa.system.pojo.sys_users">
+      <result column="user_id" property="userId" jdbcType="INTEGER" />
+      <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    </collection>
   </resultMap>
   <sql id="Base_Column_List" >
     role_id, role_name, role_level
@@ -71,5 +75,15 @@
   <!--展示角色下拉-->
   <select id="selectRolebySelect" resultMap="BaseResultMap">
     select * from sys_role where 1=1
+  </select>
+
+  <select id="selectRoleToUser" resultMap="BaseResultMap">
+
+    SELECT
+	  *
+    FROM
+	sys_role
+    JOIN sys_user ON sys_role.role_id = sys_user.role_id
+    where sys_user.user_id <![CDATA[ <> ]]> #{userId}
   </select>
 </mapper>

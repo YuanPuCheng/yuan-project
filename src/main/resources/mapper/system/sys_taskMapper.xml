@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zihui.cwoa.system.dao.sys_taskMapper" >
+  <resultMap id="BaseResultMap" type="com.zihui.cwoa.system.pojo.sys_task" >
+    <id column="task_id" property="taskId" jdbcType="INTEGER" />
+    <result column="task_user_id" property="taskUserId" jdbcType="INTEGER" />
+    <result column="task_remark" property="taskRemark" jdbcType="VARCHAR" />
+    <result column="task_status" property="taskStatus" jdbcType="INTEGER" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="ts" property="ts" jdbcType="VARCHAR" />
+    <result column="temp_var1" property="tempVar1" jdbcType="VARCHAR" />
+    <result column="temp_var2" property="tempVar2" jdbcType="VARCHAR" />
+    <result column="temp_int1" property="tempInt1" jdbcType="INTEGER" />
+    <result column="temp_int2" property="tempInt2" jdbcType="INTEGER" />
+    <collection property="users" ofType="com.zihui.cwoa.system.pojo.sys_users">
+      <result column="user_id" property="userId" jdbcType="INTEGER" />
+      <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    </collection>
+    <collection property="file" ofType="com.zihui.cwoa.system.pojo.sys_file">
+      <id column="file_id" property="fileId" jdbcType="INTEGER" />
+      <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+      <result column="file_rename" property="fileRename" jdbcType="VARCHAR" />
+    </collection>
+    <collection property="taskBs" ofType="com.zihui.cwoa.system.pojo.sys_task_b">
+      <id column="task_b_id" property="taskBId" jdbcType="INTEGER" />
+      <result column="task_ids" property="taskId" jdbcType="INTEGER" />
+      <result column="task_user_id_chan" property="taskUserIdChan" jdbcType="INTEGER" />
+      <result column="task_suggestion" property="taskSuggestion" jdbcType="VARCHAR" />
+      <result column="task_attachment" property="taskAttachment" jdbcType="INTEGER" />
+      <result column="task_look_time" property="taskLookTime" jdbcType="VARCHAR" />
+      <result column="task_end_time" property="taskEndTime" jdbcType="VARCHAR" />
+      <result column="task_status_b" property="taskStatus" jdbcType="INTEGER" />
+      <result column="temp_var1" property="tempVar1" jdbcType="VARCHAR" />
+      <result column="temp_int1" property="tempInt1" jdbcType="INTEGER" />
+      <collection property="file" ofType="com.zihui.cwoa.system.pojo.sys_file">
+        <id column="file_id" property="fileId" jdbcType="INTEGER" />
+        <result column="file_name_b" property="fileName" jdbcType="VARCHAR" />
+        <result column="file_rename_b" property="fileRename" jdbcType="VARCHAR" />
+      </collection>
+      <collection property="users" ofType="com.zihui.cwoa.system.pojo.sys_users">
+        <result column="user_id_chan" property="userId" jdbcType="INTEGER" />
+        <result column="user_name_chan" property="userName" jdbcType="VARCHAR" />
+      </collection>
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    task_id, task_user_id, task_remark, task_status, attachment, ts, temp_var1, temp_var2, 
+    temp_int1, temp_int2
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_task
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_task
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.zihui.cwoa.system.pojo.sys_task" keyProperty="taskId" useGeneratedKeys="true">
+    insert into sys_task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="taskUserId != null" >
+        task_user_id,
+      </if>
+      <if test="taskRemark != null" >
+        task_remark,
+      </if>
+      <if test="taskStatus != null" >
+        task_status,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="ts != null" >
+        ts,
+      </if>
+      <if test="tempVar1 != null" >
+        temp_var1,
+      </if>
+      <if test="tempVar2 != null" >
+        temp_var2,
+      </if>
+      <if test="tempInt1 != null" >
+        temp_int1,
+      </if>
+      <if test="tempInt2 != null" >
+        temp_int2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="taskUserId != null" >
+        #{taskUserId,jdbcType=INTEGER},
+      </if>
+      <if test="taskRemark != null" >
+        #{taskRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="taskStatus != null" >
+        #{taskStatus,jdbcType=INTEGER},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="ts != null" >
+        #{ts,jdbcType=VARCHAR},
+      </if>
+      <if test="tempVar1 != null" >
+        #{tempVar1,jdbcType=VARCHAR},
+      </if>
+      <if test="tempVar2 != null" >
+        #{tempVar2,jdbcType=VARCHAR},
+      </if>
+      <if test="tempInt1 != null" >
+        #{tempInt1,jdbcType=INTEGER},
+      </if>
+      <if test="tempInt2 != null" >
+        #{tempInt2,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zihui.cwoa.system.pojo.sys_task" >
+    update sys_task
+    <set >
+      <if test="taskUserId != null" >
+        task_user_id = #{taskUserId,jdbcType=INTEGER},
+      </if>
+      <if test="taskRemark != null" >
+        task_remark = #{taskRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="taskStatus != null" >
+        task_status = #{taskStatus,jdbcType=INTEGER},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="ts != null" >
+        ts = #{ts,jdbcType=VARCHAR},
+      </if>
+      <if test="tempVar1 != null" >
+        temp_var1 = #{tempVar1,jdbcType=VARCHAR},
+      </if>
+      <if test="tempVar2 != null" >
+        temp_var2 = #{tempVar2,jdbcType=VARCHAR},
+      </if>
+      <if test="tempInt1 != null" >
+        temp_int1 = #{tempInt1,jdbcType=INTEGER},
+      </if>
+      <if test="tempInt2 != null" >
+        temp_int2 = #{tempInt2,jdbcType=INTEGER},
+      </if>
+    </set>
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectTaskByPage" resultMap="BaseResultMap">
+    SELECT
+	  u.user_name as user_name,
+      u.user_id as user_id,
+	  us.user_name as user_name_chan,
+      us.user_id as user_id_chan,
+	  sys_file.file_name,
+	  sys_file.file_rename,
+	  ff.file_name as file_name_b,
+	  ff.file_rename as file_rename_b,
+	  sys_task.*,
+	  sys_task_b.task_b_id,
+	  sys_task_b.task_id as task_ids,
+	  sys_task_b.task_user_id_chan,
+	  sys_task_b.task_suggestion,
+	  sys_task_b.task_attachment,
+	  sys_task_b.task_look_time,
+	  sys_task_b.task_end_time,
+	  sys_task_b.task_status as task_status_b,
+	  sys_task_b.temp_var1,
+	  sys_task_b.temp_int1
+    FROM
+	    (select * from sys_task limit #{page}, #{limit}) sys_task
+    LEFT JOIN sys_task_b ON sys_task.task_id = sys_task_b.task_id
+    left join sys_user u on sys_task.task_user_id = u.user_id
+    left join sys_user us on sys_task_b.task_user_id_chan = us.user_id
+		left join sys_file on sys_task.attachment = sys_file.file_id
+		left join sys_file ff on sys_task_b.task_attachment = ff.file_id
+    where 1=1
+    and sys_task.task_user_id = #{userId}
+  </select>
+
+  <select id="selectTaskByPageCount" resultType="Integer">
+
+SELECT
+	 count( DISTINCT sys_task.task_id)
+    FROM
+	   sys_task
+    LEFT JOIN sys_task_b ON sys_task.task_id = sys_task_b.task_id
+    left join sys_user u on sys_task.task_user_id = u.user_id
+    left join sys_user us on sys_task_b.task_user_id_chan = us.user_id
+    where 1=1
+    and sys_task.task_user_id = #{userId}
+
+  </select>
+
+  <select id="myTaskbyQuery" resultMap="BaseResultMap">
+    SELECT
+	  u.user_name as user_name,
+      u.user_id as user_id,
+	  us.user_name as user_name_chan,
+      us.user_id as user_id_chan,
+	  sys_file.file_name,
+	  sys_file.file_rename,
+	  ff.file_name as file_name_b,
+	  ff.file_rename as file_rename_b,
+	  sys_task.*,
+	  sys_task_b.task_b_id,
+	  sys_task_b.task_id as task_ids,
+	  sys_task_b.task_user_id_chan,
+	  sys_task_b.task_suggestion,
+	  sys_task_b.task_attachment,
+	  sys_task_b.task_look_time,
+	  sys_task_b.task_end_time,
+	  sys_task_b.task_status as task_status_b,
+	  sys_task_b.temp_var1,
+	  sys_task_b.temp_int1
+    FROM
+	    (select * from sys_task limit #{page}, #{limit}) sys_task
+    LEFT JOIN sys_task_b ON sys_task.task_id = sys_task_b.task_id
+    left join sys_user u on sys_task.task_user_id = u.user_id
+    left join sys_user us on sys_task_b.task_user_id_chan = us.user_id
+	left join sys_file on sys_task.attachment = sys_file.file_id
+    left join sys_file ff on sys_task_b.task_attachment = ff.file_id
+    where 1=1
+    and sys_task_b.task_user_id_chan=#{userId}
+    and sys_task.task_status=2
+    order by sys_task.task_status DESC
+
+  </select>
+
+  <select id="myTaskbyQueryCount" resultType="java.lang.Integer">
+    SELECT
+	 COUNT(DISTINCT sys_task.task_id)
+    FROM
+	    sys_task
+    LEFT JOIN sys_task_b ON sys_task.task_id = sys_task_b.task_id
+    left join sys_user u on sys_task.task_user_id = u.user_id
+    left join sys_user us on sys_task_b.task_user_id_chan = us.user_id
+		left join sys_file on sys_task.attachment = sys_file.file_id
+
+    where 1=1
+    and sys_task_b.task_user_id_chan=#{userId} and sys_task.task_status=2
+
+  </select>
+</mapper>
