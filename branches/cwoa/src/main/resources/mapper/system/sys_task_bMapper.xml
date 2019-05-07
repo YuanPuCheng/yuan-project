@@ -97,7 +97,7 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.zihui.cwoa.system.pojo.sys_task_b" >
     update sys_task_b
     <set >
-      <if test="taskId != null" >
+      <if test="taskId != null and taskId !=''" >
         task_id = #{taskId,jdbcType=INTEGER},
       </if>
       <if test="taskUserIdChan != null" >
