@@ -12,6 +12,7 @@ layui.extend({
 		upload = layui.upload,
 		a = o("body");
 		var taskBId = $("#taskbId").val();
+    	var taskId = $("#taskId").val();
 		var attachment = "";
 		var fileName = $("#filename").val();
 		var fileRename = $("#filerename").val();
@@ -75,6 +76,7 @@ layui.extend({
 			},
 			data: {
 				"taskBId":taskBId,
+                "taskId":taskId,
 				"taskAttachment":attachment,
 				"taskSuggestion": taskSuggestion
 			},

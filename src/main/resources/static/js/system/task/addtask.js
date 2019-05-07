@@ -12,9 +12,12 @@ layui.extend({
 		upload = layui.upload,
 		a = o("body");
 		var attachment="";
-		
-		var userId = $("#userId",parent.document).attr("name");
-		console.log(userId);
+    	var sessionData = sessionStorage.getItem('user');//取出数据
+	    var user = JSON.parse(sessionData);
+    	console.log(user.userId);
+    	form.val("myform", {
+        	"taskName":user.userName  // "name": "value"
+    	})
 		
 	layui.formSelects.config('select1', {
 		direction: 'down',
@@ -73,7 +76,7 @@ layui.extend({
 				withCredentials: true
 			},
 			data: {
-				"taskUserId":46,
+				"taskUserId":user.userId,
 				"attachment":attachment,
 				"taskRemark": taskRemark,
 				"tempVar1": users

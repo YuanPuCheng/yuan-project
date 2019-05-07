@@ -394,6 +394,8 @@ layui.extend({
         	  	async:true,
         	  	dataType:"json",
         	  	success:function(data){
+                    sessionStorage.setItem('user', JSON.stringify(data));//设置数据
+
         	  		$('#UserName').html(data.userName);
         	  		var tst="";
         	  		var departmentsName="";
