@@ -45,7 +45,7 @@ public class ProcessWorkController {
     public boolean startAskForLeave(@RequestBody Map<String, Object> variables) {
         //添加假数据
         variables.put("firstman", "Nancy");
-        variables.put("secondman", "Jack");
+        variables.put("secondman", "Nancy");
         return processesService.startProcess("askforleave", variables);
     }
 
@@ -59,7 +59,7 @@ public class ProcessWorkController {
     public boolean askForBusiness(@RequestBody Map<String, Object> variables) {
         //添加假数据
         variables.put("firstman", "Nancy");
-        variables.put("secondman", "Jack");
+        variables.put("secondman", "Nancy");
         return processesService.startProcess("askforbusiness", variables);
     }
     /**
