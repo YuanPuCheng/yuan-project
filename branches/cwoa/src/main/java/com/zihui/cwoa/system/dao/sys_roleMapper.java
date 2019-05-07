@@ -23,4 +23,6 @@ public interface sys_roleMapper {
 
     List<sys_role> selectRolebySelect();
 
+    List<sys_role>selectRoleToUser(@Param("userId") Integer userId);
+
 }

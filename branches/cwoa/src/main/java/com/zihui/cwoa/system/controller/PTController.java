@@ -142,4 +142,30 @@ public class PTController {
     public String editrole(){
         return "system/role/editrole";
     }
+    //指派任务页面
+    @RequestMapping(value = "/task")
+    public String task(){
+        return "system/task/task";
+    }
+    @RequestMapping(value = "/addtask")
+    public String addtask(){
+        return "system/task/addtask";
+    }
+    @RequestMapping(value = "/edittask")
+    public String edittask(){
+        return "system/task/edittask";
+    }
+    //我的任务页面
+    @RequestMapping(value = "/mytask")
+    public String mytask(){
+        return "system/mytask/mytask";
+    }
+    @RequestMapping(value = "/mytaskinfo")
+    public String mytaskinfo(){
+        return "system/mytask/mytaskinfo";
+    }
+    @RequestMapping(value = "/editmytask")
+    public String editmytask(){
+        return "system/mytask/editmytask";
+    }
 }

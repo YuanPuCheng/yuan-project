@@ -4,19 +4,28 @@ package com.zihui.cwoa.system.controller;
 import com.zihui.cwoa.system.common.Basecommon;
 import com.zihui.cwoa.system.common.CallbackResult;
 import com.zihui.cwoa.system.pojo.sys_role;
+import com.zihui.cwoa.system.pojo.sys_user;
+import com.zihui.cwoa.system.pojo.sys_users;
 import com.zihui.cwoa.system.service.sys_roleService;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @Controller
 @RequestMapping(value = "/role")
 public class RoleController {
+
+    private static Logger log = Logger.getLogger(RoleController.class);
     @Resource
     private sys_roleService roleService;
 
@@ -127,6 +136,31 @@ public class RoleController {
         return result;
     }
 
+    @RequestMapping(value = "/getroleUser")
+    @ResponseBody
+    public ConcurrentMap getroleUser(HttpSession session){
+        ConcurrentMap concurrentMap =new ConcurrentHashMap();
+       sys_user userinfo =(sys_user) session.getAttribute("user");
+        List<sys_role> roles = roleService.selectRoleToUser(userinfo.getUserId());
+        List list = new ArrayList();
+        for(sys_role role:roles){
+            Map map = new HashMap();
+            map.put("type","optgroup");
+            map.put("name",role.getRoleName());
+            list.add(map);
+            for(sys_users user:role.getUsers()){
+                Map map2 = new HashMap();
+                map2.put("name",user.getUserName());
+                map2.put("value",user.getUserId());
+                list.add(map2);
+            }
+
+        }
+        concurrentMap.put("data", list);
+        concurrentMap.put("code", 0);
+        concurrentMap.put("msg", "success");
+        return concurrentMap;
+    }
 
 
 }
