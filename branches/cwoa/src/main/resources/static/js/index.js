@@ -405,6 +405,7 @@ layui.extend({
         	  		departmentsName=departmentsName.substring(0,departmentsName.length-1);
         	  		departmentsId=departmentsId.substring(0,departmentsId.length-1);
         	  		tst='<span id="userCode" name="'+  data.userCode  +'" title="工号"></span>'+
+        	  		'<span id="userId" name="'+  data.userId  +'" title="ID"></span>'+
 						'<span id="userName" name="'+  data.userName  +'" title="姓名"></span>'+
 						'<span id="email" name="'+  data.email  +'" title="邮箱"></span>'+
 						'<span id="sex" name="'+  data.sex  +'" title="性别"></span>'+
