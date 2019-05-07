@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>项目管理</title>
+		<meta name="renderer" content="webkit" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<link rel="stylesheet" href="../../../static/css/admin.css" media="all" />
+		<link rel="stylesheet" href="../../../static/layui/css/layui.css" media="all" />
+		<link href="../../../static/css/formSelects-v4.css" rel="stylesheet" />
+		<style type="text/css">
+			html {
+				background-color: #FFFFFF
+			}
+			
+			.layui-input-block {
+				width: 80%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<fieldset class="layui-elem-field layui-field-title">
+			<legend>当前任务
+				<legend>
+		</fieldset>
+
+		<div class="layui-form" lay-filter="myform">
+			<div class="layui-form-item">
+				<label class="layui-form-label">指派人</label>
+				<div class="layui-input-block">
+					<input type="text" name="taskName" id="taskName" disabled="disabled" class="layui-input" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">任务人</label>
+				<div class="layui-input-block">
+					<input type="text" name="userName" id="userName" disabled="disabled" class="layui-input" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">任务描述</label>
+				<div class="layui-input-block">
+					<textarea placeholder="请输入内容" id="taskRemark" disabled="disabled" class="layui-textarea"></textarea>
+				</div>
+			</div>
+			
+			<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+				<legend>附件</legend>
+			</fieldset>
+			<div class="layui-form-item">
+			<div class="layui-upload" style="margin-left: 30px;">
+				<span id="attachment" class="layui-inline"></span><a id="down" style="color: #1E9FFF; display: none;">下载</a>
+			</div>
+			</div>
+			<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+				<legend>完成任务</legend>
+			</fieldset>
+			<div class="layui-form-item">
+				<label class="layui-form-label">备注</label>
+				<div class="layui-input-block">
+					<textarea placeholder="请输入内容" id="taskSuggestion" disabled="disabled"  class="layui-textarea"></textarea>
+				</div>
+			</div>
+			<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+				<legend>附件</legend>
+			</fieldset>
+			<div class="layui-form-item">
+			<div class="layui-upload" style="margin-left: 30px;">
+				<span id="attachment1" class="layui-inline"></span><a id="down1" style="color: #1E9FFF; display: none;">下载</a>
+			</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<input type="hidden" id="filename" />
+					<input type="hidden" id="filerename" />
+					<input type="hidden" id="taskbId" />
+					<input type="hidden" id="taskb_filename" />
+					<input type="hidden" id="taskb_filerename" />
+					<button id="addqx" class="layui-btn">关闭</button>
+				</div>
+			</div>
+
+		</div>
+
+	</body>
+	<script src="../../../static/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base: "../../../static/js/system/mytask/"
+
+		}).use(['mytaskinfo'], function() {
+
+		});
+	</script>
+
+</html>
