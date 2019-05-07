@@ -47,5 +47,9 @@ public class sys_roleService {
     public List<sys_role> selectRolebySelect(){
         return roleMapper.selectRolebySelect();
     };
+    //查询所有角色下包含的用户
+    public List<sys_role>selectRoleToUser(Integer userId){
+        return roleMapper.selectRoleToUser(userId);
+    };
 }
 

@@ -61,6 +61,7 @@ public class fileController {
             case "TX" : path= fileCommon.USER_IMG_PATH ;break;//发头像路径
             case "AC" : path= fileCommon.ENCLOSYRE_PATH ;break;//流程路径
             case "HT" : path= fileCommon.CONTRACT_PATH ;break;//合同路径
+            case "TA" : path= fileCommon.TASK_PATH ;break;//合同路径
         };
         log.info(path+"文件类型"+filetype);
         // 如果文件不为空，写入上传路径
