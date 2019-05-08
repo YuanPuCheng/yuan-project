@@ -15,14 +15,13 @@
 			html {
 				background-color: #FFFFFF
 			}
-			
-			.layui-input-block {
-				width: 80%;
-			}
+
+
 		</style>
 	</head>
 
 	<body>
+	<div class="layui-fluid">
 		<fieldset class="layui-elem-field layui-field-title">
 			<legend>指派任务
 				</legend>
@@ -36,13 +35,13 @@
 				</div>
 			</div>
 			<div class="layui-form-item">
-				<label class="layui-form-label">任务描述</label>
+				<label class="layui-form-label">描述</label>
 				<div class="layui-input-block">
 					<textarea placeholder="请输入内容" id="taskRemark" lay-verify="required" class="layui-textarea"></textarea>
 				</div>
 			</div>
 			<div class="layui-form-item">
-					<lable class="layui-form-label">选择指派人</lable>
+					<lable class="layui-form-label">选择待办人</lable>
 					<div class="layui-input-block">
 				      <select name="users" id="users"  xm-select="select1" xm-select-search="" xm-select-skin="normal">
 				      	
@@ -65,7 +64,7 @@
 			</div>
 
 		</div>
-
+	</div>
 	</body>
 	<script src="../../../static/layui/layui.js"></script>
 	<script>

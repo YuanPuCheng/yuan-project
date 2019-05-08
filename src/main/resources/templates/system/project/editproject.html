@@ -14,13 +14,12 @@
 			html {
 				background-color: #FFFFFF
 			}
-			.layui-input-block{
-				width: 80%;
-			}
+
 		</style>
 	</head>
 
 	<body>
+	<div class="layui-fluid">
 <fieldset class="layui-elem-field layui-field-title">
 			<legend>项目基本信息</legend>
 		</fieldset>
@@ -99,7 +98,7 @@
 			<fieldset class="layui-elem-field layui-field-title">
 				<legend>项目进度</legend>
 			</fieldset>
-			<div class="layui-card-body layui-text">
+
 				<div id="toolbar">
 					<div>
 						<button type="button" class="layui-btn layui-btn-sm" data-type="addRow" title="添加一行">
@@ -110,7 +109,7 @@
 				<div id="tableRes" class="table-overlay">
 					<table id="dataTable" lay-filter="dataTable" class="layui-hide"></table>
 				</div>
-			</div>
+
 					<div class="layui-form-item">
 						<div class="layui-input-block">
 							<button id="addtj" class="layui-btn hi" lay-submit="" lay-filter="addproject">保存</button>
@@ -119,8 +118,8 @@
 					</div>
 				
 			</div>
-			
 
+</div>
 	</body>
 	<script src="../../../static/layui/layui.js"></script>
 	<script>
