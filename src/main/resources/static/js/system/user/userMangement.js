@@ -42,7 +42,7 @@ layui.extend({
 						title: '电话'
 					},
 					{
-						field: 'ts',
+						field: 'loginTime',
 						title: '登陆时间',
 						sort: true
 					},
