@@ -1,18 +1,22 @@
 package com.zihui.cwoa.processone.controller;
 
 import com.zihui.cwoa.processone.service.ProcessesService;
+import com.zihui.cwoa.system.pojo.sys_users;
+import com.zihui.cwoa.system.service.sys_userService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -22,6 +26,8 @@ public class ProcessWorkController {
     @Autowired
     private ProcessesService processesService;
 
+    @Resource
+    private sys_userService user_service;
 
     /**
      * 部署流程
@@ -43,9 +49,16 @@ public class ProcessWorkController {
     @RequestMapping("/startaskforleave")
     @ResponseBody
     public boolean startAskForLeave(@RequestBody Map<String, Object> variables) {
-        //添加假数据
-        variables.put("firstman", "Nancy");
-        variables.put("secondman", "Nancy");
+        Integer projectId = (Integer) variables.get("projectId");
+        variables.remove("projectId");
+        Integer roleId = (Integer) variables.get("roleId");
+        variables.remove("roleId");
+        List<sys_users> sys_users1 = user_service.userRoleQuery(roleId, projectId);
+        String userCode1 = sys_users1.get(0).getUserCode();
+        List<sys_users> sys_users2 = user_service.userRoleQuery(2, projectId);
+        String userCode2 = sys_users2.get(0).getUserCode();
+        variables.put("firstman", userCode1);
+        variables.put("secondman", userCode2);
         return processesService.startProcess("askforleave", variables);
     }
 
