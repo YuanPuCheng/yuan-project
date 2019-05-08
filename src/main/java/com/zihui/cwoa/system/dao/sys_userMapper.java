@@ -2,6 +2,7 @@ package com.zihui.cwoa.system.dao;
 
 import com.zihui.cwoa.system.pojo.sys_department;
 import com.zihui.cwoa.system.pojo.sys_user;
+import com.zihui.cwoa.system.pojo.sys_users;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,5 +36,7 @@ public interface sys_userMapper {
     List<sys_user> selectGetUser ();
 
     List<sys_user> selectUserAndProject();
+
+    List<sys_users> userRoleQuery(@Param("roleId")Integer roleId,@Param("projectId")Integer projectId);
 
 }
