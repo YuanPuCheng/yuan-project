@@ -6,7 +6,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ *  流程图创建工具
+ */
 public class BpmnCreateUtil {
 	 
 	/**

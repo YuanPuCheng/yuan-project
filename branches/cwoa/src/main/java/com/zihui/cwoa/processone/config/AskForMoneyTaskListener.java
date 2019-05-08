@@ -12,6 +12,9 @@ import java.util.Map;
 @Component
 public class AskForMoneyTaskListener implements TaskListener {
 
+    /**
+     *  请款流程结束的监听任务，把数据存入数据库
+     */
     public void notify(DelegateTask delegateTask) {
         String processInstanceId = delegateTask.getProcessInstanceId();
         String userCode = (String) delegateTask.getVariable("userCode");

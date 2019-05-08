@@ -3,6 +3,9 @@ package com.zihui.cwoa.processone.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ *  流程相关页面
+ */
 @Controller
 @RequestMapping("/pro")
 public class ProcessHtmlController {
