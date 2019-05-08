@@ -81,7 +81,7 @@ public class MyTaskController {
             result.setMessage("系统错误，请联系管理员");
         }
         result.setResult(200);
-        result.setMessage("已完成任务");
+        result.setMessage("已完成");
         return result;
     }
 

@@ -147,6 +147,6 @@ public class MyShiroRealm extends AuthorizingRealm {
 
     public static void main(String[] args){
 
-        System.out.println( new SimpleHash("MD5","123","admin").toString());
+        System.out.println( new SimpleHash("MD5","123456","yuan").toString());
     }
 }
