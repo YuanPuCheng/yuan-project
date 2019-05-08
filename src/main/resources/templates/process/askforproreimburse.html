@@ -162,11 +162,11 @@
 						return;
 					}
 					var fileName = fileNameList.toString();
-					//var userCode = $("#uCode", parent.document).attr("name");
-					var userCode="Nancy";
+					var userCode = $("#uCode", parent.document).attr("name");
 					var name = $('#uName').val();
 					var department = $('#department').val();
-					var project = $('#project option:selected').prop("value");
+					var projectId = $('#project option:selected').prop("value");
+                    var project = $('#project').val();
 					var reimburseType = $('#reimburseType option:selected').prop("value");
 					var linkProId = $('#linkProId').val();
                     if(name === "") {
@@ -191,6 +191,7 @@
 						return;
 					}
 					var jsonTest = {
+                        "projectId":projectId,
 						"userName": name,
 						"userDepartment": department,
 						"userProject": project,
@@ -247,7 +248,7 @@
                             var proList=data;
                             var proListLen=proList.length;
                             for(var i=0;i<proListLen;i++){
-                                $("#project").append('<option value="'+proList[i].projectName+'">'+proList[i].projectName+'</option>');
+                                $("#project").append('<option value="'+proList[i].projectId+'">'+proList[i].projectName+'</option>');
                             }
                             form.render('select');
                         },

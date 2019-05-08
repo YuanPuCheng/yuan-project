@@ -112,7 +112,7 @@
                             var proList=data;
                             var proListLen=proList.length;
                             for(var i=0;i<proListLen;i++){
-                                $("#project").append('<option value="'+proList[i].projectName+'">'+proList[i].projectName+'</option>');
+                                $("#project").append('<option value="'+proList[i].projectId+'">'+proList[i].projectName+'</option>');
                             }
                             form.render('select');
                         },
@@ -138,6 +138,7 @@
 						var leavedays = Math.floor(days / (1000 * 60 * 60 * 24)+1);
                         var time = timeone + "至" + timetwo;
 						var reason = $('#reason').val();
+						var projectId=$('#project option:selected').prop("value");
 						if(isNaN(leavedays)) {
 							layer.msg('请选择正确的请假日期！');
 							click=false;
@@ -158,6 +159,7 @@
                             return;
                         }
 						var jsonTest = {
+						    "projectId":projectId,
 							"userName": name,
 							"userDepartment": department,
 							"userProject": project,
