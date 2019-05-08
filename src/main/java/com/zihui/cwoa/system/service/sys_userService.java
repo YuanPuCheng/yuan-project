@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.zihui.cwoa.system.dao.sys_userMapper;
 import com.zihui.cwoa.system.pojo.sys_department;
 import com.zihui.cwoa.system.pojo.sys_user;
+import com.zihui.cwoa.system.pojo.sys_users;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -114,5 +115,14 @@ public class sys_userService {
     //用于展示项目首页页面用户下拉,只查询有关联到项目的用户
     public List<sys_user> selectUserAndProject(){
         return userMapper.selectUserAndProject();
+    };
+    /**
+     *  根据条件查询当前角色、项目下所有用户
+     *  @param roleId 角色id  可空
+     *  @param projectId 项目id 可空
+     *  @return list
+     */
+    public List<sys_users> userRoleQuery(Integer roleId,Integer projectId){
+        return userMapper.userRoleQuery(roleId,projectId);
     };
 }
