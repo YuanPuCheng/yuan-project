@@ -16,6 +16,9 @@ import java.util.Map;
 @Component
 public class AskForLeaveTaskListener implements TaskListener {
 
+    /**
+     *  请假流程结束的监听任务，把数据存入数据库
+     */
     public void notify(DelegateTask delegateTask) {
         List<String> list=new ArrayList<>();
         String userCode = (String) delegateTask.getVariable("userCode");
