@@ -30,10 +30,6 @@ layui.extend({
 						title: '用户名称'
 					},
 					{
-						field: 'sex',
-						title: '性别'
-					},
-					{
 						field: 'email',
 						title: '邮箱'
 					},
