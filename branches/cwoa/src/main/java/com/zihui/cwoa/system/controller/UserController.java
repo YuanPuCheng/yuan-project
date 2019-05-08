@@ -5,6 +5,7 @@ import com.zihui.cwoa.system.common.CallbackResult;
 import com.zihui.cwoa.system.common.DateUtils;
 import com.zihui.cwoa.system.dao.sys_department_menuMapper;
 import com.zihui.cwoa.system.pojo.sys_user;
+import com.zihui.cwoa.system.pojo.sys_users;
 import com.zihui.cwoa.system.service.*;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -36,6 +37,23 @@ public class UserController {
     private sys_taskSerivce taskService;
     @Resource
     private sys_user_departmentService user_departmentService;
+    /**
+     *  根据条件查询用户列表
+     */
+    @RequestMapping(value = "/getroleuser")
+    @ResponseBody
+    public List<sys_users> getroleuser(@RequestParam(required = false) Integer roleId,
+                                       @RequestParam(required = false) Integer projectId){
+
+        roleId=2;
+        List<sys_users> list = user_service.userRoleQuery(roleId,projectId);
+
+        return list;
+    }
+
+
+
+
     //查看我的个人信息
     @RequestMapping(value = "/mytaskcount")
     @ResponseBody
