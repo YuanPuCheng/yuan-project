@@ -619,5 +619,19 @@
     user_code AS userCode FROM  sys_user join sys_project on sys_user.user_id = sys_project.project_user_id
 
   </select>
+  <select id="userRoleQuery" resultType="com.zihui.cwoa.system.pojo.sys_users">
+    select
+    sys_user.user_id as userId,
+    sys_user.user_code as userCode,
+    sys_user.user_name as userName
+    from sys_user
+    where 1=1
+    <if test="roleId != null and roleId !=''" >
+      and sys_user.role_id = 2
+    </if>
+    <if test="projectId != null and projectId !=''" >
+      and sys_user.temp_int1=36
+    </if>
+  </select>
 
 </mapper>
