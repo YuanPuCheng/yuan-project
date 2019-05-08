@@ -13,10 +13,18 @@ layui.extend({
 		table = layui.table,
 		upload = layui.upload;
 
+    var widthMax = "70%",
+        heightMax = "80%";
+    if($(window).width() < 768) {
+        widthMax = "100%";
+        heightMax = "80%";
+    }
+
 	table.render({
 		elem: '#test',
 		url: layui.setter.project + '/project/projectfile',
 		toolbar: '#toolbarDemo',
+        cellMinWidth: 120, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 		where: {
 			projectId: $('#projectId').val()
 
@@ -133,7 +141,7 @@ layui.extend({
 			},
 			closeBtn: 1, //不显示关闭按钮
 			anim: 2,
-			area: ["80%", "80%"],
+            area: [widthMax,  heightMax],
 			shadeClose: false, //开启遮罩关闭
 			content: layui.setter.project + '/sys/addhetong',
 			success: function(layero, index) {
@@ -216,9 +224,9 @@ layui.extend({
 				},
 				closeBtn: 1, //不显示关闭按钮
 				anim: 2,
-				area: ["90%", "80%"],
+                area: [widthMax,  heightMax],
 				shadeClose: false, //开启遮罩关闭
-				content: '<img src="'+layui.setter.project+'/file/show?filename='+data.fileName+'" />',
+				content: '<img style="width:'+widthMax+';height: '+heightMax+'" src="'+layui.setter.project+'/file/show?filename='+data.fileName+'" />',
 				success: function(layero, index) {
 				//
 					var body = layer.getChildFrame('body', index);

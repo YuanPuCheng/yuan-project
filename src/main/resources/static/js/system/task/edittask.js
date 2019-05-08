@@ -32,6 +32,7 @@ layui.extend({
 	table.render({
 		elem: '#test',
 		data:obj,
+        cellMinWidth: 120, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 		//url: layui.setter.project + '/task/gettaskPage',
 		//toolbar: '#toolbarDemo',
 		title: '任务',
@@ -39,7 +40,7 @@ layui.extend({
 			[
 				{
 					field: 'userName',
-					title: '当前任务人',
+					title: '待办人',
 					templet: function(d) {
 						var u = d.users;
 						console.log(d);
@@ -64,12 +65,22 @@ layui.extend({
 				},
 				{
 					field: 'taskEndTime',
-					title: '完成时间'
+					title: '处理时间'
 				}
 				,
 				{
 					field: 'taskAttachment',
-					title: '附件下载'
+					title: '附件下载',
+                    templet: function(d) {
+
+                        var name = "";
+                        var task = d.file;
+                        console.log(task);
+                        if(task!=null){
+                            name = "<a style='color: #01AAED;' href='"+layui.setter.project +"/file/down?filename="+task.fileName+"'>"+task.fileRename+"</a>"
+                        }
+                        return name;
+                    }
 				},
 				{
 					field: 'taskStatus',
