@@ -8,17 +8,18 @@ layui.extend({
 		layer = layui.layer,
 		form = layui.form,
 		$ = layui.jquery;
-	var widthMax = 1050,
-		heightMax = 570;
-	if($(window).width() < 768) {
-		widthMax = 280;
-		heightMax = 350
-	}
+    var widthMax = "70%",
+        heightMax = "80%";
+    if($(window).width() < 768) {
+        widthMax = "100%";
+        heightMax = "80%";
+    }
 	table.render({
 		elem: '#test',
 		url: layui.setter.project + '/role/getrolePage',
 		toolbar: '#toolbarDemo',
 		title: '角色',
+        cellMinWidth: 120, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 		cols: [
 			[{
 					type: 'checkbox'
@@ -77,7 +78,7 @@ layui.extend({
 					},
 					closeBtn: 1, //不显示关闭按钮
 					anim: 2,
-					area: [widthMax + "px", heightMax + "px"],
+                    area: [widthMax,  heightMax],
 					shadeClose: false, //开启遮罩关闭
 					content: layui.setter.project +'/sys/addrole',
 					success: function(layero, index) {
@@ -171,7 +172,7 @@ layui.extend({
 			},
 			closeBtn: 1, //不显示关闭按钮
 			anim: 2,
-			area: [widthMax + "px", heightMax + "px"],
+            area: [widthMax,  heightMax],
 			shadeClose: false, //开启遮罩关闭
 			content:  layui.setter.project +'/sys/editrole',
 			success: function(layero, index) {

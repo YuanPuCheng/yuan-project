@@ -9,12 +9,12 @@ layui.extend({
 		layer = layui.layer,
 		treeTable = layui.treeTable;
 
-	var widthMax = 750,
-		heightMax = 500;
-	if($(window).width() < 768) {
-		widthMax = 280;
-		heightMax = 350
-	}
+    var widthMax = "70%",
+        heightMax = "80%";
+    if($(window).width() < 768) {
+        widthMax = "100%";
+        heightMax = "80%";
+    }
 
 	// 直接下载后url: './data/table-tree.json',这个配置可能看不到数据，改为data:[],获取自己的实际链接返回json数组
 	var re = treeTable.render({
@@ -118,7 +118,7 @@ layui.extend({
 			},
 			closeBtn: 1, //不显示关闭按钮
 			anim: 2,
-			area: [widthMax + "px", heightMax + "px"],
+            area: [widthMax,  heightMax],
 			shadeClose: false, //开启遮罩关闭
 			content: 'addmenu.html',
 			success: function(layero, index) {
@@ -229,9 +229,9 @@ layui.extend({
 			},
 			closeBtn: 1, //不显示关闭按钮
 			anim: 2,
-			area: [widthMax + "px", heightMax + "px"],
+            area: [widthMax,  heightMax],
 			shadeClose: false, //开启遮罩关闭
-			content: 'addmenu.html',
+			content: layui.setter.project+'/sys/addmenu',
 			success: function(layero, index) {
 				var body = layer.getChildFrame('body', index);
 				body.find("#parName").val(data.item.menuName);
@@ -272,9 +272,9 @@ layui.extend({
 			},
 			closeBtn: 1, //不显示关闭按钮
 			anim: 2,
-			area: [widthMax + "px", heightMax + "px"],
+            area: [widthMax,  heightMax],
 			shadeClose: false, //开启遮罩关闭
-			content: 'editmenu.html',
+			content: layui.setter.project+'/sys/editmenu',
 			success: function(layero, index) {
 				var body = layer.getChildFrame('body', index);
 				body.find("#menuName").val(data.item.menuName);

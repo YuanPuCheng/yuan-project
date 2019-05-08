@@ -8,17 +8,18 @@ layui.extend({
 		layer = layui.layer,
 		form = layui.form,
 		$ = layui.jquery;
-	var widthMax = 1050,
-		heightMax = 570;
+	var widthMax = "70%",
+		heightMax = "80%";
 	if($(window).width() < 768) {
-		widthMax = 280;
-		heightMax = 350
+		widthMax = "100%";
+		heightMax = "80%";
 	}
 	table.render({
 		elem: '#test',
 		url: layui.setter.project + '/task/gettaskPage',
 		toolbar: '#toolbarDemo',
 		title: '任务',
+        cellMinWidth: 160,
 		cols: [
 			[{
 					type: 'checkbox'
@@ -57,9 +58,9 @@ layui.extend({
 						if(d.taskStatus==1){
 							name = "<span style='color:green'>制单</span>"
 						}else if(d.taskStatus==2){
-							name = "<span style='color:red'>已指派</span>"
+							name = "<span style='color:red'>已通知</span>"
 						}else if(d.taskStatus==3){
-                            name = "<span style='color:black'>已全部完成</span>"
+                            name = "<span style='color:black'>已处理</span>"
                         }
 						return name;
 					}
@@ -108,7 +109,7 @@ layui.extend({
 					},
 					closeBtn: 1, //不显示关闭按钮
 					anim: 2,
-					area: [widthMax + "px", heightMax + "px"],
+                    area: [widthMax,  heightMax],
 					shadeClose: false, //开启遮罩关闭
 					content: layui.setter.project +'/sys/addtask',
 					success: function(layero, index) {
@@ -199,7 +200,7 @@ layui.extend({
 			},
 			closeBtn: 1, //不显示关闭按钮
 			anim: 2,
-			area: [widthMax + "px", heightMax + "px"],
+            area: [widthMax,  heightMax],
 			shadeClose: false, //开启遮罩关闭
 			content:  layui.setter.project +'/sys/edittask',
 			success: function(layero, index) {

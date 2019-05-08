@@ -8,23 +8,24 @@ layui.extend({
 		layer = layui.layer,
 		form = layui.form,
 		$ = layui.jquery;
-	var widthMax = 1050,
-		heightMax = 570;
-	if($(window).width() < 768) {
-		widthMax = 280;
-		heightMax = 350
-	}
+    var widthMax = "70%",
+        heightMax = "80%";
+    if($(window).width() < 768) {
+        widthMax = "100%";
+        heightMax = "80%";
+    }
 	table.render({
 		elem: '#test',
 		url: layui.setter.project + '/mytask/getMytaskPage',
 		//toolbar: '#toolbarDemo',
-		title: '任务',
+		title: '通知',
+        cellMinWidth: 120, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 		cols: [
 			[
 				
 				{
 					field: 'userName',
-					title: '指派人',
+					title: '发布人名称',
 					templet: function(d) {
 						var u = d.users;
 						console.log(d);
@@ -56,7 +57,7 @@ layui.extend({
 						}else if(d.taskBs[0].taskStatus==3){
 							name = "<span>已查看</span>"
 						}else if(d.taskBs[0].taskStatus==4){
-							name = "<span style='color:black'>已完成</span>"
+							name = "<span style='color:black'>已处理</span>"
 						}
 						return name;
 					}
@@ -98,7 +99,7 @@ layui.extend({
 			//id: 'insert-form',
 			type: 2,
 			//skin: 'layui-layer-demo', //样式类名
-			title: '查看任务',
+			title: '查看通知',
 			maxmin: true,
 			btn: [],
 			yes: function(index, layero) {
@@ -106,7 +107,7 @@ layui.extend({
 			},
 			closeBtn: 1, //不显示关闭按钮
 			anim: 2,
-			area: [widthMax + "px", heightMax + "px"],
+            area: [widthMax,  heightMax],
 			shadeClose: false, //开启遮罩关闭
 			content:  layui.setter.project+'/sys/editmytask',
 			success: function(layero, index) {
@@ -132,7 +133,7 @@ layui.extend({
 			//id: 'insert-form',
 			type: 2,
 			//skin: 'layui-layer-demo', //样式类名
-			title: '查看任务',
+			title: '查看通知',
 			maxmin: true,
 			btn: [],
 			yes: function(index, layero) {
@@ -140,7 +141,7 @@ layui.extend({
 			},
 			closeBtn: 1, //不显示关闭按钮
 			anim: 2,
-			area: [widthMax + "px", heightMax + "px"],
+            area: [widthMax,  heightMax],
 			shadeClose: false, //开启遮罩关闭
 			content:  layui.setter.project+'/sys/mytaskinfo',
 			success: function(layero, index) {
