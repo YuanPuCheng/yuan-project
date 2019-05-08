@@ -124,7 +124,7 @@
                             var proList=data;
                             var proListLen=proList.length;
                             for(var i=0;i<proListLen;i++){
-                                $("#project").append('<option value="'+proList[i].projectName+'">'+proList[i].projectName+'</option>');
+                                $("#project").append('<option value="'+proList[i].projectId+'">'+proList[i].projectName+'</option>');
                             }
                             form.render('select');
                         },
@@ -142,6 +142,7 @@
 						var name = $('#uName').val();
 						var department = $('#department').val();
 						var project = $('#project').val();
+                        var projectId = $('#project option:selected').prop("value");
 						var timeone = $('#test16').val();
 						var timetwo = $('#test17').val();
 						var time = timeone + "至" + timetwo;
@@ -183,6 +184,7 @@
                             return;
                         }
 						var jsonTest = {
+                            "projectId":projectId,
 							"userName": name,
 							"userDepartment": department,
 							"userProject": project,

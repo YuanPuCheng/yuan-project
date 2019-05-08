@@ -153,9 +153,10 @@
 					var fileName = fileNameList.toString();
 					var userCode = $("#userCode", parent.document).attr("name");
 					var name = $('#uName').val();
-					var project = $('#project option:selected').prop("value");
+					var projectId = $('#project option:selected').prop("value");
 					var reimburseType = $('#reimburseType option:selected').prop("value");
 					var linkProId = $('#linkProId').val();
+                    var project = $('#project').val();
                     if(name === "") {
                         layer.msg('请输入请款人姓名！');
                         return;
@@ -174,6 +175,7 @@
                         return;
                     }
 					var jsonTest = {
+                        "projectId":projectId,
 						"userName": name,
 						"userProject": project,
 						"userCode": userCode,
@@ -225,7 +227,7 @@
 							var proList=data;
 							var proListLen=proList.length;
 							for(var i=0;i<proListLen;i++){
-							    $("#project").append('<option value="'+proList[i].projectName+'">'+proList[i].projectName+'</option>');
+							    $("#project").append('<option value="'+proList[i].projectId+'">'+proList[i].projectName+'</option>');
 							}
                             form.render('select');
                         },
