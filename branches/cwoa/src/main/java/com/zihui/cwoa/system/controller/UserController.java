@@ -5,10 +5,7 @@ import com.zihui.cwoa.system.common.CallbackResult;
 import com.zihui.cwoa.system.common.DateUtils;
 import com.zihui.cwoa.system.dao.sys_department_menuMapper;
 import com.zihui.cwoa.system.pojo.sys_user;
-import com.zihui.cwoa.system.service.sys_departmentService;
-import com.zihui.cwoa.system.service.sys_menuService;
-import com.zihui.cwoa.system.service.sys_userService;
-import com.zihui.cwoa.system.service.sys_user_departmentService;
+import com.zihui.cwoa.system.service.*;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -36,9 +33,29 @@ public class UserController {
     @Resource
     private sys_departmentService departmentService;
     @Resource
-    private sys_menuService menuService;
+    private sys_taskSerivce taskService;
     @Resource
     private sys_user_departmentService user_departmentService;
+    //查看我的个人信息
+    @RequestMapping(value = "/mytaskcount")
+    @ResponseBody
+    public Integer mytaskcount(HttpSession session){
+        sys_user user =(sys_user) session.getAttribute("user");
+        Integer count = 0;
+        if(user==null){
+            try {
+                throw new Exception("当前用户未登录，请重新登录");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else{
+            count = taskService.myTaskCount(user.getUserId());
+
+        }
+
+        return count;
+    }
+
 
     //查看我的个人信息
     @RequestMapping(value = "/getuserinfo")
@@ -75,7 +92,7 @@ public class UserController {
     @ResponseBody
     public List<sys_user> selectGetUser(sys_user user){
         List<sys_user> list = user_service.selectGetUser();
-        log.info(list.toString());
+
         return list;
     }
 
@@ -94,7 +111,7 @@ public class UserController {
         }
         List<sys_user> list = user_service.selectUserDepar(user,page,limit);
 
-        log.info("事实上事实上身上试试"+list.toString());
+
         Integer count = user_service.selectUserCount(user);
 
         concurrentMap.put("count", count);
@@ -125,7 +142,7 @@ public class UserController {
     public CallbackResult userinfo(sys_user user){
         CallbackResult result = new CallbackResult();
 
-        log.info(user.toString());
+
 
         int count = user_service.updateByPrimaryKeySelective(user);
         result.setResult(200);

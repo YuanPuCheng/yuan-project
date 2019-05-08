@@ -137,10 +137,16 @@ public class DepartmentController {
                 Set set2 = new HashSet();
 
                 for(String d:menu){
-                    set1.add(d);
+                    if(!Basecommon.isNullStr(d)){
+                        set1.add(d);
+                    }
+
                 }
                 for (String dd:olds){
-                    set2.add(dd);
+                    if(!Basecommon.isNullStr(dd)){
+                        set2.add(dd);
+                    }
+
                 }
                 in.addAll(set1);
                 in.removeAll(set2);

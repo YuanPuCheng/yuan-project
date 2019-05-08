@@ -150,6 +150,8 @@ public class ProjectController {
         log.info(projectId);
         try {
             projectService.deleteByPrimaryKey(projectId);
+            scheduleService.deleteByProjectId(projectId);
+
         }catch (Exception e){
             e.printStackTrace();
             result.setResult(400);
@@ -172,7 +174,11 @@ public class ProjectController {
             if(!Basecommon.isNullStr(projectIds)){
                 String [] projectId = projectIds.split(",");
                 for (String id:projectId){
-                    projectService.deleteByPrimaryKey(Integer.parseInt(id));
+                    if(!Basecommon.isNullStr(id)){
+                        projectService.deleteByPrimaryKey(Integer.parseInt(id));
+                        scheduleService.deleteByProjectId(Integer.parseInt(id));
+                    }
+
                 }
 
             }

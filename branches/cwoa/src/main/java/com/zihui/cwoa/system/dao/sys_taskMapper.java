@@ -23,4 +23,6 @@ public interface sys_taskMapper {
 
     Integer myTaskbyQueryCount(@Param("userId")Integer userId);
 
+    Integer myTaskCount(@Param("userId")Integer userId);
+
 }

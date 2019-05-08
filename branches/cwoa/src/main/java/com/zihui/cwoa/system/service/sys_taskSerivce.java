@@ -2,6 +2,7 @@ package com.zihui.cwoa.system.service;
 
 import com.zihui.cwoa.system.dao.sys_taskMapper;
 import com.zihui.cwoa.system.pojo.sys_task;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -53,5 +54,9 @@ public class sys_taskSerivce {
     };
     public Integer myTaskbyQueryCount(Integer userId){
         return taskMapper.myTaskbyQueryCount(userId);
+    };
+
+    public Integer myTaskCount(@Param("userId")Integer userId){
+        return taskMapper.myTaskCount(userId);
     };
 }
