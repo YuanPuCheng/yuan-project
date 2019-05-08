@@ -112,6 +112,10 @@
 .news{
 	display: none;
 }
+#badge{
+    margin: -9px 50px 0;
+}
+}
 @media only screen and (max-width: 992px) {
 	.layui-header .layui-layout-left,#LAY_app_tabs,.layui-body,.layadmin-body-shade {
 	    left: 0;
