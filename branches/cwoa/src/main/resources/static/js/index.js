@@ -6,6 +6,7 @@ layui.extend({
 	$("#info").attr("lay-href",layui.setter.project+"/sys/userinfo");
 	$("#pass").attr("lay-href",layui.setter.project+"/sys/updatepass");
 	$("#logout").attr("href",layui.setter.project+"/sys/logoutuser");
+	$("#task").attr("lay-href",layui.setter.project+"/sys/mytask");
 	//目录ajax  post请求
 	$.ajax({
 		type:"post",
@@ -387,6 +388,7 @@ layui.extend({
                 //累计偏移量清零
                 left_ul=0;
             });
+
             
             $.ajax({
         	  	type:"post",
@@ -422,12 +424,21 @@ layui.extend({
         	  		console.log("获取用户信息失败");
         	  	}
         	  });
+
+            $.post(layui.setter.project+"/user/mytaskcount",
+                function(data,status){
+                   if(data>0){
+                       $("#badge").html(data);
+                       $("#badge").show();
+                   }
+                });
 		},
 		error:function(){
 			alert('登录超时!，请重新登录！');
 		}
 	});
-	
+
+
 	
 	 e("index", {})
 });
