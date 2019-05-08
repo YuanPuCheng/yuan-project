@@ -136,7 +136,7 @@ public class MyShiroRealm extends AuthorizingRealm {
                 userlastdate.setErrorCount("0");
                 userlastdate.setLoginTime(DateUtils.getDate());
                 userlastdate.setLastTime(user.getLoginTime());
-                //userlastdate.setTs(DateUtils.getDate());
+                userlastdate.setIp(ip);
                 user_service.updateByPrimaryKeySelective(userlastdate);
                 SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, user.getUserPassword(), getName());
                 info.setCredentialsSalt(ByteSource.Util.bytes(usercode));
