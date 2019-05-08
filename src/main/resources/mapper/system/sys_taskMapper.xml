@@ -257,4 +257,18 @@ SELECT
     or sys_task.task_status=3)
 
   </select>
+  <select id="myTaskCount" resultType="java.lang.Integer">
+     SELECT
+	 COUNT(DISTINCT sys_task.task_id)
+    FROM
+	    sys_task
+    LEFT JOIN sys_task_b ON sys_task.task_id = sys_task_b.task_id
+    where 1=1
+    and (sys_task_b.task_status=2
+    or sys_task_b.task_status=3)
+    and sys_task_b.task_user_id_chan=#{userId}
+
+  </select>
+
+
 </mapper>
