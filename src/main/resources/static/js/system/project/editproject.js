@@ -224,6 +224,16 @@ layui.extend({
 					}); //提示
 					return;
 				}
+                var start = row.schStartTime.replace(/-/g, '/');
+                var end = row.schEndTime.replace(/-/g, '/');
+                var startdate  = new Date(start);
+                var enddate  = new Date(end);
+                if(enddate.getTime()<startdate.getTime()){
+                    layer.msg("结束时间不能大于开始时间", {
+                        icon: 5
+                    }); //提示
+                    return;
+                }
 			}
 
 		}
@@ -270,7 +280,7 @@ layui.extend({
 	});
 	
 	//用户下拉框加载
-	$.get(layui.setter.project + '/user/getuser', {}, function(data) {
+	$.get(layui.setter.project + '/user/getroleuser', {}, function(data) {
 		var $html = "<option  value=''>直接选择或搜索选择</option>";
 		console.log(data)
 		if(data != null) {
