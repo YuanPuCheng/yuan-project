@@ -35,10 +35,25 @@ layui.extend({
 					title: '角色名称',
 					sort: true
 				},
-				{
-					field: 'roleLevel',
-					title: '级别'
-				}
+                {
+                    field: 'roleLevel',
+                    title: '级别'
+                }
+                ,
+                {
+                    field: 'roleParent',
+                    title: '上级角色',
+                    templet: function(d) {
+                        var r = d.parentRole;
+                        console.log(r);
+                        var name = "";
+                        if(r!=null){
+                            name = r.roleName;
+                        }
+
+                        return name;
+                    }
+                }
 				,{
 					//fixed: 'right',
 					title: '操作',
@@ -180,6 +195,11 @@ layui.extend({
 				body.find("#roleName").val(data.roleName);
 				body.find("#roleLevel").val(data.roleLevel);
 				body.find("#roleId").val(data.roleId);
+				console.log(data)
+				if(data.parentRole!=null){
+					console.log(data.parentRole.roleId);
+                    body.find("#roleParentId").val(data.parentRole.roleId);
+				}
 				
 
 			},

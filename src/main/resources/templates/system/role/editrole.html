@@ -33,6 +33,13 @@
 						<input type="hidden" id="roleId" />
 					</div>
 				</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">上级角色</label>
+				<div class="layui-input-block">
+					<select name="roleParent" id="roleParent"  lay-search="">
+					</select>
+				</div>
+			</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">级别</label>
 					<div class="layui-input-block">
@@ -42,6 +49,7 @@
 		
 					<div class="layui-form-item">
 						<div class="layui-input-block">
+							<input type="hidden" id="roleParentId" />
 							<button id="addtj" class="layui-btn" lay-submit="" lay-filter="editrole">保存</button>
 							<button id="addqx" class="layui-btn">取消</button>
 						</div>

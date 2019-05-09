@@ -10,11 +10,25 @@ layui.extend({
 		index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 		$ = layui.jquery,
 		a = o("body");
-		
-		
+
+    //用户下拉框加载
+    $.get(layui.setter.project + '/role/roleselect', {}, function(data) {
+        var $html = "<option  value=''>直接选择或搜索选择</option>";
+        console.log(data)
+        if(data != null) {
+            $.each(data, function(index, item) {
+                $html += "<option value='" + item.roleId + "'>" + item.roleName + "</option>";
+            });
+            $("select[name='roleParent']").append($html);
+            //append后必须从新渲染
+            form.render('select');
+        }
+    });
 
 
-	a.on('click', "#addqx", function(o) {
+
+
+    a.on('click', "#addqx", function(o) {
 
 		parent.layer.close(index);
 		//parent.location.reload();
@@ -24,6 +38,7 @@ layui.extend({
 	form.on('submit(add)', function(obj) {
 		var roleName = $("#roleName").val();
 		var roleLevel = $("#roleLevel").val();
+        var roleParent = $("#roleParent").val();
 		
 		$.ajax({
 			url: layui.setter.project + "/role/add",
@@ -33,7 +48,8 @@ layui.extend({
 			},
 			data:{
 				"roleName":roleName,
-				"roleLevel":roleLevel
+				"roleLevel":roleLevel,
+				"roleParentId":roleParent
 			},
 			//contentType:"application/json;charset=utf-8",
 			dataType: "json",
@@ -56,7 +72,6 @@ layui.extend({
 
 	});
 
-		
 
 	e("addrole", {})
 })
