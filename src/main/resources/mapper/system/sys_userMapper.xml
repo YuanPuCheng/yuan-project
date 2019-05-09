@@ -627,10 +627,10 @@
     from sys_user
     where 1=1
     <if test="roleId != null and roleId !=''" >
-      and sys_user.role_id = 2
+      and sys_user.role_id = #{roleId}
     </if>
     <if test="projectId != null and projectId !=''" >
-      and sys_user.temp_int1=36
+      and sys_user.temp_int1=#{projectId}
     </if>
   </select>
 
