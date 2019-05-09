@@ -5,7 +5,7 @@
     <userTask activiti:assignee="${firstman}" activiti:exclusive="true" id="taskone" name="总经理审批"/>
     <userTask activiti:assignee="${secondman}" activiti:exclusive="true" id="tasktwo" name="财务审批">
       <extensionElements>
-        <activiti:taskListener class="com.zihui.cwoa.processone.config.AskForMoneyTaskListener" event="delete"/>
+        <activiti:taskListener class="com.zihui.cwoa.processone.config.AskForMoneyTaskListener" event="complete"/>
       </extensionElements>
     </userTask>
     <endEvent id="end" name="EndEvent"/>

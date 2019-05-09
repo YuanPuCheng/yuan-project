@@ -195,9 +195,6 @@
 						});
 					}
 					var userCode=$("#userCode",parent.document).attr("name");
-                    if((typeof(userCode)==='undefined') || (userCode==='')){
-                        userCode="Nancy";
-                    }
 					$.ajax({
 						url: "/process/queryprocess",
 						type: "get",
