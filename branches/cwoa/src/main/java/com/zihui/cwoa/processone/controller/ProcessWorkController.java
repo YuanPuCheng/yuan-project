@@ -283,7 +283,7 @@ public class ProcessWorkController {
     @RequestMapping("/askforreimburse")
     @ResponseBody
     public boolean startAskForReimburse(@RequestBody Map<String, Object> variables) {
-        Integer projectId = (Integer) variables.get("projectId");
+        Integer projectId = Integer.parseInt((String) variables.get("projectId"));
         variables.remove("projectId");
         variables.put("firstman", user_service.userRoleQuery(2, projectId).get(0).getUserCode());
         variables.put("secondman", user_service.userRoleQuery(12, 41).get(0).getUserCode());
@@ -297,7 +297,7 @@ public class ProcessWorkController {
     @RequestMapping("/askforproreimburse")
     @ResponseBody
     public boolean startAskForProReimburse(@RequestBody Map<String, Object> variables) {
-        Integer projectId = (Integer) variables.get("projectId");
+        Integer projectId = Integer.parseInt((String) variables.get("projectId"));
         variables.remove("projectId");
         variables.put("firstman", user_service.userRoleQuery(2, projectId).get(0).getUserCode());
         return processesService.startProcess("askforproreimburse", variables);
