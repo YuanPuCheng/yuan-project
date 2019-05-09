@@ -9,7 +9,29 @@ public class sys_role {
 
     private Integer roleLevel;
 
+    private Integer roleParentId;
+
+    private sys_role parentRole;
+
+
     private List<sys_users> users;
+
+
+    public sys_role getParentRole() {
+        return parentRole;
+    }
+
+    public void setParentRole(sys_role parentRole) {
+        this.parentRole = parentRole;
+    }
+
+    public Integer getRoleParentId() {
+        return roleParentId;
+    }
+
+    public void setRoleParentId(Integer roleParentId) {
+        this.roleParentId = roleParentId;
+    }
 
     public List<sys_users> getUsers() {
         return users;
@@ -49,6 +71,8 @@ public class sys_role {
                 "roleId=" + roleId +
                 ", roleName='" + roleName + '\'' +
                 ", roleLevel=" + roleLevel +
+                ", roleParentId=" + roleParentId +
+                ", parentRole=" + parentRole +
                 ", users=" + users +
                 '}';
     }

@@ -44,8 +44,8 @@ public class sys_roleService {
         return roleMapper.selectRoleListCount();
     };
     //展示角色下拉
-    public List<sys_role> selectRolebySelect(){
-        return roleMapper.selectRolebySelect();
+    public List<sys_role> selectRolebySelect(Integer roleId){
+        return roleMapper.selectRolebySelect(roleId);
     };
     //查询所有角色下包含的用户
     public List<sys_role>selectRoleToUser(Integer userId){
