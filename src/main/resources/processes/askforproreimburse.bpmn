@@ -4,7 +4,7 @@
     <startEvent id="start" name="StartEvent"/>
     <userTask activiti:assignee="${firstman}" activiti:exclusive="true" id="taskone" name="项目经理审批">
       <extensionElements>
-        <activiti:taskListener class="com.zihui.cwoa.processone.config.AskForProReimburseTaskListener" event="delete"/>
+        <activiti:taskListener class="com.zihui.cwoa.processone.config.AskForProReimburseTaskListener" event="complete"/>
       </extensionElements>
     </userTask>
     <endEvent id="end" name="EndEvent"/>
