@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.io.InputStream;
 import java.util.*;
 
-@Service
+@Service("ProcessesService")
 public class ProcessesService {
 
     @Autowired
