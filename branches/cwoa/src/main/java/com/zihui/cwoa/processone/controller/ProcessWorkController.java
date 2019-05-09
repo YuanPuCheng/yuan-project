@@ -265,7 +265,7 @@ public class ProcessWorkController {
     @ResponseBody
     public boolean startAskForMoney(@RequestBody Map<String, Object> variables) {
         variables.put("firstman", user_service.userRoleQuery(1, null).get(0).getUserCode());
-        variables.put("secondman", user_service.userRoleQuery(12, null).get(0).getUserCode());
+        variables.put("secondman", user_service.userRoleQuery(12, 41).get(0).getUserCode());
         return processesService.startProcess("askformoney", variables);
     }
 
@@ -279,7 +279,7 @@ public class ProcessWorkController {
         Integer projectId = (Integer) variables.get("projectId");
         variables.remove("projectId");
         variables.put("firstman", user_service.userRoleQuery(2, projectId).get(0).getUserCode());
-        variables.put("secondman", user_service.userRoleQuery(12, null).get(0).getUserCode());
+        variables.put("secondman", user_service.userRoleQuery(12, 41).get(0).getUserCode());
         return processesService.startProcess("askforreimburse", variables);
     }
 
