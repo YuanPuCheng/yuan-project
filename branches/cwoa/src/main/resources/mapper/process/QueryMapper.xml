@@ -25,4 +25,8 @@
   <update id="setAssigned" parameterType="String">
     UPDATE act_ru_task SET NAME_=#{arg1},ASSIGNEE_=#{arg2} WHERE PROC_INST_ID_=#{arg0}
   </update>
+
+  <select id="queryManagerIdByRoleName" parameterType="String" resultType="Integer">
+    SELECT role_parent_id FROM sys_role WHERE role_name =#{roleName}
+  </select>
 </mapper>

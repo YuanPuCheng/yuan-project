@@ -49,4 +49,9 @@ public interface QueryMapper {
      *  @param userCode 用户工号
      */
     void setAssigned(String processInstanceId,String taskName,String userCode);
+
+    /**
+     *  根据角色名查询它的直接上级角色的ID
+     */
+    Integer queryManagerIdByRoleName(String roleName);
 }

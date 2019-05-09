@@ -162,6 +162,7 @@
 						return;
 					}
 					var fileName = fileNameList.toString();
+                    //var userRole=$("#userrole",parent.document).attr("name");
 					var userCode = $("#userCode", parent.document).attr("name");
 					var name = $('#uName').val();
 					var department = $('#department').val();
@@ -191,6 +192,7 @@
 						return;
 					}
 					var jsonTest = {
+                        //"userRole":userRole,
                         "projectId":projectId,
 						"userName": name,
 						"userDepartment": department,
