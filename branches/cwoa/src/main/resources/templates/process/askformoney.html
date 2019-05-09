@@ -151,7 +151,8 @@
 						return;
 					}
 					var fileName = fileNameList.toString();
-					var userCode = $("#userCode", parent.document).attr("name");
+					var userDepartment = $("#userDepartmentName", parent.document).attr("name");
+                    var userCode = $("#userCode", parent.document).attr("name");
 					var name = $('#uName').val();
 					var projectId = $('#project option:selected').prop("value");
 					var reimburseType = $('#reimburseType option:selected').prop("value");
@@ -181,7 +182,7 @@
 						"userProject": project,
 						"userCode": userCode,
 						"fileName": fileName,
-						"userDepartment":"项目经理",
+						"userDepartment":userDepartment,
 						"processSummary": [{
 								"indexName": "请款类型",
 								"indexValue": reimburseType
