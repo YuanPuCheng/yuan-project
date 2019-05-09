@@ -4,7 +4,14 @@
   <resultMap id="BaseResultMap" type="com.zihui.cwoa.system.pojo.sys_role" >
     <id column="role_id" property="roleId" jdbcType="INTEGER" />
     <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="role_parent_id" property="roleParentId" jdbcType="INTEGER" />
     <result column="role_level" property="roleLevel" jdbcType="INTEGER" />
+    <collection property="parentRole" ofType="com.zihui.cwoa.system.pojo.sys_role">
+      <id column="role_id_p" property="roleId" jdbcType="INTEGER" />
+      <result column="role_name_p" property="roleName" jdbcType="VARCHAR" />
+      <result column="role_parent_id_p" property="roleParentId" jdbcType="INTEGER" />
+      <result column="role_level_p" property="roleLevel" jdbcType="INTEGER" />
+    </collection>
     <collection property="users" ofType="com.zihui.cwoa.system.pojo.sys_users">
       <result column="user_id" property="userId" jdbcType="INTEGER" />
       <result column="user_name" property="userName" jdbcType="VARCHAR" />
@@ -29,10 +36,13 @@
       <if test="roleId != null" >
         role_id,
       </if>
-      <if test="roleName != null" >
+      <if test="roleParentId != null and roleParentId !=''" >
+        role_parent_id,
+      </if>
+      <if test="roleName != null and roleName !=''" >
         role_name,
       </if>
-      <if test="roleLevel != null" >
+      <if test="roleLevel != null and roleLevel !=''" >
         role_level,
       </if>
     </trim>
@@ -40,10 +50,13 @@
       <if test="roleId != null" >
         #{roleId,jdbcType=INTEGER},
       </if>
-      <if test="roleName != null" >
+      <if test="roleParentId != null and roleParentId !=''" >
+        #{roleParentId,jdbcType=INTEGER},
+      </if>
+      <if test="roleName != null and roleName !=''" >
         #{roleName,jdbcType=VARCHAR},
       </if>
-      <if test="roleLevel != null" >
+      <if test="roleLevel != null and roleLevel !=''" >
         #{roleLevel,jdbcType=INTEGER},
       </if>
     </trim>
@@ -51,10 +64,13 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.zihui.cwoa.system.pojo.sys_role" >
     update sys_role
     <set >
-      <if test="roleName != null" >
+      <if test="roleName != null and roleName !=''" >
         role_name = #{roleName,jdbcType=VARCHAR},
       </if>
-      <if test="roleLevel != null" >
+      <if test="roleParentId != null and roleParentId !=''" >
+        role_parent_id = #{roleParentId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleLevel != null and roleLevel !=''" >
         role_level = #{roleLevel,jdbcType=INTEGER},
       </if>
     </set>
@@ -64,7 +80,17 @@
 
   <select id="selectRoleList"  resultMap="BaseResultMap">
 
-  select * from sys_role where 1= 1
+  SELECT
+    r.role_id,
+	r.role_name,
+	r.role_level,
+	p.role_id as role_id_p,
+	p.role_name as role_name_p,
+	p.role_level as role_level_p
+  FROM
+	sys_role r
+  LEFT JOIN sys_role p
+  ON r.role_parent_id = p.role_id
   limit #{page},#{limit}
 </select>
 
@@ -75,8 +101,11 @@
   <!--展示角色下拉-->
   <select id="selectRolebySelect" resultMap="BaseResultMap">
     select * from sys_role where 1=1
+    <if test="roleId != null and roleId !=''" >
+      and role_id  <![CDATA[ <> ]]> #{roleId}
+    </if>
   </select>
-
+  <!--查询所有角色下包含的用户-->
   <select id="selectRoleToUser" resultMap="BaseResultMap">
 
     SELECT
@@ -86,4 +115,5 @@
     JOIN sys_user ON sys_role.role_id = sys_user.role_id
     where sys_user.user_id <![CDATA[ <> ]]> #{userId}
   </select>
+
 </mapper>
