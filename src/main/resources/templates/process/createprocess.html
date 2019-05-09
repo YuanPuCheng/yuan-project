@@ -83,11 +83,17 @@
 				$("button").click(function() {
 					var proUrl = $(this).attr("proUrl");
 					var proTitle=$(this).text();
+					if(proTitle==='请款申请'){
+					    var userRole=$("#userrole").attr("name");
+                        if(userRole !== '项目经理' && userRole!=='总经理') {
+                            layer.msg('您没有请款权限！');
+                            return;
+                        }
+					}
 					layer.open({
 						type: 2,
 						title: proTitle,
 						shadeClose: true,
-
 						area: ['100%', '85%'],
 						content: proUrl //iframe的url
 					});
