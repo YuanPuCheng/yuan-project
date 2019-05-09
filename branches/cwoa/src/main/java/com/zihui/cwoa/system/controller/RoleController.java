@@ -10,6 +10,7 @@ import com.zihui.cwoa.system.service.sys_roleService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -32,9 +33,9 @@ public class RoleController {
 
     @RequestMapping(value = "/roleselect")
     @ResponseBody
-    public List<sys_role> roleselect( ){
+    public List<sys_role> roleselect(@RequestParam(required = false)Integer roleId){
 
-        return roleService.selectRolebySelect();
+        return roleService.selectRolebySelect(roleId);
     }
 
 
