@@ -126,6 +126,7 @@
 				$("#go").click(function() {
 					if(!click) {
 						click = true;
+                        var userRole=$("#userrole",parent.document).attr("name");
 						var userCode=$("#userCode",parent.document).attr("name");
 						var name = $('#uName').val();
 						var department = $('#department').val();
@@ -139,6 +140,7 @@
                         var time = timeone + "至" + timetwo;
 						var reason = $('#reason').val();
 						var projectId=$('#project option:selected').prop("value");
+						console.log(projectId);
 						if(isNaN(leavedays)) {
 							layer.msg('请选择正确的请假日期！');
 							click=false;
@@ -159,6 +161,8 @@
                             return;
                         }
 						var jsonTest = {
+                            "processKey":"askforleave",
+                            "userRole":userRole,
 						    "projectId":projectId,
 							"userName": name,
 							"userDepartment": department,

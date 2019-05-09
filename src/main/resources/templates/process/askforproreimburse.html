@@ -161,6 +161,7 @@
 						layer.msg('请上传相关凭证！');
 						return;
 					}
+                    //var userRole=$("#userrole",parent.document).attr("name");
 					var fileName = fileNameList.toString();
 					var userCode = $("#uCode", parent.document).attr("name");
 					var name = $('#uName').val();
@@ -191,6 +192,7 @@
 						return;
 					}
 					var jsonTest = {
+                        //"userRole":userRole,
                         "projectId":projectId,
 						"userName": name,
 						"userDepartment": department,

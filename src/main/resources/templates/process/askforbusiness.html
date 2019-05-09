@@ -138,6 +138,7 @@
 				$("#go").click(function() {
 					if(!click) {
 						click = true;
+						var userRole=$("#userrole",parent.document).attr("name");
 						var userCode=$("#userCode",parent.document).attr("name");
 						var name = $('#uName').val();
 						var department = $('#department').val();
@@ -184,6 +185,8 @@
                             return;
                         }
 						var jsonTest = {
+                            "processKey":"askforbusiness",
+						    "userRole":userRole,
                             "projectId":projectId,
 							"userName": name,
 							"userDepartment": department,
@@ -205,7 +208,7 @@
 							]
 						};
 						$.ajax({
-							url: "/process/askforbusiness",
+							url: "/process/startaskforleave",
 							type: "post", //post请求
 							data: JSON.stringify(jsonTest), //这里发送的数据必须得是Json格式的字符串
 							contentType: "application/json", //告诉服务端你发送的是json数据

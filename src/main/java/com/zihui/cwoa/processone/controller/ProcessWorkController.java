@@ -1,6 +1,7 @@
 package com.zihui.cwoa.processone.controller;
 
 import com.zihui.cwoa.processone.service.ProcessesService;
+import com.zihui.cwoa.processone.service.QueryService;
 import com.zihui.cwoa.system.pojo.sys_users;
 import com.zihui.cwoa.system.service.sys_userService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class ProcessWorkController {
     @Resource
     private sys_userService user_service;
 
+    @Autowired
+    private QueryService queryService;
+
     /**
      * 部署流程
      * @param processName 传入流程定义的key
@@ -42,39 +46,29 @@ public class ProcessWorkController {
     }
 
     /**
-     * 启动请假流程
+     * 启动请假或者流程
      * @param variables 流程变量
      * @return 成功/失败 true/false
      */
     @RequestMapping("/startaskforleave")
     @ResponseBody
     public boolean startAskForLeave(@RequestBody Map<String, Object> variables) {
-        Integer projectId = (Integer) variables.get("projectId");
+        String processKey=(String) variables.get("processKey");
+        variables.remove("processKey");
+        String projectId = (String) variables.get("projectId");
         variables.remove("projectId");
-        Integer roleId = (Integer) variables.get("roleId");
-        variables.remove("roleId");
-        List<sys_users> sys_users1 = user_service.userRoleQuery(roleId, projectId);
+        String roleName = (String) variables.get("roleName");
+        variables.remove("roleName");
+        Integer roleId=queryService.queryManagerIdByRoleName(roleName);
+        List<sys_users> sys_users1 = user_service.userRoleQuery(roleId, Integer.parseInt(projectId));
         String userCode1 = sys_users1.get(0).getUserCode();
-        List<sys_users> sys_users2 = user_service.userRoleQuery(2, projectId);
+        List<sys_users> sys_users2 = user_service.userRoleQuery(2, Integer.parseInt(projectId));
         String userCode2 = sys_users2.get(0).getUserCode();
         variables.put("firstman", userCode1);
         variables.put("secondman", userCode2);
-        return processesService.startProcess("askforleave", variables);
+        return processesService.startProcess(processKey, variables);
     }
 
-    /**
-     * 启动出差流程
-     * @param variables 流程变量
-     * @return 成功/失败 true/false
-     */
-    @RequestMapping("/askforbusiness")
-    @ResponseBody
-    public boolean askForBusiness(@RequestBody Map<String, Object> variables) {
-        //添加假数据
-        variables.put("firstman", "Nancy");
-        variables.put("secondman", "Nancy");
-        return processesService.startProcess("askforbusiness", variables);
-    }
     /**
      * 查询用户任务
      * @param userCode 用户工号
@@ -270,9 +264,8 @@ public class ProcessWorkController {
     @RequestMapping("/askformoney")
     @ResponseBody
     public boolean startAskForMoney(@RequestBody Map<String, Object> variables) {
-        //添加假数据
-        variables.put("firstman", "Nancy");
-        variables.put("secondman", "Nancy");
+        variables.put("firstman", user_service.userRoleQuery(1, null).get(0).getUserCode());
+        variables.put("secondman", user_service.userRoleQuery(12, null).get(0).getUserCode());
         return processesService.startProcess("askformoney", variables);
     }
 
@@ -283,9 +276,10 @@ public class ProcessWorkController {
     @RequestMapping("/askforreimburse")
     @ResponseBody
     public boolean startAskForReimburse(@RequestBody Map<String, Object> variables) {
-        //添加假数据
-        variables.put("firstman", "Nancy");
-        variables.put("secondman", "Nancy");
+        Integer projectId = (Integer) variables.get("projectId");
+        variables.remove("projectId");
+        variables.put("firstman", user_service.userRoleQuery(2, projectId).get(0).getUserCode());
+        variables.put("secondman", user_service.userRoleQuery(12, null).get(0).getUserCode());
         return processesService.startProcess("askforreimburse", variables);
     }
 
@@ -296,9 +290,9 @@ public class ProcessWorkController {
     @RequestMapping("/askforproreimburse")
     @ResponseBody
     public boolean startAskForProReimburse(@RequestBody Map<String, Object> variables) {
-        //添加假数据
-        variables.put("firstman", "Nancy");
-        variables.put("secondman", "Nancy");
+        Integer projectId = (Integer) variables.get("projectId");
+        variables.remove("projectId");
+        variables.put("firstman", user_service.userRoleQuery(2, projectId).get(0).getUserCode());
         return processesService.startProcess("askforproreimburse", variables);
     }
 

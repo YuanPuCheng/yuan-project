@@ -57,7 +57,17 @@ public class QueryService {
         return queryMapper.queryTaskCountByCode(userCode);
     }
 
+    /**
+     *  设置任务办理人
+     */
     public void setAssigned(String processInstanceId,String taskName,String userCode){
         queryMapper.setAssigned(processInstanceId,taskName,userCode);
+    }
+
+    /**
+     *  根据角色名查询它的直接上级角色的ID
+     */
+    public Integer queryManagerIdByRoleName(String roleName){
+        return queryMapper.queryManagerIdByRoleName(roleName);
     }
 }
