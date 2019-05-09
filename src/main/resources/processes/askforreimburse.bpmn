@@ -2,7 +2,11 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1555123371427" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
   <process id="askforreimburse" isClosed="false" isExecutable="true" name="公司报销申请" processType="None">
     <startEvent id="start" name="StartEvent"/>
-    <userTask activiti:assignee="${firstman}" activiti:exclusive="true" id="taskone" name="项目经理审批"/>
+    <userTask activiti:assignee="${firstman}" activiti:exclusive="true" id="taskone" name="项目经理审批">
+      <extensionElements>
+        <activiti:taskListener class="com.zihui.cwoa.processone.tasklistener.AskForReimTaskListener" event="create"/>
+      </extensionElements>
+    </userTask>
     <userTask activiti:assignee="${secondman}" activiti:exclusive="true" id="tasktwo" name="公司财务审批">
       <extensionElements>
         <activiti:taskListener class="com.zihui.cwoa.processone.config.AskForReimburseTaskListener" event="complete"/>
