@@ -163,13 +163,17 @@
 					}
                     //var userRole=$("#userrole",parent.document).attr("name");
 					var fileName = fileNameList.toString();
-					var userCode = $("#uCode", parent.document).attr("name");
+					var userCode = $("#userCode", parent.document).attr("name");
 					var name = $('#uName').val();
 					var department = $('#department').val();
 					var projectId = $('#project option:selected').prop("value");
                     var project = $('#project option:selected').text();
 					var reimburseType = $('#reimburseType option:selected').prop("value");
 					var linkProId = $('#linkProId').val();
+                    if(userCode===null || userCode === "" || typeof userCode==='undefined') {
+                        layer.msg('系统错误,请退出后重新登陆！');
+                        return;
+                    }
                     if(name === "") {
                         layer.msg('请输入请款人姓名！');
                         return;

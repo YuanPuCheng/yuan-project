@@ -140,7 +140,10 @@
                         var time = timeone + "至" + timetwo;
 						var reason = $('#reason').val();
 						var projectId=$('#project option:selected').prop("value");
-						console.log(projectId);
+                        if(userCode===null || userCode === "" || typeof userCode==='undefined') {
+                            layer.msg('系统错误,请退出后重新登陆！');
+                            return;
+                        }
 						if(isNaN(leavedays)) {
 							layer.msg('请选择正确的请假日期！');
 							click=false;

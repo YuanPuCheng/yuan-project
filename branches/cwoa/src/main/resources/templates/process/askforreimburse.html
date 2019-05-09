@@ -170,6 +170,10 @@
                     var project = $('#project option:selected').text();
 					var reimburseType = $('#reimburseType option:selected').prop("value");
 					var linkProId = $('#linkProId').val();
+                    if(userCode===null || userCode === "" || typeof userCode==='undefined') {
+                        layer.msg('系统错误,请退出后重新登陆！');
+                        return;
+                    }
                     if(name === "") {
                         layer.msg('请输入请款人姓名！');
                         return;
