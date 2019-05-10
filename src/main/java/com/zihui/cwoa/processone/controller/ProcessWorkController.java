@@ -130,7 +130,11 @@ public class ProcessWorkController {
      */
     @RequestMapping("/deleteprocessinstance")
     @ResponseBody
-    public boolean deleteProcessInstance(String processInstanceId, String reason) {
+    public boolean deleteProcessInstance(String processInstanceId, String reason,
+                                         String taskId,String processName,String userCode) {
+        if ("动态任务".equals(processName)){
+            return processesService.rejectLiveTask(processInstanceId, reason,taskId,userCode);
+        }
         return processesService.deleteProcessInstance(processInstanceId, reason);
     }
 

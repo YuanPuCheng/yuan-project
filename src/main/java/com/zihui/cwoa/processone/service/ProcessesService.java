@@ -1,6 +1,8 @@
 package com.zihui.cwoa.processone.service;
 
 import com.zihui.cwoa.processone.config.BpmnCreateUtil;
+import com.zihui.cwoa.system.pojo.sys_user;
+import com.zihui.cwoa.system.service.sys_userService;
 import org.activiti.bpmn.BpmnAutoLayout;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.bpmn.model.Process;
@@ -33,6 +35,8 @@ public class ProcessesService {
     //自定义的查询方法
     @Autowired
     private QueryService queryService;
+    @Autowired
+    private sys_userService userService;
 
     /**
      *  部署流程
@@ -429,5 +433,11 @@ public class ProcessesService {
             }
         }
         return true;
+    }
+
+    public boolean rejectLiveTask(String processInstanceId, String reason,String taskId,String userCode){
+        String userName = userService.selectUserByLogin(userCode).getUserName();
+        runtimeService.setVariable(processInstanceId,"otherTalk","<span style=\"color:red\">"+userName+"拒绝了任务</span>:"+reason);
+        return completeTask(taskId);
     }
 }

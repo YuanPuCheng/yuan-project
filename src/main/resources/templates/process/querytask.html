@@ -85,6 +85,10 @@
 							for(var j = 0; j < pro.length; j++) {
 								summary = summary + "<p>" + pro[j].indexName + ":" + pro[j].indexValue + "</p>";
 							}
+							var otherTalk=list[i].otherTalk;
+                            if(otherTalk!==null && otherTalk !== "" && typeof otherTalk!=='undefined') {
+                                summary = summary + "<p>任务状态:" + otherTalk + "</p>";
+                            }
 							var startTimeFormat = new Date(list[i].startTime).format("yyyy-MM-dd hh:mm:ss");
 							txt = txt + "<div class=\"layuiadmin-card-text\" style=\"background-color: gainsboro;margin-top:10px ;\" id=\"" + list[i].processInstanceId +
 								"\"><div class=\"layui-card-header\"><i class=\"layui-icon layui-icon-table\">" + list[i].processName + "</i>" +
@@ -98,8 +102,8 @@
 								"\">同意申请</button><br />" +
 								"<button class=\"layui-btn  layui-btn-radius layui-btn-primary\" uid=\"" + list[i].fileName +
 								"\">下载附件</button>" +
-								"<button class=\"layui-btn  layui-btn-radius layui-btn-primary\" pid=\"" + list[i].processInstanceId +
-								"\">驳回申请</button></div></div>";
+								"<button class=\"layui-btn  layui-btn-radius layui-btn-primary\" tid=\"" + list[i].taskId + "\"" + "pid=\"" + list[i].processInstanceId +
+								"\"" + "pty=\"" + list[i].processName + "\">驳回申请</button></div></div>";
 						}
 						$("#queryProcessBox").html(txt);
 						$("button").click(function() {
@@ -113,7 +117,7 @@
 									area: ['100%', '85%'], //宽高
 									content: '<img src="/process/download?processInstanceId=' + processInstanceId + '"/>'
 								});
-							} else if($(this).text() == "下载附件") {
+							} else if($(this).text() === "下载附件") {
 								var fName = $(this).attr("uid");
 								if(fName==='undefined') {
                                     layer.msg('该申请没有附件！');
@@ -200,6 +204,8 @@
 								});
 							} else if($(this).text() === "驳回申请") {
 								var processInstanceId = $(this).attr("pid");
+                                var processName = $(this).attr("pty");
+                                var taskId = $(this).attr("tid");
 								var click = false;
 								layer.prompt({
 									title: '请输入驳回理由',
@@ -214,7 +220,10 @@
 											type: "get",
 											data: {
 												"processInstanceId": processInstanceId,
-												"reason": text
+												"reason": text,
+												"taskId":taskId,
+												"processName": processName,
+												"userCode":userCode
 											},
 											dataType: "text", //预测服务端返回的数据类型
 											success: function(data) { //请求成功的回调
