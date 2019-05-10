@@ -41,4 +41,22 @@
         AND lea_year=#{arg2}
         AND lea_month=#{arg3}
     </select>
+
+    <resultMap type="com.zihui.cwoa.financial.pojo.RoleAllUser" id="RoleAllUser">
+        <result property="role_id" javaType="String" column="role_id" jdbcType="VARCHAR" />
+        <result property="role_name" javaType="String" column="role_name" jdbcType="VARCHAR" />
+        <collection property="list" ofType="com.zihui.cwoa.system.pojo.sys_users">
+            <result property="userId" javaType="Integer" column="user_id" jdbcType="INTEGER" />
+            <result property="userCode" javaType="String" column="user_code" jdbcType="VARCHAR" />
+            <result property="userName" javaType="String" column="user_name" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+
+    <select id="queryRoleAllUser"  resultMap="RoleAllUser">
+        SELECT user_id,user_name,user_code,role_id,role_name FROM
+        (SELECT user_id,user_name,user_code,role_id AS r_id FROM sys_user WHERE STATUS=0) tableone
+        LEFT JOIN
+        sys_role tabletwo
+        ON tableone.r_id=tabletwo.role_id ORDER BY role_level DESC
+    </select>
 </mapper>
