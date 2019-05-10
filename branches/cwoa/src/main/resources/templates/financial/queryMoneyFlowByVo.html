@@ -392,6 +392,7 @@
                         url: countUrl,
                         type: "get",
 						data: {
+                            "rand":Math.random(),
                             "name": name,
                             "project": project,
                             "flowYear": flowYear,
@@ -412,6 +413,7 @@
                                     toolbar: true,
                                     cellMinWidth: 120,
                                     where: {
+                                        "rand":Math.random(),
                                         "size": size,
                                         "userCode": userCode,
                                         "project": project,
@@ -461,6 +463,7 @@
                         url: '/financial/countMoneyFlowSumByVo',
                         type: "get",
                         data: {
+                            "rand":Math.random(),
                             "name": nameSum,
                             "project": projectSum,
                             "flowYear": flowYearSum,
@@ -482,6 +485,7 @@
                                     toolbar: true,
                                     cellMinWidth: 120,
                                     where: {
+                                        "rand":Math.random(),
                                         "size": size,
                                         "userCode": userCode,
                                         "project": projectSum,

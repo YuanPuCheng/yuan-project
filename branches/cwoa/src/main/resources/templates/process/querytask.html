@@ -141,7 +141,6 @@
                                             layer.open({
                                                 type: 1,
                                                 shadeClose: true,
-
                                                 skin: 'layui-layer-rim', //加上边框
                                                 area: ['100%', '85%'], //宽高
                                                 content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>下载附件</legend></fieldset>' +
@@ -266,6 +265,7 @@
 						url: "/process/querytask",
 						type: "get",
 						data: {
+						    "rand":Math.random(),
 							"userCode": userCode,
                             "page": 0,
                             "num": 5
