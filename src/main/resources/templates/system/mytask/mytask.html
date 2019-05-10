@@ -39,7 +39,7 @@
 				<div class="layui-form layui-card-header layuiadmin-card-header-auto">
 				</div>
 				<fieldset class="layui-elem-field layui-field-title">
-					<legend>我的待办
+					<legend>我的通知
 					</legend>
 				</fieldset>
 				<!--表单内容-->
@@ -51,7 +51,7 @@
 								<table class="layui-hide" id="test" lay-filter="test"></table>
 								<script type="text/html" id="barDemo">
 									{{# if(d.taskBs[0].taskStatus==2||d.taskBs[0].taskStatus==3){ }}
-										<a class="layui-btn layui-btn-xs  layui-btn-danger" lay-event="edit">查看待办</a>
+										<a class="layui-btn layui-btn-xs  layui-btn-danger" lay-event="edit">查看通知</a>
 									{{# } else if(d.taskBs[0].taskStatus==4){ }} 
 										<a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="info">已处理</a>
 									{{#} }}
