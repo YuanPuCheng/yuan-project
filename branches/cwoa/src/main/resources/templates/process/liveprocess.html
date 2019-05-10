@@ -150,7 +150,6 @@
 
 				function submitForm() {
                     var users = formSelects.value('select1');
-                    console.log(users);
                     var userCode = $("#userCode", parent.document).attr("name");
                     if(userCode===null || userCode === "" || typeof userCode==='undefined') {
                         layer.msg('系统错误,请退出后重新登陆！');
