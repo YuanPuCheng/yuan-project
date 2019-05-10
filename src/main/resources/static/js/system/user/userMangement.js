@@ -126,24 +126,17 @@ layui.extend({
 			renderTable();
 		});
 
-		var widthMax = 750,
-			heightMax = 600;
-		if($(window).width() < 768) {
-			widthMax = 280;
-			heightMax = 350
-		}
+        var widthMax = "70%",
+            heightMax = "80%";
+        if($(window).width() < 768) {
+            widthMax = "100%";
+            heightMax = "80%";
+        }
 		//头工具栏事件
 		table.on('toolbar(test)', function(obj) {
 			var checkStatus = table.checkStatus(obj.config.id);
 			switch(obj.event) {
 				case 'add':
-					//用户添加
-					var widthMax = 750,
-						heightMax = 600;
-					if($(window).width() < 768) {
-						widthMax = 280;
-						heightMax = 350
-					}
 
 					layer.open({
 						type: 2,
@@ -156,7 +149,7 @@ layui.extend({
 
 						success: function() {},
 						btn: [],
-						area: [widthMax + 'px', heightMax + 'px'],
+						area: [widthMax, heightMax],
 						shadeClose: false, //开启遮罩关闭
 						content: layui.setter.project +'/sys/addMangement'
 					});
@@ -242,7 +235,7 @@ layui.extend({
 					},
 					closeBtn: 1, //不显示关闭按钮
 					anim: 2,
-					area: [widthMax + "px", heightMax + "px"],
+                    area: [widthMax, heightMax],
 					shadeClose: false, //开启遮罩关闭
 					content: layui.setter.project +'/sys/reviseManagement',
 					success: function(layero, index) {
