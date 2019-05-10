@@ -314,6 +314,12 @@
                         var data = obj.data;
                         if(obj.event === 'process') {
                             var processInstanceId = data.flow_process_id;
+                            if (processInstanceId==='无'){
+                                layer.msg('该记录没有流程！', {
+                                    icon: 2
+                                });
+                                return;
+							}
                             $.ajax({
                                 url: "/process/queryprocessdetail",
                                 type: "get",
