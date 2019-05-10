@@ -382,6 +382,7 @@ public class ProcessesService {
      */
     public boolean createLiveProcess(Map<String,Object> map){
         List<Map<String,String>> userList= (List<Map<String,String>>) map.get("userList");
+        map.remove("userList");
         int i=1;
         // 1. Build up the model from scratch
         BpmnModel model = new BpmnModel();
@@ -396,7 +397,7 @@ public class ProcessesService {
         process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flowStart","flowStart","start", "gateway1"));
         process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flowEnd", "flowEnd","gateway2","end"));
         for (Map<String,String> str: userList) {
-            process.addFlowElement(BpmnCreateUtil.createUserTask("task"+i, str.get("userName")+"接受任务",str.get("userCode"),null));
+            process.addFlowElement(BpmnCreateUtil.createUserTask("task"+i, str.get("name")+"接受任务",str.get("value"),null));
             process.addFlowElement(BpmnCreateUtil.createSequenceFlow("st"+i, "st"+i,"gateway1","task"+i));
             process.addFlowElement(BpmnCreateUtil.createSequenceFlow("te"+i, "te"+i,"task"+i,"gateway2"));
             i++;
@@ -414,13 +415,14 @@ public class ProcessesService {
         Long currentTimeMillis = System.currentTimeMillis();
         String businessKey=currentTimeMillis.toString();
         List<Map<String,String>> userList= (List<Map<String,String>>) variables.get("userList");
+        variables.remove("userList");
         //启动流程
         for (Map<String,String> str: userList) {
             try {
                 identityService.setAuthenticatedUserId((String)variables.get("userCode"));
                 ProcessInstance taskProcess =
                         runtimeService.startProcessInstanceByKey("taskProcess", businessKey, variables);
-                queryService.setAssigned(taskProcess.getActivityId(),str.get("userName")+"接受任务",str.get("userCode"));
+                queryService.setAssigned(taskProcess.getProcessInstanceId(),str.get("name")+"接受任务",str.get("value"));
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;

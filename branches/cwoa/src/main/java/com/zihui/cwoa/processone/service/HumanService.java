@@ -1,13 +1,12 @@
 package com.zihui.cwoa.processone.service;
 
-import com.zihui.cwoa.financial.pojo.ProjectMonthDetail;
+import com.zihui.cwoa.financial.pojo.RoleAllUser;
 import com.zihui.cwoa.processone.dao.HumanMapper;
-import com.zihui.cwoa.processone.dao.QueryMapper;
+import com.zihui.cwoa.system.pojo.sys_users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,5 +48,30 @@ public class HumanService {
     public List<Map<String,Object>> queryLeaveDetail(String userCode, String project,
                                                String leaveYear, String leaveMonth){
         return humanMapper.queryLeaveDetail(userCode,project,leaveYear,leaveMonth);
+    }
+
+    /**
+     *  查询所有角色及该角色下的所有用户
+     */
+    public Map<String,Object> queryRoleAllUser(){
+        List<RoleAllUser> roleAllUsers = humanMapper.queryRoleAllUser();
+        List<Map<String,String>> dataList=new ArrayList<>();
+        Map<String,Object> dataMap=new HashMap<>();
+        for (RoleAllUser role: roleAllUsers) {
+            Map<String,String> map=new HashMap<>();
+            map.put("name",role.getRole_name());
+            map.put("type","optgroup");
+            dataList.add(map);
+            for(sys_users user:role.getList()){
+                Map<String,String> map2=new HashMap<>();
+                map2.put("name",user.getUserName());
+                map2.put("value",user.getUserCode());
+                dataList.add(map2);
+            }
+        }
+        dataMap.put("data", dataList);
+        dataMap.put("code", 0);
+        dataMap.put("msg", "未知错误");
+        return dataMap;
     }
 }
