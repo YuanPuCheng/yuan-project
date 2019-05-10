@@ -199,7 +199,12 @@
                             "<span style=\"position: absolute;right: 15px; color:" + proColor + "\">" + processStatus +
                             "</span></div><div class=\"layui-card-body\"><p>流程ID：" + list[i].processInstanceId +
                             "</p><p>流程在途时间：" + startTime + "--" + endTime + "</p>" +
-                            "<p>流程结束说明：" + list[i].deleteReason + "</p>" +
+                            "<p>流程结束说明：" + list[i].deleteReason + "</p>";
+                        var otherTalk=list[i].otherTalk;
+                        if(otherTalk!==null && otherTalk !== "" && typeof otherTalk!=='undefined') {
+                            txt = txt + "<p>任务状态:" + otherTalk + "</p>";
+                        }
+                        txt=txt+
                             "<hr class=\"layui-bg-gray\" />" +
                             "<button class=\"layui-btn layui-btn-lg layui-btn-radius layui-btn-primary\" pid=\"" + list[i].processInstanceId +
                             "\">查看详情</button>" +

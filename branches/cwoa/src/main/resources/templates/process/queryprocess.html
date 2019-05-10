@@ -114,6 +114,10 @@
 							for(var j = 0; j < pro.length; j++) {
 								summary = summary + "<p>" + pro[j].indexName + ":" + pro[j].indexValue + "</p>";
 							}
+                            var otherTalk=list[i].otherTalk;
+                            if(otherTalk!==null && otherTalk !== "" && typeof otherTalk!=='undefined') {
+                                summary = summary + "<p>任务状态:" + otherTalk + "</p>";
+                            }
 							txt = txt + "<div class=\"layuiadmin-card-text\" style=\"background-color: gainsboro;margin-top:10px ;\" id=\"" + list[i].processInstanceId +
 								"\"><div class=\"layui-card-header\"><i class=\"layui-icon layui-icon-table\">" + list[i].processName + "</i>" +
 								"<span style=\"position: absolute;right: 15px;\">" + list[i].processStatus +
