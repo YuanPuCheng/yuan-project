@@ -437,7 +437,12 @@ public class ProcessesService {
 
     public boolean rejectLiveTask(String processInstanceId, String reason,String taskId,String userCode){
         String userName = userService.selectUserByLogin(userCode).getUserName();
-        runtimeService.setVariable(processInstanceId,"otherTalk","<span style=\"color:red\">"+userName+"拒绝了任务</span>:"+reason);
+        String otherTalk = (String) runtimeService.getVariable(processInstanceId, "otherTalk");
+        if (otherTalk==null){
+            otherTalk="";
+        }
+        otherTalk=otherTalk+"<span style=\"color:red\">"+userName+"拒绝了任务</span>:"+reason+"<br/>";
+        runtimeService.setVariable(processInstanceId,"otherTalk",otherTalk);
         return completeTask(taskId);
     }
 }
