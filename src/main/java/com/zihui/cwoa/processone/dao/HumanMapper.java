@@ -1,5 +1,6 @@
 package com.zihui.cwoa.processone.dao;
 
+import com.zihui.cwoa.financial.pojo.RoleAllUser;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -26,4 +27,9 @@ public interface HumanMapper {
      *  @return 查询结果
      */
     List<Map<String,Object>> queryLeaveDetail(String userCode, String project, String leaveYear, String leaveMonth);
+
+    /**
+     *  查询所有角色及该角色下的所有用户
+     */
+    List<RoleAllUser> queryRoleAllUser();
 }

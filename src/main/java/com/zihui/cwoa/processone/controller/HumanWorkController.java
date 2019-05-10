@@ -65,4 +65,10 @@ public class HumanWorkController {
                                                      String leaveYear, String leaveMonth){
         return humanService.queryLeaveDetail(userCode,project,leaveYear,leaveMonth);
     }
+
+    @RequestMapping("/queryRoleAllUser")
+    @ResponseBody
+    public Map<String,Object> queryRoleAllUser(){
+        return humanService.queryRoleAllUser();
+    }
 }
