@@ -60,6 +60,7 @@ layui.extend({
 	a.on('click', "#addqx", function(o) {
 
 		parent.layer.close(index);
+
 		parent.location.reload();
 
 	})
@@ -85,6 +86,7 @@ layui.extend({
 			success: function(data) {
 				console.log(data)
 				if(data.result == 200) {
+
 					parent.layer.alert(data.message, function() {
 						console.log(index);
 						parent.layer.close(index);
@@ -92,7 +94,7 @@ layui.extend({
 						parent.location.reload();
 
 					});
-
+                    window.parent.parent.task();
 				} else {
 					parent.layer.alert(data.message);
 				}
