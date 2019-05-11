@@ -180,14 +180,14 @@
 	  sys_task_b.temp_var1,
 	  sys_task_b.temp_int1
     FROM
-	    (select * from sys_task limit #{page}, #{limit}) sys_task
+	    (select * from sys_task where sys_task.task_user_id = #{userId}  limit #{page}, #{limit}) sys_task
     LEFT JOIN sys_task_b ON sys_task.task_id = sys_task_b.task_id
     left join sys_user u on sys_task.task_user_id = u.user_id
     left join sys_user us on sys_task_b.task_user_id_chan = us.user_id
 		left join sys_file on sys_task.attachment = sys_file.file_id
 		left join sys_file ff on sys_task_b.task_attachment = ff.file_id
     where 1=1
-    and sys_task.task_user_id = #{userId}
+
     order by sys_task.task_status
   </select>
 
@@ -227,7 +227,8 @@ SELECT
 	  sys_task_b.temp_var1,
 	  sys_task_b.temp_int1
     FROM
-	    (select * from sys_task limit #{page}, #{limit}) sys_task
+	    (select * from sys_task where (sys_task.task_status=2
+    or sys_task.task_status=3) ) sys_task
     LEFT JOIN sys_task_b ON sys_task.task_id = sys_task_b.task_id
     left join sys_user u on sys_task.task_user_id = u.user_id
     left join sys_user us on sys_task_b.task_user_id_chan = us.user_id
@@ -235,9 +236,8 @@ SELECT
     left join sys_file ff on sys_task_b.task_attachment = ff.file_id
     where 1=1
     and sys_task_b.task_user_id_chan=#{userId}
-    and (sys_task.task_status=2
-    or sys_task.task_status=3)
     order by sys_task_b.task_status
+    limit   #{page}, #{limit}
 
   </select>
 
