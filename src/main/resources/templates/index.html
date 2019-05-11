@@ -120,8 +120,27 @@
 </div>
 
 <script src="../static/layui/layui.js" charset="utf-8"></script>
-
+<script src="../static/js/jquery-3.3.1.min.js"></script>
+    <script src="../static/js/common/common.js"></script>
 <script>
+    $(function () {
+        task()
+    })
+
+    function task() {
+        console.log("调用成功")
+        $.post(project+"/user/mytaskcount",
+            function(data,status){
+                if(data>0){
+                    $("#badge").html(data);
+                    $("#badge").show();
+                }else{
+                    $("#badge").html("");
+                    $("#badge").hide();
+                }
+            });
+    }
+
     //<![CDATA[
 	//菜单隐藏显示
 layui.config({
