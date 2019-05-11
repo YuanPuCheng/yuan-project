@@ -99,7 +99,7 @@ layui.extend({
 			//id: 'insert-form',
 			type: 2,
 			//skin: 'layui-layer-demo', //样式类名
-			title: '查看通知',
+			title: '回复通知',
 			maxmin: true,
 			btn: [],
 			yes: function(index, layero) {
@@ -114,16 +114,18 @@ layui.extend({
 				var body = layer.getChildFrame('body', index);
 				body.find("#taskbId").val(data.taskBs[0].taskBId);
                 body.find("#taskId").val(data.taskId);
-				body.find("#taskName").val(data.taskBs[0].users.userName);
+				body.find("#taskName").val(data.users.userName);
 				body.find("#taskRemark").val(data.taskRemark);
-				body.find("#userName").val(data.users.userName);
+				body.find("#userName").val(data.taskBs[0].users.userName);
 				if(data.file!=null){
 					body.find("#filename").val(data.file.fileName);
 					body.find("#filerename").val(data.file.fileRename);
 				}
 			},
 			end: function() {
-
+                renderTable();
+                window.parent.task();
+                console.log("调用父页面方法")
 			},
 
 		});
@@ -147,10 +149,10 @@ layui.extend({
 			success: function(layero, index) {
 				var body = layer.getChildFrame('body', index);
 				body.find("#taskbId").val(data.taskBs[0].taskBId);
-				body.find("#taskName").val(data.taskBs[0].users.userName);
+				body.find("#taskName").val(data.users.userName);
 				body.find("#taskRemark").val(data.taskRemark);
 				body.find("#taskSuggestion").val(data.taskBs[0].taskSuggestion);
-				body.find("#userName").val(data.users.userName);
+				body.find("#userName").val(data.taskBs[0].users.userName);
 				if(data.taskBs[0].file!=null){
 					body.find("#taskb_filename").val(data.taskBs[0].file.fileName);
 					body.find("#taskb_filerename").val(data.taskBs[0].file.fileRename);

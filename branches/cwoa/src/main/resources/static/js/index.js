@@ -1,3 +1,6 @@
+
+
+
 layui.extend({
 	setter: "../../static/layui/config"
 
@@ -433,13 +436,7 @@ layui.extend({
         	  	}
         	  });
 
-            $.post(layui.setter.project+"/user/mytaskcount",
-                function(data,status){
-                   if(data>0){
-                       $("#badge").html(data);
-                       $("#badge").show();
-                   }
-                });
+
 		},
 		error:function(){
 			alert('登录超时!，请重新登录！');
