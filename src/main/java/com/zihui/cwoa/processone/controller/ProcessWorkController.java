@@ -60,16 +60,20 @@ public class ProcessWorkController {
         String roleName = (String) variables.get("userRole");
         variables.remove("userRole");
         Integer roleId=queryService.queryManagerIdByRoleName(roleName);
+        Integer upProjectId= Integer.parseInt(projectId);
         if (roleId<=2){
+            if (roleId==1){
+                upProjectId=41;
+            }
             if ("askforleave".equals(processKey)){
                 processKey="highAskForLeave";
             }else {
                 processKey="highAskForTravel";
             }
         }
-        List<sys_users> sys_users1 = user_service.userRoleQuery(roleId, Integer.parseInt(projectId));
+        List<sys_users> sys_users1 = user_service.userRoleQuery(roleId,upProjectId);
         String userCode1 = sys_users1.get(0).getUserCode();
-        List<sys_users> sys_users2 = user_service.userRoleQuery(2, Integer.parseInt(projectId));
+        List<sys_users> sys_users2 = user_service.userRoleQuery(2,Integer.parseInt(projectId));
         String userCode2 = sys_users2.get(0).getUserCode();
         variables.put("firstman", userCode1);
         variables.put("secondman", userCode2);
