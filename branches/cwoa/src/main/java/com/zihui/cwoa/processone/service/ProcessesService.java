@@ -9,6 +9,7 @@ import org.activiti.bpmn.model.Process;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricVariableInstance;
+import org.activiti.engine.history.HistoricVariableInstanceQuery;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -172,8 +173,15 @@ public class ProcessesService {
         int size = queryService.queryEndProCountByCode(userCode);
         for (HistoricProcessInstance ins:historicProcessInstanceList) {
             Map<String,Object> variables=new HashMap<>();
-            variables.put("processName",ins.getProcessDefinitionName());
-            variables.put("processInstanceId",ins.getId());
+            String processName=ins.getProcessDefinitionName();
+            String processInstanceId=ins.getId();
+            variables.put("processName",processName);
+            if("动态任务".equals(processName)){
+                String otherTalk = (String) historyService.createHistoricVariableInstanceQuery().
+                        processInstanceId(processInstanceId).variableName("otherTalk").singleResult().getValue();
+                variables.put("otherTalk",otherTalk);
+            }
+            variables.put("processInstanceId",processInstanceId);
             variables.put("startTime",ins.getStartTime());
             variables.put("endTime",ins.getEndTime());
             variables.put("deploymentId", ins.getDeploymentId());
