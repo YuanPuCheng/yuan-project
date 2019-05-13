@@ -119,7 +119,7 @@
 								});
 							} else if($(this).text() === "下载附件") {
 								var fName = $(this).attr("uid");
-								if(fName==='undefined') {
+								if(fName==='undefined' || fName==='') {
                                     layer.msg('该申请没有附件！');
 								} else {
                                     $.ajax({
