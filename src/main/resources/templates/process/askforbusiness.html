@@ -123,8 +123,13 @@
                         success: function(data) { //请求成功的回调
                             var proList=data;
                             var proListLen=proList.length;
+                            var userProject=$("#userProject",parent.document).attr("name");
                             for(var i=0;i<proListLen;i++){
-                                $("#project").append('<option value="'+proList[i].projectId+'">'+proList[i].projectName+'</option>');
+                                if(proList[i].projectName===userProject){
+                                    $("#project").append('<option value="'+proList[i].projectId+'" selected="">'+proList[i].projectName+'</option>');
+								}else {
+                                    $("#project").append('<option value="'+proList[i].projectId+'">'+proList[i].projectName+'</option>');
+								}
                             }
                             form.render('select');
                         },
@@ -138,8 +143,12 @@
 				$("#go").click(function() {
 					if(!click) {
 						click = true;
+                        var userCode=$("#userCode",parent.document).attr("name");
+                        if(userCode===null || userCode === "" || typeof userCode==='undefined') {
+                            layer.msg('系统错误,请退出后重新登陆！');
+                            return;
+                        }
 						var userRole=$("#userrole",parent.document).attr("name");
-						var userCode=$("#userCode",parent.document).attr("name");
 						var name = $('#uName').val();
 						var department = $('#department').val();
                         var project = $('#project option:selected').text();
@@ -155,10 +164,6 @@
                         var leavePlace = $('#leavePlace').val();
                         var arrivePlace = $('#arrivePlace').val();
 						var place=leavePlace+"--"+arrivePlace;
-                        if(userCode===null || userCode === "" || typeof userCode==='undefined') {
-                            layer.msg('系统错误,请退出后重新登陆！');
-                            return;
-                        }
 						if(isNaN(leavedays)) {
 							layer.msg('请选择正确的出差日期！');
 							click=false;
