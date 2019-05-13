@@ -112,7 +112,7 @@
 .news{
 	display: none;
 }
-#badge{
+.layui-nav .layui-badge, .layui-nav .layui-badge-dot{
 	position: relative;
     margin: -9px 1px 0;
 }

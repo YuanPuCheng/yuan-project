@@ -28,7 +28,16 @@ layui.extend({
 				var dds="";
 				if(data[i].menus!=null){
                     for(var j=0;j<data[i].menus.length;j++){
-                        dds+='<dd><a lay-href="'+layui.setter.project+data[i].menus[j].menuUrl+'">'+data[i].menus[j].menuName+'</a></dd>';
+                        if(data[i].menus[j].menus.length!=0){
+                            var menusName = "";
+                            for(var k=0;k<data[i].menus[j].menus.length;k++){
+                                menusName+=data[i].menus[j].menus[k].menuName+",";
+                            }
+                            console.log(menusName);
+                            dds+='<dd><a lay-href="'+layui.setter.project+data[i].menus[j].menuUrl+'?data='+menusName.substring(0,menusName.length-1)+'\">'+data[i].menus[j].menuName+'</a></dd>';
+                        }else{
+                            dds+='<dd><a lay-href="'+layui.setter.project+data[i].menus[j].menuUrl+'?data=\">'+data[i].menus[j].menuName+'</a></dd>';
+                        }
                         console.log(data[i].menus[j].menuUrl);
                     }
 
