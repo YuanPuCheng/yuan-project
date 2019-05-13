@@ -33,7 +33,7 @@
 			//<![CDATA[
 			var $;
             function downFile(fileNameArray) {
-                if(fileNameArray==='undefined') {
+                if(fileNameArray==='undefined' || fileNameArray==='') {
                     layer.msg("该申请没有附件!");
                 } else {
                     $.ajax({
