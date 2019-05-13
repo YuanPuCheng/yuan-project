@@ -222,9 +222,14 @@
                         success: function(data) { //请求成功的回调
 							var proList=data;
 							var proListLen=proList.length;
-							for(var i=0;i<proListLen;i++){
-							    $("#project").append('<option value="'+proList[i].projectId+'">'+proList[i].projectName+'</option>');
-							}
+                            var userProject=$("#userProject",parent.document).attr("name");
+                            for(var i=0;i<proListLen;i++){
+                                if(proList[i].projectName===userProject){
+                                    $("#project").append('<option value="'+proList[i].projectId+'" selected="">'+proList[i].projectName+'</option>');
+                                }else {
+                                    $("#project").append('<option value="'+proList[i].projectId+'">'+proList[i].projectName+'</option>');
+                                }
+                            }
                             form.render('select');
                         },
                         error: function() { //请求失败的回调
