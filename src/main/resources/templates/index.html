@@ -34,7 +34,7 @@
 			<ul class="layu-navlist" id="lay_animate2">
 				<li class="layui-nav-item" >
 					<a id="task" layadmin-event="message">消息<i class="layui-icon layui-icon-notice"></i>
-						<span id="badge" style="display: none" class="layui-badge"></span>
+						<span style="display: none" class="layui-badge badge"></span>
 					</a>
 				</li>
 				<li class="layui-nav-item" id="_user" >
@@ -132,11 +132,11 @@
         $.post(project+"/user/mytaskcount",
             function(data,status){
                 if(data>0){
-                    $("#badge").html(data);
-                    $("#badge").show();
+                    $(".badge").html(data);
+                    $(".badge").show();
                 }else{
-                    $("#badge").html("");
-                    $("#badge").hide();
+                    $(".badge").html("");
+                    $(".badge").hide();
                 }
             });
     }
