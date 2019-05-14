@@ -10,6 +10,7 @@ layui.extend({
 	$("#pass").attr("lay-href",layui.setter.project+"/sys/updatepass");
 	$("#logout").attr("href",layui.setter.project+"/sys/logoutuser");
 	$("#task").attr("lay-href",layui.setter.project+"/sys/mytask");
+    $("#iii").attr("lay-href",layui.setter.project+"/sys/syindex");
     $("#index1").attr("src",layui.setter.project+"/sys/syindex");
 	//目录ajax  post请求
 	$.ajax({
