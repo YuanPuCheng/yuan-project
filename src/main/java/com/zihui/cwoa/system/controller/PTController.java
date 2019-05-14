@@ -168,4 +168,10 @@ public class PTController {
     public String editmytask(){
         return "system/mytask/editmytask";
     }
+
+    //首页
+    @RequestMapping(value = "/syindex")
+    public String index1(){
+        return "home/index";
+    }
 }
