@@ -21,7 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sun.awt.SunHints;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -209,6 +212,53 @@ public class ProjectController {
         concurrentMap.put("code", 0);
         concurrentMap.put("msg", "成功");
         return concurrentMap;
+    }
+
+    @RequestMapping(value = "/projectEchars")
+    @ResponseBody
+    public Map echarsiIndex( ){
+        List list = new ArrayList();
+        List list1 = new ArrayList();
+        Map map1 = new HashMap();
+        Map map2 = new HashMap();
+        Map map3 = new HashMap();
+
+        Map map4 = new HashMap();
+        Map map5 = new HashMap();
+        Map map6 = new HashMap();
+        List<sys_project> projects =projectService.projectListToSelect();
+        int wwc=0;
+        int jxz=0;
+        int ywc=0;
+        for (sys_project project:projects){
+            if(project.getStatus()==1){
+                wwc++;
+            }else if(project.getStatus()==2){
+                jxz++;
+            }else if(project.getStatus()==3){
+                ywc++;
+            }
+        }
+        map1.put("name","未开始");
+        map1.put("value",wwc);
+        map2.put("name","进行中");
+        map2.put("value",jxz);
+        map3.put("name","已完成");
+        map3.put("value",ywc);
+        list.add(map1);
+        list.add(map2);
+        list.add(map3);
+
+        map4.put("name","未开始");
+        map5.put("name","进行中");
+        map6.put("name","已完成");
+        list1.add(map4);
+        list1.add(map5);
+        list1.add(map6);
+        Map m = new HashMap();
+        m.put("namevalue",list);
+        m.put("name",list1);
+        return m;
     }
 
 }
