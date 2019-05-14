@@ -28,9 +28,9 @@
 					</div>
 					<div class="layui-col-md6">
 						<div class="layui-card">
-							<div class="layui-card-header">待办事项</div>
+							<div class="layui-card-header">总项目数量进度汇总</div>
 							<div class="layui-card-body">
-
+								<div id="main" style="width: 500px;height:300px;"></div>
 							</div>
 						</div>
 					</div>
@@ -92,7 +92,12 @@
 
 	</body>
 	<script src="../../static/layui/layui.js"></script>
+	<script src="../../static/js/echarts.min.js"></script>
 	<script type="text/javascript">
-		
+        layui.config({
+            base: '../static/js/home/' //静态资源所在路径
+        }).use(['index'], function(){
+            var layer = layui.layer;
+        });
 	</script>
 </html>
