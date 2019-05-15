@@ -106,8 +106,10 @@
                             success: function(data) { //请求成功的回调
                                 if(data === 'true') {
                                     haveClick = false;
+                                    var cr=$(".layui-laypage-skip").find("input").val() ;//获取当前页码
                                     if(dataUrl==='/notice/insertNotice'){
                                         dataSize++;
+                                        cr=1;
 									}
                                     layer.msg('操作成功！', {
                                         icon: 1,
@@ -115,12 +117,13 @@
                                     }, function() {
                                         //知道了触发的事件
                                         layer.closeAll();
+
                                         table.reload('test', {
                                             where: { //设定异步数据接口的额外参数，任意设
                                                 "size": dataSize
                                             },
                                             page: {
-                                                curr: 1 //重新从第 1 页开始
+                                                curr: cr
                                             }
                                         });
                                     });
@@ -184,11 +187,11 @@
                                 }, {
                                     field: 'create_time',
                                     title: '创建时间',
-                                    width: 180,
                                     templet: "<div>{{layui.util.toDateString(d.create_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"
                                 }, {
                                     title: '操作',
-                                    toolbar: '#barDemo'
+                                    toolbar: '#barDemo',
+                                    width: 210
                                 }]
                             ],
                             page: true
@@ -254,7 +257,7 @@
                                                     "size": dataSize
                                                 },
                                                 page: {
-                                                    curr: 1 //重新从第 1 页开始
+                                                    curr: 1
                                                 }
                                             });
                                         });
@@ -322,12 +325,13 @@
 										}, function() {
 											//知道了触发的事件
                                             layer.closeAll();
+                                            var cr=$(".layui-laypage-skip").find("input").val() ;//获取当前页码
                                             table.reload('test', {
                                                 where: { //设定异步数据接口的额外参数，任意设
                                                     "size": dataSize
                                                 },
 												page: {
-                                                    curr: 1 //重新从第 1 页开始
+                                                    curr: cr
                                                 }
                                             });
 										});
