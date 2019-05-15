@@ -59,4 +59,8 @@
         sys_role tabletwo
         ON tableone.r_id=tabletwo.role_id ORDER BY role_level DESC
     </select>
+
+    <select id="queryMenuByParentId"  parameterType="String" resultType="String">
+        SELECT menu_name FROM sys_menu WHERE parent_id=#{arg0}
+    </select>
 </mapper>

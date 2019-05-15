@@ -66,9 +66,23 @@ public class HumanWorkController {
         return humanService.queryLeaveDetail(userCode,project,leaveYear,leaveMonth);
     }
 
+    /**
+     *  查询所有角色及该角色下的所有用户
+     *  @return json
+     */
     @RequestMapping("/queryRoleAllUser")
     @ResponseBody
     public Map<String,Object> queryRoleAllUser(){
         return humanService.queryRoleAllUser();
+    }
+
+    /**
+     *  根据父ID查询菜单名称数组
+     *  @return text
+     */
+    @RequestMapping("/queryMenuByParentId")
+    @ResponseBody
+    public List<String> queryMenuByParentId(String parentId){
+        return humanService.queryMenuByParentId(parentId);
     }
 }
