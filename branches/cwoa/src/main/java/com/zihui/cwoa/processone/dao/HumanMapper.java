@@ -32,4 +32,9 @@ public interface HumanMapper {
      *  查询所有角色及该角色下的所有用户
      */
     List<RoleAllUser> queryRoleAllUser();
+
+    /**
+     *  根据父ID查询菜单名称数组
+     */
+    List<String> queryMenuByParentId(String parentId);
 }

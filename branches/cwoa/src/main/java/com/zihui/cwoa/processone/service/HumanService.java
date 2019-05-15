@@ -74,4 +74,11 @@ public class HumanService {
         dataMap.put("msg", "未知错误");
         return dataMap;
     }
+
+    /**
+     *  根据父ID查询菜单名称数组
+     */
+    public List<String> queryMenuByParentId(String parentId){
+        return humanMapper.queryMenuByParentId(parentId);
+    }
 }
