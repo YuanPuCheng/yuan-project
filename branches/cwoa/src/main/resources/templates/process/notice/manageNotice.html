@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>公告管理</title>
+		<meta name="renderer" content="webkit" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+		<link rel="stylesheet" href="../../../static/css/reset.css" />
+		<link rel="stylesheet" href="../../../static/layui/css/layui.css" />
+		<style type="text/css">
+			html {
+				background-color: #ffffff;
+			}
+			
+			.w-e-toolbar {
+				flex-wrap: wrap;
+			}
+			
+			.chwstyle {
+				margin-left: 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend style="font-size: 30px;font-weight: 500;">公告管理</legend>
+		</fieldset>
+
+		<table class="layui-hide" id="test" lay-filter="test"></table>
+
+		<script type="text/html" id="toolbarDemo">
+			<div class="layui-btn-container">
+				<button class="layui-btn layui-btn-sm" lay-event="addNotice">发布公告</button>
+				<button class="layui-btn layui-btn-sm" lay-event="delManyNotice">批量删除</button>
+			</div>
+		</script>
+
+		<script type="text/html" id="barDemo">
+			<a class="layui-btn layui-btn-sm" lay-event="query">查看公告</a>
+			<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>
+			<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>
+		</script>
+
+		<script src="../../../static/layui/layui.js"></script>
+		<script type="text/javascript" src="../../../static/wangEditor/release/wangEditor.js"></script>
+
+		<script>
+            //<![CDATA[
+			var haveCreated=0;
+			var E;
+            var editor;
+			function createWang() {
+			    if (haveCreated===0){
+                    E = window.wangEditor;
+                    editor = new E('#div1');
+                    editor.customConfig.menus = [
+                        'head', // 标题
+                        'bold', // 粗体
+                        'fontSize', // 字号
+                        'fontName', // 字体
+                        'italic', // 斜体
+                        'underline', // 下划线
+                        'foreColor', // 文字颜色
+                        'backColor', // 背景颜色
+                        'link', // 插入链接
+                        'justify', // 对齐方式
+                        'undo', // 撤销
+                        'redo' // 重复
+                    ];
+                    haveCreated=1;
+				}
+                editor.create();
+            }
+			layui.use(['table', 'layer', 'form'], function() {
+				var table = layui.table;
+				var $ = layui.jquery;
+				var layer = layui.layer;
+                var form=layui.form;
+				var noticeId;
+                var haveClick = false;
+                var dataUrl='/notice/insertNotice';
+                $('#go').click(function() {
+                    var publicNotice = editor.txt.html();
+                    var noticeTitle = $('#noticeTitle').val();
+                    var isTop = $("input[type='radio']:checked").attr("value");
+                    if(noticeTitle === '') {
+                        layer.msg('公告名称不能为空！');
+                        return;
+                    }
+                    if(!haveClick) {
+                        haveClick = true;
+                        $.ajax({
+                            url: dataUrl,
+                            type: "get",
+                            data: {
+                                "title": noticeTitle,
+                                "isTop": isTop,
+                                "text": publicNotice,
+                                "id":noticeId
+                            },
+                            dataType: "text",
+                            success: function(data) { //请求成功的回调
+                                if(data === 'true') {
+                                    haveClick = false;
+                                    if(dataUrl==='/notice/insertNotice'){
+                                        dataSize++;
+									}
+                                    layer.msg('操作成功！', {
+                                        icon: 1,
+                                        btn: ['知道了']
+                                    }, function() {
+                                        //知道了触发的事件
+                                        layer.closeAll();
+                                        table.reload('test', {
+                                            where: { //设定异步数据接口的额外参数，任意设
+                                                "size": dataSize
+                                            },
+                                            page: {
+                                                curr: 1 //重新从第 1 页开始
+                                            }
+                                        });
+                                    });
+                                } else {
+                                    this.error();
+                                }
+                            },
+                            error: function() { //请求失败的回调
+                                layer.msg('发生了未知错误！', {
+                                    icon: 2
+                                });
+                                haveClick = false;
+                            }
+                        });
+                    }
+                });
+                $('#goNot').click(function() {
+                    layer.closeAll();
+                });
+				var dataSize=0;
+				var widthMax = "70%",
+					heightMax = "80%";
+				if($(window).width() < 768) {
+					widthMax = "99%";
+					heightMax = "85%";
+				}
+				$.ajax({
+					url: '/notice/countNotice',
+					data: {},
+					type: "get",
+					dataType: "text",
+					success: function(data) { //请求成功的回调
+						dataSize=data;
+                        table.render({
+                            elem: '#test',
+                            url: '/notice/queryNotice',
+                            toolbar: '#toolbarDemo',
+                            title: '公告列表',
+                            cellMinWidth: 180,
+                            where: {
+                                "size": dataSize
+                            },
+                            cols: [
+                                [{
+                                    type: 'checkbox',
+                                    fixed: 'left'
+                                }, {
+                                    type: 'numbers',
+                                    title: '序号'
+                                }, {
+                                    field: 'notice_name',
+                                    title: '公告名称'
+                                }, {
+                                    field: 'notice_isTop',
+                                    title: '是否置顶',
+                                    width: 120,
+                                    minWidth: 120,
+                                    templet: function(res) {
+                                        return res.notice_isTop === 1 ? '是' : '否'
+                                    }
+                                }, {
+                                    field: 'create_time',
+                                    title: '创建时间',
+                                    width: 180,
+                                    templet: "<div>{{layui.util.toDateString(d.create_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"
+                                }, {
+                                    title: '操作',
+                                    toolbar: '#barDemo'
+                                }]
+                            ],
+                            page: true
+                        });
+					},
+					error: function() { //请求失败的回调
+						layer.msg('发生了未知错误！', {
+							icon: 2
+						});
+					}
+				});
+
+				//头工具栏事件
+				table.on('toolbar(test)', function(obj) {
+					var checkStatus = table.checkStatus(obj.config.id);
+					switch(obj.event) {
+						case 'addNotice':
+                            $('#xTitle').text("新增公告");
+                            $('#noticeTitle').val("");
+                            $('#div1').html("");
+                            $('input:radio:last').prop('checked', 'true');
+                            form.render();
+                            dataUrl='/notice/insertNotice';
+							createWang();
+                            layer.open({
+                                type: 1,
+                                shadeClose: true,
+                                area: [widthMax, heightMax], //宽高
+                                content: $('#editBox')
+                            });
+							break;
+						case 'delManyNotice':
+							var selectLen = checkStatus.data.length;
+							if(selectLen===0){
+                                layer.msg('请至少选择一项后再删除！', {
+                                    icon: 2
+                                });
+                                return;
+							}
+                            var dataList=checkStatus.data;
+                            var idArray=[];
+							for (var i=0;i<selectLen;i++){
+							    idArray.push(dataList[i].notice_id);
+                            }
+                            $.ajax({
+                                url: "/notice/deleteManyNotice",
+                                type: "get",
+                                data: {
+                                    "idArray": idArray.toString()
+                                },
+                                dataType: "text", //预测服务端返回的数据类型
+                                success: function(data) { //请求成功的回调
+                                    if(data === 'true') {
+                                        dataSize=dataSize-selectLen;
+                                        layer.msg('删除成功！', {
+                                            icon: 1,
+                                            btn: ['知道了']
+                                        }, function() {
+                                            //知道了触发的事件
+                                            layer.closeAll();
+                                            table.reload('test', {
+                                                where: { //设定异步数据接口的额外参数，任意设
+                                                    "size": dataSize
+                                                },
+                                                page: {
+                                                    curr: 1 //重新从第 1 页开始
+                                                }
+                                            });
+                                        });
+                                    } else {
+                                        this.error();
+                                    }
+                                },
+                                error: function() { //请求失败的回调
+                                    layer.msg('发生了未知错误！', {
+                                        icon: 2
+                                    });
+                                }
+                            });
+							break;
+					}
+				});
+
+				//监听行工具事件
+				table.on('tool(test)', function(obj) {
+					var data = obj.data;
+					if(obj.event === 'query') {
+						var noticeText = data.notice_text;
+						layer.open({
+							type: 1,
+							shadeClose: true,
+							area: [widthMax, heightMax], //宽高
+							content: noticeText
+						});
+					} else if(obj.event === 'edit') {
+                        dataUrl='/notice/updateNotice';
+                        noticeId=data.notice_id;
+                        $('#xTitle').text("编辑公告");
+						$('#noticeTitle').val(data.notice_name);
+						$('#div1').html(data.notice_text);
+                        if (data.notice_isTop===1){
+                            $('input:radio:first').prop('checked', 'true');
+						}else {
+                            $('input:radio:last').prop('checked', 'true');
+						}
+                        form.render();
+                        createWang();
+						layer.open({
+							type: 1,
+							shadeClose: true,
+							area: [widthMax, heightMax], //宽高
+							content: $('#editBox')
+						});
+					} else if(obj.event === 'del') {
+						layer.confirm('确定要删除这条公告吗？', {
+							btn: ['确定', '再想想'] //按钮
+						}, function() {
+							$.ajax({
+								url: "/notice/deleteNotice",
+								type: "get",
+								data: {
+									"id": data.notice_id
+								},
+								dataType: "text", //预测服务端返回的数据类型
+								success: function(data) { //请求成功的回调
+									if(data === 'true') {
+									    dataSize--;
+										layer.msg('删除成功！', {
+											icon: 1,
+											btn: ['知道了']
+										}, function() {
+											//知道了触发的事件
+                                            layer.closeAll();
+                                            table.reload('test', {
+                                                where: { //设定异步数据接口的额外参数，任意设
+                                                    "size": dataSize
+                                                },
+												page: {
+                                                    curr: 1 //重新从第 1 页开始
+                                                }
+                                            });
+										});
+									} else {
+										this.error();
+									}
+								},
+								error: function() { //请求失败的回调
+									layer.msg('发生了未知错误！', {
+										icon: 2
+									});
+								}
+							});
+						});
+					}
+				});
+			});
+            //]]>
+		</script>
+
+	</body>
+	<div id="editBox" style="display: none">
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend style="font-size: 30px;font-weight: 500;" id="xTitle">编辑公告</legend>
+		</fieldset>
+		<form class="layui-form layui-form-pane" action="" style="margin-left: 5px;margin-right: 5px;" >
+			<div class="layui-form-item">
+				<label class="layui-form-label">公告名称</label>
+				<div class="layui-input-block">
+					<input type="text" name="title" autocomplete="off" placeholder="请输入公告名称..." class="layui-input" id="noticeTitle" />
+				</div>
+			</div>
+			<div class="layui-form-item" pane="">
+				<label class="layui-form-label">是否置顶</label>
+				<div class="layui-input-block">
+					<input type="radio" name="isTop" value="1" title="是" />
+					<input type="radio" name="isTop" value="0" title="否" />
+				</div>
+			</div>
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">&nbsp;&nbsp;&nbsp;公告内容</label>
+				<div class="layui-input-block">
+					<div id="div1"></div>
+				</div>
+			</div>
+		</form>
+		<button type="button" class="layui-btn layui-btn-lg chwstyle" id="go">确认</button>
+		<button type="button" class="layui-btn layui-btn-lg chwstyle" id="goNot">取消</button>
+	</div>
+
+</html>
