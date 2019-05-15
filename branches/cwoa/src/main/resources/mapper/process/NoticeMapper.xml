@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zihui.cwoa.processone.dao.NoticeMapper">
+
+  <insert id="insertNotice" parameterType="String" >
+    INSERT INTO sys_notice
+    (notice_name,notice_isTop,notice_text,create_time)
+    VALUES
+    (#{arg0},#{arg1},#{arg2},NOW())
+  </insert>
+
+  <select id="queryNotice" parameterType="Integer" resultType="Map">
+    SELECT notice_id,notice_name,notice_isTop,notice_text,create_time FROM sys_notice
+    ORDER BY notice_isTop DESC,create_time DESC
+    LIMIT #{arg0},#{arg1}
+  </select>
+
+  <select id="countNotice" resultType="Integer">
+    SELECT COUNT(*) FROM sys_notice
+  </select>
+
+  <select id="queryNoticeText" parameterType="String" resultType="String">
+    SELECT notice_text FROM sys_notice WHERE notice_id=#{arg0}
+  </select>
+
+  <delete id="deleteNotice" parameterType="String">
+    DELETE FROM sys_notice WHERE notice_id=#{arg0}
+  </delete>
+
+  <delete id="deleteManyNotice" parameterType="List">
+    DELETE FROM sys_notice WHERE notice_id IN
+    <foreach collection="array" open="(" separator="," close=")"  item="temp">
+      ${temp}
+    </foreach>
+  </delete>
+
+  <update id="updateNotice" parameterType="String">
+    UPDATE sys_notice SET notice_name=#{arg0},notice_isTop=#{arg1},notice_text=#{arg2}
+    WHERE notice_id=#{arg3}
+  </update>
+
+  <select id="queryNoticeById" parameterType="String" resultType="Map">
+    SELECT notice_name,notice_isTop,notice_text FROM sys_notice WHERE notice_id=#{arg0}
+  </select>
+</mapper>
