@@ -2,40 +2,7 @@ layui.extend({
 	setter: "../../../../static/layui/config"
 
 }).define(["setter", "jquery", 'form', 'laypage', 'table'], function(e) {
-    var urls = window.location.href;
-    var data = decodeURI(urls);
-    var arr = data.split("data=");
-    console.log(arr[1]);
-    var data={
-        add : '',
-        deletes:''
-    }
 
-    var result = {
-        del:'',
-        edit:''
-    }
-    if(arr[1]!=null){
-        var array = arr[1].split(',');
-        for(var i =0;i<array.length;i++){
-            switch (array[i]){
-                case ("添加"): data.add="添加";break;
-                case ("删除"): result.del="删除";break;
-                case ("编辑"): result.edit="编辑";break;
-                case ("批量删除"): data.deletes="批量删除";break;
-            }
-        }
-
-    }
-
-
-
-    laytpl($('#toolbarDemo').html()).render(data, function(html){
-        $('#toolbarDemo').html(html);
-    });
-    laytpl($('#barDemo').html()).render(result, function(html){
-        $('#barDemo').html(html);
-    });
 	var table = layui.table,
 		laypage = layui.laypage,
 		layer = layui.layer,
