@@ -9,7 +9,10 @@ layui.extend({
 
 	var data = {};
 	var dataArr = [];
-	var userID = 46;
+    var sessionData = sessionStorage.getItem('user');//取出数据
+    var user = JSON.parse(sessionData);
+    console.log(user.userId);
+	var userID = user.userId;
 	render(userID);
 
 	function render(userId) {
