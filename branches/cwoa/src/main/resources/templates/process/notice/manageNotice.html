@@ -12,6 +12,7 @@
 		<style type="text/css">
 			html {
 				background-color: #ffffff;
+				margin: 10px;
 			}
 			
 			.w-e-toolbar {
@@ -179,8 +180,8 @@
                                 }, {
                                     field: 'notice_isTop',
                                     title: '是否置顶',
-                                    width: 120,
-                                    minWidth: 120,
+                                    width: 100,
+                                    minWidth: 100,
                                     templet: function(res) {
                                         return res.notice_isTop === 1 ? '是' : '否'
                                     }
@@ -191,7 +192,7 @@
                                 }, {
                                     title: '操作',
                                     toolbar: '#barDemo',
-                                    width: 210
+                                    width: 220
                                 }]
                             ],
                             page: true
