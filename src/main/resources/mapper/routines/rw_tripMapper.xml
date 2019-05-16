@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zihui.cwoa.routine.dao.rw_tripMapper" >
+  <resultMap id="BaseResultMap" type="com.zihui.cwoa.routine.pojo.rw_trip" >
+    <id column="trip_id" property="tripId" jdbcType="INTEGER" />
+    <result column="trip_user_id" property="tripUserId" jdbcType="INTEGER" />
+    <result column="trip_content" property="tripContent" jdbcType="VARCHAR" />
+    <result column="trip_time" property="tripTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    trip_id, trip_user_id, trip_content, trip_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rw_trip
+    where trip_id = #{tripId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rw_trip
+    where trip_id = #{tripId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.zihui.cwoa.routine.pojo.rw_trip" >
+    insert into rw_trip
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tripId != null" >
+        trip_id,
+      </if>
+      <if test="tripUserId != null" >
+        trip_user_id,
+      </if>
+      <if test="tripContent != null" >
+        trip_content,
+      </if>
+      <if test="tripTime != null" >
+        trip_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tripId != null" >
+        #{tripId,jdbcType=INTEGER},
+      </if>
+      <if test="tripUserId != null" >
+        #{tripUserId,jdbcType=INTEGER},
+      </if>
+      <if test="tripContent != null" >
+        #{tripContent,jdbcType=VARCHAR},
+      </if>
+      <if test="tripTime != null" >
+        #{tripTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zihui.cwoa.routine.pojo.rw_trip" >
+    update rw_trip
+    <set >
+      <if test="tripUserId != null" >
+        trip_user_id = #{tripUserId,jdbcType=INTEGER},
+      </if>
+      <if test="tripContent != null" >
+        trip_content = #{tripContent,jdbcType=VARCHAR},
+      </if>
+      <if test="tripTime != null" >
+        trip_time = #{tripTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where trip_id = #{tripId,jdbcType=INTEGER}
+  </update>
+<select id="selectTripByUserId" resultMap="BaseResultMap">
+  SELECT * from rw_trip where trip_user_id = #{userId}
+</select>
+
+  <select id="selectTripByUserIdAndTime" resultMap="BaseResultMap">
+  SELECT * from rw_trip where trip_user_id = #{userId} and trip_time=#{tripTime}
+
+  </select>
+
+  <update id="updateTripByUserIdAndTime" parameterType="com.zihui.cwoa.routine.pojo.rw_trip">
+    update rw_trip set  trip_content = #{tripContent,jdbcType=VARCHAR}
+    where
+    trip_user_id = #{tripUserId} and trip_time=#{tripTime}
+  </update>
+  <delete id="deleteByUserIdAndTime" parameterType="com.zihui.cwoa.routine.pojo.rw_trip">
+    DELETE from rw_trip where trip_user_id = #{tripUserId} and trip_time=#{tripTime}
+
+  </delete>
+</mapper>
