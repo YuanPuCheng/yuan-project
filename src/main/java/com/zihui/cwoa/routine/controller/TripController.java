@@ -26,7 +26,10 @@ public class TripController {
 
     @Resource
     private rw_tripService tripService;
-
+    @RequestMapping(value = "/tripindex")
+    public String a(){
+        return "trip/trip";
+    }
 
     @RequestMapping(value = "/trip")
     @ResponseBody
