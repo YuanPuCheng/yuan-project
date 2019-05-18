@@ -1,7 +1,6 @@
 package com.zihui.cwoa.processone.service;
 
 import com.zihui.cwoa.processone.config.BpmnCreateUtil;
-import com.zihui.cwoa.system.pojo.sys_user;
 import com.zihui.cwoa.system.service.sys_userService;
 import org.activiti.bpmn.BpmnAutoLayout;
 import org.activiti.bpmn.model.BpmnModel;
@@ -444,7 +443,7 @@ public class ProcessesService {
     }
 
     public boolean rejectLiveTask(String processInstanceId, String reason,String taskId,String userCode){
-        String userName = userService.selectUserByLogin(userCode).getUserName();
+        String userName = userService.selectUserByCode(userCode).getUserName();
         String otherTalk = (String) runtimeService.getVariable(processInstanceId, "otherTalk");
         if (otherTalk==null){
             otherTalk="";
