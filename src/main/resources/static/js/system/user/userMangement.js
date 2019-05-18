@@ -297,7 +297,10 @@ layui.extend({
 						if(data.project != null) {
 							body.find("#projectId").val(data.project.projectId);
 						}
-                        body.find("#departmentId").val(data.department.departmentId);
+						if(data.department != null){
+                            body.find("#departmentId").val(data.department.departmentId);
+						}
+
 						body.find("#idNum").val(data.idNum);
 						body.find("#bankCardNum").val(data.bankCardNum);
 						body.find("input[name=status][value=" + data.status + "]").attr("checked", "checked");
