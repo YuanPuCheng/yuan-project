@@ -356,7 +356,7 @@
       and sys_user_role.role_id = #{roleId}
     </if>
     <if test="projectId != null and projectId !=''" >
-      and sys_user.projectId=#{projectId}
+      and sys_user.project_id=#{projectId}
     </if>
   </select>
   <!--查询用户详细信息-->
