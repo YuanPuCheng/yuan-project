@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>修改</title>
+    <link rel="stylesheet" type="text/css" href="../../../static/css/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../static/layui/css/layui.css"/>
+    <link href="../../../static/css/formSelects-v4.css" rel="stylesheet" />
+    <style type="text/css">
+        .layui-input, .layui-textarea{
+            padding: 0 10px;
+        }
+        .layui-form-label .layui-badge-dot{
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: red;
+            top: -6px;
+            right: 2px;
+        }
+        .layui-form .layui-btn{
+            margin: 0 30px;
+        }
+        .layui-layer-iframe .layui-layer-btn a{
+            text-align: left;
+            margin: 5px 30px 0;
+        }
+        .xm-select-tips{
+            display: none;
+        }
+        @media only screen and (min-width: 100px) and (max-width: 768px) {
+            .layui-form .layui-btn{
+                margin: 0 10px;
+            }
+            .layui-form #sub{
+                width: 80px;
+                margin-left: 100px;
+            }
+        }
+        #sub{
+            width: 100px;
+            margin-left: 160px;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form" action="javascript:;">
+    <div class="layui-form" style="padding: 20px 20px 20px 0;">
+        <div class="layui-form-item">
+            <lable class="layui-form-label">用户工号</lable>
+            <div class="layui-input-block">
+                <input type="text" disabled="disabled" name="" id="usercode"  class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <lable class="layui-form-label">用户名称</lable>
+            <div class="layui-input-block">
+                <input type="text" name="" disabled="disabled" id="username"  class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <lable class="layui-form-label">选择部门</lable>
+            <div class="layui-input-block">
+                <input type="text" disabled="disabled" name="department"  id="department" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <lable class="layui-form-label">选择项目</lable>
+            <div class="layui-input-block">
+                <input type="text" disabled="disabled" name="projects" id="project" class="layui-input" />
+
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <lable class="layui-form-label">选择角色</lable>
+            <div class="layui-input-block">
+                <input type="text" disabled="disabled" name="roles" id="roles" class="layui-input" />
+
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <lable class="layui-form-label">身份证号</lable>
+            <div class="layui-input-block">
+                <input disabled="disabled" type="text" name="" id="idNum" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <lable class="layui-form-label">邮箱地址</lable>
+            <div class="layui-input-block">
+                <input type="text" name="" disabled="disabled" id="email"  class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <lable class="layui-form-label">联系电话</lable>
+            <div class="layui-input-block">
+                <input type="text" name="" disabled="disabled" id="phone"  class="layui-input" />
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <lable class="layui-form-label">银行卡号</lable>
+            <div class="layui-input-block">
+                <input type="text" name="" disabled="disabled" id="bankCardNum" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <lable class="layui-form-label">状态</lable>
+            <div class="layui-input-block">
+                <input type="radio" name="status" value="0" title="正常" checked="checked" />
+                <input type="radio" name="status" value="1" title="禁用" />
+                <input type="hidden" id="userId" />
+                <input type="hidden" id="departmentId" />
+                <input type="hidden" id="projectId" />
+                <input type="hidden" id="roleId" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+
+                <button id="addqx" class="layui-btn">返回</button>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+<script src="../../../static/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../../static/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    layui.config({
+        base: '../../../static/js/system/user/' //静态资源所在路径
+    }).use(['detaileduser',"jquery"], function(){
+
+    });
+
+</script>
+</html>
