@@ -4,38 +4,28 @@ import com.zihui.cwoa.system.common.Basecommon;
 import com.zihui.cwoa.system.common.CallbackResult;
 import com.zihui.cwoa.system.common.Common;
 import com.zihui.cwoa.system.common.DateUtils;
-import com.zihui.cwoa.system.dao.sys_department_menuMapper;
-import com.zihui.cwoa.system.pojo.sys_department;
 import com.zihui.cwoa.system.pojo.sys_menu;
+import com.zihui.cwoa.system.pojo.sys_role;
 import com.zihui.cwoa.system.pojo.sys_user;
 import com.zihui.cwoa.system.service.sys_departmentService;
 import com.zihui.cwoa.system.service.sys_menuService;
+import com.zihui.cwoa.system.service.sys_roleService;
 import com.zihui.cwoa.system.service.sys_userService;
-import com.zihui.cwoa.system.service.sys_user_departmentService;
-import org.activiti.engine.impl.util.json.JSONObject;
 import org.apache.shiro.crypto.hash.SimpleHash;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.subject.Subject;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
@@ -48,16 +38,14 @@ public class loginController {
     @Resource
     private sys_userService user_service;
     @Resource
-    private sys_department_menuMapper department_menuMapper;
+    private sys_roleService roleService;
     @Resource
     private sys_departmentService departmentService;
     @Resource
     private sys_menuService menuService;
-    @Resource
-    private sys_user_departmentService user_departmentService;
 
-
-
+    public loginController() {
+    }
 
 
     @RequestMapping(value = "/cookie")
@@ -192,10 +180,8 @@ public class loginController {
     @ResponseBody
     public CallbackResult error(@RequestParam String usercode){
         CallbackResult result = new CallbackResult();
-        sys_user user = new sys_user();
-        user.setUserCode(usercode);
-        List<sys_user>   list =user_service.selectUserList(user);
-        if(list.size()!=0){
+        sys_user  user =user_service.selectUserByCode(usercode);
+        if(user!=null){
             result.setResult(400);
             result.setMessage("该用户名已存在");
         }else {
@@ -212,8 +198,8 @@ public class loginController {
         CallbackResult result = new CallbackResult();
         sys_user user = new sys_user();
         user.setEmail(email);
-        List<sys_user>   list =user_service.selectUserList(user);
-        if(list.size()!=0){
+        sys_user  u =user_service.selectByPrimaryKey(user);
+        if(u!=null){
             result.setResult(400);
             result.setMessage("该邮箱已被注册");
         }else {
@@ -237,12 +223,15 @@ public class loginController {
                 e.printStackTrace();
             }
         }else {
-            List<Integer> menuId=department_menuMapper.selectMenuIdByUserId(user.getUserId());
-
-            if(menuId.size()!=0){
-                List<sys_menu> m =menuService.selectMenuByMenuId(menuId);
-                list= Common.getmenu(m);
+            List<sys_role> roles = roleService.selcetRoleByUserId(user.getUserId());
+            List<Integer> roleId = new ArrayList<>();
+            for(sys_role r:roles){
+                roleId.add(r.getRoleId());
             }
+
+
+                List<sys_menu> m =menuService.selectMenuByRoleId(roleId);
+                list= Common.getmenu(m);
         }
 
 
@@ -273,16 +262,16 @@ public class loginController {
         sys_user user = new sys_user();
         user.setUserCode(usercode);
         user.setEmail(email);
-        List<sys_user> list = user_service.selectUserList(user);
-        if(list.size()==0){
+        sys_user u = user_service.selectByPrimaryKey(user);
+        if(u==null){
             result.setResult(400);
             result.setMessage("用户邮箱不正确");
             return result;
         }
-        sys_user userlist = list.get(0);
+
         Object md5password =  new SimpleHash("MD5", password, usercode);
         sys_user userupdate = new sys_user();
-        userupdate.setUserId(userlist.getUserId());
+        userupdate.setUserId(u.getUserId());
         userupdate.setUserPassword(md5password.toString());
         int count = user_service.updateByPrimaryKeySelective(userupdate);
         if(count==0){

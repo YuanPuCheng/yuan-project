@@ -44,9 +44,7 @@ public class MyShiroRealm extends AuthorizingRealm {
     @Resource
     private sys_menuService menuService;
     @Resource
-    private sys_department_menuService department_menuService;
-    @Resource
-    private sys_user_departmentService user_departmentService;
+    private sys_roleService roleService;
 
     @Resource
     private HttpServletRequest request;
@@ -55,28 +53,28 @@ public class MyShiroRealm extends AuthorizingRealm {
         //添加角色和权限
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         sys_user user =(sys_user)principalCollection.getPrimaryPrincipal();
-        Set departmentSet = new HashSet();
+        Set roleSet = new HashSet();
         Set menusSet = new HashSet();
-        List<Integer> b_id  = new ArrayList<>();
+        List<Integer> role_id  = new ArrayList<>();
 
 
         //查询用户包含角色
-        sys_user user1 =user_service.selectDepartmentToUser(user.getUserId());
-        for (sys_department p: user1.getDepartments()) {
-            departmentSet.add(p.getDepartmentCode());//添加部门编码
-            b_id.add(p.getDepartmentId());
+        List<sys_role> roles =roleService.selcetRoleByUserId(user.getUserId());
+        for (sys_role role: roles) {
+            roleSet.add(role.getRoleCode());//添加添加角色编码
+            role_id.add(role.getRoleId());//把角色id存入list
         }
         //查询用户的菜单，也就是权限
-        List<Integer> list =department_menuService.selectMenuIdByUserId(user.getUserId());
-        List<sys_menu> menu  =menuService.selectMenuByMenuId(list);
-        for(sys_menu u:menu){
+        List<sys_menu> menus = menuService.selectMenuByRoleId(role_id);
+
+        for(sys_menu u:menus){
             menusSet.add(u.getMenuCode());
         }
-        log.info("所属部门编码"+departmentSet.toString());
+        log.info("所属部门编码"+roleSet.toString());
         log.info("所属菜单权限编码"+menusSet.toString());
 
         //告诉Shiro用户拥有的角色与权限
-        simpleAuthorizationInfo.addRoles(departmentSet);
+        simpleAuthorizationInfo.addRoles(roleSet);
         simpleAuthorizationInfo.addStringPermissions(menusSet);
         return simpleAuthorizationInfo;
     }
@@ -94,7 +92,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         // 需要通过用户名取得用户的完整信息，利用业务层操作
         sys_user user = null;
         try {
-            user = user_service.selectUserByLogin(usercode);
+            user = user_service.selectUserByCode(usercode);
         } catch (Exception e) {
             e.printStackTrace();
         }

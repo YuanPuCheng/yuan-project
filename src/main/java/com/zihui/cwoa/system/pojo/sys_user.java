@@ -2,50 +2,34 @@ package com.zihui.cwoa.system.pojo;
 
 import java.util.List;
 
-/**
- *  用户表
- */
 public class sys_user {
+    private Integer userId;
 
-    private Integer userId;//用户id
+    private String userCode;
 
-    private String userCode;//用户工号  做登录用
+    private String userPassword;
 
-    private String userPassword;//用户密码
+    private Integer status;
 
-    private String salt;//盐 加密
+    private String userName;
 
-    private Integer status;//状态 0 正常 1注销
+    private String email;
 
-    private String userName;//用户名称
+    private String createTime;
 
-    private String email;//邮箱
+    private String errorCount;
 
-    private String createTime;//创建时间
+    private Integer departmentId;
 
-    private String errorCount;//登录失败次数
+    private String images;
 
-    private String roleId;//部门id
+    private String phone;
 
-    private String images;//头像路径
+    private String ts;
 
-    private String phone;//手机号
+    private String ip;
 
-    private String ts;//时间戳
-
-    private String ip;//登录ip
-
-    private String sex;//性别
-
-    private String age;//年龄
-
-    private String lastTime;//上次登录时间
-
-    private String loginTime;//登录时间
-
-    private String idNum; //身份证号
-
-    private String bankCardNum;//银行卡号
+    private Integer projectId;
 
     private String tempVar1;
 
@@ -53,17 +37,30 @@ public class sys_user {
 
     private String tempVar3;
 
-    private Integer tempInt1;// 项目表id
+    private Integer tempInt1;
 
     private Integer tempInt2;
 
     private Integer tempInt3;
 
-    private List<sys_department> departments;//部门集合
+    private String sex;
 
-    private sys_project project;//项目对象
+    private String age;
 
-    private sys_role role;//角色对象
+    private String lastTime;
+
+    private String loginTime;
+
+    private String bankCardNum;
+
+    private String idNum;
+
+    private sys_project project;
+
+    private List<sys_role> roles;
+
+    private sys_department department;
+
 
     public sys_project getProject() {
         return project;
@@ -73,12 +70,20 @@ public class sys_user {
         this.project = project;
     }
 
-    public List<sys_department> getDepartments() {
-        return departments;
+    public List<sys_role> getRoles() {
+        return roles;
     }
 
-    public void setDepartments(List<sys_department> departments) {
-        this.departments = departments;
+    public void setRoles(List<sys_role> roles) {
+        this.roles = roles;
+    }
+
+    public sys_department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(sys_department department) {
+        this.department = department;
     }
 
     public Integer getUserId() {
@@ -94,7 +99,7 @@ public class sys_user {
     }
 
     public void setUserCode(String userCode) {
-        this.userCode = userCode == null ? null : userCode.trim();
+        this.userCode = userCode;
     }
 
     public String getUserPassword() {
@@ -103,62 +108,6 @@ public class sys_user {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword == null ? null : userPassword.trim();
-    }
-
-    public String getIdNum() {
-        return idNum;
-    }
-
-    public void setIdNum(String idNum) {
-        this.idNum = idNum;
-    }
-
-    public String getBankCardNum() {
-        return bankCardNum;
-    }
-
-    public void setBankCardNum(String bankCardNum) {
-        this.bankCardNum = bankCardNum;
-    }
-
-    public String getLoginTime() {
-        return loginTime;
-    }
-
-    public void setLoginTime(String loginTime) {
-        this.loginTime = loginTime;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
-    }
-
-    public String getLastTime() {
-        return lastTime;
-    }
-
-    public void setLastTime(String lastTime) {
-        this.lastTime = lastTime;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt == null ? null : salt.trim();
     }
 
     public Integer getStatus() {
@@ -201,12 +150,12 @@ public class sys_user {
         this.errorCount = errorCount == null ? null : errorCount.trim();
     }
 
-    public String getRoleId() {
-        return roleId;
+    public Integer getDepartmentId() {
+        return departmentId;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
     }
 
     public String getImages() {
@@ -222,7 +171,7 @@ public class sys_user {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone = phone == null ? null : phone.trim();
     }
 
     public String getTs() {
@@ -239,6 +188,14 @@ public class sys_user {
 
     public void setIp(String ip) {
         this.ip = ip == null ? null : ip.trim();
+    }
+
+    public Integer getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
     }
 
     public String getTempVar1() {
@@ -289,13 +246,54 @@ public class sys_user {
         this.tempInt3 = tempInt3;
     }
 
-    public sys_role getRole() {
-        return role;
+    public String getSex() {
+        return sex;
     }
 
-    public void setRole(sys_role role) {
-        this.role = role;
+    public void setSex(String sex) {
+        this.sex = sex == null ? null : sex.trim();
     }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age == null ? null : age.trim();
+    }
+
+    public String getLastTime() {
+        return lastTime;
+    }
+
+    public void setLastTime(String lastTime) {
+        this.lastTime = lastTime == null ? null : lastTime.trim();
+    }
+
+    public String getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(String loginTime) {
+        this.loginTime = loginTime == null ? null : loginTime.trim();
+    }
+
+    public String getBankCardNum() {
+        return bankCardNum;
+    }
+
+    public void setBankCardNum(String bankCardNum) {
+        this.bankCardNum = bankCardNum == null ? null : bankCardNum.trim();
+    }
+
+    public String getIdNum() {
+        return idNum;
+    }
+
+    public void setIdNum(String idNum) {
+        this.idNum = idNum == null ? null : idNum.trim();
+    }
+
 
     @Override
     public String toString() {
@@ -303,32 +301,32 @@ public class sys_user {
                 "userId=" + userId +
                 ", userCode='" + userCode + '\'' +
                 ", userPassword='" + userPassword + '\'' +
-                ", salt='" + salt + '\'' +
                 ", status=" + status +
                 ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
                 ", createTime='" + createTime + '\'' +
                 ", errorCount='" + errorCount + '\'' +
-                ", roleId='" + roleId + '\'' +
+                ", departmentId=" + departmentId +
                 ", images='" + images + '\'' +
                 ", phone='" + phone + '\'' +
                 ", ts='" + ts + '\'' +
                 ", ip='" + ip + '\'' +
-                ", sex='" + sex + '\'' +
-                ", age='" + age + '\'' +
-                ", lastTime='" + lastTime + '\'' +
-                ", loginTime='" + loginTime + '\'' +
-                ", idNum='" + idNum + '\'' +
-                ", bankCardNum='" + bankCardNum + '\'' +
+                ", projectId=" + projectId +
                 ", tempVar1='" + tempVar1 + '\'' +
                 ", tempVar2='" + tempVar2 + '\'' +
                 ", tempVar3='" + tempVar3 + '\'' +
                 ", tempInt1=" + tempInt1 +
                 ", tempInt2=" + tempInt2 +
                 ", tempInt3=" + tempInt3 +
-                ", departments=" + departments +
+                ", sex='" + sex + '\'' +
+                ", age='" + age + '\'' +
+                ", lastTime='" + lastTime + '\'' +
+                ", loginTime='" + loginTime + '\'' +
+                ", bankCardNum='" + bankCardNum + '\'' +
+                ", idNum='" + idNum + '\'' +
                 ", project=" + project +
-                ", role=" + role +
+                ", roles=" + roles +
+                ", department=" + department +
                 '}';
     }
 }

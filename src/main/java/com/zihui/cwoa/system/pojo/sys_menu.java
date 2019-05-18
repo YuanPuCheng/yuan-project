@@ -2,26 +2,24 @@ package com.zihui.cwoa.system.pojo;
 
 import java.util.List;
 
-/**
- *  权限菜单表
- */
 public class sys_menu {
+    private Integer menuId;
 
-    private Integer menuId;//菜单id
+    private Integer parentId;
 
-    private Integer parentId;//上级菜单id
+    private String menuName;
 
-    private String menuName;//菜单名称
+    private Integer status;
 
-    private Integer status;//状态  0 正常 1 注销
+    private String menuCode;
 
-    private String menuCode;//菜单编码  shiro注解对应这里
+    private Integer menuType;
 
-    private Integer menuType;//菜单类型  1 虚拟功能，如系统管理 2 操作权限，如新增修改
+    private String menuUrl;
 
-    private String menuUrl;//菜单url
+    private String menuIcon;
 
-    private String ts;//时间戳
+    private String ts;
 
     private String tempVar1;
 
@@ -94,7 +92,15 @@ public class sys_menu {
     }
 
     public void setMenuUrl(String menuUrl) {
-        this.menuUrl = menuUrl;
+        this.menuUrl = menuUrl == null ? null : menuUrl.trim();
+    }
+
+    public String getMenuIcon() {
+        return menuIcon;
+    }
+
+    public void setMenuIcon(String menuIcon) {
+        this.menuIcon = menuIcon == null ? null : menuIcon.trim();
     }
 
     public String getTs() {
@@ -137,22 +143,23 @@ public class sys_menu {
         this.tempInt2 = tempInt2;
     }
 
-
     @Override
     public String toString() {
         return "sys_menu{" +
-                "menuId='" + menuId + '\'' +
-                ", parentId='" + parentId + '\'' +
+                "menuId=" + menuId +
+                ", parentId=" + parentId +
                 ", menuName='" + menuName + '\'' +
                 ", status=" + status +
                 ", menuCode='" + menuCode + '\'' +
                 ", menuType=" + menuType +
-                ", menuUrl=" + menuUrl +
+                ", menuUrl='" + menuUrl + '\'' +
+                ", menuIcon='" + menuIcon + '\'' +
                 ", ts='" + ts + '\'' +
                 ", tempVar1='" + tempVar1 + '\'' +
                 ", tempVar2='" + tempVar2 + '\'' +
                 ", tempInt1=" + tempInt1 +
                 ", tempInt2=" + tempInt2 +
+                ", menus=" + menus +
                 '}';
     }
 }

@@ -1,13 +1,11 @@
 package com.zihui.cwoa.system.dao;
 
 import com.zihui.cwoa.system.pojo.sys_menu;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-@Mapper
 public interface sys_menuMapper {
-
     int deleteByPrimaryKey(Integer menuId);
 
 
@@ -17,7 +15,10 @@ public interface sys_menuMapper {
 
     int updateByPrimaryKeySelective(sys_menu record);
 
-    List<sys_menu> selectMenuByMenuId(List<Integer> menuId);
+    List<sys_menu> selectMenuByRoleId(List<Integer> roleId);
 
-    List<sys_menu> selectMenuList(sys_menu record);
+    List<sys_menu> selectMenuList(sys_menu menu);
+
+    List<Integer>selectMenuIdByroleId(@Param("roleId")Integer roleId);
+
 }
