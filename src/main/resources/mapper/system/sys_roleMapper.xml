@@ -116,6 +116,7 @@
     <if test="roleId != null and roleId !=''" >
       and role_id  <![CDATA[ <> ]]> #{roleId}
     </if>
+    order by role_level desc
   </select>
 
   <select id="selectRoleByPage" resultMap="BaseResultMap">
@@ -130,7 +131,9 @@
 	sys_role r
   LEFT JOIN sys_role p
   ON r.role_parent_id = p.role_id
+   order by r.role_level desc
   limit #{page},#{limit}
+
   </select>
 
   <select id="selectRoleByPageCount" resultType="java.lang.Integer">
@@ -140,9 +143,12 @@
   <select id="selectRoleToUser" resultMap="BaseResultMap">
 
     SELECT
+    	sys_role.role_id,
+		sys_role.role_name,
+
         sys_user.user_name,
-		sys_user.user_id,
-		sys_role.role_name
+		sys_user.user_id
+
     FROM
     sys_role
     JOIN sys_user_role ON sys_role.role_id = sys_user_role.role_id
@@ -150,6 +156,7 @@
 		 Join sys_user on sys_user.user_id = sys_user_role.user_id
 		 where sys_user.user_id <![CDATA[ <> ]]> #{userId}
 		group by sys_user.user_name
+		ORDER by sys_role.role_level DESC
 
   </select>
 
