@@ -1,1 +1,1 @@
-var project = "http://192.168.1.4:8080";
+var project = "http://192.168.10.104:8080";
