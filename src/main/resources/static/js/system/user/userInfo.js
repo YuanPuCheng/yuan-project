@@ -26,9 +26,9 @@ layui.extend({
 			dataType: "json",
 			success: function(data) {
 				console.log(data);
-				var de = eval(data.departments);
+				var de = data.department;
 				var pr = data.project;
-				var ro = data.role;
+				var ro = data.roles;
 				var name="";
                 var pro="";
                 var rolename="";
@@ -36,13 +36,14 @@ layui.extend({
                     pro = pr.projectName;
 				}
 				if(de!=null){
-					$.each(de,function(index,value){
-						name=name+value.departmentName+"、"
-					})
-					name = name.substring(0,name.length-1);
+                    name = de.departmentName;
 				}
 				if(ro!=null){
-                    rolename =ro.roleName;
+                    $.each(ro,function(index,value){
+                        rolename=rolename+value.roleName+"、"
+                    })
+                    rolename = rolename.substring(0,rolename.length-1);
+
 				}
 
 				
