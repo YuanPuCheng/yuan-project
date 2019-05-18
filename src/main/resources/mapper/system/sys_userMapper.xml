@@ -78,10 +78,10 @@
     <if test="userId != null and userId !=''" >
      and user_id = #{userId,jdbcType=INTEGER}
     </if>
-    <if test="userCode != null and" >
+    <if test="userCode != null and userCode !=''" >
      and user_code = #{userCode,jdbcType=INTEGER}
     </if>
-    <if test="email != null and" >
+    <if test="email != null and email !=''" >
       and email = #{email,jdbcType=INTEGER}
     </if>
 
