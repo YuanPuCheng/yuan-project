@@ -295,10 +295,10 @@ layui.extend({
 						body.find("#roleId").val(id);
 
 						if(data.project != null) {
-							body.find("#projectId").val(data.project.projectName);
+							body.find("#projectId").val(data.project.projectId);
 						}
 						if(data.department != null){
-                            body.find("#departmentId").val(data.department.departmentName);
+                            body.find("#departmentId").val(data.department.departmentId);
 						}
 
 						body.find("#idNum").val(data.idNum);
@@ -346,10 +346,10 @@ layui.extend({
 
 
                         if(data.project != null) {
-                            body.find("#project").val(data.project.projectId);
+                            body.find("#project").val(data.project.projectName);
                         }
                         if(data.department != null){
-                            body.find("#department").val(data.department.departmentId);
+                            body.find("#department").val(data.department.departmentName);
                         }
 
                         body.find("#idNum").val(data.idNum);
