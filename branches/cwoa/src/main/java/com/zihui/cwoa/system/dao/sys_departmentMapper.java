@@ -1,13 +1,10 @@
 package com.zihui.cwoa.system.dao;
 
 import com.zihui.cwoa.system.pojo.sys_department;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
-@Mapper
 public interface sys_departmentMapper {
     int deleteByPrimaryKey(Integer departmentId);
 
@@ -17,16 +14,10 @@ public interface sys_departmentMapper {
 
     int updateByPrimaryKeySelective(sys_department record);
 
-    List<sys_department> selectDepartmentById(List<Integer> departmentId);
+    List<sys_department> selectByListSelect();
 
-    List<sys_department> selectDepartment(Integer userId);
+    List<sys_department> selectDeperByPage(@Param("departmentName")String departmentName,@Param("page")Integer page
+    ,@Param("limit")Integer limit);
 
-    List<sys_department> selectMenu(List<Integer> departmentId);
-
-    List<sys_department> selectDpeartmentListPage(Map map);
-    List<sys_department> selectDpeartmentList(sys_department record);
-
-
-   Integer selectDpeartmentCount(@Param("departmentName") String departmentName);
-
+    Integer selectDeperByPageCount(@Param("departmentName")String departmentName);
 }

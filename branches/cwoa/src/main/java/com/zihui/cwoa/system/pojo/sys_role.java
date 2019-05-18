@@ -9,13 +9,23 @@ public class sys_role {
 
     private Integer roleLevel;
 
+    private String roleCode;
+
     private Integer roleParentId;
 
     private sys_role parentRole;
 
-
     private List<sys_users> users;
 
+    private List<sys_menu> menus;
+
+    public List<sys_menu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<sys_menu> menus) {
+        this.menus = menus;
+    }
 
     public sys_role getParentRole() {
         return parentRole;
@@ -23,14 +33,6 @@ public class sys_role {
 
     public void setParentRole(sys_role parentRole) {
         this.parentRole = parentRole;
-    }
-
-    public Integer getRoleParentId() {
-        return roleParentId;
-    }
-
-    public void setRoleParentId(Integer roleParentId) {
-        this.roleParentId = roleParentId;
     }
 
     public List<sys_users> getUsers() {
@@ -65,15 +67,19 @@ public class sys_role {
         this.roleLevel = roleLevel;
     }
 
-    @Override
-    public String toString() {
-        return "sys_role{" +
-                "roleId=" + roleId +
-                ", roleName='" + roleName + '\'' +
-                ", roleLevel=" + roleLevel +
-                ", roleParentId=" + roleParentId +
-                ", parentRole=" + parentRole +
-                ", users=" + users +
-                '}';
+    public String getRoleCode() {
+        return roleCode;
+    }
+
+    public void setRoleCode(String roleCode) {
+        this.roleCode = roleCode == null ? null : roleCode.trim();
+    }
+
+    public Integer getRoleParentId() {
+        return roleParentId;
+    }
+
+    public void setRoleParentId(Integer roleParentId) {
+        this.roleParentId = roleParentId;
     }
 }

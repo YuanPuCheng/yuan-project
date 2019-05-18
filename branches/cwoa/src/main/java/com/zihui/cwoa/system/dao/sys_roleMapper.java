@@ -1,12 +1,10 @@
 package com.zihui.cwoa.system.dao;
 
 import com.zihui.cwoa.system.pojo.sys_role;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-@Mapper
 public interface sys_roleMapper {
     int deleteByPrimaryKey(Integer roleId);
 
@@ -17,12 +15,14 @@ public interface sys_roleMapper {
 
     int updateByPrimaryKeySelective(sys_role record);
 
-    List<sys_role> selectRoleList(@Param("page") Integer page, @Param("limit")Integer limit);
 
-    Integer selectRoleListCount();
+    List<sys_role> selcetRoleByUserId(Integer userId);
 
-    List<sys_role> selectRolebySelect(@Param("roleId") Integer roleId);
+    List<sys_role> selectRolebySelect(@Param("roleId")Integer roleId);
 
-    List<sys_role>selectRoleToUser(@Param("userId") Integer userId);
+    List<sys_role> selectRoleByPage(@Param("page")Integer page,@Param("limit") Integer limit);
 
+    Integer selectRoleByPageCount();
+
+    List<sys_role> selectRoleToUser(@Param("userId")Integer userId);
 }

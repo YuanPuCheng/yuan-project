@@ -1,42 +1,31 @@
 package com.zihui.cwoa.system.dao;
 
-import com.zihui.cwoa.system.pojo.sys_department;
 import com.zihui.cwoa.system.pojo.sys_user;
 import com.zihui.cwoa.system.pojo.sys_users;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.omg.PortableInterceptor.INACTIVE;
 
 import java.util.List;
 
-@Mapper
 public interface sys_userMapper {
-
-
-
     int deleteByPrimaryKey(Integer userId);
 
     int insertSelective(sys_user record);
 
-    sys_user selectByPrimaryKey(Integer userId);
+    sys_user selectByPrimaryKey(sys_user key);
 
     int updateByPrimaryKeySelective(sys_user record);
 
-    sys_user selectUserByLogin(String usercode);
+    sys_user selectUserByCode(String userCode);
 
-    sys_user selectDepartmentToUser(Integer userId);
+    List<sys_users> userRoleQuery(@Param("roleId")Integer roleId, @Param("projectId")Integer projectId);
 
-    List<sys_user> selectUserList(sys_user record);
+    sys_user selectUserInfo(Integer userId);
 
-    List<sys_user> selectUserDepar(@Param("user")sys_user record, @Param("page")Integer page,@Param("limit")Integer limit);
+    List<sys_user> selectUserByPage(@Param("user")sys_user user,@Param("page")Integer page,@Param("limit")Integer limit);
 
-    Integer selectUserCount(@Param("user")sys_user record);
+    Integer selectUserByPageCount(sys_user user);
 
-    int deleteByUserCode(String userCode);
-
-    List<sys_user> selectGetUser ();
-
-    List<sys_user> selectUserAndProject();
-
-    List<sys_users> userRoleQuery(@Param("roleId")Integer roleId,@Param("projectId")Integer projectId);
+    List<sys_users> selectUserAndProject();
 
 }

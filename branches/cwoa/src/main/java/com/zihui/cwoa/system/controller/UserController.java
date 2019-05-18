@@ -3,7 +3,7 @@ package com.zihui.cwoa.system.controller;
 import com.zihui.cwoa.system.common.Basecommon;
 import com.zihui.cwoa.system.common.CallbackResult;
 import com.zihui.cwoa.system.common.DateUtils;
-import com.zihui.cwoa.system.dao.sys_department_menuMapper;
+import com.zihui.cwoa.system.dao.sys_role_menuMapper;
 import com.zihui.cwoa.system.pojo.sys_user;
 import com.zihui.cwoa.system.pojo.sys_users;
 import com.zihui.cwoa.system.service.*;
@@ -29,14 +29,13 @@ public class UserController {
 
     @Resource
     private sys_userService user_service;
-    @Resource
-    private sys_department_menuMapper department_menuMapper;
-    @Resource
-    private sys_departmentService departmentService;
+
     @Resource
     private sys_taskSerivce taskService;
+
     @Resource
-    private sys_user_departmentService user_departmentService;
+    private sys_user_roleService userRoleService;
+
     /**
      *  根据条件查询用户列表
      */
@@ -88,7 +87,7 @@ public class UserController {
                 e.printStackTrace();
             }
         }else{
-            u= user_service.selectDepartmentToUser(user.getUserId());
+            u= user_service.selectUserInfo(user.getUserId());
         }
 
        return u;
@@ -99,20 +98,20 @@ public class UserController {
      */
     @RequestMapping(value = "/getprouser")
     @ResponseBody
-    public List<sys_user> getprouser(){
-        List<sys_user> list = user_service.selectUserAndProject();
+    public List<sys_users> getprouser(){
+        List<sys_users> list = user_service.selectUserAndProject();
         return list;
     }
     /**
      *  根据条件查询用户列表
      */
-    @RequestMapping(value = "/getuser")
+    /*@RequestMapping(value = "/getuser")
     @ResponseBody
     public List<sys_user> selectGetUser(sys_user user){
         List<sys_user> list = user_service.selectGetUser();
 
         return list;
-    }
+    }*/
 
     /**
      *  根据条件查询用户列表分页
@@ -127,10 +126,11 @@ public class UserController {
         }else{
             page = (page-1)*limit;
         }
-        List<sys_user> list = user_service.selectUserDepar(user,page,limit);
+        log.info(user.toString());
+        List<sys_user> list = user_service.selectUserByPage(user,page,limit);
 
 
-        Integer count = user_service.selectUserCount(user);
+        Integer count = user_service.selectUserByPageCount(user);
 
         concurrentMap.put("count", count);
         concurrentMap.put("data", list);
@@ -263,9 +263,9 @@ public class UserController {
     @ResponseBody
     public CallbackResult add(sys_user user){
         CallbackResult result = new CallbackResult();
-        String depar = user.getTempVar2();
+        String depar = user.getTempVar1();//得到多选部门
         log.info(user.toString());
-        user.setTempVar2(null);
+        user.setTempVar1(null);
         user.setCreateTime(DateUtils.getDate());
         Object md5password =  new SimpleHash("MD5", user.getUserPassword(), user.getUserCode());
         user.setUserPassword(md5password.toString());
@@ -275,7 +275,7 @@ public class UserController {
         if(!Basecommon.isNullStr(depar)) {
          String depars []=   depar.split(",");
             for (String a:depars){
-                user_departmentService.insertUserDepar(user.getUserId(), Integer.parseInt(a));
+                userRoleService.insertUserAndRole(user.getUserId(), Integer.parseInt(a));
             }
         }
         result.setResult(200);
@@ -328,7 +328,7 @@ public class UserController {
         if(de.size()!=0){
             for(String del:de){
                 if(!Basecommon.isNullStr(del)){
-                    user_departmentService.deleteUserDepar(user.getUserId(),Integer.parseInt(del));
+                    userRoleService.deleteUserRole(user.getUserId(),Integer.parseInt(del));
                 }
 
             }
@@ -336,7 +336,7 @@ public class UserController {
         if(!Basecommon.isEmpty(in)) {
             for (String ins : in) {
                 if(!Basecommon.isNullStr(ins)){
-                    user_departmentService.insertUserDepar(user.getUserId(), Integer.parseInt(ins));
+                    userRoleService.insertUserAndRole(user.getUserId(), Integer.parseInt(ins));
                 }
 
             }
@@ -345,6 +345,21 @@ public class UserController {
         result.setMessage("修改成功");
         return result;
 
+    }
+
+    @RequestMapping(value = "/test")
+    @ResponseBody
+    public List test(){
+        List list = new ArrayList();
+        Map map1 = new HashMap();
+        map1.put("time","2019-05-13");
+        map1.put("value","测试");
+        Map map2 = new HashMap();
+        map2.put("time","2019-05-15");
+        map2.put("value","数据");
+        list.add(map1);
+        list.add(map2);
+        return list;
     }
 
     public static void main(String[] args) {

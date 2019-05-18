@@ -3,12 +3,10 @@ package com.zihui.cwoa.system.controller;
 
 import com.zihui.cwoa.system.common.CallbackResult;
 import com.zihui.cwoa.system.common.DateUtils;
-import com.zihui.cwoa.system.pojo.sys_department;
 import com.zihui.cwoa.system.pojo.sys_menu;
 import com.zihui.cwoa.system.service.sys_departmentService;
-import com.zihui.cwoa.system.service.sys_department_menuService;
 import com.zihui.cwoa.system.service.sys_menuService;
-import jdk.nashorn.internal.codegen.CompilerConstants;
+import com.zihui.cwoa.system.service.sys_role_menuService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -32,7 +28,7 @@ public class MenuController {
     @Resource
     private sys_departmentService departmentService;
     @Resource
-    private sys_department_menuService department_menuService;
+    private sys_role_menuService roleMenuService;
     @Resource
     private sys_menuService menuService;
 
@@ -121,9 +117,8 @@ public class MenuController {
 
     @RequestMapping(value = "getmenu")
     @ResponseBody
-    public List<sys_menu> getmenu(sys_department department){
-        ConcurrentMap concurrentMap = new ConcurrentHashMap();
-        List<Integer> menuid = department_menuService.selectMenuIdByUserId(13);
+    public List<sys_menu> getmenu(){
+
         List<sys_menu> menu = menuService.selectMenuList(new sys_menu());
 
         return menu;

@@ -1,28 +1,15 @@
 package com.zihui.cwoa.system.pojo;
 
-import java.util.List;
-
 public class sys_department {
+    private Integer departmentId;
 
-    private Integer departmentId;//部门id
+    private String departmentName;
 
-    private String departmentName;//部门名称
+    private String departmentCode;
 
-    private String departmentCode;//部门编码
+    private Integer status;
 
-    private Integer status;//状态 0 正常 1 注销
-
-    private String ts;//时间戳 每次更新修改成当前时间
-
-    private List<sys_menu> menus;
-
-    public List<sys_menu> getMenus() {
-        return menus;
-    }
-
-    public void setMenus(List<sys_menu> menus) {
-        this.menus = menus;
-    }
+    private String ts;
 
     public Integer getDepartmentId() {
         return departmentId;
@@ -62,20 +49,5 @@ public class sys_department {
 
     public void setTs(String ts) {
         this.ts = ts == null ? null : ts.trim();
-    }
-
-
-
-
-
-    @Override
-    public String toString() {
-        return "sys_department{" +
-                "departmentId='" + departmentId + '\'' +
-                ", departmentName='" + departmentName + '\'' +
-                ", departmentCode='" + departmentCode + '\'' +
-                ", status=" + status +
-                ", ts='" + ts + '\'' +
-                '}';
     }
 }
