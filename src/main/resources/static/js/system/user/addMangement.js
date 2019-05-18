@@ -19,11 +19,12 @@ layui.extend({
 	//多选
 
 	layui.formSelects.config('select1', {
-		keyName: 'departmentName', //自定义返回数据中name的key, 默认 name
-		keyVal: 'departmentId',
+		keyName: 'roleName', //自定义返回数据中name的key, 默认 name
+		keyVal: 'roleId',
 		beforeSuccess: function(id, url, searchVal, result) {
 			//我要把数据外层的code, msg, data去掉
-			result = result.data;
+			console.log(result);
+			result = result;
 
 			//然后返回数据
 			return result;
@@ -36,7 +37,7 @@ layui.extend({
 			console.log(result); //返回的结果
 		}
 	}).data('select1', 'server', {
-		url: layui.setter.project + '/department/getdepartment'
+		url: layui.setter.project + '/role/roleselect'
 	});
 
 	//项目下拉框加载
@@ -57,20 +58,19 @@ layui.extend({
 			form.render('select');
 		}
 	});
-    //角色下拉框加载
-    $.get(layui.setter.project + '/role/roleselect', {}, function(data) {
+    //部门下拉框加载
+    $.get(layui.setter.project + '/department/getdepartment', {}, function(data) {
         var $html = "<option  value=''>全部</option>";
         if(data != null) {
             $.each(data, function(index, item) {
                 if(item.proType) {
                     $html += "<option class='generate' value=''>全部</option>";
                 } else {
-                    $html += "<option value='" + item.roleId + "'>" + item.roleName + "</option>";
+                    $html += "<option value='" + item.departmentId + "'>" + item.departmentName + "</option>";
                 }
             });
-            $("select[name='roles']").append($html);
-            //反选
-            $("select[name='roles']").val($("#roles").val());
+            $("select[name='department']").append($html);
+
             //append后必须从新渲染
             form.render('select');
         }
@@ -81,9 +81,9 @@ layui.extend({
 		var username = $("#username").val();
 		var email = $("#email").val();
 		var phone = $("#phone").val();
-		var departments = formSelects.value('select1', 'valStr');
-		var projects = $("#project").val();
-        var roleId = $("#roles").val();
+		var roleId = formSelects.value('select1', 'valStr');
+		var projectId = $("#project").val();
+        var departmentId = $("#department").val();
 		var idNum = $('#idNum').val();
 		var bankCardNum = $('#bankCardNum').val();
 		var state = $('input[name="state"]:checked').val();
@@ -97,12 +97,12 @@ layui.extend({
 			data: {
 				"userCode": usercode,
 				"userName": username,
-				"userPassword": "A!123456",
+				"userPassword": "123456",
 				"email": email,
 				"phone": phone,
-				"tempVar2": departments,
-                "roleId": roleId,
-				"tempInt1": projects,
+				"departmentId": departmentId,
+                "tempVar1": roleId,
+				"projectId": projectId,
 				"idNum": idNum,
 				"bankCardNum": bankCardNum,
 				"status": state,

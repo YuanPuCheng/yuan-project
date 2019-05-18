@@ -14,22 +14,22 @@ layui.extend({
 	
 	
 	  
-	var departmentIds = $("#departmentId").val();
-	let arr = JSON.parse('[' + departmentIds + ']');//字符数组转int 数组
+	var roleIds = $("#roleId").val();
+	let arr = JSON.parse('[' + roleIds + ']');//字符数组转int 数组
 	setTimeout(function(){
 		 $("select[name='projects']").val($("#projectId").val());
-        $("select[name='roles']").val($("#roleId").val());
+        //$("select[name='department']").val($("#departmentId").val());
 		form.render('select');
 		formSelects.value('select1',arr, true);
 	},200);
 
 	//多选
 		layui.formSelects.config('select1', {
-			keyName: 'departmentName',            //自定义返回数据中name的key, 默认 name
-			keyVal: 'departmentId',
+			keyName: 'roleName',            //自定义返回数据中name的key, 默认 name
+			keyVal: 'roleId',
 			beforeSuccess: function(id, url, searchVal, result) {
 				//我要把数据外层的code, msg, data去掉
-				result = result.data;
+				result = result;
 				//然后返回数据
 				return result;
 			},success: function(id, url, searchVal, result){
@@ -40,7 +40,7 @@ layui.extend({
                 console.log(result);    //返回的结果
             }
 		}).data('select1', 'server', {
-			url: layui.setter.project+'/department/getdepartment'
+			url: layui.setter.project+'//role/roleselect'
 		});
 		a.on('click', "#addqx", function(o) {
 				parent.layer.close(index);
@@ -64,20 +64,20 @@ layui.extend({
                 form.render('select');
             }
 		});
-    //角色下拉框加载
-    $.get(layui.setter.project + '/role/roleselect', {}, function(data) {
+    //部门下拉框加载
+    $.get(layui.setter.project + '/department/getdepartment', {}, function(data) {
         var $html = "<option  value=''>全部</option>";
         if(data != null) {
             $.each(data, function(index, item) {
                 if(item.proType) {
                     $html += "<option class='generate' value=''>全部</option>";
                 } else {
-                    $html += "<option value='" + item.roleId + "'>" + item.roleName + "</option>";
+                    $html += "<option value='" + item.departmentId + "'>" + item.departmentName + "</option>";
                 }
             });
-            $("select[name='roles']").append($html);
+            $("select[name='department']").append($html);
             //反选
-            $("select[name='roles']").val($("#roles").val());
+            $("select[name='department']").val($("#departmentId").val());
             //append后必须从新渲染
             form.render('select');
         }
@@ -90,10 +90,10 @@ layui.extend({
 					var username = $("#username").val();
 					var email = $("#email").val();
 					var phone = $("#phone").val();
-					var departments =formSelects.value('select1', 'valStr');
-					var dep = departmentIds;
-                	var roleId = $("#roles").val();
-					var projects = $("#project").val();
+					var roles =formSelects.value('select1', 'valStr');
+					var dep = roleIds;
+                	var departmentId = $("#department").val();
+					var projectId = $("#project").val();
 					var idNum = $('#idNum').val();
 					var bankCardNum = $('#bankCardNum').val();
 					var state = $('input[name="state"]:checked').val();
@@ -110,10 +110,10 @@ layui.extend({
 							"userName": username,
 							"email": email,
 							"phone": phone,
-							"roleId":roleId,
+							"tempVar2":roles,
 							"tempVar3":dep,
-							"tempVar2": departments,
-							"tempInt1": projects,
+							"departmentId": departmentId,
+							"projectId": projectId,
 							"idNum": idNum,
 							"bankCardNum": bankCardNum,
 							"status": state,

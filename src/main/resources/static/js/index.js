@@ -26,7 +26,7 @@ layui.extend({
 			for(var i=0;i<data.length;i++){
 				var lis=$('<li>');
 				lis.attr('class','layui-nav-item');
-				var als='<a href="javascript:;"><i class="layui-icon '+data[i].tempVar1+'"></i><cite>'+data[i].menuName+'</cite><span class="layui-nav-more"></span></a>';
+				var als='<a href="javascript:;"><i class="layui-icon '+data[i].menuIcon+'"></i><cite>'+data[i].menuName+'</cite><span class="layui-nav-more"></span></a>';
 				var dds="";
 				if(data[i].menus!=null){
                     for(var j=0;j<data[i].menus.length;j++){
@@ -417,28 +417,29 @@ layui.extend({
         	  		var departmentsName="";
         	  		var departmentsId="";
         	  		var project ="";
-        	  		var role ="";
-        	  		if(data.role!=null){
-                        role =data.role.roleName;
+        	  		var roleName ="";
+                    var roleId ="";
+        	  		if(data.department!=null){
+                        departmentsName =data.department.departmentName;
                     }
         	  		if(data.project!=null){
                         project = data.project.projectName;
                     }
-        	  		for(var i=0;i<data.departments.length;i++){
-        	  			departmentsName=departmentsName+data.departments[i].departmentName+"、";
-        	  			departmentsId=departmentsId+data.departments[i].departmentId+"、";
+        	  		for(var i=0;i<data.roles.length;i++){
+                        roleName=data.roles[i].roleName+"、";
+                        roleId=data.roles[i].roleId+"、";
+                        roleName=roleName.substring(0,roleName.length-1);
+                        roleId=roleId.substring(0,roleId.length-1);
         	  		}
-        	  		departmentsName=departmentsName.substring(0,departmentsName.length-1);
-        	  		departmentsId=departmentsId.substring(0,departmentsId.length-1);
+
         	  		tst='<span id="userCode" name="'+  data.userCode  +'" title="工号"></span>'+
         	  		'<span id="userId" name="'+  data.userId  +'" title="ID"></span>'+
 						'<span id="userName" name="'+  data.userName  +'" title="姓名"></span>'+
 						'<span id="email" name="'+  data.email  +'" title="邮箱"></span>'+
 						'<span id="sex" name="'+  data.sex  +'" title="性别"></span>'+
-						'<span id="userDepartmentId" name="'+  departmentsId  +'" title="部门ID"></span>'+
 						'<span id="userDepartmentName" name="'+  departmentsName  +'" title="部门名称"></span>'+
 						'<span id="userProject" name="'+ project   +'" title="项目"></span>'+
-						'<span id="userrole" name="'+  role  +'" title="角色"></span>';
+						'<span id="userrole" name="'+  roleName  +'" title="角色名称"></span>';
         				$('.news').append(tst);
         			
         	  	},
