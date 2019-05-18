@@ -3,635 +3,450 @@
 <mapper namespace="com.zihui.cwoa.system.dao.sys_userMapper" >
   <resultMap id="BaseResultMap" type="com.zihui.cwoa.system.pojo.sys_user" >
     <id column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="user_code" property="userCode" jdbcType="VARCHAR" />
+    <id column="user_code" property="userCode" jdbcType="VARCHAR" />
     <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
-    <result column="salt" property="salt" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="error_count" property="errorCount" jdbcType="VARCHAR" />
-    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+    <result column="department_id" property="departmentId" jdbcType="INTEGER" />
     <result column="images" property="images" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="ts" property="ts" jdbcType="VARCHAR" />
     <result column="ip" property="ip" jdbcType="VARCHAR" />
-    <result column="sex" property="sex" jdbcType="INTEGER" />
-    <result column="age" property="age" jdbcType="VARCHAR" />
-    <result column="last_time" property="lastTime" jdbcType="VARCHAR" />
-    <result column="login_time" property="loginTime" jdbcType="VARCHAR" />
-    <result column="bank_card_num" property="bankCardNum" jdbcType="VARCHAR" />
-    <result column="id_num" property="idNum" jdbcType="VARCHAR" />
+    <result column="project_id" property="projectId" jdbcType="INTEGER" />
     <result column="temp_var1" property="tempVar1" jdbcType="VARCHAR" />
     <result column="temp_var2" property="tempVar2" jdbcType="VARCHAR" />
     <result column="temp_var3" property="tempVar3" jdbcType="VARCHAR" />
     <result column="temp_int1" property="tempInt1" jdbcType="INTEGER" />
     <result column="temp_int2" property="tempInt2" jdbcType="INTEGER" />
     <result column="temp_int3" property="tempInt3" jdbcType="INTEGER" />
-    <collection property="role" ofType="com.zihui.cwoa.system.pojo.sys_role" resultMap="roleMap"></collection>
-    <collection property="project" ofType="com.zihui.cwoa.system.pojo.sys_project">
-      <id column="project_id" property="projectId" jdbcType="INTEGER" />
-      <result column="project_name" property="projectName" jdbcType="VARCHAR" />
-      <result column="project_introduction" property="projectIntroduction" jdbcType="VARCHAR" />
-      <result column="project_address" property="projectAddress" jdbcType="VARCHAR" />
-      <result column="pro_status" property="status" jdbcType="INTEGER" />
-      <result column="start_time" property="startTime" jdbcType="VARCHAR" />
-      <result column="end_time" property="endTime" jdbcType="VARCHAR" />
-      <result column="pro_ts" property="ts" jdbcType="VARCHAR" />
-      <result column="pro_temp_var1" property="tempVar1" jdbcType="VARCHAR" />
-      <result column="pro_temp_var2" property="tempVar2" jdbcType="VARCHAR" />
-      <result column="pro_temp_int1" property="tempInt1" jdbcType="INTEGER" />
-      <result column="pro_temp_int2" property="tempInt2" jdbcType="INTEGER" />
-    </collection>
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="VARCHAR" />
+    <result column="last_time" property="lastTime" jdbcType="VARCHAR" />
+    <result column="login_time" property="loginTime" jdbcType="VARCHAR" />
+    <result column="bank_card_num" property="bankCardNum" jdbcType="VARCHAR" />
+    <result column="id_num" property="idNum" jdbcType="VARCHAR" />
+       <collection property="project" ofType="com.zihui.cwoa.system.pojo.sys_project">
+            <id column="project_id" property="projectId" jdbcType="INTEGER" />
+            <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+            <result column="project_introduction" property="projectIntroduction" jdbcType="VARCHAR" />
+            <result column="project_address" property="projectAddress" jdbcType="VARCHAR" />
+       </collection>
+      <collection property="department" ofType="com.zihui.cwoa.system.pojo.sys_department">
+          <id column="department_id" property="departmentId" jdbcType="INTEGER" />
+          <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
+          <result column="department_code" property="departmentCode" jdbcType="VARCHAR" />
+      </collection>
 
   </resultMap>
 
-  <resultMap id="roleMap" type="com.zihui.cwoa.system.pojo.sys_role" >
-    <id column="role_id" property="roleId" jdbcType="INTEGER" />
-    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
-    <result column="role_level" property="roleLevel" jdbcType="INTEGER" />
-  </resultMap>
-  <!-- 使用resultMap的<collection>标签进行一对多查询 -->
-  <resultMap id="userDepartmentsMap" extends="BaseResultMap" type="com.zihui.cwoa.system.pojo.sys_user">
-    <!-- 部门的集合 -->
-    <collection property="departments" ofType="com.zihui.cwoa.system.pojo.sys_department">
-      <id column="departmentId" property="departmentId" jdbcType="INTEGER" />
-      <result column="departmentName" property="departmentName" jdbcType="VARCHAR" />
-      <result column="departmentCode" property="departmentCode" jdbcType="VARCHAR" />
-      <result column="de_status" property="status" jdbcType="INTEGER" />
-      <result column="ts_b" property="ts" jdbcType="VARCHAR" />
-    </collection>
-  </resultMap>
+    <!-- 使用resultMap的<collection>标签进行一对多查询 -->
+    <resultMap id="userRolesMap" extends="BaseResultMap" type="com.zihui.cwoa.system.pojo.sys_user">
+        <!-- 部门的集合 -->
+        <collection property="roles" ofType="com.zihui.cwoa.system.pojo.sys_role">
+            <id column="role_id" property="roleId" jdbcType="INTEGER" />
+            <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+            <result column="role_level" property="roleLevel" jdbcType="INTEGER" />
+            <result column="role_code" property="roleCode" jdbcType="VARCHAR" />
+            <result column="role_parent_id" property="roleParentId" jdbcType="INTEGER" />
+        </collection>
+    </resultMap>
+
+  <sql id="user_one" >
+    user_id as userId, user_code as userCode, user_password as userPassword,
+     status as status, user_name as userName, email as email, create_time as createTime,
+      error_count as errorCount,department_id as departmentId, images as images, phone as phone,
+      ts, ip, project_id as projectId, temp_var1 as tempVar1, temp_var2 as tempVar2, temp_var3 as tempVar3,
+    temp_int1 as tempInt1, temp_int2 as tempInt2, temp_int3 as tempInt3, sex, age, last_time as lastTime,
+    login_time as loginTime, bank_card_num as bankCardNum,id_num as idNum
+  </sql>
+
 
   <sql id="Base_Column_List" >
-    user_id, user_code, user_password, salt, status, user_name, email, create_time, error_count,
-    role_id, images, phone, ts, ip,age,sex,last_time,login_time,bank_card_num,id_num, temp_var1, temp_var2, temp_var3, temp_int1,
-    temp_int2, temp_int3
+    user_id, user_code, user_password, status, user_name, email, create_time, error_count, 
+    department_id, images, phone, ts, ip, project_id, temp_var1, temp_var2, temp_var3, 
+    temp_int1, temp_int2, temp_int3, sex, age, last_time, login_time, bank_card_num, 
+    id_num
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.zihui.cwoa.system.pojo.sys_user" >
+    select 
     <include refid="Base_Column_List" />
     from sys_user
-    where user_id = #{userId,jdbcType=VARCHAR}
+    where 1=1
+    <if test="userId != null" >
+     and user_id = #{userId,jdbcType=INTEGER}
+    </if>
+    <if test="userId != null" >
+     and user_code = #{userCode,jdbcType=INTEGER}
+    </if>
+    <if test="userId != null" >
+      and email = #{email,jdbcType=INTEGER}
+    </if>
+
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sys_user
-    where user_id = #{userId,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
   </delete>
 
-  <delete id="deleteByUserCode" parameterType="java.lang.String" >
-    delete from sys_user
-    where user_code = #{userCode,jdbcType=VARCHAR}
-  </delete>
   <insert id="insertSelective" parameterType="com.zihui.cwoa.system.pojo.sys_user" keyProperty="userId" useGeneratedKeys="true">
     insert into sys_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userCode != null and userCode != ''" >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userCode != null" >
         user_code,
       </if>
-      <if test="userPassword != null and userPassword !=''" >
+      <if test="userPassword != null" >
         user_password,
-      </if>
-      <if test="salt != null and salt != ''" >
-        salt,
       </if>
       <if test="status != null" >
         status,
       </if>
-      <if test="userName != null and userName !=''" >
+      <if test="userName != null" >
         user_name,
       </if>
-      <if test="email != null and email !=''" >
+      <if test="email != null" >
         email,
       </if>
-      <if test="createTime != null and createTime !=''" >
+      <if test="createTime != null" >
         create_time,
       </if>
-      <if test="errorCount != null and errorCount !=''" >
+      <if test="errorCount != null" >
         error_count,
       </if>
-      <if test="roleId != null and roleId !=''" >
-        role_id,
+      <if test="departmentId != null" >
+        department_id,
       </if>
-      <if test="images != null and images !=''" >
+      <if test="images != null" >
         images,
       </if>
-      <if test="phone != null and phone !=''" >
+      <if test="phone != null" >
         phone,
       </if>
-      <if test="ts != null and ts !=''" >
+      <if test="ts != null" >
         ts,
       </if>
-      <if test="ip != null and ip !=''" >
+      <if test="ip != null" >
         ip,
       </if>
-      <if test="sex != null and sex != ''" >
-        sex,
+      <if test="projectId != null" >
+        project_id,
       </if>
-      <if test="age != null and age !=''" >
-        age,
-      </if>
-      <if test="lastTime != null and lastTime !=''" >
-        last_time,
-      </if>
-      <if test="loginTime != null and loginTime !=''" >
-        login_time,
-      </if>
-      <if test="idNum != null and idNum !=''" >
-        id_num,
-      </if>
-      <if test="bankCardNum != null and bankCardNum !=''" >
-        bank_card_num,
-      </if>
-      <if test="tempVar1 != null and tempVar1 !=''" >
+      <if test="tempVar1 != null" >
         temp_var1,
       </if>
-      <if test="tempVar2 != null and tempVar2 !=''" >
+      <if test="tempVar2 != null" >
         temp_var2,
       </if>
-      <if test="tempVar3 != null and tempVar3 != ''" >
+      <if test="tempVar3 != null" >
         temp_var3,
       </if>
-      <if test="tempInt1 != null and tempInt1 !=''" >
+      <if test="tempInt1 != null" >
         temp_int1,
       </if>
-      <if test="tempInt2 != null and tempInt2 != ''" >
+      <if test="tempInt2 != null" >
         temp_int2,
       </if>
-      <if test="tempInt3 != null and tempInt3 !=''" >
+      <if test="tempInt3 != null" >
         temp_int3,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="lastTime != null" >
+        last_time,
+      </if>
+      <if test="loginTime != null" >
+        login_time,
+      </if>
+      <if test="bankCardNum != null" >
+        bank_card_num,
+      </if>
+      <if test="idNum != null" >
+        id_num,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userCode != null and userCode != ''" >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userCode != null" >
         #{userCode,jdbcType=VARCHAR},
       </if>
-      <if test="userPassword != null and userPassword !=''" >
+      <if test="userPassword != null" >
         #{userPassword,jdbcType=VARCHAR},
-      </if>
-      <if test="salt != null and salt != ''" >
-        #{salt,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="userName != null and userName !=''" >
+      <if test="userName != null" >
         #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="email != null and email !=''" >
+      <if test="email != null" >
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null and createTime !=''" >
+      <if test="createTime != null" >
         #{createTime,jdbcType=VARCHAR},
       </if>
-      <if test="errorCount != null and errorCount !=''" >
+      <if test="errorCount != null" >
         #{errorCount,jdbcType=VARCHAR},
       </if>
-      <if test="roleId != null and roleId !=''" >
-        #{roleId,jdbcType=VARCHAR},
+      <if test="departmentId != null" >
+        #{departmentId,jdbcType=INTEGER},
       </if>
-      <if test="images != null and images !=''" >
+      <if test="images != null" >
         #{images,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null and phone !=''" >
+      <if test="phone != null" >
         #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="ts != null and ts !=''" >
+      <if test="ts != null" >
         #{ts,jdbcType=VARCHAR},
       </if>
-      <if test="ip != null and ip !=''" >
+      <if test="ip != null" >
         #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="sex != null and sex != ''" >
-        #{sex,jdbcType=VARCHAR},
+      <if test="projectId != null" >
+        #{projectId,jdbcType=INTEGER},
       </if>
-      <if test="age != null and age !=''" >
-        #{age,jdbcType=VARCHAR},
-      </if>
-      <if test="lastTime != null and lastTime !=''" >
-        #{lastTime,jdbcType=VARCHAR},
-      </if>
-      <if test="loginTime != null and loginTime !=''" >
-        #{loginTime,jdbcType=VARCHAR},
-      </if>
-      <if test="idNum != null and idNum !=''" >
-        #{idNum,jdbcType=VARCHAR},
-      </if>
-      <if test="bankCardNum != null and bankCardNum !=''" >
-        #{bankCardNum,jdbcType=VARCHAR},
-      </if>
-      <if test="tempVar1 != null and tempVar1 !=''" >
+      <if test="tempVar1 != null" >
         #{tempVar1,jdbcType=VARCHAR},
       </if>
-      <if test="tempVar2 != null and tempVar2 !=''" >
+      <if test="tempVar2 != null" >
         #{tempVar2,jdbcType=VARCHAR},
       </if>
-      <if test="tempVar3 != null and tempVar3 != ''" >
+      <if test="tempVar3 != null" >
         #{tempVar3,jdbcType=VARCHAR},
       </if>
-      <if test="tempInt1 != null and tempInt1 !=''" >
+      <if test="tempInt1 != null" >
         #{tempInt1,jdbcType=INTEGER},
       </if>
-      <if test="tempInt2 != null and tempInt2 != ''" >
+      <if test="tempInt2 != null" >
         #{tempInt2,jdbcType=INTEGER},
       </if>
-      <if test="tempInt3 != null and tempInt3 !=''" >
+      <if test="tempInt3 != null" >
         #{tempInt3,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTime != null" >
+        #{lastTime,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null" >
+        #{loginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardNum != null" >
+        #{bankCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null" >
+        #{idNum,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.zihui.cwoa.system.pojo.sys_user" >
     update sys_user
     <set >
-      <if test="userCode != null and userCode != ''" >
+      <if test="userCode != null" >
         user_code = #{userCode,jdbcType=VARCHAR},
       </if>
-      <if test="userPassword != null and userPassword !=''" >
+      <if test="userPassword != null" >
         user_password = #{userPassword,jdbcType=VARCHAR},
       </if>
-      <if test="salt != null and salt != ''" >
-        salt = #{salt,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null and status !=''" >
+      <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="userName != null and userName !=''" >
+      <if test="userName != null" >
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="email != null and email !=''" >
+      <if test="email != null" >
         email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null and createTime !=''" >
+      <if test="createTime != null" >
         create_time = #{createTime,jdbcType=VARCHAR},
       </if>
-      <if test="errorCount != null and errorCount !=''" >
+      <if test="errorCount != null" >
         error_count = #{errorCount,jdbcType=VARCHAR},
       </if>
-      <if test="roleId != null and roleId !=''" >
-        role_id = #{roleId,jdbcType=VARCHAR},
+      <if test="departmentId != null" >
+        department_id = #{departmentId,jdbcType=INTEGER},
       </if>
-      <if test="images != null and images !=''" >
+      <if test="images != null" >
         images = #{images,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null and phone !=''" >
+      <if test="phone != null" >
         phone = #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="ts != null and ts !=''" >
+      <if test="ts != null" >
         ts = #{ts,jdbcType=VARCHAR},
       </if>
-      <if test="ip != null and ip !=''" >
+      <if test="ip != null" >
         ip = #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="sex != null and sex != ''" >
-        sex = #{sex,jdbcType=VARCHAR},
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=INTEGER},
       </if>
-      <if test="age != null and age !=''" >
-        age = #{age,jdbcType=VARCHAR},
-      </if>
-      <if test="lastTime != null and lastTime !=''" >
-        last_time = #{lastTime,jdbcType=VARCHAR},
-      </if>
-      <if test="loginTime != null and loginTime !=''" >
-        login_time = #{loginTime,jdbcType=VARCHAR},
-      </if>
-      <if test="idNum != null and idNum !=''" >
-        id_num = #{idNum,jdbcType=VARCHAR},
-      </if>
-      <if test="bankCardNum != null and bankCardNum !=''" >
-        bank_card_num = #{bankCardNum,jdbcType=VARCHAR},
-      </if>
-      <if test="tempVar1 != null and tempVar1 !=''" >
+      <if test="tempVar1 != null" >
         temp_var1 = #{tempVar1,jdbcType=VARCHAR},
       </if>
-      <if test="tempVar2 != null and tempVar2 !=''" >
+      <if test="tempVar2 != null" >
         temp_var2 = #{tempVar2,jdbcType=VARCHAR},
       </if>
-      <if test="tempVar3 != null and tempVar3 != ''" >
+      <if test="tempVar3 != null" >
         temp_var3 = #{tempVar3,jdbcType=VARCHAR},
       </if>
-      <if test="tempInt1 != null and tempInt1 !=''" >
+      <if test="tempInt1 != null" >
         temp_int1 = #{tempInt1,jdbcType=INTEGER},
       </if>
-      <if test="tempInt2 != null and tempInt2 != ''" >
+      <if test="tempInt2 != null" >
         temp_int2 = #{tempInt2,jdbcType=INTEGER},
       </if>
-      <if test="tempInt3 != null and tempInt3 !=''" >
+      <if test="tempInt3 != null" >
         temp_int3 = #{tempInt3,jdbcType=INTEGER},
       </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTime != null" >
+        last_time = #{lastTime,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null" >
+        login_time = #{loginTime,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardNum != null" >
+        bank_card_num = #{bankCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null" >
+        id_num = #{idNum,jdbcType=VARCHAR},
+      </if>
     </set>
-    where user_id = #{userId,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
   </update>
+<select id="selectUserByCode" resultType="com.zihui.cwoa.system.pojo.sys_user" parameterType="java.lang.String">
+  select
+  <include refid="user_one" />
+  from sys_user where user_code = #{userCode}
 
-  <!--根据用户工号查询该工号是否存在-->
-  <select id="selectUserByLogin" parameterType="java.lang.String" resultMap="BaseResultMap">
-    SELECT * from sys_user where user_code = #{usercode}
-  </select>
+</select>
 
-  <!--根据用户id查询部门 返回多个部门-->
-  <select id="selectDepartmentToUser" parameterType="java.lang.Integer" resultMap="userDepartmentsMap">
-    SELECT u.*,d.department_id as departmentId,
-    d.department_name AS departmentName,
-    d.department_code AS departmentCode,
-    d.status status,
-    d.ts AS ts_b,
-    sys_role.role_name as role_name,
-    p.project_id AS project_id,
-    p.project_name as project_name,
-    p.project_introduction as project_introduction,
-    p.project_address as project_address,
-    p.status as pro_status,
-    p.start_time as start_time,
-    p.end_time as end_time,
-    p.ts as pro_ts
-    from sys_user u left join sys_user_department ud on u.user_id = ud.user_id
-    left join sys_department d on ud.department_id  =d.department_id
-    left join sys_project p on u.temp_int1 = p.project_id
-    left join sys_role sys_role on u.role_id = sys_role.role_id
-    where u.user_id = #{userId}
-  </select>
-  <!--多条件查询用户用于展示页面，返回List-->
-  <select id="selectUserList" resultMap="userDepartmentsMap" parameterType="com.zihui.cwoa.system.pojo.sys_user">
-    select * from sys_user where 1=1
-    <if test="userId != null and userId != ''" >
-      and  user_id = #{userId,jdbcType=VARCHAR}
-    </if>
-    <if test="userCode != null and userCode != ''" >
-      and  user_code = #{userCode,jdbcType=VARCHAR}
-    </if>
-    <if test="userPassword != null and userPassword !=''" >
-      and  user_password = #{userPassword,jdbcType=VARCHAR}
-    </if>
-    <if test="salt != null and salt != ''" >
-      and  salt = #{salt,jdbcType=VARCHAR}
-    </if>
-    <if test="status != null and status !=''" >
-      and  status = #{status,jdbcType=INTEGER}
-    </if>
-    <if test="userName != null and userName !=''" >
-      and  user_name = #{userName,jdbcType=VARCHAR}
-    </if>
-    <if test="email != null and email !=''" >
-      and  email = #{email,jdbcType=VARCHAR}
-    </if>
-    <if test="createTime != null and createTime !=''" >
-      and create_time = #{createTime,jdbcType=VARCHAR}
-    </if>
-    <if test="errorCount != null and errorCount !=''" >
-      and  error_count = #{errorCount,jdbcType=VARCHAR}
-    </if>
+
+  <select id="userRoleQuery" resultType="com.zihui.cwoa.system.pojo.sys_users">
+    SELECT
+    sys_user.user_id AS userId,
+    sys_user.user_code AS userCode,
+    sys_user.user_name AS userName
+    FROM
+    sys_user left join sys_user_role on sys_user.user_id = sys_user_role.user_id
+    WHERE
+    1 = 1
     <if test="roleId != null and roleId !=''" >
-      and  role_id = #{roleId,jdbcType=VARCHAR}
+      and sys_user_role.role_id = #{roleId}
     </if>
-    <if test="images != null and images !=''" >
-      and  images = #{images,jdbcType=VARCHAR}
-    </if>
-    <if test="phone != null and phone !=''" >
-      and  phone = #{phone,jdbcType=VARCHAR}
-    </if>
-    <if test="ts != null and ts !=''" >
-      and  ts = #{ts,jdbcType=VARCHAR}
-    </if>
-    <if test="ip != null and ip !=''" >
-      and  ip = #{ip,jdbcType=VARCHAR}
-    </if>
-    <if test="sex != null and sex != ''" >
-      and  sex = #{sex,jdbcType=VARCHAR}
-    </if>
-    <if test="age != null and age !=''" >
-      and  age = #{age,jdbcType=VARCHAR}
-    </if>
-    <if test="lastTime != null and lastTime !=''" >
-      and  last_time = #{last_time,jdbcType=VARCHAR}
-    </if>
-    <if test="loginTime != null and loginTime !=''" >
-      and  login_time = #{login_time,jdbcType=VARCHAR}
-    </if>
-    <if test="idNum != null and idNum !=''" >
-     and id_num = #{idNum,jdbcType=VARCHAR}
-    </if>
-    <if test="bankCardNum != null and bankCardNum !=''" >
-      and bank_card_num = #{bankCardNum,jdbcType=VARCHAR}
-    </if>
-    <if test="tempVar1 != null and tempVar1 !=''" >
-      and temp_var1 = #{tempVar1,jdbcType=VARCHAR}
-    </if>
-    <if test="tempVar2 != null and tempVar2 !=''" >
-      and  temp_var2 = #{tempVar2,jdbcType=VARCHAR}
-    </if>
-    <if test="tempVar3 != null and tempVar3 != ''" >
-      and temp_var3 = #{tempVar3,jdbcType=VARCHAR}
-    </if>
-    <if test="tempInt1 != null and tempInt1 !=''" >
-      and temp_int1 = #{tempInt1,jdbcType=INTEGER}
-    </if>
-    <if test="tempInt2 != null and tempInt2 != ''" >
-      and temp_int2 = #{tempInt2,jdbcType=INTEGER}
-    </if>
-    <if test="tempInt3 != null and tempInt3 !=''" >
-      and  temp_int3 = #{tempInt3,jdbcType=INTEGER}
+    <if test="projectId != null and projectId !=''" >
+      and sys_user.projectId=#{projectId}
     </if>
   </select>
+  <!--查询用户详细信息-->
+  <select id="selectUserInfo" resultMap="userRolesMap" parameterType="java.lang.Integer">
+    SELECT
+	sys_user.*,
+	sys_role.*,
+	sys_department.*,
+	sys_project.*
+    FROM
+	sys_user
+    left JOIN sys_department ON sys_user.department_id = sys_department.department_id
+    left JOIN sys_user_role on sys_user.user_id = sys_user_role.user_id
+    left join sys_role on sys_role.role_id = sys_user_role.role_id
+    left join sys_project on sys_project.project_id = sys_user.project_id
+    where sys_user.user_id=#{userId}
+    </select>
 
-  <!--分页查询-->
-  <select id="selectUserDepar"  resultMap="userDepartmentsMap">
-    SELECT
-    tableone.user_id as user_id,
-    tableone.user_code as user_code,
-    tableone.status as status,
-    tableone.user_name as user_name,
-    tableone.email as email,
-    tableone.create_time as create_time,
-    tableone.error_count as error_count,
-    tableone.images as images,
-    tableone.phone as phone,
-    tableone.ts as ts,
-    tableone.ip as ip,
-    tableone.sex as sex,
-    tableone.last_time as last_time,
-    tableone.login_time as login_time,
-    tableone.bank_card_num as bank_card_num,
-    r.role_id as role_id,
-    r.role_name as role_name,
-    tableone.id_num as id_num,
-    d.department_id AS departmentId,
-    d.department_name AS departmentName,
-    d.department_code AS departmentCode,
-    d. STATUS AS de_status,
-    d.ts AS ts_b,
-    p.project_id AS project_id,
-    p.project_name AS project_name,
-    p.project_introduction AS project_introduction,
-    p.project_address AS project_address,
-    p. STATUS AS pro_status,
-    p.start_time AS start_time,
-    p.end_time AS end_time,
-    p.ts AS pro_ts
-    FROM
-    (
-    SELECT
-    *
-    FROM
-    (
-    SELECT
-    *
-    FROM
-    sys_user
-    limit #{page} , #{limit} ) u
-    LEFT JOIN (
-    SELECT
-    user_id AS u_id,
-    department_id AS d_id
-    FROM
-    sys_user_department
-    ) ud ON u.user_id = ud.u_id
-    ) tableone
-    LEFT JOIN sys_department d ON tableone.d_id = d.department_id
-    LEFT JOIN sys_project p ON tableone.temp_int1 = p.project_id
-    LEFT JOIN sys_role r ON tableone.role_id = r.role_id
+  <select id="selectUserByPage" resultMap="userRolesMap">
 
-    where 1 =1
+      SELECT
+      sys_user.*,
+      sys_role.*,
+      sys_department.*,
+      sys_project.*
+      FROM
+      (select * from sys_user u where 1=1
+      <if test="user.userName != null and user.userName  !=''" >
+          and u.user_name = LIKE CONCAT('%',#{user.userName},jdbcType=VARCHAR},'%')
+      </if>
+      <if test="user.userCode != null and user.userCode !=''" >
+          and u.user_code=#{user.userCode}
+      </if>
 
-    <if test="user.userCode != null and user.userCode != ''" >
-      and  tableone.user_code = #{user.userCode,jdbcType=VARCHAR}
-    </if>
-    <if test="user.status != null and user.status !=''" >
-      and  tableone.status = #{user.status,jdbcType=INTEGER}
-    </if>
-    <if test="user.userName != null and user.userName !=''" >
-      and  tableone.user_name = #{user.userName,jdbcType=VARCHAR}
-    </if>
-    <if test="user.email != null and user.email !=''" >
-      and  tableone.email = #{user.email,jdbcType=VARCHAR}
-    </if>
-    <if test="user.phone != null and user.phone !=''" >
-      and  tableone.phone = #{user.phone,jdbcType=VARCHAR}
-    </if>
-    <if test="user.sex != null and user.sex != ''" >
-      and  tableone.sex = #{user.sex,jdbcType=VARCHAR}
-    </if>
-    <if test="user.tempVar1 != null and user.tempVar1 !=''" >
-      and tableone.temp_var1 = #{user.tempVar1,jdbcType=VARCHAR}
-    </if>
-    <!--关联角色id-->
-    <if test="user.tempVar2 != null and user.tempVar2 !=''" >
-      and  r.role_id = #{user.tempVar2,jdbcType=VARCHAR}
-    </if>
-    <!--关联部门id-->
-    <if test="user.tempVar3 != null and user.tempVar3 != ''" >
-      and d.department_id = #{user.tempVar3,jdbcType=VARCHAR}
-    </if>
-    <!--关联项目id-->
-    <if test="user.tempInt1 != null and user.tempInt1 !=''" >
-      and p.project_id = #{user.tempInt1,jdbcType=INTEGER}
-    </if>
-    <if test="user.tempInt2 != null and user.tempInt2 != ''" >
-      and tableone.temp_int2 = #{user.tempInt2,jdbcType=INTEGER}
-    </if>
-    <if test="user.tempInt3 != null and user.tempInt3 !=''" >
-      and  tableone.temp_int3 = #{user.tempInt3,jdbcType=INTEGER}
-    </if>
-    ORDER  by tableone.user_id DESC
+      limit #{page},#{limit})sys_user
+      left JOIN sys_department ON sys_user.department_id = sys_department.department_id
+      left JOIN sys_user_role on sys_user.user_id = sys_user_role.user_id
+      left join sys_role on sys_role.role_id = sys_user_role.role_id
+      left join sys_project on sys_project.project_id = sys_user.project_id
+      where 1=1
+      <if test="user.projectId != null and user.projectId  !=''" >
+          and sys_project.project_id = #{user.projectId}
+      </if>
+      <if test="user.departmentId != null and user.departmentId !=''" >
+          and sys_department.department_id=#{user.departmentId}
+      </if>
+      <if test="user.tempVar1 != null and user.tempVar1 !=''" >
+        and sys_role.role_id=#{user.tempVar1}
+      </if>
+
   </select>
 
-  <select id="selectUserCount" parameterType="com.zihui.cwoa.system.pojo.sys_user" resultType="java.lang.Integer">
+  <select id="selectUserByPageCount" parameterType="com.zihui.cwoa.system.pojo.sys_user" resultType="java.lang.Integer">
 
+      SELECT
+      count(DISTINCT sys_user.user_id)
 
-    SELECT
-    count(DISTINCT tableone.user_id)
+      FROM
+      (select * from sys_user u where 1=1
+      <if test="userName != null and userName  !=''" >
+          and u.user_name LIKE CONCAT('%',#{userName},jdbcType=VARCHAR},'%')
+      </if>
+      <if test="userCode != null and userCode !=''" >
+          and u.user_code=#{userCode}
+      </if>
 
-    FROM
-    (
-    SELECT
-    *
-    FROM
-    (
-    SELECT
-    *
-    FROM
-    sys_user
-     ) u
-    LEFT JOIN (
-    SELECT
-    user_id AS u_id,
-    department_id AS d_id
-    FROM
-    sys_user_department
-    ) ud ON u.user_id = ud.u_id
-    ) tableone
-    LEFT JOIN sys_department d ON tableone.d_id = d.department_id
-    LEFT JOIN sys_project p ON tableone.temp_int1 = p.project_id
-    LEFT JOIN sys_role r ON tableone.role_id = r.role_id
-    where 1 =1
-
-    <if test="user.userCode != null and user.userCode != ''" >
-      and  tableone.user_code = #{user.userCode,jdbcType=VARCHAR}
-    </if>
-    <if test="user.status != null and user.status !=''" >
-      and  tableone.status = #{user.status,jdbcType=INTEGER}
-    </if>
-    <if test="user.userName != null and user.userName !=''" >
-      and  tableone.user_name = #{user.userName,jdbcType=VARCHAR}
-    </if>
-    <if test="user.email != null and user.email !=''" >
-      and  tableone.email = #{user.email,jdbcType=VARCHAR}
-    </if>
-    <if test="user.phone != null and user.phone !=''" >
-      and  tableone.phone = #{user.phone,jdbcType=VARCHAR}
-    </if>
-    <if test="user.sex != null and user.sex != ''" >
-      and  tableone.sex = #{user.sex,jdbcType=VARCHAR}
-    </if>
-    <if test="user.tempVar1 != null and user.tempVar1 !=''" >
-      and tableone.temp_var1 = #{user.tempVar1,jdbcType=VARCHAR}
-    </if>
-    <!--关联角色id-->
-    <if test="user.tempVar2 != null and user.tempVar2 !=''" >
-      and  r.role_id = #{user.tempVar2,jdbcType=VARCHAR}
-    </if>
-    <!--关联部门id-->
-    <if test="user.tempVar3 != null and user.tempVar3 != ''" >
-      and d.department_id = #{user.tempVar3,jdbcType=VARCHAR}
-    </if>
-    <!--关联项目id-->
-    <if test="user.tempInt1 != null and user.tempInt1 !=''" >
-      and p.project_id = #{user.tempInt1,jdbcType=INTEGER}
-    </if>
-    <if test="user.tempInt2 != null and user.tempInt2 != ''" >
-      and tableone.temp_int2 = #{user.tempInt2,jdbcType=INTEGER}
-    </if>
-    <if test="user.tempInt3 != null and user.tempInt3 !=''" >
-      and  tableone.temp_int3 = #{user.tempInt3,jdbcType=INTEGER}
-    </if>
-  </select>
-
-  <!--用于页面展示下拉框-->
-  <select id="selectGetUser" resultType="com.zihui.cwoa.system.pojo.sys_user">
-    SELECT user_id as userId,
-    user_name as userName,
-    user_code AS userCode FROM  sys_user
+      )sys_user
+      left JOIN sys_department ON sys_user.department_id = sys_department.department_id
+      left JOIN sys_user_role on sys_user.user_id = sys_user_role.user_id
+      left join sys_role on sys_role.role_id = sys_user_role.role_id
+      left join sys_project on sys_project.project_id = sys_user.project_id
+      where 1=1
+      <if test="projectId != null and projectId  !=''" >
+          and sys_project.project_id = #{projectId}
+      </if>
+      <if test="departmentId != null and departmentId !=''" >
+          and sys_department.department_id=#{departmentId}
+      </if>
+      <if test="tempVar1 != null and tempVar1 !=''" >
+        and sys_role.role_id=#{user.tempVar1}
+      </if>
 
   </select>
+
 
   <!--用于展示项目首页页面用户下拉-->
-  <select id="selectUserAndProject" resultType="com.zihui.cwoa.system.pojo.sys_user">
+  <select id="selectUserAndProject" resultType="com.zihui.cwoa.system.pojo.sys_users">
     SELECT DISTINCT user_id as userId,
     user_name as userName,
     user_code AS userCode FROM  sys_user join sys_project on sys_user.user_id = sys_project.project_user_id
 
   </select>
-  <select id="userRoleQuery" resultType="com.zihui.cwoa.system.pojo.sys_users">
-    select
-    sys_user.user_id as userId,
-    sys_user.user_code as userCode,
-    sys_user.user_name as userName
-    from sys_user
-    where 1=1
-    <if test="roleId != null and roleId !=''" >
-      and sys_user.role_id = #{roleId}
-    </if>
-    <if test="projectId != null and projectId !=''" >
-      and sys_user.temp_int1=#{projectId}
-    </if>
-  </select>
-
 </mapper>
