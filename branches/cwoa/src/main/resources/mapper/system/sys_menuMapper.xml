@@ -42,7 +42,7 @@
       <if test="menuName != null and menuName !=''" >
         menu_name,
       </if>
-      <if test="status != null and status !=''" >
+      <if test="status != null" >
         status,
       </if>
       <if test="menuCode != null and menuCode !=''" >
@@ -83,7 +83,7 @@
       <if test="menuName != null and menuName !=''" >
         #{menuName,jdbcType=VARCHAR},
       </if>
-      <if test="status != null and status != ''" >
+      <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
       <if test="menuCode != null and menuCode !=''" >
@@ -124,7 +124,7 @@
       <if test="menuName != null and menuName !=''" >
         menu_name = #{menuName,jdbcType=VARCHAR},
       </if>
-      <if test="status != null and status !=''" >
+      <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
       <if test="menuCode != null and menuCode !=''" >

@@ -103,7 +103,7 @@
       <if test="userPassword != null and userPassword !=''" >
         user_password,
       </if>
-      <if test="status != null and status != ''" >
+      <if test="status != null" >
         status,
       </if>
       <if test="userName != null and userName !=''" >
@@ -183,7 +183,7 @@
       <if test="userPassword != null and userPassword !=''" >
         #{userPassword,jdbcType=VARCHAR},
       </if>
-      <if test="status != null and status !=''" >
+      <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
       <if test="userName != null and userName !='' " >
@@ -263,7 +263,7 @@
       <if test="userPassword != null and userPassword !=''" >
         user_password = #{userPassword,jdbcType=VARCHAR},
       </if>
-      <if test="status != null and status !=''" >
+      <if test="status != null " >
         status = #{status,jdbcType=INTEGER},
       </if>
       <if test="userName != null and userName !=''" >
