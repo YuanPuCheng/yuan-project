@@ -7,10 +7,7 @@ import com.zihui.cwoa.system.common.DateUtils;
 import com.zihui.cwoa.system.pojo.sys_menu;
 import com.zihui.cwoa.system.pojo.sys_role;
 import com.zihui.cwoa.system.pojo.sys_user;
-import com.zihui.cwoa.system.service.sys_departmentService;
-import com.zihui.cwoa.system.service.sys_menuService;
-import com.zihui.cwoa.system.service.sys_roleService;
-import com.zihui.cwoa.system.service.sys_userService;
+import com.zihui.cwoa.system.service.*;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
@@ -40,7 +37,7 @@ public class loginController {
     @Resource
     private sys_roleService roleService;
     @Resource
-    private sys_departmentService departmentService;
+    private sys_user_roleService userRoleService;
     @Resource
     private sys_menuService menuService;
 
@@ -99,6 +96,7 @@ public class loginController {
         Integer s = 0;
         user.setStatus(s);
         int w =user_service.insertSelective(user);
+        userRoleService.insertUserAndRole(user.getUserId(),38);
         if(w==1){
             result.setResult(200);
             result.setMessage("注册成功");
@@ -225,9 +223,10 @@ public class loginController {
         }else {
             List<sys_role> roles = roleService.selcetRoleByUserId(user.getUserId());
             List<Integer> roleId = new ArrayList<>();
-            for(sys_role r:roles){
-                roleId.add(r.getRoleId());
-            }
+                for(sys_role r:roles){
+                    roleId.add(r.getRoleId());
+                }
+
 
 
                 List<sys_menu> m =menuService.selectMenuByRoleId(roleId);

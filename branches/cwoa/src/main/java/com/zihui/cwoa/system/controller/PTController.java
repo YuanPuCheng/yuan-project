@@ -74,6 +74,12 @@ public class PTController {
     public String reviseManagement(){
         return "system/user/reviseManagement";
     }
+    //用户详细页面
+    @RequestMapping(value = "/detaileduser")
+    public String detaileduser(){
+        return "system/user/detaileduser";
+    }
+
 
     //menu跳转页面
     @RequestMapping(value = "/menu")

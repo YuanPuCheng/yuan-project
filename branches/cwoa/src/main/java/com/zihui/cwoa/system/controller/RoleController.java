@@ -130,6 +130,7 @@ public class RoleController {
        sys_user userinfo =(sys_user) session.getAttribute("user");
         List<sys_role> roles = roleService.selectRoleToUser(userinfo.getUserId());
         List list = new ArrayList();
+        log.info(roles.toString());
         for(sys_role role:roles){
             Map map = new HashMap();
             map.put("type","optgroup");
