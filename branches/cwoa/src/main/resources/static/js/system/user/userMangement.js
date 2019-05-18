@@ -134,7 +134,7 @@ layui.extend({
 						//fixed: 'right',
 						title: '操作',
 						toolbar: '#barDemo',
-						width: 120
+						width: 160
 					}
 
 				]
@@ -295,10 +295,10 @@ layui.extend({
 						body.find("#roleId").val(id);
 
 						if(data.project != null) {
-							body.find("#projectId").val(data.project.projectId);
+							body.find("#projectId").val(data.project.projectName);
 						}
 						if(data.department != null){
-                            body.find("#departmentId").val(data.department.departmentId);
+                            body.find("#departmentId").val(data.department.departmentName);
 						}
 
 						body.find("#idNum").val(data.idNum);
@@ -312,7 +312,57 @@ layui.extend({
 					},
 
 				});
-			}
+			}else if(obj.event === 'xiangxi') {
+                console.log(data)
+                layer.open({ //弹框
+                    //id: 'insert-form',
+                    type: 2,
+                    //skin: 'layui-layer-demo', //样式类名
+                    title: '详细信息',
+                    maxmin: true,
+                    btn: [],
+                    yes: function(index, layero) {
+
+                    },
+                    closeBtn: 1, //不显示关闭按钮
+                    anim: 2,
+                    area: [widthMax, heightMax],
+                    shadeClose: false, //开启遮罩关闭
+                    content: layui.setter.project +'/sys/detaileduser',
+                    success: function(layero, index) {
+                        var body = layer.getChildFrame('body', index);
+                        body.find("#usercode").val(data.userCode);
+                        body.find("#username").val(data.userName);
+                        body.find("#email").val(data.email);
+                        body.find("#phone").val(data.phone);
+                        var name = "";
+                        if(data.roles != null) {
+                            $.each(data.roles, function(index, value) {
+                                name = name + value.roleName + ",";
+                            });
+                            name = name.substring(0, name.length - 1);
+                            body.find("#roles").val(name);
+                        }
+
+
+                        if(data.project != null) {
+                            body.find("#project").val(data.project.projectId);
+                        }
+                        if(data.department != null){
+                            body.find("#department").val(data.department.departmentId);
+                        }
+
+                        body.find("#idNum").val(data.idNum);
+                        body.find("#bankCardNum").val(data.bankCardNum);
+                        body.find("input[name=status][value=" + data.status + "]").attr("checked", "checked");
+
+                    },
+                    end: function() {
+
+                    },
+
+                });
+            }
 		});
 
         //角色下拉框加载
