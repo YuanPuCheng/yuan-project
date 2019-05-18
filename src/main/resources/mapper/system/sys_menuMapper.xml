@@ -33,84 +33,84 @@
   <insert id="insertSelective" parameterType="com.zihui.cwoa.system.pojo.sys_menu" >
     insert into sys_menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="menuId != null" >
+      <if test="menuId != null and menuId !=''" >
         menu_id,
       </if>
-      <if test="parentId != null" >
+      <if test="parentId != null and parentId !=''" >
         parent_id,
       </if>
-      <if test="menuName != null" >
+      <if test="menuName != null and menuName !=''" >
         menu_name,
       </if>
-      <if test="status != null" >
+      <if test="status != null and status !=''" >
         status,
       </if>
-      <if test="menuCode != null" >
+      <if test="menuCode != null and menuCode !=''" >
         menu_code,
       </if>
-      <if test="menuType != null" >
+      <if test="menuType != null and menuType !=''" >
         menu_type,
       </if>
-      <if test="menuUrl != null" >
+      <if test="menuUrl != null and menuUrl !=''" >
         menu_url,
       </if>
-      <if test="menuIcon != null" >
+      <if test="menuIcon != null and menuIcon !=''" >
         menu_icon,
       </if>
-      <if test="ts != null" >
+      <if test="ts != null and ts !='' " >
         ts,
       </if>
-      <if test="tempVar1 != null" >
+      <if test="tempVar1 != null and tempVar1 !=''" >
         temp_var1,
       </if>
-      <if test="tempVar2 != null" >
+      <if test="tempVar2 != null and tempVar2 !=''" >
         temp_var2,
       </if>
-      <if test="tempInt1 != null" >
+      <if test="tempInt1 != null and tempInt1 !=''" >
         temp_int1,
       </if>
-      <if test="tempInt2 != null" >
+      <if test="tempInt2 != null and tempInt2 !=''" >
         temp_int2,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="menuId != null" >
+      <if test="menuId != null and menuId !=''" >
         #{menuId,jdbcType=INTEGER},
       </if>
-      <if test="parentId != null" >
+      <if test="parentId != null and parentId !=''" >
         #{parentId,jdbcType=INTEGER},
       </if>
-      <if test="menuName != null" >
+      <if test="menuName != null and menuName !=''" >
         #{menuName,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
+      <if test="status != null and status != ''" >
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="menuCode != null" >
+      <if test="menuCode != null and menuCode !=''" >
         #{menuCode,jdbcType=VARCHAR},
       </if>
-      <if test="menuType != null" >
+      <if test="menuType != null and menuType != ''" >
         #{menuType,jdbcType=INTEGER},
       </if>
-      <if test="menuUrl != null" >
+      <if test="menuUrl != null and menuUrl !=''" >
         #{menuUrl,jdbcType=VARCHAR},
       </if>
-      <if test="menuIcon != null" >
+      <if test="menuIcon != null and menuIcon !=''" >
         #{menuIcon,jdbcType=VARCHAR},
       </if>
-      <if test="ts != null" >
+      <if test="ts != null and ts !=''" >
         #{ts,jdbcType=VARCHAR},
       </if>
-      <if test="tempVar1 != null" >
+      <if test="tempVar1 != null and tempVar1 !=''" >
         #{tempVar1,jdbcType=VARCHAR},
       </if>
-      <if test="tempVar2 != null" >
+      <if test="tempVar2 != null and tempVar2 !=''" >
         #{tempVar2,jdbcType=VARCHAR},
       </if>
-      <if test="tempInt1 != null" >
+      <if test="tempInt1 != null and tempInt1 !=''" >
         #{tempInt1,jdbcType=INTEGER},
       </if>
-      <if test="tempInt2 != null" >
+      <if test="tempInt2 != null and tempInt2 !=''" >
         #{tempInt2,jdbcType=INTEGER},
       </if>
     </trim>
@@ -118,40 +118,40 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.zihui.cwoa.system.pojo.sys_menu" >
     update sys_menu
     <set >
-      <if test="parentId != null" >
+      <if test="parentId != null and parentId !=''" >
         parent_id = #{parentId,jdbcType=INTEGER},
       </if>
-      <if test="menuName != null" >
+      <if test="menuName != null and menuName !=''" >
         menu_name = #{menuName,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
+      <if test="status != null and status !=''" >
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="menuCode != null" >
+      <if test="menuCode != null and menuCode !=''" >
         menu_code = #{menuCode,jdbcType=VARCHAR},
       </if>
-      <if test="menuType != null" >
+      <if test="menuType != null and menuType !=''" >
         menu_type = #{menuType,jdbcType=INTEGER},
       </if>
-      <if test="menuUrl != null" >
+      <if test="menuUrl != null and menuUrl !=''" >
         menu_url = #{menuUrl,jdbcType=VARCHAR},
       </if>
-      <if test="menuIcon != null" >
+      <if test="menuIcon != null and menuIcon !=''" >
         menu_icon = #{menuIcon,jdbcType=VARCHAR},
       </if>
-      <if test="ts != null" >
+      <if test="ts != null and ts != ''" >
         ts = #{ts,jdbcType=VARCHAR},
       </if>
-      <if test="tempVar1 != null" >
+      <if test="tempVar1 != null and tempVar1 !=''" >
         temp_var1 = #{tempVar1,jdbcType=VARCHAR},
       </if>
-      <if test="tempVar2 != null" >
+      <if test="tempVar2 != null and tempVar2 !=''" >
         temp_var2 = #{tempVar2,jdbcType=VARCHAR},
       </if>
-      <if test="tempInt1 != null" >
+      <if test="tempInt1 != null and tempInt1 !='' " >
         temp_int1 = #{tempInt1,jdbcType=INTEGER},
       </if>
-      <if test="tempInt2 != null" >
+      <if test="tempInt2 != null and tempInt2 !=''" >
         temp_int2 = #{tempInt2,jdbcType=INTEGER},
       </if>
     </set>
@@ -179,22 +179,22 @@
   <select id="selectMenuList" parameterType="com.zihui.cwoa.system.pojo.sys_menu" resultMap="BaseResultMap">
   SELECT * FROM sys_menu
   where 1=1
-    <if test="menuId != null" >
+    <if test="menuId != null and menuId !=''" >
       and menu_id = #{menuId,jdbcType=INTEGER}
     </if>
-    <if test="parentId != null" >
+    <if test="parentId != null and parentId !=''" >
       and parent_id = #{parentId,jdbcType=INTEGER}
     </if>
-    <if test="menuName != null" >
+    <if test="menuName != null and menuName != ''" >
       and menu_name = #{menuName,jdbcType=VARCHAR}
     </if>
-    <if test="status != null" >
+    <if test="status != null and status !=''" >
       and status = #{status,jdbcType=INTEGER}
     </if>
-    <if test="menuCode != null" >
+    <if test="menuCode != null and menuCode !=''" >
       and menu_code = #{menuCode,jdbcType=VARCHAR}
     </if>
-    <if test="menuType != null" >
+    <if test="menuType != null and menuType != ''" >
       and menu_type = #{menuType,jdbcType=INTEGER}
     </if>
 
