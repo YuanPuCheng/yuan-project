@@ -59,9 +59,9 @@
 				<div class="layui-form-item">
 					<lable class="layui-form-label">选择部门</lable>
 					<div class="layui-input-block">
-				      <select name="departments" id="department" lay-verify="select" xm-select="select1" xm-select-skin="primary">
-				      	
-				      </select>
+						<select name="department" lay-verify="required" id="department" lay-search="">
+
+						</select>
 				   </div>
 				</div>
 				<div class="layui-form-item">
@@ -75,9 +75,10 @@
 				<div class="layui-form-item">
 					<lable class="layui-form-label">选择角色</lable>
 					<div class="layui-input-block">
-						<select name="roles" lay-verify="required" id="roles" lay-search="">
+						<select name="roles" id="roles" lay-verify="select" xm-select="select1" xm-select-skin="primary">
 
 						</select>
+
 					</div>
 				</div>
 				<div class="layui-form-item">
