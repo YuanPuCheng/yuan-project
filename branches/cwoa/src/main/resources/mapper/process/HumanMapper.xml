@@ -53,11 +53,15 @@
     </resultMap>
 
     <select id="queryRoleAllUser"  resultMap="RoleAllUser">
-        SELECT user_id,user_name,user_code,role_id,role_name FROM
-        (SELECT user_id,user_name,user_code,role_id AS r_id FROM sys_user WHERE STATUS=0) tableone
-        LEFT JOIN
-        sys_role tabletwo
-        ON tableone.r_id=tabletwo.role_id ORDER BY role_level DESC
+        SELECT * FROM
+        (SELECT user_id,user_code,user_name,role_id,role_name FROM
+        (SELECT user_id,user_code,user_name,role_id AS r_id FROM
+        (SELECT user_id AS u_id,user_name,user_code FROM sys_user WHERE STATUS=0) tableone
+        INNER JOIN sys_user_role tabletwo
+        ON tableone.u_id=tabletwo.user_id) tablethr
+        LEFT JOIN sys_role tablefour
+        ON tablethr.r_id=tablefour.role_id ORDER BY role_level DESC) tablefive
+        GROUP BY user_id
     </select>
 
     <select id="queryMenuByParentId"  parameterType="String" resultType="String">
