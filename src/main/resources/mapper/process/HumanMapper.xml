@@ -65,6 +65,8 @@
     </select>
 
     <select id="queryMenuByParentId"  parameterType="String" resultType="String">
-        SELECT menu_name FROM sys_menu WHERE parent_id=#{arg0}
+        SELECT menu_name FROM sys_menu WHERE menu_url IS NULL AND parent_id =#{arg1} AND menu_id IN
+        (SELECT menu_id FROM sys_role_menu WHERE role_id IN
+            (SELECT role_id FROM sys_user_role WHERE user_id=#{arg0}))
     </select>
 </mapper>
