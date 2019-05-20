@@ -4,7 +4,12 @@ layui.extend({
 }).define(["setter", "jquery"], function(e) {
     var $ = layui.jquery;
     var myChart = echarts.init(document.getElementById('main'));
+//根据窗口的大小变动图表 --- 重点
+    window.onresize = function(){
+        myChart.resize();
+        //myChart1.resize();    //若有多个图表变动，可多写
 
+    }
     $.ajax({
         type: "get",
         url: layui.setter.project+"/project/projectEchars",
