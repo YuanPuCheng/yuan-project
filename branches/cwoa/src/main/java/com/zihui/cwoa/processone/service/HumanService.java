@@ -78,7 +78,7 @@ public class HumanService {
     /**
      *  根据父ID查询菜单名称数组
      */
-    public List<String> queryMenuByParentId(String parentId){
-        return humanMapper.queryMenuByParentId(parentId);
+    public List<String> queryMenuByParentId(String userId,String parentId){
+        return humanMapper.queryMenuByParentId(userId,parentId);
     }
 }

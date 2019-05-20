@@ -36,5 +36,5 @@ public interface HumanMapper {
     /**
      *  根据父ID查询菜单名称数组
      */
-    List<String> queryMenuByParentId(String parentId);
+    List<String> queryMenuByParentId(String userId,String parentId);
 }

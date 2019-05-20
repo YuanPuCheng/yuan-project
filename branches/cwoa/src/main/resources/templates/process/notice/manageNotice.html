@@ -34,16 +34,11 @@
 		<table class="layui-hide" id="test" lay-filter="test"></table>
 
 		<script type="text/html" id="toolbarDemo">
-			<div class="layui-btn-container">
-				<button class="layui-btn layui-btn-sm" lay-event="addNotice">发布公告</button>
-				<button class="layui-btn layui-btn-sm" lay-event="delManyNotice">批量删除</button>
-			</div>
+			<div class="layui-btn-container" id="toolbarBox"></div>
 		</script>
 
 		<script type="text/html" id="barDemo">
 			<a class="layui-btn layui-btn-sm" lay-event="query">查看公告</a>
-			<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>
-			<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>
 		</script>
 
 		<script src="../../../static/layui/layui.js"></script>
@@ -151,6 +146,33 @@
 					widthMax = "99%";
 					heightMax = "85%";
 				}
+				var userId=$("#userId",parent.document).attr("name");
+                $.ajax({
+                    url: "/human/queryMenuByParentId",
+                    type: "get",
+					data:{
+                        "userId":userId,
+						"parentId":82
+					},
+                    dataType: "text", //预测服务端返回的数据类型
+                    success: function(data) { //请求成功的回调
+                        if (data.indexOf("添加")!==-1){
+                            $('#toolbarBox').append('<button class="layui-btn layui-btn-sm" lay-event="addNotice">发布公告</button>');
+                        }
+                        if (data.indexOf("编辑")!==-1){
+                            $('#barDemo').append('<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>');
+                        }
+						if (data.indexOf("删除")!==-1){
+						    $('#toolbarBox').append('<button class="layui-btn layui-btn-sm" lay-event="delManyNotice">批量删除</button>');
+						    $('#barDemo').append('<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>');
+						}
+                    },
+                    error: function() { //请求失败的回调
+                        layer.msg('发生了未知错误！', {
+                            icon: 2
+                        });
+                    }
+                });
 				$.ajax({
 					url: '/notice/countNotice',
 					data: {},
@@ -232,6 +254,9 @@
                                 });
                                 return;
 							}
+                            layer.confirm('确定要删除这些公告吗？', {
+                                btn: ['确定', '再想想'] //按钮
+                            }, function() {
                             var dataList=checkStatus.data;
                             var idArray=[];
 							for (var i=0;i<selectLen;i++){
@@ -271,6 +296,7 @@
                                         icon: 2
                                     });
                                 }
+                            });
                             });
 							break;
 					}

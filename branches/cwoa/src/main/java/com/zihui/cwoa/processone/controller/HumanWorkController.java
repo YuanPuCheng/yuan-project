@@ -82,7 +82,7 @@ public class HumanWorkController {
      */
     @RequestMapping("/queryMenuByParentId")
     @ResponseBody
-    public List<String> queryMenuByParentId(String parentId){
-        return humanService.queryMenuByParentId(parentId);
+    public List<String> queryMenuByParentId(String userId,String parentId){
+        return humanService.queryMenuByParentId(userId,parentId);
     }
 }
