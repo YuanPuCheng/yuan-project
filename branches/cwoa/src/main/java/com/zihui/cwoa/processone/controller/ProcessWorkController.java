@@ -273,7 +273,7 @@ public class ProcessWorkController {
     }
 
     /**
-     * 启动请款流程
+     * 启动公司请款流程
      * @return 成功/失败 true/false
      */
     @RequestMapping("/askformoney")
@@ -309,6 +309,19 @@ public class ProcessWorkController {
         variables.remove("projectId");
         variables.put("firstman", user_service.userRoleQuery(2, projectId).get(0).getUserCode());
         return processesService.startProcess("askforproreimburse", variables);
+    }
+
+    /**
+     * 启动项目请款流程
+     * @return 成功/失败 true/false
+     */
+    @RequestMapping("/askforpromoney")
+    @ResponseBody
+    public boolean startAskForProMoney(@RequestBody Map<String, Object> variables) {
+        Integer projectId = Integer.parseInt((String) variables.get("projectId"));
+        variables.remove("projectId");
+        variables.put("firstman", user_service.userRoleQuery(2, projectId).get(0).getUserCode());
+        return processesService.startProcess("askforpromoney", variables);
     }
 
 }

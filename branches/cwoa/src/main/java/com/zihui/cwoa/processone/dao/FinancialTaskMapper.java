@@ -11,4 +11,6 @@ public interface FinancialTaskMapper {
     void insertMoneyFlowIn(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType);
 
     void insertProMoneyFlowIn(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType);
+
+    void insertProMoneyFlowOut(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType);
 }

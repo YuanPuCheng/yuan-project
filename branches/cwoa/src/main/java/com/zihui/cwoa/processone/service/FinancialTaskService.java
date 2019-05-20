@@ -21,4 +21,8 @@ public class FinancialTaskService {
         financialTaskMapper.insertProMoneyFlowIn(userCode, userProject, flowMoneyOut, processInstanceId,flowType);
     }
 
+    public void insertProMoneyFlowOut(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType){
+        financialTaskMapper.insertProMoneyFlowOut(userCode, userProject, flowMoneyOut, processInstanceId,flowType);
+    }
+
 }
