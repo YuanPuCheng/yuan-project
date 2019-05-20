@@ -33,9 +33,7 @@
 
 		<table class="layui-hide" id="test" lay-filter="test"></table>
 
-		<script type="text/html" id="toolbarDemo">
-			<div class="layui-btn-container" id="toolbarBox"></div>
-		</script>
+		<script type="text/html" id="toolbarDemo"></script>
 
 		<script type="text/html" id="barDemo">
 			<a class="layui-btn layui-btn-sm" lay-event="query">查看公告</a>
@@ -156,23 +154,26 @@
 					},
                     dataType: "text", //预测服务端返回的数据类型
                     success: function(data) { //请求成功的回调
+						var htmlText='<div class="layui-btn-container">';
                         if (data.indexOf("添加")!==-1){
-                            $('#toolbarBox').append('<button class="layui-btn layui-btn-sm" lay-event="addNotice">发布公告</button>');
+                            htmlText=htmlText+'<button class="layui-btn layui-btn-sm" lay-event="addNotice">发布公告</button>';
                         }
                         if (data.indexOf("编辑")!==-1){
                             $('#barDemo').append('<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>');
                         }
 						if (data.indexOf("删除")!==-1){
-						    $('#toolbarBox').append('<button class="layui-btn layui-btn-sm" lay-event="delManyNotice">批量删除</button>');
+						    htmlText=htmlText+'<button class="layui-btn layui-btn-sm" lay-event="delManyNotice">批量删除</button>';
 						    $('#barDemo').append('<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>');
 						}
+						htmlText=htmlText+'</div>';
+                        $('#toolbarDemo').html(htmlText);
                         $.ajax({
                             url: '/notice/countNotice',
                             data: {},
                             type: "get",
                             dataType: "text",
-                            success: function(data) { //请求成功的回调
-                                dataSize=data;
+                            success: function(result) { //请求成功的回调
+                                dataSize=result;
                                 table.render({
                                     elem: '#test',
                                     url: '/notice/queryNotice',
