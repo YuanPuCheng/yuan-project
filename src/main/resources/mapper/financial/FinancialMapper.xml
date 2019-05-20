@@ -78,7 +78,7 @@
 
   <select id="queryMoneyFlowByVop" parameterType="String" resultType="com.zihui.cwoa.financial.pojo.ProjectMonthDetail">
     SELECT tableone.*,user_name FROM
-    (SELECT user_code,user_project AS project_name,flow_year,flow_month,flow_date,0 AS flow_money_out,
+    (SELECT user_code,user_project AS project_name,flow_year,flow_month,flow_date,IFNULL(flow_money_out,0) AS flow_money_out,
     IFNULL(flow_money_in,0) AS flow_money_in,flow_type,flow_process_id
     FROM fin_pro_money_flow WHERE  1=1
     <if test="arg0!=null and arg0!=''"> and  user_code=#{arg0}</if>
