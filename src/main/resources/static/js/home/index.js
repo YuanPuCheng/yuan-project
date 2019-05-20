@@ -54,7 +54,6 @@ layui.extend({
         }
     });
     //公告页面渲染开始
-    var noticeList;
     $.ajax({
         url: '/notice/queryNotice',
         type: "get",
@@ -65,7 +64,7 @@ layui.extend({
         },
         dataType: "json",
         success: function(result) { //请求成功的回调
-            noticeList=result.data;
+            var noticeList=result.data;
             var noticeListLen=noticeList.length;
             var noticeHtml="";
             for (var i=1;i<=noticeListLen;i++){
@@ -82,6 +81,7 @@ layui.extend({
                     layer.open({
                         type: 1,
                         shadeClose: true,
+                        title:noticeList[noticeIndex-1].notice_name,
                         area: [widthMax, heightMax], //宽高
                         content: noticeList[noticeIndex-1].notice_text
                     });
@@ -93,7 +93,8 @@ layui.extend({
                 icon: 2
             });
         }
-    });
+    });//公告页面渲染结束
+
 
 
 
