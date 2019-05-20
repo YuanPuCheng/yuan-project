@@ -109,8 +109,7 @@
       <if test="arg3=='monthSum'">'全年' AS flow_month,</if>
       <if test="arg4!='typeSum'">flow_type,</if>
       <if test="arg4=='typeSum'">'无' AS flow_type,</if>
-      <if test="arg5!='project'">IFNULL(SUM(flow_money_out),0) AS flow_money_out,</if>
-      <if test="arg5=='project'">0 AS flow_money_out,</if>
+      IFNULL(SUM(flow_money_out),0) AS flow_money_out,
       IFNULL(SUM(flow_money_in),0) AS flow_money_in
     FROM
       <if test="arg5=='company'">fin_money_flow</if>
