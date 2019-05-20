@@ -158,7 +158,7 @@
 					var flowYear = $('#flowYear option:selected').prop("value");
 					var flowMonth = $('#flowMonth option:selected').prop("value");
 					$.ajax({
-						url: 'http://192.168.1.2:8080/human/countLeaveByVo',
+						url: '/human/countLeaveByVo',
 						type: "get",
 						data: {
 							"userName": userName,
@@ -176,7 +176,7 @@
 								var userCode = data.userCode;
 								table.render({
 									elem: '#test',
-									url: 'http://192.168.1.2:8080/human/queryLeaveByVo',
+									url: '/human/queryLeaveByVo',
 									toolbar: true,
 									where: {
 										"size": size,
@@ -245,7 +245,7 @@
 
 				$(document).ready(function() {
 					$.ajax({
-						url: "http://192.168.1.2:8080/project/getprojecttoselect",
+						url: "/project/getprojecttoselect",
 						type: "get",
 						dataType: "json", //预测服务端返回的数据类型
 						success: function(data) { //请求成功的回调
