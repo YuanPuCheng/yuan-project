@@ -10,6 +10,12 @@
 			.layui-card-body{
 				height: 240px;
 			}
+			.noticeStyle{
+				cursor: pointer;
+			}
+			.noticeStyle:hover{
+				background-color: #eeeeee;
+			}
 		</style>
 	</head>
 	<body>
@@ -19,11 +25,8 @@
 				<div class="layui-row layui-col-space15">
 					<div class="layui-col-md6">
 						<div class="layui-card">
-							<div class="layui-card-header">快捷方式</div>
-							<div class="layui-card-body">
-
-
-							</div>
+							<div class="layui-card-header">通知</div>
+							<div class="layui-card-body" id="notice"></div>
 						</div>
 					</div>
 					<div class="layui-col-md6">
@@ -91,6 +94,7 @@
 	</div>
 
 	</body>
+	<script type="text/javascript" src="../../static/js/common/dateFormat.js" ></script>
 	<script src="../../static/layui/layui.js"></script>
 	<script src="../../static/js/echarts.min.js"></script>
 	<script type="text/javascript">
