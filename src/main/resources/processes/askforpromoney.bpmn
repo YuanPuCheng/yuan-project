@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1558344764744" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
-  <process id="askforpromoney" isClosed="false" isExecutable="true" name="项目请款流程" processType="None">
+  <process id="askforpromoney" isClosed="false" isExecutable="true" name="项目请款申请" processType="None">
     <startEvent id="start" name="StartEvent"/>
     <userTask activiti:assignee="${firstman}" activiti:exclusive="true" id="taskone" name="项目经理审批">
       <extensionElements>
@@ -12,7 +12,7 @@
     <sequenceFlow id="_6" sourceRef="taskone" targetRef="end"/>
   </process>
   <bpmndi:BPMNDiagram documentation="background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
-    <bpmndi:BPMNPlane bpmnElement="项目请款流程">
+    <bpmndi:BPMNPlane bpmnElement="askforpromoney">
       <bpmndi:BPMNShape bpmnElement="start" id="Shape-start">
         <omgdc:Bounds height="32.0" width="32.0" x="200.0" y="225.0"/>
         <bpmndi:BPMNLabel>
