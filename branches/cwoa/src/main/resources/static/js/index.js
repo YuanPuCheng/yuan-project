@@ -266,6 +266,7 @@ layui.extend({
                 var i=$('#LAY_app_tabsheader .layui-tab-close').index(this);
                 if(i==tab_index){
                     $('#LAY_app_tabsheader .lay_app_li').eq(tab_index-1).addClass('layui-this');
+                    $('.layadmin-tabsbody-item').addClass('layui-show')
                 }
                 arr.splice(i,1);
                 $('.lay_app_li').eq(i).remove();
