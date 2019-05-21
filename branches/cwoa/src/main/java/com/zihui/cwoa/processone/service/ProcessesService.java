@@ -421,6 +421,10 @@ public class ProcessesService {
         return startProcess("liveProcess",map);
     }
 
+    /**
+     * 创建多人任务
+     * @return 成功/失败
+     */
     public boolean startManyProcess(Map<String, Object> variables){
         //业务主键 businessKey
         Long currentTimeMillis = System.currentTimeMillis();
@@ -442,6 +446,10 @@ public class ProcessesService {
         return true;
     }
 
+    /**
+     * 拒绝动态任务
+     * @return 成功/失败
+     */
     public boolean rejectLiveTask(String processInstanceId, String reason,String taskId,String userCode){
         String userName = userService.selectUserByCode(userCode).getUserName();
         String otherTalk = (String) runtimeService.getVariable(processInstanceId, "otherTalk");
