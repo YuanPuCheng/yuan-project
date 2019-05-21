@@ -7,7 +7,9 @@
 	$("#info").attr("lay-href",project+"/sys/userinfo");
 	$("#pass").attr("lay-href",project+"/sys/updatepass");
 	$("#logout").attr("href",project+"/sys/logoutuser");
-	$("#task").attr("lay-href",project+"/sys/mytask");
+	$("#task").click(function () {
+        openbq('mytask');
+    })
     $("#iii").attr("lay-href",project+"/sys/syindex");
     $("#index1").attr("src",project+"/sys/syindex");
     //供子窗口调用
