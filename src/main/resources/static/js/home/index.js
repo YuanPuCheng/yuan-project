@@ -1,9 +1,17 @@
 layui.extend({
     setter: "../../../static/layui/config"
 
-}).define(["setter", "jquery",'layer'], function(e) {
+}).define(["setter", "jquery",'layer','carousel'], function(e) {
     var $ = layui.jquery;
     var layer=layui.layer;
+    var carousel = layui.carousel;
+
+    carousel.render({
+        elem: '#test10'
+        ,width: '100%'
+        ,height: '100%'
+        ,interval: 5000
+    });
     var myChart = echarts.init(document.getElementById('main'));
     var widthMax = "70%",
         heightMax = "80%";
