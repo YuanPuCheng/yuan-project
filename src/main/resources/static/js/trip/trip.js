@@ -178,7 +178,7 @@ layui.extend({
 		//console.log(markJson)
 		//获取弹出层val
 		var chose_moban_val = $('#text_book').val();
-
+        //var content =  "<span style='color:red;font-size:14px'>"+chose_moban_val+"</span>";
 		$('#test-n2').html(''); //重要！由于插件是嵌套指定容器，再次调用前需要清空原日历控件
 		//添加属性 
 		markJson[obj_date] = chose_moban_val;

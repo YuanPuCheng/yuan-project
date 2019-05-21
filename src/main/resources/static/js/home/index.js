@@ -6,6 +6,15 @@ layui.extend({
     var layer=layui.layer;
     var carousel = layui.carousel;
 
+
+
+
+
+
+
+    $("#p1").click(function () {
+        window.parent.openbq('sys:user');
+    })
     carousel.render({
         elem: '#test10'
         ,width: '100%'
