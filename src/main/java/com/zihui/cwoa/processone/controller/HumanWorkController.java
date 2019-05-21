@@ -77,7 +77,7 @@ public class HumanWorkController {
     }
 
     /**
-     *  根据父ID查询菜单名称数组
+     *  根据用户ID及父ID查询他拥有的三级权限名称数组
      *  @return text
      */
     @RequestMapping("/queryMenuByParentId")
