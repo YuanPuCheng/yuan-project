@@ -122,9 +122,13 @@
 <script src="../static/layui/layui.js" charset="utf-8"></script>
 <script src="../static/js/jquery-3.3.1.min.js"></script>
     <script src="../static/js/common/common.js"></script>
+    <script src="../static/js/index.js"></script>
+
 <script>
     $(function () {
-        task()
+
+        task();
+
     })
 
     function task() {
@@ -143,12 +147,7 @@
 
     //<![CDATA[
 	//菜单隐藏显示
-layui.config({
-     base: '../static/js/' //静态资源所在路径
- }).use(['index','jquery'], function(){
-  var layer = layui.layer;
-  var $=layui.jquery;
-}); 
+
 
 
     //]]>
