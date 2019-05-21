@@ -1,21 +1,24 @@
 
 
 
-layui.extend({
-	setter: "../../static/layui/config"
 
-}).define(["setter", "jquery"], function(e) {
-	var $ = layui.jquery;
-	$("#info").attr("lay-href",layui.setter.project+"/sys/userinfo");
-	$("#pass").attr("lay-href",layui.setter.project+"/sys/updatepass");
-	$("#logout").attr("href",layui.setter.project+"/sys/logoutuser");
-	$("#task").attr("lay-href",layui.setter.project+"/sys/mytask");
-    $("#iii").attr("lay-href",layui.setter.project+"/sys/syindex");
-    $("#index1").attr("src",layui.setter.project+"/sys/syindex");
+
+
+	$("#info").attr("lay-href",project+"/sys/userinfo");
+	$("#pass").attr("lay-href",project+"/sys/updatepass");
+	$("#logout").attr("href",project+"/sys/logoutuser");
+	$("#task").attr("lay-href",project+"/sys/mytask");
+    $("#iii").attr("lay-href",project+"/sys/syindex");
+    $("#index1").attr("src",project+"/sys/syindex");
+    //供子窗口调用
+    function openbq(id) {
+        //alert(id);
+        document.getElementById(id).click();
+    }
 	//目录ajax  post请求
 	$.ajax({
 		type:"post",
-		url:layui.setter.project+"/system/index",
+		url:project+"/system/index",
 		async:true,
 		timeout:5000,
 		dataType:"json",
@@ -36,9 +39,9 @@ layui.extend({
                                 menusName+=data[i].menus[j].menus[k].menuName+",";
                             }
                             console.log(menusName);
-                            dds+='<dd><a lay-href="'+layui.setter.project+data[i].menus[j].menuUrl+'?data='+menusName.substring(0,menusName.length-1)+'\">'+data[i].menus[j].menuName+'</a></dd>';
+                            dds+='<dd><a id="'+data[i].menus[j].menuCode+'" lay-href="'+project+data[i].menus[j].menuUrl+'?data='+menusName.substring(0,menusName.length-1)+'\">'+data[i].menus[j].menuName+'</a></dd>';
                         }else{
-                            dds+='<dd><a lay-href="'+layui.setter.project+data[i].menus[j].menuUrl+'?data=\">'+data[i].menus[j].menuName+'</a></dd>';
+                            dds+='<dd><a id="'+data[i].menus[j].menuCode+'" lay-href="'+project+data[i].menus[j].menuUrl+'?data=\">'+data[i].menus[j].menuName+'</a></dd>';
                         }
                         console.log(data[i].menus[j].menuUrl);
                     }
@@ -407,7 +410,7 @@ layui.extend({
             
             $.ajax({
         	  	type:"post",
-        	  	url:layui.setter.project+"/user/getuserinfo",
+        	  	url:project+"/user/getuserinfo",
         	  	async:true,
         	  	dataType:"json",
         	  	success:function(data){
@@ -456,7 +459,3 @@ layui.extend({
 		}
 	});
 
-
-	
-	 e("index", {})
-});
