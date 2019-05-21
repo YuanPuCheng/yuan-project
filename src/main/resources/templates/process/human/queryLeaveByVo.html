@@ -111,7 +111,7 @@
 					if(obj.event === 'detail') {
 						var timeValue=data.lea_year+'-'+data.lea_month+'-01';
 						$.ajax({
-							url: 'http://192.168.1.2:8080/human/queryLeaveDetail',
+							url: '/human/queryLeaveDetail',
 							type: "get",
 							data: {
 								"userCode": data.user_code,
