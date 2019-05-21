@@ -46,41 +46,6 @@ public class ProcessWorkController {
     }
 
     /**
-     * 启动请假或者流程
-     * @param variables 流程变量
-     * @return 成功/失败 true/false
-     */
-    @RequestMapping("/startaskforleave")
-    @ResponseBody
-    public boolean startAskForLeave(@RequestBody Map<String, Object> variables) {
-        String processKey=(String) variables.get("processKey");
-        variables.remove("processKey");
-        String projectId = (String) variables.get("projectId");
-        variables.remove("projectId");
-        String roleName = (String) variables.get("userRole");
-        variables.remove("userRole");
-        Integer roleId=queryService.queryManagerIdByRoleName(roleName);
-        Integer upProjectId= Integer.parseInt(projectId);
-        if (roleId<=2){
-            if (roleId==1){
-                upProjectId=41;
-            }
-            if ("askforleave".equals(processKey)){
-                processKey="highAskForLeave";
-            }else {
-                processKey="highAskForTravel";
-            }
-        }
-        List<sys_users> sys_users1 = user_service.userRoleQuery(roleId,upProjectId);
-        String userCode1 = sys_users1.get(0).getUserCode();
-        List<sys_users> sys_users2 = user_service.userRoleQuery(2,Integer.parseInt(projectId));
-        String userCode2 = sys_users2.get(0).getUserCode();
-        variables.put("firstman", userCode1);
-        variables.put("secondman", userCode2);
-        return processesService.startProcess(processKey, variables);
-    }
-
-    /**
      * 查询用户任务
      * @param userCode 用户工号
      * @return 用户的任务信息
@@ -89,6 +54,17 @@ public class ProcessWorkController {
     @ResponseBody
     public Map<String, Object> queryTask(String userCode,int page, int num) {
         return processesService.queryTask(userCode,page,num);
+    }
+
+    /**
+     * 查询用户任务数量
+     * @param userCode 用户工号
+     * @return 用户的任务数量
+     */
+    @RequestMapping("/counttask")
+    @ResponseBody
+    public Integer countTask(String userCode) {
+        return queryService.queryTaskCountByCode(userCode);
     }
 
     /**
@@ -322,6 +298,41 @@ public class ProcessWorkController {
         variables.remove("projectId");
         variables.put("firstman", user_service.userRoleQuery(2, projectId).get(0).getUserCode());
         return processesService.startProcess("askforpromoney", variables);
+    }
+
+    /**
+     * 启动请假或者流程
+     * @param variables 流程变量
+     * @return 成功/失败 true/false
+     */
+    @RequestMapping("/startaskforleave")
+    @ResponseBody
+    public boolean startAskForLeave(@RequestBody Map<String, Object> variables) {
+        String processKey=(String) variables.get("processKey");
+        variables.remove("processKey");
+        String projectId = (String) variables.get("projectId");
+        variables.remove("projectId");
+        String roleName = (String) variables.get("userRole");
+        variables.remove("userRole");
+        Integer roleId=queryService.queryManagerIdByRoleName(roleName);
+        Integer upProjectId= Integer.parseInt(projectId);
+        if (roleId<=2){
+            if (roleId==1){
+                upProjectId=41;
+            }
+            if ("askforleave".equals(processKey)){
+                processKey="highAskForLeave";
+            }else {
+                processKey="highAskForTravel";
+            }
+        }
+        List<sys_users> sys_users1 = user_service.userRoleQuery(roleId,upProjectId);
+        String userCode1 = sys_users1.get(0).getUserCode();
+        List<sys_users> sys_users2 = user_service.userRoleQuery(2,Integer.parseInt(projectId));
+        String userCode2 = sys_users2.get(0).getUserCode();
+        variables.put("firstman", userCode1);
+        variables.put("secondman", userCode2);
+        return processesService.startProcess(processKey, variables);
     }
 
 }
