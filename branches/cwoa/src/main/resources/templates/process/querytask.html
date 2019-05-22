@@ -34,7 +34,7 @@
 		<script src="./../../static/layui/layui.js"></script>
 		<script>
 			//<![CDATA[
-						Date.prototype.format = function(fmt) {
+			Date.prototype.format = function(fmt) {
 				var o = {
 					"M+": this.getMonth() + 1, //月份
 					"d+": this.getDate(), //日
@@ -53,7 +53,7 @@
 					}
 				}
 				return fmt;
-			}
+			};
             function viewFile(imageName) {
                 var iName=imageName.toLowerCase();
                 var iType = iName.substring(iName.lastIndexOf("."));
@@ -107,8 +107,11 @@
 						}
 						$("#queryProcessBox").html(txt);
 						$("button").click(function() {
+                            var processInstanceId;
+                            var click = false;
+                            var taskId;
 							if($(this).text() === "查看流程") {
-								var processInstanceId = $(this).attr("cid");
+								processInstanceId = $(this).attr("cid");
 								layer.open({
 									type: 1,
 									shadeClose: true,
@@ -157,9 +160,8 @@
                                     });
 								}
 							} else if($(this).text() === "同意申请") {
-								var taskId = $(this).attr("tid");
-								var processInstanceId = $(this).attr("pid");
-								var click = false;
+								taskId = $(this).attr("tid");
+								processInstanceId = $(this).attr("pid");
 								layer.confirm('您确定批准该申请吗？', {
 									btn: ['确定', '再想想'] //按钮
 								}, function() {
@@ -202,10 +204,9 @@
 									//再想想触发的事件
 								});
 							} else if($(this).text() === "驳回申请") {
-								var processInstanceId = $(this).attr("pid");
+								processInstanceId = $(this).attr("pid");
                                 var processName = $(this).attr("pty");
-                                var taskId = $(this).attr("tid");
-								var click = false;
+                                taskId = $(this).attr("tid");
 								layer.prompt({
 									title: '请输入驳回理由',
 									formType: 2
@@ -258,9 +259,6 @@
 						});
 					}
 					var userCode=$("#userCode",parent.document).attr("name");
-					if((typeof(userCode)==='undefined') || (userCode==='')){
-					    userCode="Nancy";
-					}
 					$.ajax({
 						url: "/process/querytask",
 						type: "get",
