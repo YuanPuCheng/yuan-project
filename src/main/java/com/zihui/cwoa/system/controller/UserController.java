@@ -3,13 +3,14 @@ package com.zihui.cwoa.system.controller;
 import com.zihui.cwoa.system.common.Basecommon;
 import com.zihui.cwoa.system.common.CallbackResult;
 import com.zihui.cwoa.system.common.DateUtils;
-import com.zihui.cwoa.system.dao.sys_role_menuMapper;
+import com.zihui.cwoa.system.common.RedisUtils;
 import com.zihui.cwoa.system.pojo.sys_user;
 import com.zihui.cwoa.system.pojo.sys_users;
 import com.zihui.cwoa.system.service.*;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,6 +36,11 @@ public class UserController {
 
     @Resource
     private sys_user_roleService userRoleService;
+
+    @Resource
+    private RedisTemplate redisTemplate;
+    @Resource
+    private RedisUtils redisUtils;
 
     /**
      *  根据条件查询用户列表
@@ -354,17 +360,11 @@ public class UserController {
 
     @RequestMapping(value = "/test")
     @ResponseBody
-    public List test(){
-        List list = new ArrayList();
-        Map map1 = new HashMap();
-        map1.put("time","2019-05-13");
-        map1.put("value","测试");
-        Map map2 = new HashMap();
-        map2.put("time","2019-05-15");
-        map2.put("value","数据");
-        list.add(map1);
-        list.add(map2);
-        return list;
+    public String test(){
+        redisUtils.set("name","value");
+
+        String name = redisUtils.get("name");
+        return name;
     }
 
     public static void main(String[] args) {
