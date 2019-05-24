@@ -1,27 +1,30 @@
 package com.zihui.cwoa.system.service;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.zihui.cwoa.system.dao.sys_projectMapper;
 import com.zihui.cwoa.system.pojo.sys_project;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+@CacheConfig(cacheNames = {"sys_projectServiceCache"})
 @Service
 public class sys_projectService {
 
     @Resource
     private sys_projectMapper projectMapper;
 
-
-   public int deleteByPrimaryKey(Integer projectId){
+    @CacheEvict(key="'projectListToSelect'")
+    public int deleteByPrimaryKey(Integer projectId){
        return projectMapper.deleteByPrimaryKey(projectId);
    };
 
 
+    @CacheEvict(key="'projectListToSelect'")
     public  int insertSelective(sys_project record){
         return projectMapper.insertSelective(record);
     };
@@ -30,6 +33,7 @@ public class sys_projectService {
         return projectMapper.selectByPrimaryKey(projectId);
     };
 
+    @CacheEvict(key="'projectListToSelect'")
     public int updateByPrimaryKeySelective(sys_project record){
         return projectMapper.updateByPrimaryKeySelective(record);
     };
@@ -55,6 +59,7 @@ public class sys_projectService {
     };
 
     //用户展示项目下拉
+    @Cacheable(key="'projectListToSelect'")
     public List<sys_project> projectListToSelect(){
         return projectMapper.projectListToSelect();
     }
