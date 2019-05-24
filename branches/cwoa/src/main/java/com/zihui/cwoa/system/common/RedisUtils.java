@@ -14,86 +14,100 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class RedisUtils {
+
     //  @Autowired
-//    private RedisTemplate<String, Object> redisTemplate;
+    //private RedisTemplate<String, Object> redisTemplate;
     @Autowired
     private StringRedisTemplate redisTemplate;
     // Key（键），简单的key-value操作
+
     /**
      * 实现命令：TTL key，以秒为单位，返回给定 key的剩余生存时间(TTL, time to live)。
-     *
-     * @param key
-     * @return
+     * @param key key值
+     * @return 秒数
      */
     public long ttl(String key) {
         return redisTemplate.getExpire(key);
     }
+
     /**
      * 实现命令：expire 设置过期时间，单位秒
-     *
-     * @param key
-     * @return
+     * @param key key值
      */
     public void expire(String key, long timeout) {
         redisTemplate.expire(key, timeout, TimeUnit.SECONDS);
     }
+
     /**
      * 实现命令：INCR key，增加key一次
-     *
      * @param key
      * @return
      */
     public long incr(String key, long delta) {
         return redisTemplate.opsForValue().increment(key, delta);
     }
+
     /**
      * 实现命令： key，减少key一次
-     *
      * @param key
      * @return
      */
     public long decr(String key, long delta) {
         if(delta<0){
-//            throw new RuntimeException("递减因子必须大于0");
+        //throw new RuntimeException("递减因子必须大于0");
             del(key);
             return 0;
         }
         return redisTemplate.opsForValue().increment(key, -delta);
     }
+
     /**
      * 实现命令：KEYS pattern，查找所有符合给定模式 pattern的 key
      */
     public Set<String> keys(String pattern) {
         return redisTemplate.keys(pattern);
     }
+
     /**
      * 实现命令：DEL key，删除一个key
-     *
-     * @param key
+     * @param key key值
      */
     public void del(String key) {
         redisTemplate.delete(key);
     }
-    // String（字符串）
+
+    /**
+     * 实现命令：删除key符合某种形式的数据
+     * @param keyPattern key的形式
+     */
+    public void deleteCache(String keyPattern){
+        Set<String> set= keys(keyPattern);
+        for (String str: set) {
+            del(str);
+        }
+    }
+
     /**
      * 实现命令：SET key value，设置一个key-value（将字符串值 value关联到 key）
      *
-     * @param key
-     * @param value
+     * @param key 键
+     * @param value 值
      */
     public void set(String key, String value) {
         redisTemplate.opsForValue().set(key, value);
     }
+
     /**
      * 实现命令：SET key value EX seconds，设置key-value和超时时间（秒）
      *
-     * @param key
-     * @param value
+     * @param key 键
+     * @param value 值
      * @param timeout （以秒为单位）
      */
     public void set(String key, String value, long timeout) {
         redisTemplate.opsForValue().set(key, value, timeout, TimeUnit.SECONDS);
     }
+
     /**
      * 实现命令：GET key，返回 key所关联的字符串值。
      *
@@ -164,7 +178,6 @@ public class RedisUtils {
     }
     /**
      * 实现命令：RPUSH key value，将一个值 value插入到列表 key的表尾(最右边)。
-     *
      * @param key
      * @param value
      * @return 执行 LPUSH命令后，列表的长度。
