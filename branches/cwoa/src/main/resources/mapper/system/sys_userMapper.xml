@@ -447,6 +447,13 @@
     SELECT DISTINCT user_id as userId,
     user_name as userName,
     user_code AS userCode FROM  sys_user join sys_project on sys_user.user_id = sys_project.project_user_id
+  </select>
+  <!--用于所有用户下拉-->
+  <select id="selectUserBySelect" resultType="com.zihui.cwoa.system.pojo.sys_users">
 
+    SELECT
+    user_id as userId,
+    user_name as userName,
+    user_code AS userCode  from sys_user where status = 0
   </select>
 </mapper>

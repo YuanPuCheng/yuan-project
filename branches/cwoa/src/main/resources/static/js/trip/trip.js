@@ -7,7 +7,7 @@ layui.extend({
 		laydate = layui.laydate,
 		$ = layui.jquery;
 
-	var data = {};
+	//var data = {};
 	var dataArr = [];
     var sessionData = sessionStorage.getItem('user');//取出数据
     var user = JSON.parse(sessionData);
@@ -53,7 +53,8 @@ layui.extend({
 	//日历插件调用方法  
 	function loding_date(date_value, data) {
 		//var value = formatDate(date_value);
-		//console.log(date_value)
+		console.log(data);
+        console.log(date_value);
 		var mintime = formatDate(new Date());
 		laydate.render({
 			elem: '#test-n2',
@@ -183,7 +184,7 @@ layui.extend({
 		//添加属性 
 		markJson[obj_date] = chose_moban_val;
 		addoredit(obj_date, chose_moban_val, userID);
-		data = {
+		var data = {
 			time: obj_date,
 			value: chose_moban_val
 		}
@@ -239,6 +240,31 @@ layui.extend({
 		$('#test-n2').html('');
 		loding_date(obj_date, markJson);
 
-	}
+	};
+
+    //项目下拉框加载
+    $.get(layui.setter.project + '/user/getuserselect', {}, function(data) {
+        var $html = "";
+        if(data != null) {
+            $.each(data, function(index, item) {
+
+                    $html += "<option value='" + item.userId + "'>" + item.userName + "</option>";
+
+            });
+            $("select[name='users']").append($html);
+            //反选
+            $("select[name='users']").val(userID);
+            //append后必须从新渲染
+            form.render('select');
+        }
+    });
+
+    form.on("select(userchange)", function(data){
+    	$("#test-n2").remove();
+		var ht = "<div class=\"layui-inline\" id=\"test-n2\"></div>";
+        $(".layui-elem-quote").after(ht)
+        render(data.value);
+        userID=data.value;
+    });
 	e("trip", {})
 });

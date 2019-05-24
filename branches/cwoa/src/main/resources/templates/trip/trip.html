@@ -37,15 +37,25 @@
 			<div class="layui-card">
 				<div class="layui-form layui-card-header layuiadmin-card-header-auto">
 					
-				</div>
+
 
 				<!--表单内容-->
 				<div class="layui-card-body">
-
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">当前人：</label>
+							<div class="layui-input-block">
+								<select name="users" id="users"  lay-filter="userchange" lay-search="">
+								</select>
+							</div>
+						</div>
+					</div>
 					<div class="layui-form layui-border-box layui-table-view">
+
 						<div class="layui-table-box">
 							<div class="layui-table-header">
 								<blockquote class="layui-elem-quote">日程安排</blockquote>
+
 								<div class="layui-inline" id="test-n2"></div>
 
 							</div>
@@ -54,7 +64,7 @@
 				</div>
 			</div>
 		</div>
-
+		</div>
 	</body>
 	<script src="../../static/layui/layui.js" type="text/javascript" charset="utf-8"></script>
 
