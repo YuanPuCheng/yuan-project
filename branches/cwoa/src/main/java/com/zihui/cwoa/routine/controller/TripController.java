@@ -4,8 +4,7 @@ package com.zihui.cwoa.routine.controller;
 import com.zihui.cwoa.routine.pojo.rw_trip;
 import com.zihui.cwoa.routine.service.rw_tripService;
 import com.zihui.cwoa.system.common.CallbackResult;
-import com.zihui.cwoa.system.pojo.sys_user;
-import org.apache.ibatis.annotations.Mapper;
+import com.zihui.cwoa.system.common.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/trip")
@@ -42,6 +37,7 @@ public class TripController {
             e.printStackTrace();
         }
         if(list.size()!=0){
+            log.info("有值");
             for(rw_trip r: list){
                 map.put(r.getTripTime(),r.getTripContent());
             }
