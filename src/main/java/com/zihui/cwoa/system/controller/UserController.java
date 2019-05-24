@@ -51,7 +51,12 @@ public class UserController {
     }
 
 
-
+    @RequestMapping(value = "/getuserselect")
+    @ResponseBody
+    public List<sys_users> getuserselect(){
+        List<sys_users> list = user_service.selectUserBySelect();
+        return list;
+    }
 
     //查看我的个人信息
     @RequestMapping(value = "/mytaskcount")

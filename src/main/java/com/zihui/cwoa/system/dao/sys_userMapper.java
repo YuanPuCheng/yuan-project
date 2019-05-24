@@ -28,4 +28,6 @@ public interface sys_userMapper {
 
     List<sys_users> selectUserAndProject();
 
+    List<sys_users> selectUserBySelect();
+
 }

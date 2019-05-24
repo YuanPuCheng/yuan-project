@@ -78,6 +78,7 @@ public class MyTaskController {
             e.printStackTrace();
             result.setResult(400);
             result.setMessage("系统错误，请联系管理员");
+            return result;
         }
         result.setResult(200);
         result.setMessage("已完成");

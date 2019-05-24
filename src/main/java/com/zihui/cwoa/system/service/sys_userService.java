@@ -5,11 +5,13 @@ import com.zihui.cwoa.system.dao.sys_userMapper;
 import com.zihui.cwoa.system.pojo.sys_user;
 import com.zihui.cwoa.system.pojo.sys_users;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
+@Transactional
 public class sys_userService {
 
     @Resource
@@ -59,5 +61,10 @@ public class sys_userService {
 
     public List<sys_users> selectUserAndProject(){
         return userMapper.selectUserAndProject();
+    };
+
+
+    public List<sys_users> selectUserBySelect(){
+        return userMapper.selectUserBySelect();
     };
 }
