@@ -278,6 +278,21 @@ public class DateUtils {
         return cal.getActualMaximum(Calendar.DAY_OF_YEAR);
     }
 
+    /**
+     * 将时间格式为 yyyy-MM-dd 的字符转换为Data类型
+     * @param datas
+     * @return
+     */
+    public static Date getDayYYMMDD(String datas) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = sdf.parse(datas);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
 
 
 

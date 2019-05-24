@@ -82,4 +82,18 @@ public class sys_role {
     public void setRoleParentId(Integer roleParentId) {
         this.roleParentId = roleParentId;
     }
+
+    @Override
+    public String toString() {
+        return "sys_role{" +
+                "roleId=" + roleId +
+                ", roleName='" + roleName + '\'' +
+                ", roleLevel=" + roleLevel +
+                ", roleCode='" + roleCode + '\'' +
+                ", roleParentId=" + roleParentId +
+                ", parentRole=" + parentRole +
+                ", users=" + users +
+                ", menus=" + menus +
+                '}';
+    }
 }
