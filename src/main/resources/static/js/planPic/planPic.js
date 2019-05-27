@@ -275,6 +275,8 @@ function drawPlanPic(list1, list2) {
 function reDrawPlanPic() {
 	deletePlanPic();
 	drawPlanPic(circleNumberList, linePointList);
+	console.log(circleNumberList);
+	console.log(linePointList);
 }
 
 //删除代号
@@ -298,6 +300,21 @@ function deleteCircleNumber() {
 
 //删除方向线
 function deleteLinePoint() {
+	var frontNum = linePointList[nowIndex].num1;
+	var nextNum = linePointList[nowIndex].num2;
+	var len = circleNumberList.length;
+	var delIndex = -1;
+	for(var i = 0; i < len; i++) {
+		if(circleNumberList[i].num === frontNum) {
+			var list = circleNumberList[i].nextNumList;
+			for(var j = 0; j < list.length; j++) {
+				if(list[j] === nextNum) {
+					delIndex = j;
+				}
+			}
+			list.splice(delIndex, 1);
+		}
+	}
 	linePointList.splice(nowIndex, 1);
 	nowIndex = -1;
 	nowType = -1;
@@ -371,7 +388,7 @@ $('#addCircle').click(function() {
 			"x": circleX,
 			"y": circleY,
 			"num": circleNum,
-			"nextNumList": []
+			"nextNumList": nowCircleNumber.nextNumList
 		};
 		circleNumberList.push(circleNumber);
 		reDrawPlanPic();
@@ -430,6 +447,13 @@ $('#addPoint').click(function() {
 		}
 		if(workText === "") {
 			layer.msg('工作内容不能为空！');
+			return;
+		}
+	}
+	var len = linePointList.length;
+	for(var i = 0; i < len; i++) {
+		if(linePointList[i].num1 === smallNum && linePointList[i].num2 === largeNum) {
+			layer.msg('已经存在的方向线！');
 			return;
 		}
 	}
@@ -570,26 +594,26 @@ $('#savePlan').click(function() {
 		layer.msg('名称不能为空！');
 		return;
 	}
-	var dataUrl='';
-	if(oldPlanName != "") {
-		dataUrl='/plan/updatePlan';
+	var dataUrl = '';
+	if(oldPlanName === "") {
+		dataUrl = '/plan/insertPlan';
 	} else {
-		dataUrl='/plan/insertPlan';
+		dataUrl = '/plan/updatePlan';
 	}
 	$.ajax({
 		url: dataUrl,
 		type: "get",
 		data: {
-			"workMan":workMan,
-			"planName":planName,
-			"circleList":circleNumberList.toString(),
-			"pointList":linePointList.toString()
+			"workMan": workMan,
+			"planName": planName,
+			"circleList": JSON.stringify(circleNumberList),
+			"pointList": JSON.stringify(linePointList)
 		},
 		dataType: "text", //预测服务端返回的数据类型
 		success: function(data) { //请求成功的回调
-			if(data==='true'){
+			if(data === 'true') {
 				successTip();
-			}else{
+			} else {
 				this.error();
 			}
 		},
