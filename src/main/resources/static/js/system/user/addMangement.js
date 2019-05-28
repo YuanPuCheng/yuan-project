@@ -75,8 +75,13 @@ layui.extend({
             form.render('select');
         }
     });
+    var flag = false;
 	//提交
 	form.on('submit(adduser)', function(obj) {
+
+		if(!flag){
+			flag = true;
+
 		var usercode = $("#usercode").val();
 		var username = $("#username").val();
 		var email = $("#email").val();
@@ -124,6 +129,7 @@ layui.extend({
 		})
 		form.render();
 		return false;
+        }
 	});
 	e("addMangement", {})
 

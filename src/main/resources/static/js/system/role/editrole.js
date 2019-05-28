@@ -123,9 +123,12 @@ layui.extend({
 		parent.layer.close(index);
 		//parent.location.reload();
 
-	})
-	
+	});
+	var flag  = false;
 	form.on('submit(editrole)', function(obj) {
+	    if(!flag){
+	        flag = true;
+
 		var roleId = $("#roleId").val();
 		var roleParent =$("#roleParent").val();
 		var roleName = $("#roleName").val();
@@ -163,7 +166,7 @@ layui.extend({
 				}
 			}
 		});
-
+        }
 	});
 
     o('.layui-select-title').click(function() {

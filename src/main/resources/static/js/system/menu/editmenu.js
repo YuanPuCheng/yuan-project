@@ -20,9 +20,12 @@ layui.extend({
 		parent.layer.close(index);
 		//parent.location.reload();
 		
-	})
+	});
+	var flag = false;
 	form.on('submit(editmenu)', function(obj) {
-		
+		if(!flag){
+			flag = true;
+
 		var parentId = $("#parentId").val();
 		var menuName = $("#menuName").val();
 		var menuCode = $("#menuCode").val();
@@ -58,7 +61,7 @@ layui.extend({
 				}
 			}
 		});
-
+        }
 	})
 
 

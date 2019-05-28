@@ -170,8 +170,12 @@ layui.extend({
 		parent.layer.close(index);
 		//parent.location.reload();
 
-	})
+	});
+	var flag = false;
 	form.on('submit(addproject)', function(obj) {
+		if(!flag){
+			flag = true;
+
 		var oldData = table.cache[layTableId];
 		console.log(oldData);
 		
@@ -270,7 +274,7 @@ layui.extend({
 				}
 			}
 		});
-
+        }
 	});
 
 	//用户下拉框加载

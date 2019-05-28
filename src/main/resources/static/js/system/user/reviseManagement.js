@@ -82,9 +82,12 @@ layui.extend({
             form.render('select');
         }
     });
-		
+		var flag = false;
 		//提交
 			form.on('submit(edisuser)', function(obj) {
+				if(!flag){
+					flag = true;
+
 				console.log(formSelects.value('select1', 'valStr'))
 					var usercode = $("#usercode").val();
 					var username = $("#username").val();
@@ -136,6 +139,7 @@ layui.extend({
 					})
 					form.render();
 					return false;
+                }
 				});
 		
 	
