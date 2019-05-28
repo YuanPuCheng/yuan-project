@@ -18,8 +18,12 @@ layui.extend({
 		parent.layer.close(index);
 		//parent.location.reload();
 
-	})
+	});
+	var flag = false;
 	form.on('submit(editdepartment)', function(obj) {
+		if(!flag){
+            flag= true;
+
 		var departmentId = $("#departmentId").val();
 		var departmentName = $("#departmentName").val();
 		var departmentCode = $("#departmentCode").val();
@@ -55,7 +59,7 @@ layui.extend({
 				}
 			}
 		});
-
+        }
 	})
 
 	e("editdepartment", {})

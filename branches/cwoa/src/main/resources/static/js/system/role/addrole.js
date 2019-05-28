@@ -131,9 +131,13 @@ layui.extend({
 		parent.layer.close(index);
 		//parent.location.reload();
 
-	})
+	});
+    var flag = false;
 	
 	form.on('submit(add)', function(obj) {
+	    if(!flag){
+	        flag = true;
+
 		var roleName = $("#roleName").val();
 		var roleLevel = $("#roleLevel").val();
         var roleParent = $("#roleParent").val();
@@ -169,7 +173,7 @@ layui.extend({
 				}
 			}
 		});
-
+        }
 	});
 
 

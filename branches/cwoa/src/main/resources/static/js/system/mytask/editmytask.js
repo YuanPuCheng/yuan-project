@@ -100,14 +100,17 @@ layui.extend({
 				}
 			}
 		});
-	}
-
+	};
+	var flag = false;
 	form.on('submit(add)', function(obj) {
+		if(!flag){
+			flag = true;
+
 		up.upload();
 		if(choose_file_flag==false){
 			tijiao();
 		}
-		
+        }
 
 	});
 

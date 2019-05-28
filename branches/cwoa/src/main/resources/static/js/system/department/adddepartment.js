@@ -18,9 +18,11 @@ layui.extend({
 		parent.layer.close(index);
 		//parent.location.reload();
 
-	})
+	});
+	var flag = false;
 	form.on('submit(adddepartment)', function(obj) {
-
+		if(!flag){
+            flag = true;
 		var departmentName = $("#departmentName").val();
 		var departmentCode = $("#departmentCode").val();
 		var status = $("input[name='status']:checked").val();
@@ -60,7 +62,7 @@ layui.extend({
 				}
 			}
 		});
-
+        }
 	})
 
 	e("adddepartment", {})
