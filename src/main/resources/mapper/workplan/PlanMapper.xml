@@ -4,13 +4,13 @@
 
     <insert id="insertPlan" parameterType="String" >
       INSERT INTO pro_plan
-      (plan_name,time_limit,start_time,circle_list,point_list,draw_man,draw_time)
+      (plan_name,time_limit,start_time,circle_list,point_list,draw_man,draw_time,plan_statu)
       VALUES
-      (#{arg1},#{arg2},#{arg3},#{arg4},#{arg5},#{arg0},NOW())
+      (#{arg1},#{arg2},#{arg3},#{arg4},#{arg5},#{arg0},NOW(),1)
     </insert>
 
     <select id="selectPlanName" resultType="Map">
-        SELECT plan_id,plan_name FROM pro_plan
+        SELECT plan_id,plan_name FROM pro_plan WHERE plan_statu=1
     </select>
 
     <select id="selectPlanText" parameterType="String" resultType="Map">
