@@ -2,17 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zihui.cwoa.workplan.dao.PlanMapper" >
 
-  <insert id="insertPlan" parameterType="String" >
+    <insert id="insertPlan" parameterType="String" >
       INSERT INTO pro_plan
-      (plan_name,circle_list,point_list,draw_man,draw_time)
+      (plan_name,time_limit,start_time,circle_list,point_list,draw_man,draw_time)
       VALUES
-      (#{arg1},#{arg2},#{arg3},#{arg0},NOW())
-  </insert>
+      (#{arg1},#{arg2},#{arg3},#{arg4},#{arg5},#{arg0},NOW())
+    </insert>
 
-  <update id="updatePlan" parameterType="String" >
-    INSERT INTO pro_plan
-    (plan_name,circle_list,point_list,edit_man,edit_time)
-    VALUES
-    (#{arg1},#{arg2},#{arg3},#{arg0},NOW())
-  </update>
+    <select id="selectPlanName" resultType="Map">
+        SELECT plan_id,plan_name FROM pro_plan
+    </select>
+
+    <select id="selectPlanText" parameterType="String" resultType="Map">
+        SELECT plan_name,time_limit,start_time,circle_list,point_list FROM pro_plan WHERE plan_id=#{arg0}
+    </select>
 </mapper>
