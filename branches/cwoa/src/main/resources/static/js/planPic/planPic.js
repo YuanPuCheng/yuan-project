@@ -878,7 +878,7 @@ $('#confirmNewPlan').click(function() {
 		layer.msg('计划工期必须为正整数!');
 		return;
 	}
-	timeTemp = $('#startTimeDate').val();
+	var timeTemp = $('#startTimeDate').val();
 	if(timeTemp === '') {
 		layer.msg('开始时期不能为空!');
 		return;
@@ -886,8 +886,8 @@ $('#confirmNewPlan').click(function() {
 	var dateTemp = new Date(timeTemp);
 	planStartTime = dateTemp.getTime();
 	oldPlanName = $('#newPlanName').val();
+    planTimeLimit = temp;
 	if($('#newPlanLegend').text() === '新建计划') {
-		planTimeLimit = temp;
 		deletePlanPic();
 		circleNumberList = [];
 		linePointList = [];
@@ -1183,6 +1183,8 @@ function calculateLastStartEnd(s) {
 	for(var i = 0; i < len; i++) {
 		if(linePointList[i].num2 === nowNum) { //if通过，说明linePointList[i]是以当前代号结束的工作
 			if(nowNum === circleNumberList[circleNumberList.length - 1].num) {
+                console.log(planTimeLimit);
+                console.log(linePointList[i].EF);
 				if(planTimeLimit < linePointList[i].EF) {
 					planTimeLimit = linePointList[i].EF;
 				}
