@@ -6,6 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/plan")
 public class PlanWorkController {
@@ -15,13 +18,20 @@ public class PlanWorkController {
 
     @RequestMapping("/insertPlan")
     @ResponseBody
-    public boolean insertPlan(String workMan,String planName,String circleList,String pointList){
-        return planService.insertPlan(workMan,planName,circleList,pointList);
+    public boolean insertPlan(String workMan,String planName,String timeLimit,String startTime,
+                              String circleList,String pointList){
+        return planService.insertPlan(workMan,planName,timeLimit,startTime,circleList,pointList);
     }
 
-    @RequestMapping("/updatePlan")
+    @RequestMapping("/selectPlanName")
     @ResponseBody
-    public boolean updatePlan(String workMan,String planName,String circleList,String pointList){
-        return planService.updatePlan(workMan,planName,circleList,pointList);
+    public List<Map<String,Object>> selectPlanName(){
+        return planService.selectPlanName();
+    }
+
+    @RequestMapping("/selectPlanText")
+    @ResponseBody
+    public Map<String,Object> selectPlanText(String id){
+        return planService.selectPlanText(id);
     }
 }

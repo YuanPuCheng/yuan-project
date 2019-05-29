@@ -10,18 +10,21 @@
 		<link rel="stylesheet" href="../../static/css/reset.css" />
 		<link rel="stylesheet" href="./../../static/layui/css/layui.css" />
 		<style type="text/css">
-			#canvas {
-				border: 1px solid black;
-			}
-			
 			.picBox {
-				width: 1500px;
-				height: 500px;
+				border: 1px solid black;
 				overflow: auto;
+				margin-left: 10px;
+				height: 650px;
 			}
 			
 			.chwstyle {
 				margin-left: 50px;
+			}
+			
+			.mesBox {
+				border: 1px solid black;
+				height: 650px;
+				margin-right: 10px;
 			}
 		</style>
 	</head>
@@ -30,7 +33,7 @@
 		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
 			<legend style="font-size: 30px;font-weight: 500;">网络计划</legend>
 		</fieldset>
-		<div>
+		<div style="margin-left: 10px;">
 			<button type="button" class="layui-btn layui-btn-sm" id="add">新建</button>
 			<button type="button" class="layui-btn layui-btn-sm" id="open">打开</button>
 			<button type="button" class="layui-btn layui-btn-sm" id="save">保存</button>
@@ -42,9 +45,58 @@
 			<button type="button" class="layui-btn layui-btn-sm" id="delete">删除</button>
 			<button type="button" class="layui-btn layui-btn-sm" id="move">整体平移</button>
 		</div>
-		<div class="picBox"><canvas id="canvas" width="1500" height="500"></canvas></div>
-		<script src="../../static/layui/layui.all.js"></script>
 
+		<div class="layui-row">
+			<div class="layui-col-xs9">
+				<div class="picBox"><canvas id="canvas" width="1500" height="600"></canvas></div>
+			</div>
+			<div class="layui-col-xs3">
+				<div class="mesBox">
+					<fieldset class="layui-elem-field layui-field-title">
+						<legend>计划信息</legend>
+					</fieldset>
+					<table class="layui-table">
+						<colgroup>
+							<col width="150">
+							<col>
+						</colgroup>
+						<tbody>
+							<tr>
+								<td>计划名称</td>
+								<td class="planText"></td>
+							</tr>
+							<tr>
+								<td>计划工期</td>
+								<td class="planText"></td>
+							</tr>
+							<tr>
+								<td>开始日期</td>
+								<td class="planText"></td>
+							</tr>
+						</tbody>
+					</table>
+					<fieldset class="layui-elem-field layui-field-title">
+						<legend>元素属性</legend>
+					</fieldset>
+					<table class="layui-table">
+						<colgroup>
+							<col width="150">
+							<col>
+						</colgroup>
+						<thead>
+							<tr>
+								<th>属性名</th>
+								<th>属性值</th>
+							</tr>
+						</thead>
+						<tbody id="messageBox">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<script src="../../static/layui/layui.all.js"></script>
+		<script type="text/javascript" src="../../static/js/common/dateFormat.js"></script>
 	</body>
 	<div id="addCircleBox" style="display: none">
 		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
@@ -113,6 +165,17 @@
 					<input type="text" placeholder="请输入工作所需天数...线型为虚线时不填" class="layui-input" id="workDays" />
 				</div>
 			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">方向:</label>
+				<div class="layui-input-block">
+					<select name="modules" lay-search="" id="lineDirection">
+						<option value="0" selected="">自动</option>
+						<option value="1">顺时针</option>
+						<option value="2">逆时针</option>
+						<option value="3">斜向</option>
+					</select>
+				</div>
+			</div>
 		</form>
 		<button type="button" class="layui-btn layui-btn-lg chwstyle" id="addPoint">确认</button>
 		<button type="button" class="layui-btn layui-btn-lg chwstyle goNot">取消</button>
@@ -146,17 +209,93 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">操作人:</label>
 				<div class="layui-input-block">
-					<input type="text" placeholder="操作人" class="layui-input" id="workMan" disabled="disabled"/>
+					<input type="text" placeholder="操作人" class="layui-input" id="workMan" disabled="disabled" />
 				</div>
 			</div>
 			<div class="layui-form-item">
-				<label class="layui-form-label">图名:</label>
+				<label class="layui-form-label">计划名称:</label>
 				<div class="layui-input-block">
-					<input type="text" placeholder="请输入图名" class="layui-input" id="planName" />
+					<input type="text" placeholder="请输入计划名称" class="layui-input" id="planName" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">计划工期:</label>
+				<div class="layui-input-block">
+					<input type="text" placeholder="请输入计划工期...单位：天" class="layui-input" id="savePlanTimeLimit" disabled="disabled" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">开始日期:</label>
+				<div class="layui-input-block">
+					<input type="text" placeholder="请选择开始日期..." class="layui-input" id="saveStartTimeDate" disabled="disabled" />
 				</div>
 			</div>
 		</form>
 		<button type="button" class="layui-btn layui-btn-lg chwstyle" id="savePlan">确认</button>
+		<button type="button" class="layui-btn layui-btn-lg chwstyle goNot">取消</button>
+	</div>
+	<div id="openBox" style="display: none">
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend style="font-size: 30px;font-weight: 500;">打开</legend>
+		</fieldset>
+		<form class="layui-form layui-form-pane" action="" style="margin-left: 5px;margin-right: 5px;">
+			<div class="layui-form-item">
+				<label class="layui-form-label">网络计划:</label>
+				<div class="layui-input-block">
+					<select name="modules" lay-search="" id="selectPlan">
+					</select>
+				</div>
+			</div>
+		</form>
+		<button type="button" class="layui-btn layui-btn-lg chwstyle" id="openPlan">确认</button>
+		<button type="button" class="layui-btn layui-btn-lg chwstyle goNot">取消</button>
+	</div>
+	<div id="redrawBox" style="display: none">
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend style="font-size: 30px;font-weight: 500;">重生成</legend>
+		</fieldset>
+		<form class="layui-form layui-form-pane" action="" style="margin-left: 5px;margin-right: 5px;">
+			<div class="layui-form-item">
+				<label class="layui-form-label">画布宽度:</label>
+				<div class="layui-input-block">
+					<input type="text" placeholder="请输入画布宽度..." class="layui-input" id="drawWidth" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">画布高度:</label>
+				<div class="layui-input-block">
+					<input type="text" placeholder="请输入画布高度..." class="layui-input" id="drawHeight" />
+				</div>
+			</div>
+		</form>
+		<button type="button" class="layui-btn layui-btn-lg chwstyle" id="confirmRedraw">确认</button>
+		<button type="button" class="layui-btn layui-btn-lg chwstyle goNot">取消</button>
+	</div>
+	<div id="writeNewPlan" style="display: none">
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend style="font-size: 30px;font-weight: 500;" id="newPlanLegend">新建计划</legend>
+		</fieldset>
+		<form class="layui-form layui-form-pane" action="" style="margin-left: 5px;margin-right: 5px;">
+			<div class="layui-form-item">
+				<label class="layui-form-label">计划名称:</label>
+				<div class="layui-input-block">
+					<input type="text" placeholder="请输入计划名称..." class="layui-input" id="newPlanName" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">计划工期:</label>
+				<div class="layui-input-block">
+					<input type="text" placeholder="请输入计划工期...单位：天" class="layui-input" id="planTimeLimit" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">开始日期:</label>
+				<div class="layui-input-block">
+					<input type="text" placeholder="请选择开始日期..." class="layui-input" id="startTimeDate" />
+				</div>
+			</div>
+		</form>
+		<button type="button" class="layui-btn layui-btn-lg chwstyle" id="confirmNewPlan">确认</button>
 		<button type="button" class="layui-btn layui-btn-lg chwstyle goNot">取消</button>
 	</div>
 	<script type="text/javascript" src="../../static/js/planPic/planPic.js"></script>
