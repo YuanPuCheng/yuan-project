@@ -2,7 +2,7 @@
 layui.define(['laytpl', 'layer', 'element', 'util'], function(exports){
   exports('setter', {
    
-    project:'http://192.168.10.104:8080'    //项目地址
+    project:'http://192.168.10.101:8080'    //项目地址
     ,name: 'layuiAdmin'
     });
 });
