@@ -10,7 +10,7 @@
     </insert>
 
     <select id="selectPlanName" resultType="Map">
-        SELECT plan_id,plan_name FROM pro_plan WHERE plan_statu=1
+        SELECT plan_id,plan_name FROM pro_plan WHERE plan_statu=1 ORDER BY draw_time DESC
     </select>
 
     <select id="selectPlanText" parameterType="String" resultType="Map">
