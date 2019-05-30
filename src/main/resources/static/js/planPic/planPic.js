@@ -14,7 +14,7 @@ var ajaxClick = false; //用以控制用户多次点击多次请求服务器
 var circleNumberList = []; //数组,用于储存代号
 var linePointList = []; //数组,用于储存方向线
 var nowIndex = -1; //存储被选择的元素在数组中的下标
-var nowType = -1 //存储被选择的元素类型
+var nowType = -1; //存储被选择的元素类型
 var oldPlanName = ""; //网络计划的名称
 var planTimeLimit = 0; //计划工期
 var planStartTime = new Date().getTime(); //计划开始时间
@@ -203,7 +203,7 @@ function drawLinePoint(num1, num2, type, dec, work, time, es, ls, ef, lf, tf, ff
 			endX = c2x;
 			endY = c2y - 20;
 			pointX1 = endX - 5;
-			pointY1 = endY - 10
+			pointY1 = endY - 10;
 			pointX2 = endX + 5;
 			pointY2 = endY - 10;
 		} else {
