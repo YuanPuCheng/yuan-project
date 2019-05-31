@@ -1183,8 +1183,6 @@ function calculateLastStartEnd(s) {
 	for(var i = 0; i < len; i++) {
 		if(linePointList[i].num2 === nowNum) { //if通过，说明linePointList[i]是以当前代号结束的工作
 			if(nowNum === circleNumberList[circleNumberList.length - 1].num) {
-                console.log(planTimeLimit);
-                console.log(linePointList[i].EF);
 				if(planTimeLimit < linePointList[i].EF) {
 					planTimeLimit = linePointList[i].EF;
 				}
