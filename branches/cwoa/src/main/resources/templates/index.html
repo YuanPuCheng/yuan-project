@@ -1,142 +1,205 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8" />
-  <title>后台管理系统</title>
-  <meta name="renderer" content="webkit" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <link rel="stylesheet" type="text/css" href="../static/css/reset.css"/>
-  <link rel="stylesheet" href="../static/layui/css/layui.css"  media="all"/>
-  <link rel="stylesheet" type="text/css" href="../static/css/admin.css" media="all"/>
-  <link rel="stylesheet" type="text/css" href="../static/css/index.css"/>
-  
-</head>
+    <meta charset="utf-8" />
+    <title>后台管理系统</title>
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="stylesheet" href="../static/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="../static/css/admin.css" media="all" />
+
+    <script src="../static/layui/layui.js"></script>
+    <script>
+        /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
+    </script>
+
 <style>
-    .layui-logo img{
-        max-width: 80%;
-        border-radius: 50%;
-        margin-top: 5px;
+    .layui-badge{
+        position: relative !important;
+        margin: -8px 0px 0 !important;
     }
 </style>
-<body>
-	<!--头部-->
-	<div class="layui-header">
-		<!--左边导航-->
-		<ul class="layui-nav layui-layout-left" id="lay_animate1">
-			<li class="layui-nav-item layadmin-flexible">
-				<a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
-					<i class="layui-icon layui-icon-shrink-right"></i>
-				</a>
-			</li>
-			<li class="layui-nav-item" id="refresh">
-				<a href="javascript:;" layadmin-event="refresh" title="刷新">
-					<i class="layui-icon layui-icon-refresh-3"></i>
-				</a>
-			</li>
-			<span class="layui-nav-bar" style="left: 0px; top: 0px; width: 0px; opacity: 0;"></span>
-		</ul>
-		<!--右边导航-->
-		<div class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-			<ul class="layu-navlist" id="lay_animate2">
-				<li class="layui-nav-item" >
-					<a id="task" layadmin-event="message">消息<i class="layui-icon layui-icon-notice"></i>
-						<span style="display: none" class="layui-badge badge"></span>
-					</a>
-				</li>
-				<li class="layui-nav-item" id="_user" >
-            <a href="javascript:;">
-              <cite id="UserName"></cite>
-              <span class="layui-nav-more" id="_user-icon"></span>
-            	<!--<span class="layui-nav-more"></span>-->
-            </a>
-            <dl class="layui-nav-child layui-anim layui-anim-upbit" id="layui-na">
-              <dd><a id="info" >基本资料</a></dd>
-              <dd><a id="pass" >修改密码</a></dd>
-              <hr/>
-              <dd id="exit" layadmin-event="logout" style="text-align: center;"><a id="logout" >退出</a></dd>
-            </dl>
-       	</li>
-				<span class="layui-nav-bar" style="left: 0px; top: 0px; width: 0px; opacity: 0;"></span>
-			</ul>
-		</div>
-	</div>
-	<!--侧边导航-->
-	<div class="layui-side layui-side-menu" id="lay_lis">
-		<div class="layui-side-scroll">
-			<div class="layui-logo">
-                <img id="im" class="layadmin-homepage-pad-img" width="80px" height="80px" />
-				<p id="roleshow"></p>
-			</div>
-			<ul class="layui-nav layui-nav-tree" id="lay_animate3">
-				<!--<li class="layui-nav-item">
-					<a href="javascript:;">
-            <i class="layui-icon layui-icon-home"></i>
-            <cite>主页</cite>
-            <span class="layui-nav-more"></span>
-					</a>
-					<dl class="layui-nav-child">
-		        <dd class="layui-this">
-		          <a lay-href="home/index.html">控制台</a>
-		        </dd>
-		        <dd class="">
-		          <a lay-href="home/yemian1.html">主页一</a>
-		        </dd>
-		        <dd class="">
-		          <a lay-href="home/yemian2.html">主页二</a>
-		        </dd>
-		      </dl>
-				</li>-->
-				
-				<span class="layui-nav-bar" style="top: 28px; height: 0px; opacity: 0;"></span>
-			</ul>
-		</div>
-	</div>
-	<!--页面标签-->
-	<div class="layadmin-pagetabs" id="LAY_app_tabs">
-    <div class="layui-icon layadmin-tabs-control layui-icon-prev" id="leftPage" layadmin-event="leftPage"></div>
-    <div class="layui-icon layadmin-tabs-control layui-icon-next" id="rightPage" layadmin-event="rightPage"></div>
-    <div class="layui-icon layadmin-tabs-control layui-icon-down">
-      <ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
-        <li class="layui-nav-item" id="closed" >
-          <a href="javascript:;"><span class="layui-nav-more"></span></a>
-          <dl class="layui-nav-child layui-anim-fadein">
-            <dd layadmin-event="closeThisTabs" id="closed_index"><a href="javascript:;">关闭当前标签页</a></dd>
-            <dd layadmin-event="closeOtherTabs" id="closed_others"><a href="javascript:;">关闭其它标签页</a></dd>
-            <dd layadmin-event="closeAllTabs" id="closed_all"><a href="javascript:;">关闭全部标签页</a></dd>
-          </dl>
-        </li>
-      <span class="layui-nav-bar"></span></ul>
-    </div>
-    <div class="layui-tab" lay-unauto="" lay-allowclose="true" lay-filter="layadmin-layout-tabs">
-      <ul class="layui-tab-title" id="LAY_app_tabsheader" style="left: 0px;">
-        <li class="lay_app_li layui-this" ><a id="iii"><i class="layui-icon layui-icon-home"></i><i class="layui-icon layui-unselect layui-tab-close">ဆ</i></a></li>
-			</ul>
-    </div>
-  </div>
-  <!--主题内容-->
-  <div class="layui-body" id="LAY_app_body">
-    <div class="layadmin-tabsbody-item layui-show">
-      <iframe id="index1"  name="ifrmid" frameborder="0" class="layadmin-iframe"></iframe>
-    </div>
-  </div>
-  <!--遮罩效果-->
-  <div class="layadmin-body-shade layui_active" layadmin-event="shade"></div>
+</head>
 
-<div class="news">
+<body class="layui-layout-body">
 
+<div id="LAY_app">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <!-- 头部区域 -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item layadmin-flexible" lay-unselect="">
+                    <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩"> <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect="">
+                    <a href="javascript:void(0)" target="_blank" title="前台"> <i class="layui-icon layui-icon-website"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item" lay-unselect="">
+                    <a href="javascript:;" layadmin-event="refresh" title="刷新"> <i class="layui-icon layui-icon-refresh-3"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect=""><input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="javascript:void(0)" /></li>
+            </ul>
+            <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+
+                <li class="layui-nav-item" lay-unselect="">
+                    <a lay-href="/sys/mytask" layadmin-event="message" lay-text="我的通知">消息<i class="layui-icon layui-icon-notice"></i>
+                            <span style="display: none" class="layui-badge badge"></span>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect="">
+                    <a href="javascript:;" layadmin-event="theme"> <i class="layui-icon layui-icon-theme"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect="">
+                    <a href="javascript:;" layadmin-event="note"> <i class="layui-icon layui-icon-note"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect="">
+                    <a href="javascript:;" layadmin-event="fullscreen"> <i class="layui-icon layui-icon-screen-full"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item" lay-unselect="">
+                    <a href="javascript:;">
+                        <cite id="uname"></cite>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a lay-href="/sys/userinfo">基本资料</a>
+                        </dd>
+                        <dd>
+                            <a lay-href="/sys/updatepass">修改密码</a>
+                        </dd>
+                        <hr />
+                        <dd style="text-align: center;">
+                            <a href="/sys/logoutuser">退出</a>
+                        </dd>
+                    </dl>
+                </li>
+
+                <li class="layui-nav-item layui-hide-xs" lay-unselect="">
+                    <a href="javascript:void(0)"><i class="layui-icon layui-icon-more-vertical"></i></a>
+                </li>
+                <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect="">
+                    <a href="javascript:void(0)"><i class="layui-icon layui-icon-more-vertical"></i></a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 侧边菜单 -->
+        <div class="layui-side layui-side-menu">
+            <div class="layui-side-scroll">
+                <div class="layui-logo" lay-href="home/console.html">
+                    <span>baseSystem</span>
+                </div>
+
+                <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
+                   <!--左侧菜单栏-->
+                    <span id="roleshow"></span>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 页面标签 -->
+        <div class="layadmin-pagetabs" id="LAY_app_tabs">
+            <div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
+            <div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>
+            <div class="layui-icon layadmin-tabs-control layui-icon-down">
+                <ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
+                    <li class="layui-nav-item" lay-unselect="">
+                        <a href="javascript:;"></a>
+                        <dl class="layui-nav-child layui-anim-fadein">
+                            <dd layadmin-event="closeThisTabs">
+                                <a href="javascript:;">关闭当前标签页</a>
+                            </dd>
+                            <dd layadmin-event="closeOtherTabs">
+                                <a href="javascript:;">关闭其它标签页</a>
+                            </dd>
+                            <dd layadmin-event="closeAllTabs">
+                                <a href="javascript:;">关闭全部标签页</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+            <div class="layui-tab" lay-unauto="" lay-allowClose="true" lay-filter="layadmin-layout-tabs">
+                <ul class="layui-tab-title" id="LAY_app_tabsheader">
+                    <li lay-id="home/console.html" lay-attr="" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 主体内容 -->
+        <div class="layui-body" id="LAY_app_body">
+            <div class="layadmin-tabsbody-item layui-show">
+                <iframe src="/sys/syindex" frameborder="0" class="layadmin-iframe" height=""></iframe>
+            </div>
+        </div>
+        <!-- 辅助元素，一般用于移动设备下遮罩 -->
+        <div class="layadmin-body-shade" layadmin-event="shade"><div class="news"></div></div>
+    </div>
 </div>
 
-<script src="../static/layui/layui.js" charset="utf-8"></script>
 <script src="../static/js/jquery-3.3.1.min.js"></script>
-    <script src="../static/js/common/common.js"></script>
-    <script src="../static/js/index.js"></script>
+<script src="../static/js/common/common.js"></script>
 
 <script>
+    layui.config({
+        base: '../static/layui/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index'],function () {
+
+    });
+</script>
+<script src="../static/js/index.js"></script>
+<script>
     $(function () {
+//<![CDATA[
+        var $ = layui.jquery;
+        $.ajax({
+            type: "post",
+            url: project + "/system/index",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data);
 
+                var list = '';
+                for (var i = 0; i < data.length; i++) {
+                    var lis = $('<li>');
+                    lis.attr('class', 'layui-nav-item');
+                    var als = '<a href="javascript:;" lay-tips="' + data[i].menuName + '" lay-direction="2"><i class="layui-icon ' + data[i].menuIcon + '"></i><cite>' + data[i].menuName + '</cite></a>';
+                    var dds = "";
+                    if (data[i].menus != null) {
+                        for (var j = 0; j < data[i].menus.length; j++) {
+                            if (data[i].menus[j].menus.length != 0) {
+                                var menusName = "";
+                                for (var k = 0; k < data[i].menus[j].menus.length; k++) {
+                                    menusName += data[i].menus[j].menus[k].menuName + ",";
+                                }
+                                console.log(menusName);
+                                dds += '<dd data-name="\'+data[i].menus[j].menuName+\'"><a id="' + data[i].menus[j].menuCode + '" lay-href="' + project + data[i].menus[j].menuUrl + '?data=' + menusName.substring(0, menusName.length - 1) + '\">' + data[i].menus[j].menuName + '</a></dd>';
+                            } else {
+                                dds += '<dd data-name="\'+data[i].menus[j].menuName+\'"><a id="' + data[i].menus[j].menuCode + '" lay-href="' + project + data[i].menus[j].menuUrl + '?data=\">' + data[i].menus[j].menuName + '</a></dd>';
+                            }
+                            console.log(data[i].menus[j].menuUrl);
+                        }
+
+                    }
+                    var dls = "<dl class='layui-nav-child'>" + dds + "</dl>";
+                    lis.html(als + dls);
+                    $('#LAY-system-side-menu').append(lis);
+                }
+            }
+        })
+
+        //]]>
         task();
-
     })
 
     function task() {
@@ -152,15 +215,18 @@
                 }
             });
     }
-
-    //<![CDATA[
-	//菜单隐藏显示
-
-
-
-    //]]>
-    
 </script>
 
+<!-- 百度统计
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?d214947968792b839fd669a4decaaffc";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>-->
 </body>
+
 </html>
