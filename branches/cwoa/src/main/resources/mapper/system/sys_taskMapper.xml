@@ -180,7 +180,7 @@
 	  sys_task_b.temp_var1,
 	  sys_task_b.temp_int1
     FROM
-	    (select * from sys_task where sys_task.task_user_id = #{userId}  limit #{page}, #{limit}) sys_task
+	    (select * from sys_task where sys_task.task_user_id = #{userId} order by task_status limit #{page}, #{limit}) sys_task
     LEFT JOIN sys_task_b ON sys_task.task_id = sys_task_b.task_id
     left join sys_user u on sys_task.task_user_id = u.user_id
     left join sys_user us on sys_task_b.task_user_id_chan = us.user_id
@@ -188,7 +188,7 @@
 		left join sys_file ff on sys_task_b.task_attachment = ff.file_id
     where 1=1
 
-    order by sys_task.task_status
+
   </select>
 
   <select id="selectTaskByPageCount" resultType="Integer">
