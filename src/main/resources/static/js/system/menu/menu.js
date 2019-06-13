@@ -83,7 +83,7 @@ layui.extend({
                 align: 'center',
                 template: function(item) {
                     if(item.status == 0) {
-                        return '<div class="layui-btn layui-btn-normal layui-btn-xs">正常</div>';
+                        return '<div class=" layui-btn layui-btn-normal layui-btn-xs">正常</div>';
                     } else {
                         return '<div class="layui-btn layui-btn-xs layui-btn-danger">禁用</div>';
                     }
