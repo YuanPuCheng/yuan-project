@@ -55,20 +55,6 @@ layui.extend({
 				align: 'center',
 			},
 			{
-				key: 'status',
-				title: '状态',
-				width: '30px',
-				align: 'center',
-				template: function(item) {
-					if(item.status == 0) {
-						return '正常';
-					} else {
-						return '禁用';
-					}
-
-				}
-			},
-			{
 				key: 'menuCode',
 				title: '权限编码',
 				width: '30px',
@@ -90,6 +76,20 @@ layui.extend({
 
 				}
 			},
+            {
+                key: 'status',
+                title: '状态',
+                width: '30px',
+                align: 'center',
+                template: function(item) {
+                    if(item.status == 0) {
+                        return '<div class="layui-btn layui-btn-normal layui-btn-xs">正常</div>';
+                    } else {
+                        return '<div class="layui-btn layui-btn-xs layui-btn-danger">禁用</div>';
+                    }
+
+                }
+            },
 			{
 				title: '操作',
 				align: 'center',
