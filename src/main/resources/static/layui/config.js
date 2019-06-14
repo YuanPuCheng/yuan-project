@@ -2,7 +2,7 @@
 layui.define(['laytpl', 'layer', 'element', 'util'], function(exports){
   exports('setter', {
    
-      project:'http://192.168.10.104:8080' ,   //项目地址
+      project:'http://192.168.10.103:8080' ,   //项目地址
       container: 'LAY_app' //容器ID
       ,base: layui.cache.base //记录静态资源所在路径
       ,views: layui.cache.base + 'tpl/' //动态模板所在目录
