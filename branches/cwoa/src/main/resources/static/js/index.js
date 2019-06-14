@@ -3,7 +3,9 @@
 //供子窗口调用
 function openbq(id) {
     //alert(id);
+    //var a ="#"+id;
     document.getElementById(id).click();
+    //$(a).click()
 }
 
 

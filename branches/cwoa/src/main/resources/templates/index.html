@@ -94,7 +94,7 @@
         <div class="layui-side layui-side-menu">
             <div class="layui-side-scroll">
                 <div class="layui-logo" lay-href="home/console.html">
-                    <span>baseSystem</span>
+                    <span>Admin</span>
                 </div>
 
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
@@ -200,12 +200,15 @@
 
         //]]>
         task();
-    })
 
+    })
+    var count;
     function task() {
-        console.log("调用成功")
+
         $.post(project+"/user/mytaskcount",
             function(data,status){
+                count=data;
+                console.log("调用成功"+data);
                 if(data>0){
                     $(".badge").html(data);
                     $(".badge").show();
@@ -213,7 +216,9 @@
                     $(".badge").html("");
                     $(".badge").hide();
                 }
+
             });
+        return count;
     }
 </script>
 

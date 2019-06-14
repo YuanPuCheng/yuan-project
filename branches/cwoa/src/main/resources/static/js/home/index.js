@@ -11,9 +11,10 @@ layui.extend({
 
 
 
-
-    $("#p1").click(function () {
-        window.parent.openbq('sys:user');
+    var count =window.parent.task();
+    $("#t").html(count);
+    $("#task").click(function () {
+        window.parent.openbq('mytask');
     })
     carousel.render({
         elem: '#test10'
@@ -21,6 +22,7 @@ layui.extend({
         ,height: '100%'
         ,interval: 5000
     });
+    var myChart1 = echarts.init(document.getElementById('zzt'));
     var myChart = echarts.init(document.getElementById('main'));
     var widthMax = "70%",
         heightMax = "80%";
@@ -31,7 +33,7 @@ layui.extend({
     //根据窗口的大小变动图表 --- 重点
     window.onresize = function(){
         myChart.resize();
-        //myChart1.resize();    //若有多个图表变动，可多写
+        myChart1.resize();    //若有多个图表变动，可多写
 
     };
     $.ajax({
@@ -112,12 +114,64 @@ layui.extend({
         }
     });//公告页面渲染结束
 
+    $.ajax({
+        type: "get",
+        url: layui.setter.project + "/index/getTq",
+        async: true,
+        success: function (data) {
 
 
-
-
-
-
+            myChart1.setOption({
+                title: {
+                    subtext: '南昌未来15天气温变化'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['最高气温', '最低气温']
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: {show: true},
+                        dataView: {show: true, readOnly: false},
+                        magicType: {show: true, type: ['line', 'bar']},
+                        restore: {show: true},
+                        saveAsImage: {show: true}
+                    }
+                },
+                calculable: true,
+                xAxis: [
+                    {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: data.data
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        axisLabel: {
+                            formatter: '{value} °C'
+                        }
+                    }
+                ],
+                series: [
+                    {
+                        name: '最高气温',
+                        type: 'line',
+                        data: data.high,
+                    },
+                    {
+                        name: '最低气温',
+                        type: 'line',
+                        data: data.low,
+                    }
+                ]
+            });
+        }
+    })
 	 e("index", {})
 });
 
