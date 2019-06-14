@@ -9,7 +9,7 @@ import java.util.Map;
 public interface PlanMapper {
 
     int insertPlan(String workMan,String planName,String timeLimit,String startTime,
-                   String circleList,String pointList);
+                   String planType,String timeWidth,String circleList,String pointList);
 
     List<Map<String,Object>> selectPlanName();
 

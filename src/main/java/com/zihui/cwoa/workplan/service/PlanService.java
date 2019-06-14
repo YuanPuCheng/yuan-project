@@ -14,8 +14,8 @@ public class PlanService {
     private PlanMapper planMapper;
 
     public boolean insertPlan(String workMan,String planName,String timeLimit,String startTime,
-                              String circleList,String pointList){
-        return planMapper.insertPlan(workMan,planName,timeLimit,startTime,circleList,pointList)>0;
+                              String planType,String timeWidth,String circleList,String pointList){
+        return planMapper.insertPlan(workMan,planName,timeLimit,startTime,planType,timeWidth,circleList,pointList)>0;
     }
 
 

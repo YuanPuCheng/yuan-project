@@ -19,8 +19,8 @@ public class PlanWorkController {
     @RequestMapping("/insertPlan")
     @ResponseBody
     public boolean insertPlan(String workMan,String planName,String timeLimit,String startTime,
-                              String circleList,String pointList){
-        return planService.insertPlan(workMan,planName,timeLimit,startTime,circleList,pointList);
+                              String planType,String timeWidth,String circleList,String pointList){
+        return planService.insertPlan(workMan,planName,timeLimit,startTime,planType,timeWidth,circleList,pointList);
     }
 
     @RequestMapping("/selectPlanName")
