@@ -85,4 +85,10 @@ public class HumanWorkController {
     public List<String> queryMenuByParentId(String userId,String parentId){
         return humanService.queryMenuByParentId(userId,parentId);
     }
+
+    @RequestMapping("/queryTaskCount")
+    @ResponseBody
+    public Integer queryTaskCount(String userCode){
+        return queryService.queryTaskCountByCode(userCode);
+    }
 }
