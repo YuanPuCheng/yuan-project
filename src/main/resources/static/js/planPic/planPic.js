@@ -512,7 +512,7 @@ function drawLinePoint(num1, num2, type, dec, work, time, man, start, end, es, l
 			var c3y = (pointY1 + pointY2) / 2;
 			var slope = (c3x - startX) / (c3y - startY);
 			var inter = startX - slope * startY;
-            var inter1 = inter + 40 * (dayWidth / 50);
+            var inter1 = inter + weightTag / 50;
 			var tb = 0;
 			if(end !== 0 && tsx === c1x && c2x > tex) { //只有后面有弹簧 1象限斜向
 				ctx.beginPath();
@@ -593,7 +593,7 @@ function drawLinePoint(num1, num2, type, dec, work, time, man, start, end, es, l
 			var c3y = (pointY1 + pointY2) / 2;
 			var slope = (c3x - startX) / (c3y - startY);
 			var inter = startX - slope * startY;
-			var inter1 = inter + 40 * (dayWidth / 50);
+            var inter1 = inter + weightTag / 50;
 			var tb = 0;
 			if(end !== 0 && tsx === c1x && c2x > tex) { //只有后面有弹簧 2象限斜向
 				ctx.beginPath();
