@@ -26,12 +26,7 @@ layui.extend({
 		//console.log(JSON.stringify(value))
 		var obj = JSON.parse(schedules);
 		var userId = $("#userId").val();
-		setTimeout(function(){
-			$("#projectUserId").val(userId);
-			form.render('select');
-		},100)
-		
-		
+
 	var layTableId = "layTable";
 	var tableIns = table.render({
 		elem: '#dataTable',
@@ -293,7 +288,7 @@ layui.extend({
 			});
 			$("select[name='projectUserId']").append($html);
 			//反选
-			$("select[name='projectUserId']").val($("#SearchDepartments").val());
+			$("select[name='projectUserId']").val($("#userId").val());
 			//append后必须从新渲染
 			form.render('select');
 		}
