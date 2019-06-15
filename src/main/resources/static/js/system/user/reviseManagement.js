@@ -16,12 +16,6 @@ layui.extend({
 	  
 	var roleIds = $("#roleId").val();
 	let arr = JSON.parse('[' + roleIds + ']');//字符数组转int 数组
-	setTimeout(function(){
-		 $("select[name='projects']").val($("#projectId").val());
-        //$("select[name='department']").val($("#departmentId").val());
-		form.render('select');
-		formSelects.value('select1',arr, true);
-	},200);
 
 	//多选
 		layui.formSelects.config('select1', {
@@ -33,6 +27,7 @@ layui.extend({
 				//然后返回数据
 				return result;
 			},success: function(id, url, searchVal, result){
+                formSelects.value('select1',arr, true);
                 form.render('select');//使用远程方式的success回调
                 console.log(id);        //组件ID xm-select
                 console.log(url);       //URL
@@ -59,7 +54,7 @@ layui.extend({
                    });
                 $("select[name='projects']").append($html);
                 //反选
-                $("select[name='projects']").val($("#SearchProjects").val());
+                $("select[name='projects']").val($("#projectId").val());
                 //append后必须从新渲染
                 form.render('select');
             }
