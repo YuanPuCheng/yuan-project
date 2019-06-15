@@ -2009,6 +2009,7 @@ $('#showManLine').click(function() {
 		ifManLine = false;
 	} else {
 		$('#showManLine').text('关闭劳动力曲线');
+        $('#timeFlow').text('关闭时间线');
 		ifManLine = true;
 	}
 	reDrawPlanPic();
