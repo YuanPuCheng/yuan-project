@@ -436,7 +436,7 @@
           and sys_department.department_id=#{departmentId}
       </if>
       <if test="tempVar1 != null and tempVar1 !=''" >
-        and sys_role.role_id=#{user.tempVar1}
+        and sys_role.role_id=#{tempVar1}
       </if>
 
   </select>
