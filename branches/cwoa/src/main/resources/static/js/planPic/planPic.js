@@ -21,7 +21,7 @@ var planStartTime = new Date().getTime(); //计划开始时间
 var haveChange = false; //用于修改计划后重置计算结果
 var haveNew = false; //判断是否点击新建按钮
 var dayWidth = 100; //单位时间宽度
-var ifchange = false; //是否转换成网络横道图
+var ifchange = false; //是否转换成时标网络计划
 var ifGrid = false; //是否开启时间线
 var ifManLine = false; //是否开启劳动力曲线
 
@@ -1111,8 +1111,6 @@ function drawPlanPic(list1, list2) {
 		drawLinePoint(nowLinePoint.num1, nowLinePoint.num2, nowLinePoint.type, nowLinePoint.dec, nowLinePoint.work, nowLinePoint.time, nowLinePoint.man,
 			nowLinePoint.start, nowLinePoint.end, nowLinePoint.ES, nowLinePoint.LS, nowLinePoint.EF, nowLinePoint.LF, nowLinePoint.TF, nowLinePoint.FF);
 	}
-	console.log(linePointList);
-	console.log(circleNumberList);
 }
 
 //重生成
@@ -1296,12 +1294,12 @@ $('#addPoint').click(function() {
 		}
 		if(lineType === 1) {
 			if(tempLy - tempSy === 0) {
-				layer.msg('网络横道图中虚线的起始代号不能位于同一高度！');
+				layer.msg('时标网络计划中虚线的起始代号不能位于同一高度！');
 				return;
 			}
 		} else {
 			if(tempLx - tempSx === 0) {
-				layer.msg('网络横道图中实线的起始代号X坐标不能相同！');
+				layer.msg('时标网络计划中实线的起始代号X坐标不能相同！');
 				return;
 			}
 		}
@@ -1382,7 +1380,7 @@ function newPlan() {
 	$('#planTimeLimit').val(0);
 	$('#planIfChange').html("");
 	$('#planIfChange').append('<option value="0" selected="">普通网络计划</option>');
-	$('#planIfChange').append('<option value="1">网络横道图</option>');
+	$('#planIfChange').append('<option value="1">时标网络计划</option>');
 	$('#planTimeWidth').html("");
 	$('#planTimeWidth').append('<option value="50">50</option>');
 	$('#planTimeWidth').append('<option value="100" selected="">100</option>');
@@ -1443,7 +1441,6 @@ $('#confirmNewPlan').click(function() {
 		haveChange = false;
 		haveNew = false;
 		dayWidth = 100;
-		ifchange = false;
 	} else {
 		flag = calculateAll();
 	}
@@ -1915,10 +1912,10 @@ $('#calculate').click(function() {
 	$('#planIfChange').html("");
 	if(ifchange) {
 		$('#planIfChange').append('<option value="0">普通网络计划</option>');
-		$('#planIfChange').append('<option value="1" selected="">网络横道图</option>');
+		$('#planIfChange').append('<option value="1" selected="">时标网络计划</option>');
 	} else {
 		$('#planIfChange').append('<option value="0" selected="">普通网络计划</option>');
-		$('#planIfChange').append('<option value="1">网络横道图</option>');
+		$('#planIfChange').append('<option value="1">时标网络计划</option>');
 	}
 	$('#planTimeWidth').html("");
 	if(dayWidth === 100) {
@@ -2019,5 +2016,4 @@ $('#showManLine').click(function() {
 
 $(document).ready(function() {
 	showPlanMessage();
-	drawTest();
 });
