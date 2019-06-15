@@ -18,7 +18,7 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/index")
 public class IndexController {
-    public String URL = "http://t.weather.sojson.com/api/weather/city/101240101";
+    public final String URL = "http://t.weather.sojson.com/api/weather/city/101240101";
 
 
     @RequestMapping(value = "getTq")
@@ -27,7 +27,7 @@ public class IndexController {
         Map map = new HashMap();
         RestTemplate template = new RestTemplate();
         ResponseEntity data =template.getForEntity(URL,String.class);
-        JSONObject json =JSONObject.parseObject(data.getBody().toString());
+        JSONObject json =JSONObject.parseObject(data.getBody().toString());//将接口返回的数据转为JSON
         JSONObject json1 =(JSONObject)json.get("data");
         JSONArray array =(JSONArray)json1.get("forecast");
         List<String> da =new  ArrayList();
@@ -39,9 +39,6 @@ public class IndexController {
             String d =(String) object.get("low");
             high = high.substring(high.indexOf(" ")+1,high.indexOf("."));
             d=d.substring(d.indexOf(" ")+1,d.indexOf("."));
-
-            System.out.println(high);
-            System.out.println(object);
             da.add(object.get("date").toString()+"号");
             height.add(Integer.parseInt(high));
             di.add(Integer.parseInt(d));
