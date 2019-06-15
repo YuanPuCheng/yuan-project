@@ -94,7 +94,7 @@ layui.extend({
 						parent.location.reload();
 
 					});
-                    window.parent.parent.task();
+                    //window.parent.parent.task();
 				} else {
 					parent.layer.alert(data.message);
 				}

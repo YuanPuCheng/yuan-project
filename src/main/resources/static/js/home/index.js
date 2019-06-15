@@ -6,8 +6,8 @@ layui.extend({
     var layer=layui.layer;
     var carousel = layui.carousel;
 
-    var count =window.parent.task();
-    $("#t").html(count);
+
+
     $("#task").click(function () {
         window.parent.openbq('mytask');
     });
@@ -37,7 +37,16 @@ layui.extend({
     queryNotice();//公告栏
     tianqi();//天气Echar
     acttask();//待办任务总数
+    mytask();//我的通知总数
 
+
+
+    function mytask() {
+        $.post(layui.setter.project+"/user/mytaskcount",
+            function(data,status){
+                $("#t").html(data);
+            });
+    }
 
     function acttask() {
         $.ajax({
