@@ -1883,10 +1883,10 @@ function calculateTotalFloat() {
 			if(circleNumberList[k].num === linePointList[i].num1) {
 				linePointList[i].TF = linePointList[i].LF - linePointList[i].EF;
 				if(linePointList[i].start < linePointList[i].ES) {
-					linePointList[i].start = linePointList[i].ES;
+					linePointList[i].start = linePointList[i].ES*1;
 				}
 				if(linePointList[i].start > linePointList[i].LS) {
-					linePointList[i].start = linePointList[i].LS;
+					linePointList[i].start = linePointList[i].LS*1;
 				}
 				linePointList[i].end = linePointList[i].start * 1 + linePointList[i].time * 1;
 				if(linePointList[i].TF * 1 !== 0) {
