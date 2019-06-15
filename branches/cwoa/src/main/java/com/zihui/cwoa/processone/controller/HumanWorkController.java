@@ -2,11 +2,13 @@ package com.zihui.cwoa.processone.controller;
 
 import com.zihui.cwoa.processone.service.HumanService;
 import com.zihui.cwoa.processone.service.QueryService;
+import com.zihui.cwoa.system.pojo.sys_user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,7 +90,8 @@ public class HumanWorkController {
 
     @RequestMapping("/queryTaskCount")
     @ResponseBody
-    public Integer queryTaskCount(String userCode){
-        return queryService.queryTaskCountByCode(userCode);
+    public Integer queryTaskCount(HttpSession session){
+        sys_user user = (sys_user) session.getAttribute("user");
+        return queryService.queryTaskCountByCode(user.getUserCode());
     }
 }
