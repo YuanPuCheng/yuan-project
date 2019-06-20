@@ -58,6 +58,7 @@
 			<button type="button" class="layui-btn layui-btn-sm" id="reDraw">重生成</button>
 			<button type="button" class="layui-btn layui-btn-sm" id="createNum">创建代号</button>
 			<button type="button" class="layui-btn layui-btn-sm" id="createPoint">创建方向线</button>
+			<button type="button" class="layui-btn layui-btn-sm" id="insertNum">插入代号</button>
 			<button type="button" class="layui-btn layui-btn-sm" id="edit">编辑</button>
 			<button type="button" class="layui-btn layui-btn-sm" id="delete">删除</button>
 			<button type="button" class="layui-btn layui-btn-sm" id="move">整体平移</button>
@@ -117,6 +118,34 @@
 		<script src="../../static/layui/layui.all.js"></script>
 		<script type="text/javascript" src="../../static/js/common/dateFormat.js"></script>
 	</body>
+	<div id="insertCircleBox" style="display: none">
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend style="font-size: 30px;font-weight: 500;">插入代号</legend>
+		</fieldset>
+		<form class="layui-form layui-form-pane" action="" style="margin-left: 5px;margin-right: 5px;">
+			<div class="layui-form-item">
+				<label class="layui-form-label">前置代号:</label>
+				<div class="layui-input-block">
+					<select name="modules" lay-search="" id="nowHaveNum">
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">X:</label>
+				<div class="layui-input-block">
+					<input type="text" placeholder="请输入代号的X坐标...必须为50的正倍数" class="layui-input" id="numX" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">Y:</label>
+				<div class="layui-input-block">
+					<input type="text" placeholder="请输入代号的Y坐标...必须为50的正倍数" class="layui-input" id="numY" />
+				</div>
+			</div>
+		</form>
+		<button type="button" class="layui-btn layui-btn-lg chwstyle" id="insertCircle">确认</button>
+		<button type="button" class="layui-btn layui-btn-lg chwstyle goNot">取消</button>
+	</div>
 	<div id="addCircleBox" style="display: none">
 		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
 			<legend style="font-size: 30px;font-weight: 500;" id="createNumTitle">创建代号</legend>
