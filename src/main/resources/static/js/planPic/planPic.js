@@ -338,7 +338,7 @@ function drawLinePoint(num1, num2, type, dec, work, time, man, start, end, es, l
 	if(heightTag !== 0) {
 		ctx.lineTo(midX, midY);
 	}
-	if(ifchange && type !== 1) {
+	if(!haveChange && ifchange && type !== 1) {
 		var tsx = 100 + start * 1 * dayWidth;
 		var tex = 100 + end * 1 * dayWidth;
 		if(heightTag === 0 || (loc === 1 && dec === 1) || (loc === 2 && dec === 2)) {
@@ -445,8 +445,8 @@ function drawLinePoint(num1, num2, type, dec, work, time, man, start, end, es, l
 			} else if(tex === c2x && tsx > c1x) { //只有前面有弹簧
 				ctx.beginPath();
 				ctx.moveTo(startX, startY);
-				var tx = midX + 5;
-				var ty = midY;
+				var tx = startX + 5;
+				var ty = startY;
 				ctx.lineTo(tx, ty);
 				var td = 0; //0向上
 				tx += 5;
@@ -465,11 +465,12 @@ function drawLinePoint(num1, num2, type, dec, work, time, man, start, end, es, l
 					}
 				}
 				ctx.lineTo(tsx, midY);
+                ctx.lineTo(midX, midY);
 			} else if(tsx > c1x && tex < c2x) { //前后都有弹簧
 				ctx.beginPath();
 				ctx.moveTo(startX, startY);
-				var tx = midX + 5;
-				var ty = midY;
+				var tx = startX + 5;
+				var ty = startY;
 				ctx.lineTo(tx, ty);
 				var td = 0; //0向上
 				tx += 5;
@@ -1019,7 +1020,7 @@ function drarManLine() {
 		var manCount = {
 			"num": i,
 			"count": 0
-		}
+		};
 		manList.push(manCount);
 	}
 	var len = linePointList.length;
@@ -1045,7 +1046,7 @@ function drarManLine() {
 	lineY = lineY + 100;
 	var maxManCount = 0;
 	var minManCount = 10000;
-	var tagHeight = 0;
+	var tagHeight = 0.2;
 	for(var n = 0; n < planTimeLimit; n++) {
 		if(maxManCount < manList[n].count) {
 			maxManCount = manList[n].count;
@@ -1254,10 +1255,10 @@ $('#createPoint').click(function() {
 	$("#smallNum").html("");
 	$("#largeNum").html("");
 	for(var i = 0; i < len; i++) {
-		$("#smallNum").append('<option value="' + circleNumberList[i].num + '">' + circleNumberList[i].num + '</option>');
-		$("#largeNum").append('<option value="' + circleNumberList[i].num + '">' + circleNumberList[i].num + '</option>');
-	}
-	form.render();
+        $("#smallNum").append('<option value="' + circleNumberList[i].num + '">' + circleNumberList[i].num + '</option>');
+        $("#largeNum").append('<option value="' + circleNumberList[i].num + '">' + circleNumberList[i].num + '</option>');
+    }
+    form.render();
 	layer.open({
 		type: 1,
 		shadeClose: true,
@@ -1809,12 +1810,11 @@ function reWriteCircleX() {
 		circleNumberList[i].x = x;
 	}
 	if(len1 > 0) {
+        circleNumberList[0].x=1000000;
 		for(var k = 0; k < len2; k++) {
 			if(linePointList[k].num1 === circleNumberList[0].num) {
 				var temp = 100 + linePointList[k].start * dayWidth;
-				if(circleNumberList[0].x === 100) {
-					circleNumberList[0].x = temp;
-				} else if(temp < circleNumberList[0].x) {
+				if(temp < circleNumberList[0].x) {
 					circleNumberList[0].x = temp;
 				}
 			}
@@ -2002,6 +2002,7 @@ $('#timeFlow').click(function() {
 	reDrawPlanPic();
 });
 
+//开启劳动力曲线按钮点击事件
 $('#showManLine').click(function() {
 	ifGrid = true;
 	if(ifManLine) {
@@ -2013,6 +2014,68 @@ $('#showManLine').click(function() {
 		ifManLine = true;
 	}
 	reDrawPlanPic();
+});
+
+//插入代号按钮点击事件
+$('#insertNum').click(function () {
+    $("#nowHaveNum").html("");
+	var len=circleNumberList.length;
+    for(var i = 0; i < len; i++) {
+        $("#nowHaveNum").append('<option value="' + circleNumberList[i].num + '">' + circleNumberList[i].num + '</option>');
+    }
+    form.render();
+    layer.open({
+        type: 1,
+        shadeClose: true,
+        area: [widthMax, heightMax], //宽高
+        content: $('#insertCircleBox')
+    });
+});
+
+//插入代号页面确定按钮点击事件
+$('#insertCircle').click(function () {
+    haveChange = true;
+    var numX = parseInt($('#numX').val());
+    var numY = parseInt($('#numY').val());
+    var num = parseInt($('#nowHaveNum option:selected').prop("value"));
+    if(!/^\+?[1-9][0-9]*$/.test(numX)) {
+        layer.msg('X坐标必须为50的正倍数！');
+        return;
+    }
+    if(numX % 50 !== 0) {
+        layer.msg('X坐标必须为50的正倍数！');
+        return;
+    }
+    if(!/^\+?[1-9][0-9]*$/.test(numY)) {
+        layer.msg('Y坐标必须为50的正倍数！');
+        return;
+    }
+    if(numY % 50 !== 0) {
+        layer.msg('Y坐标必须为50的正倍数！');
+        return;
+    }
+    if(num===''){
+        layer.msg('必须选择前置代号！');
+        return;
+	}
+    var len=circleNumberList.length;
+    for(var i = 0; i < len; i++) {
+		if(circleNumberList[i].num>num){
+            circleNumberList[i].num=circleNumberList[i].num*1+1;
+		}
+    }
+    var len2=linePointList.length;
+    for(var i = 0; i < len2; i++) {
+		if(linePointList[i].num1>num){
+            linePointList[i].num1=linePointList[i].num1*1+1;
+		}
+        if(linePointList[i].num2>num){
+            linePointList[i].num2=linePointList[i].num2*1+1;
+        }
+    }
+    reDrawPlanPic();
+	drawCircleNumber(numX,numY,num+1);
+	successTip();
 });
 
 $(document).ready(function() {
