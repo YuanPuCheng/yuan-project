@@ -33,72 +33,23 @@ layui.extend({
         myChart.resize();
         myChart1.resize();    //若有多个图表变动，可多写
     };
-    projectEcahrs();//项目Echar
+    //projectEcahrs();//项目Echar
     queryNotice();//公告栏
     tianqi();//天气Echar
-    acttask();//待办任务总数
-    mytask();//我的通知总数
+    mytaskAll();//待办任务总数
 
 
 
-    function mytask() {
-        $.post(layui.setter.project+"/user/mytaskcount",
+    function mytaskAll() {
+        $.post(layui.setter.project+"/index/taskCountAll",
             function(data,status){
-                $("#t").html(data);
+            console.log(data);
+                $("#t").html(data.mcount);
+                $("#acttask").html(data.tcount);
+                projectEchar(data.projectEchar.name,data.projectEchar.namevalue);
             });
     }
 
-    function acttask() {
-        $.ajax({
-            type: "get",
-            url: layui.setter.project + "/human/queryTaskCount",
-            async: true,
-            success: function (data) {
-                console.log(data)
-                $("#acttask").html(data);
-            }
-        })
-    }
-
-    //饼状图表
-    function projectEcahrs() {
-        $.ajax({
-            type: "get",
-            url: layui.setter.project+"/project/projectEchars",
-            async: true,
-            success: function(data) {
-
-                myChart.setOption({
-
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: "{a} <br/>{b} : {c} ({d}%)"
-                    },
-                    legend: {
-                        orient: 'vertical',
-                        left: 'left',
-                        data: data.name
-                    },
-                    series: [{
-                        name: '数量',
-                        type: 'pie',
-                        radius: '55%',
-                        center: ['50%', '45%'],
-                        data: data.namevalue,
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
-                    }]
-                });
-                console.log(data)
-
-            }
-        });
-    }
 
     //公告页面渲染开始
     function queryNotice() {
@@ -203,6 +154,35 @@ layui.extend({
                 });
             }
         })
+    };
+
+    function projectEchar(name,value) {
+        myChart.setOption({
+
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: name
+            },
+            series: [{
+                name: '数量',
+                type: 'pie',
+                radius: '55%',
+                center: ['50%', '45%'],
+                data: value,
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }]
+        });
     }
 
 	 e("index", {})

@@ -88,10 +88,5 @@ public class HumanWorkController {
         return humanService.queryMenuByParentId(userId,parentId);
     }
 
-    @RequestMapping("/queryTaskCount")
-    @ResponseBody
-    public Integer queryTaskCount(HttpSession session){
-        sys_user user = (sys_user) session.getAttribute("user");
-        return queryService.queryTaskCountByCode(user.getUserCode());
-    }
+
 }

@@ -31,8 +31,7 @@ public class UserController {
     @Resource
     private sys_userService user_service;
 
-    @Resource
-    private sys_taskSerivce taskService;
+
 
     @Resource
     private sys_user_roleService userRoleService;
@@ -64,25 +63,7 @@ public class UserController {
         return list;
     }
 
-    //查看我的个人信息
-    @RequestMapping(value = "/mytaskcount")
-    @ResponseBody
-    public Integer mytaskcount(HttpSession session){
-        sys_user user =(sys_user) session.getAttribute("user");
-        Integer count = 0;
-        if(user==null){
-            try {
-                throw new Exception("当前用户未登录，请重新登录");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }else{
-            count = taskService.myTaskCount(user.getUserId());
 
-        }
-
-        return count;
-    }
 
 
     //查看我的个人信息
