@@ -1761,7 +1761,7 @@ function calculateLastStartEnd(s) {
 				if(planTimeLimit < linePointList[i].EF) {
 					planTimeLimit = linePointList[i].EF * 1;
 				}
-				linePointList[i].LF = planTimeLimit;
+				linePointList[i].LF = planTimeLimit*1;
 			}
 			var freeTime = 0;
 			for(var j = 0; j < len; j++) {
@@ -1773,9 +1773,9 @@ function calculateLastStartEnd(s) {
 						freeTime = temp;
 					}
 					if(linePointList[i].LF === -1) {
-						linePointList[i].LF = linePointList[j].LS;
+						linePointList[i].LF = linePointList[j].LS*1;
 					} else if(linePointList[j].LS < linePointList[i].LF) {
-						linePointList[i].LF = linePointList[j].LS;
+						linePointList[i].LF = linePointList[j].LS*1;
 					}
 				}
 			}
@@ -1946,6 +1946,7 @@ $('#calculate').click(function() {
 });
 
 //计算网络计划的所有参数
+var testCalculate=true;
 function calculateAll() {
 	haveChange = true;
 	reDrawPlanPic();
@@ -1978,6 +1979,12 @@ function calculateAll() {
 	}
 	haveChange = false;
 	reDrawPlanPic();
+	if (testCalculate){
+		testCalculate=false;
+        calculateAll();
+	}else{
+		testCalculate=true;
+	}
 	return true;
 }
 
@@ -2076,6 +2083,16 @@ $('#insertCircle').click(function () {
     reDrawPlanPic();
 	drawCircleNumber(numX,numY,num+1);
 	successTip();
+});
+
+var haveAddParent=false;
+$('#openHelp').click(function () {
+	if(!haveAddParent){
+        var addHtmlTxt='<a id="openWorkPlanHelp" lay-href="/plan/workPlanHelpHtml">网络计划使用说明</a>';
+        $("body", parent.document).append(addHtmlTxt);
+        haveAddParent=true;
+	}
+    window.parent.openbq('openWorkPlanHelp');
 });
 
 $(document).ready(function() {
