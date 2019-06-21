@@ -11,4 +11,9 @@ public class PlanHtmlController {
     public String workPlanHtml(){
         return "workplan/workPlan";
     }
+
+    @RequestMapping("/workPlanHelpHtml")
+    public String workPlanHelpHtml(){
+        return "workplan/workPlanHelp";
+    }
 }
