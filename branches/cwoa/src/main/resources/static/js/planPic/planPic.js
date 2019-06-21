@@ -1217,6 +1217,7 @@ $('#addCircle').click(function() {
 			layer.msg('代号不能重复！');
 			if(hasDelete) {
 				circleNumberList.push(nowCircleNumber);
+                nowIndex=circleNumberList.length-1;
 			}
 			return;
 		}
@@ -1226,7 +1227,8 @@ $('#addCircle').click(function() {
 			"x": circleX,
 			"y": circleY,
 			"num": circleNum,
-			"nextNumList": nowCircleNumber.nextNumList
+			"nextNumList": [],
+            "frontNumList": []
 		};
 		circleNumberList.push(circleNumber);
 		reDrawPlanPic();
@@ -1578,7 +1580,13 @@ $('#moveAll').click(function() {
 
 //保存按钮的点击事件
 $('#save').click(function() {
-	$('#workMan').val($("#userName", parent.document).attr("name"));
+	var workManName=$("#userName", parent.document).attr("name");
+    if(workManName===null || workManName==='' || workManName==='undefined' || typeof workManName==='undefined'){
+        layer.msg('您没有登陆,无权使用保存功能！');
+        return;
+    }
+	$('#workMan').val(workManName);
+
 	$('#planName').val(oldPlanName);
 	$('#savePlanTimeLimit').val(planTimeLimit);
 	$('#saveStartTimeDate').val(new Date(planStartTime).format("yyyy-MM-dd"));
