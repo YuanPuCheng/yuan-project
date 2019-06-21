@@ -53,20 +53,20 @@
 								<script type="text/html" id="toolbarDemo">
 									<div class="layui-btn-container">
 										<button class="layui-btn layui-btn-sm" lay-event="add">发布通知</button>
-										{{# if(d.deletes!=''){ }}
+
 										<button class="layui-btn layui-btn-sm" lay-event="deletes">批量删除</button>
-										{{#} }}
+
 									</div>
 								</script>
 								<script type="text/html" id="barDemo">
-									{{# if(d.taskStatus==1){ }}
+
 									<a class="layui-btn layui-btn-xs" lay-event="ti">提交</a>
-									{{# } else if(d.taskStatus==2){ }}{{# } }}
+
 									
 									<a class="layui-btn layui-btn-xs" lay-event="edit">详细</a>
-									{{# if(d.del!=''){ }}
+
 									<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-									{{# } }}
+
 								</script>
 								<div id="demo8"></div>
 							</div>

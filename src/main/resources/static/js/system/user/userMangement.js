@@ -2,11 +2,12 @@ layui.extend({
 	setter: "../../../../static/layui/config"
 
 }).define(["setter", "jquery","laytpl"], function(e) {
-    var urls = window.location.href;
-    var data = decodeURI(urls);
+
     var $ = layui.jquery;
     var laytpl = layui.laytpl;
-    var arr = data.split("data=");
+    /*var arr = data.split("data=");
+    var urls = window.location.href;
+    var data = decodeURI(urls);
     console.log(arr[1]);
     var data={
         add : '',
@@ -39,7 +40,7 @@ layui.extend({
         $('#barDemo').html(html);
     });
 
-
+*/
 	layui.use(['form', 'layer', 'table'], function() {
 		var table = layui.table,
 			layer = layui.layer,
