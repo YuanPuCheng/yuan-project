@@ -2,16 +2,17 @@ layui.extend({
 	setter: "../../../../static/layui/config"
 
 }).define(["setter", "jquery", 'form', 'laypage', 'table','laytpl'], function(e) {
+    var table = layui.table,
+        laytpl = layui.laytpl,
+        laypage = layui.laypage,
+        layer = layui.layer,
+        form = layui.form,
+        $ = layui.jquery;
    /* var urls = window.location.href;
     var data = decodeURI(urls);
     var arr = data.split("data=");
     console.log(arr[1]);
-	var table = layui.table,
-		laytpl = layui.laytpl,
-        laypage = layui.laypage,
-		layer = layui.layer,
-		form = layui.form,
-		$ = layui.jquery;
+
     var widthMax = "70%",
         heightMax = "80%";
     if($(window).width() < 768) {
