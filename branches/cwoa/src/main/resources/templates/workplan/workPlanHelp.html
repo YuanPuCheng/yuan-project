@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>网络计划使用说明</title>
+		<meta name="renderer" content="webkit" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../../static/css/reset.css" />
+		<link rel="stylesheet" href="./../../static/layui/css/layui.css" />
+		<style>
+			html{
+				background-color: #ffffff;
+			}
+
+			.site-h1 {
+				margin-bottom: 20px;
+				line-height: 60px;
+				padding-bottom: 10px;
+				color: #393D49;
+				border-bottom: 1px solid #eee;
+				font-size: 28px;
+				font-weight: 300;
+			}
+			
+			.site-content {
+				margin-left: 1%;
+				width: 96%;
+				min-height: 900px;
+				padding: 20px 0 10px 20px;
+			}
+			
+			p {
+				margin-top: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="site-content">
+			<h1 class="site-h1">开始使用 - 入门指南</h1>
+			<blockquote class="layui-elem-quote">
+				<p>网络计划即网络计划技术（Network Planning Technology），是指用于工程项目的计划与控制的一项管理技术。它是五十年代末发展起来的，依其起源有关键路径法（CPM）与计划评审法（PERT）之分。CPM主要应用于以往在类似工程中已取得一定经验的承包工程，PERT更多地应用于研究与开发项目。</p>
+			</blockquote>
+
+			<fieldset class="layui-elem-field layui-field-title site-title">
+				<legend>
+					<a name="compatibility">基本内容</a>
+				</legend>
+			</fieldset>
+
+			<blockquote class="layui-elem-quote">
+				<p>网络计划技术包括以下基本内容：</p>
+				<p>1、网络图</p>
+				<p>网络图是指网络计划技术的图解模型，反映整个工程任务的分解和合成。分解，是指对工程任务的划分；合成，是指解决各项工作的协作与配合。分解和合成是解决各项工作之间，按逻辑关系的有机组成。绘制网络图是网络计划技术的基础工作。</p>
+				<p>2、时间参数</p>
+				<p>在实现整个工程任务过程中，包括人、事、物的运动状态。这种运动状态都是通过转化为时间函数来反映的。反映人、事、物运动状态的时间参数包括：各项工作的作业时间、开工与完工的时间、工作之间的衔接时间、完成任务的机动时间及工程范围和总工期等。</p>
+				<p>3、关键路线</p>
+				<p>通过计算网络图中的时间参数，求出工程工期并找出关键路径。在关键路线上的作业称为关键作业，这些作业完成的快慢直接影响着整个计划的工期。在计划执行过程中关键作业是管理的重点，在时间和费用方面则要严格控制。</p>
+				<p>4、网络优化</p>
+				<p>网络优化，是指根据关键路线法，通过利用时差，不断改善网络计划的初始方案，在满足一定的约束条件下，寻求管理目标达到最优化的计划方案。网络优化是网络计划技术的主要内容之一，也是较之其它计划方法优越的主要方面。</p>
+				<p>网络计划技术既是一种科学的计划方法，又是一种有效的生产管理方法。</p>
+				<p>网络计划最大特点就在于它能够提供施工管理所需要的多种信息，有利于加强工程管理，它有助于管理人员合理地组织生产，做到心里有数，知道管理的重点应放在何处，怎样缩短工期，在哪里挖掘潜力，如何降低成本．在工程管理中提高应用网络计划技术的水平，必能进一步提高工程管理的水平。</p>
+			</blockquote>
+
+			<fieldset class="layui-elem-field layui-field-title site-title">
+				<legend>
+					<a name="get">计划类型</a>
+				</legend>
+			</fieldset>
+
+			<blockquote class="layui-elem-quote">
+				<p>本套软件选用了双代号网络计划与时标网络计划两种类型。</p>
+				<p>1、双代号网络计划</p>
+				<p>它就是以双代号网络图表示的计划。双代号网络图以箭线（方向线）表示工作，以节点表示它们的连接点，一项工作可以用其两端节点来表示。箭线的箭尾节点表示该工作的开始，箭线的箭头节点表示该工作的结束。普通网络计划的箭线长度不直接反映该工作所占用的时间长短。</p>
+				<p>2、时标网络计划</p>
+				<p>它就是增加了时间坐标的双代号网络计划，其主要特点是计划时间直观。在网络图中，工作箭线的水平投影长度与其持续时间成正比。</p>
+			</blockquote>
+
+			<fieldset class="layui-elem-field layui-field-title site-title">
+				<legend>
+					<a name="quickstart">绘制规则</a>
+				</legend>
+			</fieldset>
+
+			<blockquote class="layui-elem-quote">
+				<p>双代号网络图中，每一条箭线应表示一项工作。箭线的箭尾节点表示该工作的开始，箭线 的箭头节点表示该工作的结束，在非时标网络图中，箭线的长度不直接反映该工作所占用的 时间。箭线宜画成水平直线，也可画成折线或斜线。箭线的水平投影方向应自左向右 ，表示工作的进行方向。实线箭线的方向不建议垂直向上或向下。虚线箭线表示一项虚工作，其表示形式建议垂直向上或向下，也可水平 （不建议）。</p>
+				<p><img src="../../static/img/workPlanPic/workPlanPic1.png" style="height: 360px;" /></p>
+				<p>代号的数值不可重复，建议从1开始，顺序增加。</p>
+				<p>双代号网络图中，应只有一个起点节点，并且只有一个终点节点，其他节点均应是中间节点。所有节点都应该被箭线连接。</p>
+				<p>箭线的方向，只能由小代号指向大代号。</p>
+				<p>在本软件中，代号的坐标必须为50的正倍数，且不宜小于100。</p>
+				<p>
+					<img src="../../static/img/workPlanPic/workPlanPic2.png" style="width: 400px;height: 300px;" />
+					<img src="../../static/img/workPlanPic/workPlanPic3.png" style="width: 400px;height: 300px;" />
+					<img src="../../static/img/workPlanPic/workPlanPic4.png" style="width: 400px;height: 300px;" />
+				</p>
+			</blockquote>
+
+			<fieldset class="layui-elem-field layui-field-title site-title">
+				<legend>
+					<a name="classical">开始绘制</a>
+				</legend>
+			</fieldset>
+
+			<blockquote class="layui-elem-quote">
+				<p>1、认识Canvas画布。</p>
+				<p>​如下图所示，Canvas 元素默认被网格所覆盖。通常来说网格中的一个单元相当于 Canvas 元素中的一像素。栅格的起点为左上角，坐标为 (0,0) 。所有元素的位置都相对于原点来定位。所以图中蓝色方形左上角的坐标为距离左边（X 轴）x 像素，距离上边（Y 轴）y 像素，坐标为 (x,y)。</p>
+				<p><img src="../../static/img/workPlanPic/canvas.png" /></p>
+				<p>2、创建代号。</p>
+				<p><img src="../../static/img/workPlanPic/workPlanPic5.png" style="width: 1040px;height: 640px;" /></p>
+				<p>3、至少创建两个代号。</p>
+				<p>4、创建方向线。</p>
+				<p><img src="../../static/img/workPlanPic/workPlanPic6.png" style="width: 1040px;height: 640px;" /></p>
+				<p>5、绘制完整的、合规的网络计划。</p>
+				<p>6、计算</p>
+				<p><img src="../../static/img/workPlanPic/workPlanPic7.png" style="width: 1040px;height: 640px;" /></p>
+				<p>7、查看计算结果</p>
+				<p><img src="../../static/img/workPlanPic/workPlanPic8.png" style="height: 640px;" /></p>
+				<p>8、效果优化</p>
+				<p>
+					<img src="../../static/img/workPlanPic/workPlanPic9.png" />
+					<img src="../../static/img/workPlanPic/workPlanPic10.png" />
+				</p>
+				<p style="color: blue;">9、每次编辑或删除元素后，都必须重新计算，才能显示正确的网络图!</p>
+			</blockquote>
+
+			<fieldset class="layui-elem-field layui-field-title site-title">
+				<legend>
+					<a name="modules">按钮介绍</a>
+				</legend>
+			</fieldset>
+
+			<blockquote class="layui-elem-quote">
+				<p>1、新建按钮</p>
+				<p>清空画布，以便绘制新的网络计划。虽然，直接刷新页面也是同样的效果。。</p>
+				<p>2、打开按钮</p>
+				<p>可以打开已保存的网络计划。</p>
+				<p>3、保存按钮</p>
+				<p>将网络计划保存到服务器。</p>
+				<p style="color: blue;">4、重生成按钮</p>
+				<p style="color: blue;">一般用于网络计划显示不全时，可以利用重生成重新定义画布大小，以便展示完整的网络计划。</p>
+				<p>5、整体平移按钮</p>
+				<p>将网络计划图整体像X方向或Y方向平移n个像素。</p>
+			</blockquote>
+
+			<fieldset class="layui-elem-field layui-field-title site-title">
+				<legend>
+					<a name="modules">绘图技巧</a>
+				</legend>
+			</fieldset>
+
+			<blockquote class="layui-elem-quote">
+				<p>1、二段转折线</p>
+				<p>
+					<img src="../../static/img/workPlanPic/workPlanPic11.png" />
+					<img src="../../static/img/workPlanPic/workPlanPic12.png" />
+				</p>
+				<p>2、插入代号</p>
+				<p><img src="../../static/img/workPlanPic/workPlanPic13.png" /></p>
+			</blockquote>
+
+			<div class="layui-elem-quote">
+				<p>Carl·Bryant - 用心与你沟通</p>
+			</div>
+		</div>
+	</body>
+
+</html>
