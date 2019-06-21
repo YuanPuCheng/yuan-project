@@ -196,7 +196,7 @@
                                 erji+=sanji;
                             }else{
                                 erji+='<dd data-name="grid">'+
-                                    '<a lay-href="' + data[i].menus[j].menuUrl + '">' + data[i].menus[j].menuName + '</span></a>';
+                                    '<a id="'+data[i].menus[j].menuCode+'"  lay-href="' + data[i].menus[j].menuUrl + '">' + data[i].menus[j].menuName + '</span></a>';
                             }
                             var di = '</dd>';
                             erji+=di;
@@ -208,7 +208,7 @@
 
                 }
 
-                console.log(array1)
+                //console.log(array1)
                 $('#LAY-system-side-menu').append(array1);
             }
         })
