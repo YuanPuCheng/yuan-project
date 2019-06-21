@@ -167,34 +167,49 @@
             dataType: "json",
             async: false,
             success: function (data) {
-                console.log(data);
+                var array1="";
+                //var list="";
 
-                var list = '';
-                for (var i = 0; i < data.length; i++) {
-                    var lis = $('<li>');
-                    lis.attr('class', 'layui-nav-item');
-                    var als = '<a href="javascript:;" lay-tips="' + data[i].menuName + '" lay-direction="2"><i class="layui-icon ' + data[i].menuIcon + '"></i><cite>' + data[i].menuName + '</cite></a>';
-                    var dds = "";
-                    if (data[i].menus != null) {
-                        for (var j = 0; j < data[i].menus.length; j++) {
-                            if (data[i].menus[j].menus.length != 0) {
-                                var menusName = "";
-                                for (var k = 0; k < data[i].menus[j].menus.length; k++) {
-                                    menusName += data[i].menus[j].menus[k].menuName + ",";
+                for(var i=0;i<data.length;i++){
+
+                    array1+='<li data-name="component" class="layui-nav-item">'+
+                        '<a href="javascript:;" lay-tips="'+data[i].name+'" lay-direction="2">'+
+                        '<i class="layui-icon '+data[i].menuIcon+'"></i>'+
+                        '<cite>' + data[i].menuName + '</cite>'+
+                        '<span class="layui-nav-more"></span></a>';
+                    if(data[i].menus != null) {
+                        var erhead = '<dl class="layui-nav-child">';
+                        var erji="";
+                        var erjibody="";
+                        for(var j=0;j<data[i].menus.length;j++){
+                            console.log(data[i].menus[j].menus.length)
+                            if(data[i].menus[j].menus.length!=0){
+                                erji+='<dd data-name="grid">'+
+                                    '<a href="javascript:;">' + data[i].menus[j].menuName + '<span class="layui-nav-more"></span></a>';
+                                var sanhead='<dl class="layui-nav-child">';
+                                var sanji="";
+                                for(var k=0;k<data[i].menus[j].menus.length;k++){
+                                    sanji+='<dd data-name="list"><a lay-href="'+data[i].menus[j].menus[k].menuUrl+'">'+data[i].menus[j].menus[k].menuName+'</a></dd>'
                                 }
-                                console.log(menusName);
-                                dds += '<dd data-name="\'+data[i].menus[j].menuName+\'"><a id="' + data[i].menus[j].menuCode + '" lay-href="' + project + data[i].menus[j].menuUrl + '?data=' + menusName.substring(0, menusName.length - 1) + '\">' + data[i].menus[j].menuName + '</a></dd>';
-                            } else {
-                                dds += '<dd data-name="\'+data[i].menus[j].menuName+\'"><a id="' + data[i].menus[j].menuCode + '" lay-href="' + project + data[i].menus[j].menuUrl + '?data=\">' + data[i].menus[j].menuName + '</a></dd>';
+                                var sandi = '</dl>';
+                                sanji=sanhead+sanji+sandi;
+                                erji+=sanji;
+                            }else{
+                                erji+='<dd data-name="grid">'+
+                                    '<a lay-href="' + data[i].menus[j].menuUrl + '">' + data[i].menus[j].menuName + '</span></a>';
                             }
-                            console.log(data[i].menus[j].menuUrl);
+                            var di = '</dd>';
+                            erji+=di;
+                            erjibody = erhead+erji+'</dl>'
                         }
-
+                        ;
                     }
-                    var dls = "<dl class='layui-nav-child'>" + dds + "</dl>";
-                    lis.html(als + dls);
-                    $('#LAY-system-side-menu').append(lis);
+                    array1+=erjibody+'</li>';
+
                 }
+
+                console.log(array1)
+                $('#LAY-system-side-menu').append(array1);
             }
         })
 

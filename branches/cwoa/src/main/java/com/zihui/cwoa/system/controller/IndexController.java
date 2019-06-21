@@ -1,6 +1,7 @@
 package com.zihui.cwoa.system.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zihui.cwoa.processone.service.QueryService;
@@ -10,12 +11,14 @@ import com.zihui.cwoa.system.service.sys_projectService;
 import com.zihui.cwoa.system.service.sys_taskSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +37,8 @@ public class IndexController {
 
 
 
-    public final String URL = "http://t.weather.sojson.com/api/weather/city/101240101";
+    public final String URL = "http://t.weather.sojson.com/api/weather/city/101240101";//天气接口1
+    public final String TQURL = "http://wthrcdn.etouch.cn/weather_mini?citykey=101240101";//天气接口2
 
     //查询所有任务
     @RequestMapping("/taskCountAll")
@@ -68,20 +72,31 @@ public class IndexController {
                 return echarsiIndex();
             }
         };
+        //创建天气图表线程
+        /*Callable<Map> task4= new Callable<Map>() {
+            @Override
+            public Map call() throws Exception {
 
+                return httpClient1();
+            }
+        };*/
         FutureTask<Integer> fu1 = new FutureTask(task1);
         FutureTask<Integer> fu2 = new FutureTask(task2);
         FutureTask<Map> fu3 = new FutureTask(task3);
+        //FutureTask<Map> fu4 = new FutureTask(task4);
         pool.execute(fu1);
         pool.execute(fu2);
         pool.execute(fu3);
+        //pool.execute(fu4);
         try {
             Integer count1=fu1.get();
             Integer count2=fu2.get();
             Map m = fu3.get();
+           // Map tq = fu4.get();
             map.put("tcount",count1);
             map.put("mcount",count2);
             map.put("projectEchar",m);
+            //map.put("tq",tq);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -94,8 +109,8 @@ public class IndexController {
     }
 
 
-    @RequestMapping(value = "getTq")
-    @ResponseBody
+   @RequestMapping("/getTq")
+   @ResponseBody
     public Map httpClient(){
         Map map = new HashMap();
         RestTemplate template = new RestTemplate();
@@ -122,8 +137,39 @@ public class IndexController {
 
         return map;
     }
+  /* @RequestMapping("/getTq")
+   @ResponseBody
+    public Map httpClient1(){
+        Map map = new HashMap();
+        RestTemplate template = new RestTemplate();
+       //template.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
+       Map map1 = new HashMap();
+       map1.put("citykey", "101240101");
+       String data = template.getForObject(TQURL+"?citykey={citykey}", String.class,map1);
+       System.out.println(data.toString());
+        //JSONObject json =JSONObject.parseObject(data.getBody().toString());//将接口返回的数据转为JSON
+        //
+        *//*JSONObject json1 =(JSONObject)json.get("data");
+        JSONArray array =(JSONArray)json1.get("forecast");
+        List<String> da =new  ArrayList();
+        List<Integer> height =new  ArrayList();
+        List<Integer> di =new  ArrayList();
+        for(int i=0;i<array.size();i++){
+            JSONObject object = (JSONObject)array.get(i);
+            String high =(String) object.get("high");
+            String d =(String) object.get("low");
+            high = high.substring(high.indexOf(" ")+1,high.indexOf("."));
+            d=d.substring(d.indexOf(" ")+1,d.indexOf("."));
+            da.add(object.get("date").toString());
+            height.add(Integer.parseInt(high));
+            di.add(Integer.parseInt(d));
+        }
+        map.put("data",da);
+        map.put("high",height);
+        map.put("low",di);*//*
 
-
+        return map;
+    }*/
 
 
 

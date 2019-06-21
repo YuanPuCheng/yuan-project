@@ -2,17 +2,18 @@ layui.extend({
 	setter: "../../../../static/layui/config"
 
 }).define(["setter", "jquery", 'form', 'laypage', 'table','laytpl'], function(e) {
-	var urls = window.location.href;
-	var dats = decodeURI(urls);
-	var arr = dats.split("data=");
-	console.log(arr[1]);
-
     var table = layui.table,
         laytpl = layui.laytpl,
-		laypage = layui.laypage,
-		layer = layui.layer,
-		form = layui.form,
-		$ = layui.jquery;
+        laypage = layui.laypage,
+        layer = layui.layer,
+        form = layui.form,
+        $ = layui.jquery;
+    /*var urls = window.location.href;
+    var dats = decodeURI(urls);
+    var arr = dats.split("data=");
+    console.log(arr[1]);
+
+
     var data={
         add : '',
         deletes:''
@@ -22,18 +23,18 @@ layui.extend({
         del:'',
         edit:''
     }
-	if(arr[1]!=null){
-		var array = arr[1].split(',');
-		for(var i =0;i<array.length;i++){
-			switch (array[i]){
-				case ("添加"): data.add="添加";break;
+    if(arr[1]!=null){
+        var array = arr[1].split(',');
+        for(var i =0;i<array.length;i++){
+            switch (array[i]){
+                case ("添加"): data.add="添加";break;
                 case ("删除"): result.del="删除";break;
                 case ("编辑"): result.edit="编辑";break;
                 case ("批量删除"): data.deletes="批量删除";break;
-			}
-		}
+            }
+        }
 
-	}
+    }
 
 
 
@@ -43,6 +44,7 @@ layui.extend({
     laytpl($('#barDemo').html()).render(result, function(html){
         $('#barDemo').html(html);
     });
+    */
     var widthMax = "70%",
         heightMax = "80%";
     if($(window).width() < 768) {

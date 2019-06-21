@@ -63,21 +63,20 @@
 								<table class="layui-hide" id="test" lay-filter="test"></table>
 								<script type="text/html" id="toolbarDemo">
 									<div class="layui-btn-container">
-										{{# if(d.add!=''){ }}
+
 										<button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
-										{{# } }}
-										{{# if(d.deletes!=''){ }}
+
+
 										<button class="layui-btn layui-btn-sm" lay-event="deletes">批量删除</button>
-										{{# } }}
+
 									</div>
 								</script>
 								<script type="text/html" id="barDemo">
-									{{# if(d.edit!=''){ }}
+
 									<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-									{{# } }}
-									{{# if(d.del!=''){ }}
+
 									<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-									{{# } }}
+
 								</script>
 								<div id="demo8"></div>
 							</div>

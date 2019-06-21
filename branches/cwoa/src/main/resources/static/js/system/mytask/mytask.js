@@ -2,10 +2,10 @@ layui.extend({
 	setter: "../../../../static/layui/config"
 
 }).define(["setter", "jquery", 'form', 'laypage', 'table'], function(e) {
-    var urls = window.location.href;
+  /*  var urls = window.location.href;
     var data = decodeURI(urls);
     var arr = data.split("data=");
-    console.log(arr[1]);
+    console.log(arr[1]);*/
 	var table = layui.table,
 		laypage = layui.laypage,
 		layer = layui.layer,

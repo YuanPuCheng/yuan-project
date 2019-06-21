@@ -2,23 +2,25 @@ layui.extend({
 	setter: "../../../../static/layui/config"
 
 }).define(["setter", "jquery", 'form', 'laypage', 'table','laytpl'], function(e) {
-    var urls = window.location.href;
-    var data = decodeURI(urls);
-    var arr = data.split("data=");
-    console.log(arr[1]);
-
-	var table = layui.table,
-		laypage = layui.laypage,
-		layer = layui.layer,
+    var table = layui.table,
+        laypage = layui.laypage,
+        layer = layui.layer,
         laytpl = layui.laytpl,
-		form = layui.form,
-		$ = layui.jquery;
+        form = layui.form,
+        $ = layui.jquery;
     var widthMax = "70%",
         heightMax = "80%";
     if($(window).width() < 768) {
         widthMax = "100%";
         heightMax = "80%";
     }
+    /*var urls = window.location.href;
+    var data = decodeURI(urls);
+    var arr = data.split("data=");
+    console.log(arr[1]);
+
+
+
     var data={
         add : '',
         deletes:''
@@ -49,6 +51,7 @@ layui.extend({
     laytpl($('#barDemo').html()).render(result, function(html){
         $('#barDemo').html(html);
     });
+    */
 	table.render({
 		elem: '#test',
 		url: layui.setter.project + '/role/getrolePage',

@@ -2,7 +2,7 @@ layui.extend({
 	setter: "../../../../static/layui/config"
 
 }).define(["setter", "jquery", 'form', 'laypage', 'table','laytpl'], function(e) {
-    var urls = window.location.href;
+   /* var urls = window.location.href;
     var data = decodeURI(urls);
     var arr = data.split("data=");
     console.log(arr[1]);
@@ -47,7 +47,7 @@ layui.extend({
     });
     laytpl($('#barDemo').html()).render(result, function(html){
         $('#barDemo').html(html);
-    });
+    });*/
 	table.render({
 		elem: '#test',
 		url: layui.setter.project + '/department/getdepartmentPage',
