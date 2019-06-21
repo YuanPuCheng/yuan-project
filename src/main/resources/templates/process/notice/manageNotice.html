@@ -33,10 +33,18 @@
 
 		<table class="layui-hide" id="test" lay-filter="test"></table>
 
-		<script type="text/html" id="toolbarDemo"></script>
+		<script type="text/html" id="toolbarDemo">
+
+			<button class="layui-btn layui-btn-sm" lay-event="addNotice">发布公告</button>
+			<button class="layui-btn layui-btn-sm" lay-event="delManyNotice">批量删除</button>
+		</script>
 
 		<script type="text/html" id="barDemo">
-			<a class="layui-btn layui-btn-sm" lay-event="query">查看公告</a>
+			<div class="layui-btn-container">
+				<a class="layui-btn layui-btn-sm" lay-event="query">查看公告</a>
+				<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>
+				<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>
+			</div>
 		</script>
 
 		<script src="../../../static/layui/layui.js"></script>
@@ -154,7 +162,7 @@
 					},
                     dataType: "text", //预测服务端返回的数据类型
                     success: function(data) { //请求成功的回调
-						var htmlText='<div class="layui-btn-container">';
+						/*var htmlText='<div class="layui-btn-container">';
                         if (data.indexOf("添加")!==-1){
                             htmlText=htmlText+'<button class="layui-btn layui-btn-sm" lay-event="addNotice">发布公告</button>';
                         }
@@ -166,7 +174,7 @@
 						    $('#barDemo').append('<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>');
 						}
 						htmlText=htmlText+'</div>';
-                        $('#toolbarDemo').html(htmlText);
+                        $('#toolbarDemo').html(htmlText);*/
                         $.ajax({
                             url: '/notice/countNotice',
                             data: {},
