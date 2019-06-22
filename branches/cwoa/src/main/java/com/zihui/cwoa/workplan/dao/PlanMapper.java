@@ -8,10 +8,10 @@ import java.util.Map;
 @Mapper
 public interface PlanMapper {
 
-    int insertPlan(String workMan,String planName,String timeLimit,String startTime,
-                   String planType,String timeWidth,String circleList,String pointList);
+    int insertPlan(String workMan,String planName,String timeLimit,String startTime, String planType,
+                   String timeWidth,String circleList,String pointList,String project);
 
-    List<Map<String,Object>> selectPlanName();
+    List<Map<String,Object>> selectPlanName(String project);
 
     Map<String,Object> selectPlanText(String id);
 }

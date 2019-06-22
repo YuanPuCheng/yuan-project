@@ -18,15 +18,15 @@ public class PlanWorkController {
 
     @RequestMapping("/insertPlan")
     @ResponseBody
-    public boolean insertPlan(String workMan,String planName,String timeLimit,String startTime,
-                              String planType,String timeWidth,String circleList,String pointList){
-        return planService.insertPlan(workMan,planName,timeLimit,startTime,planType,timeWidth,circleList,pointList);
+    public boolean insertPlan(String workMan,String planName,String timeLimit,String startTime, String planType,
+                              String timeWidth,String circleList,String pointList,String project){
+        return planService.insertPlan(workMan,planName,timeLimit,startTime,planType,timeWidth,circleList,pointList,project);
     }
 
     @RequestMapping("/selectPlanName")
     @ResponseBody
-    public List<Map<String,Object>> selectPlanName(){
-        return planService.selectPlanName();
+    public List<Map<String,Object>> selectPlanName(String project){
+        return planService.selectPlanName(project);
     }
 
     @RequestMapping("/selectPlanText")
