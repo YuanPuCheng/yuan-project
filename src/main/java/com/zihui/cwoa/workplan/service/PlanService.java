@@ -13,14 +13,14 @@ public class PlanService {
     @Autowired
     private PlanMapper planMapper;
 
-    public boolean insertPlan(String workMan,String planName,String timeLimit,String startTime,
-                              String planType,String timeWidth,String circleList,String pointList){
-        return planMapper.insertPlan(workMan,planName,timeLimit,startTime,planType,timeWidth,circleList,pointList)>0;
+    public boolean insertPlan(String workMan,String planName,String timeLimit,String startTime, String planType,
+                              String timeWidth,String circleList,String pointList,String project){
+        return planMapper.insertPlan(workMan,planName,timeLimit,startTime,planType,timeWidth,circleList,pointList,project)>0;
     }
 
 
-    public List<Map<String,Object>> selectPlanName(){
-        return planMapper.selectPlanName();
+    public List<Map<String,Object>> selectPlanName(String project){
+        return planMapper.selectPlanName(project);
     }
 
     public Map<String,Object> selectPlanText(String id){

@@ -4,16 +4,20 @@
 
     <insert id="insertPlan" parameterType="String" >
       INSERT INTO pro_plan
-      (plan_name,time_limit,start_time,plan_type,time_width,circle_list,point_list,draw_man,draw_time,plan_statu)
+      (plan_name,time_limit,start_time,plan_type,time_width,circle_list,point_list,draw_man,draw_project,draw_time,plan_statu)
       VALUES
-      (#{arg1},#{arg2},#{arg3},#{arg4},#{arg5},#{arg6},#{arg7},#{arg0},NOW(),1)
+      (#{arg1},#{arg2},#{arg3},#{arg4},#{arg5},#{arg6},#{arg7},#{arg0},#{arg8},NOW(),1)
     </insert>
 
-    <select id="selectPlanName" resultType="Map">
-        SELECT plan_id,plan_name FROM pro_plan WHERE plan_statu=1 ORDER BY draw_time DESC
+    <select id="selectPlanName" parameterType="String" resultType="Map">
+        SELECT plan_id,plan_name FROM pro_plan WHERE draw_project=#{arg0} AND plan_statu=1 ORDER BY draw_time DESC
     </select>
 
     <select id="selectPlanText" parameterType="String" resultType="Map">
-        SELECT plan_name,time_limit,start_time,plan_type,time_width,circle_list,point_list FROM pro_plan WHERE plan_id=#{arg0}
+        SELECT plan_name,time_limit,start_time,plan_type,time_width,circle_list,point_list
+        FROM pro_plan
+        WHERE plan_id=#{arg0}
     </select>
+
+
 </mapper>
