@@ -192,7 +192,7 @@
 				}
 				$(document).ready(function() {
                     if(userCode===null || userCode === "" || userCode==='undefined' || typeof userCode==='undefined') {
-                        $('body').html('您还没有登陆,无法访问该页面!');
+                        $('body').html('<h2>您还没有登陆,无法访问该页面!</h2>');
                     }else {
                         $('#uName').val($("#userName", parent.document).attr("name"));
                         $.ajax({
