@@ -95,6 +95,7 @@
 				var upload = layui.upload;
 				var form = layui.form;
 				var haveClick=false;
+                var userCode = $("#userCode", parent.document).attr("name");
 				var fileNameList = new Array();
 				var selectNum = 0;
 				var successNum = 0;
@@ -163,17 +164,12 @@
 					}
                     //var userRole=$("#userrole",parent.document).attr("name");
 					var fileName = fileNameList.toString();
-					var userCode = $("#userCode", parent.document).attr("name");
 					var name = $('#uName').val();
 					var department = $('#department').val();
 					var projectId = $('#project option:selected').prop("value");
                     var project = $('#project option:selected').text();
 					var reimburseType = $('#reimburseType option:selected').prop("value");
 					var linkProId = $('#linkProId').val();
-                    if(userCode===null || userCode === "" || typeof userCode==='undefined') {
-                        layer.msg('系统错误,请退出后重新登陆！');
-                        return;
-                    }
                     if(name === "") {
                         layer.msg('请输入请款人姓名！');
                         return;
@@ -244,31 +240,35 @@
 					}
 				}
 				$(document).ready(function() {
-					$('#uName').val($("#userName", parent.document).attr("name"));
-					$('#department').val($("#userDepartmentName", parent.document).attr("name"));
-                    $.ajax({
-                        url: "/project/getprojecttoselect",
-                        type: "get",
-                        dataType: "json", //预测服务端返回的数据类型
-                        success: function(data) { //请求成功的回调
-                            var proList=data;
-                            var proListLen=proList.length;
-                            var userProject=$("#userProject",parent.document).attr("name");
-                            for(var i=0;i<proListLen;i++){
-                                if(proList[i].projectName===userProject){
-                                    $("#project").append('<option value="'+proList[i].projectId+'" selected="">'+proList[i].projectName+'</option>');
-                                }else {
-                                    $("#project").append('<option value="'+proList[i].projectId+'">'+proList[i].projectName+'</option>');
+                    if(userCode===null || userCode === "" || userCode==='undefined' || typeof userCode==='undefined') {
+                        $('body').html('<h2>您还没有登陆,无法访问该页面!</h2>');
+                    }else {
+                        $('#uName').val($("#userName", parent.document).attr("name"));
+                        $('#department').val($("#userDepartmentName", parent.document).attr("name"));
+                        $.ajax({
+                            url: "/project/getprojecttoselect",
+                            type: "get",
+                            dataType: "json", //预测服务端返回的数据类型
+                            success: function (data) { //请求成功的回调
+                                var proList = data;
+                                var proListLen = proList.length;
+                                var userProject = $("#userProject", parent.document).attr("name");
+                                for (var i = 0; i < proListLen; i++) {
+                                    if (proList[i].projectName === userProject) {
+                                        $("#project").append('<option value="' + proList[i].projectId + '" selected="">' + proList[i].projectName + '</option>');
+                                    } else {
+                                        $("#project").append('<option value="' + proList[i].projectId + '">' + proList[i].projectName + '</option>');
+                                    }
                                 }
+                                form.render('select');
+                            },
+                            error: function () { //请求失败的回调
+                                layer.msg('发生了未知错误！', {
+                                    icon: 2
+                                });
                             }
-                            form.render('select');
-                        },
-                        error: function() { //请求失败的回调
-                            layer.msg('发生了未知错误！', {
-                                icon: 2
-                            });
-                        }
-                    });
+                        });
+                    }
 				});
 				$('#go').click(function() {
 					if(successNum === selectNum) {
