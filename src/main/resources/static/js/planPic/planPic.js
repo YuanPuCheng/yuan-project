@@ -1579,6 +1579,7 @@ $('#moveAll').click(function() {
 });
 
 //保存按钮的点击事件
+var haveGetProject=false;
 $('#save').click(function() {
 	var workManName=$("#userName", parent.document).attr("name");
     if(workManName===null || workManName==='' || workManName==='undefined' || typeof workManName==='undefined'){
@@ -1586,10 +1587,30 @@ $('#save').click(function() {
         return;
     }
 	$('#workMan').val(workManName);
-
 	$('#planName').val(oldPlanName);
 	$('#savePlanTimeLimit').val(planTimeLimit);
 	$('#saveStartTimeDate').val(new Date(planStartTime).format("yyyy-MM-dd"));
+	if(!haveGetProject){
+        $.ajax({
+            url: "/project/getprojecttoselect",
+            type: "get",
+            dataType: "json", //预测服务端返回的数据类型
+            success: function(data) { //请求成功的回调
+                var proList = data;
+                var proListLen = proList.length;
+                for(var i = 0; i < proListLen; i++) {
+                    $("#userProject").append('<option value="' + proList[i].projectId + '">' + proList[i].projectName + '</option>');
+                }
+                form.render('select');
+                haveGetProject=true;
+            },
+            error: function() { //请求失败的回调
+                layer.msg('发生了未知错误！', {
+                    icon: 2
+                });
+            }
+        });
+	}
 	layer.open({
 		type: 1,
 		shadeClose: true,
@@ -1606,9 +1627,14 @@ $('#savePlan').click(function() {
 		var planName = $('#planName').val();
 		var timeLimit = $('#savePlanTimeLimit').val();
 		var startTime = $('#saveStartTimeDate').val();
+		var userProject=$('#userProject option:selected').prop("value");
 		if(planName === "") {
-			layer.msg('名称不能为空！');
+			layer.msg('计划名称不能为空！');
 			return;
+		}
+		if(userProject===''){
+            layer.msg('项目名称不能为空！');
+            return;
 		}
 		$.ajax({
 			url: '/plan/insertPlan',
@@ -1621,7 +1647,8 @@ $('#savePlan').click(function() {
 				"planType": ifchange,
 				"timeWidth": dayWidth,
 				"circleList": JSON.stringify(circleNumberList),
-				"pointList": JSON.stringify(linePointList)
+				"pointList": JSON.stringify(linePointList),
+				"project":userProject
 			},
 			dataType: "text", //预测服务端返回的数据类型
 			success: function(data) { //请求成功的回调
@@ -1650,24 +1677,25 @@ $('#savePlan').click(function() {
 $('#open').click(function() {
 	if(!ajaxClick) {
 		ajaxClick = true;
-		$.ajax({
-			url: '/plan/selectPlanName',
-			type: "get",
-			dataType: "json", //预测服务端返回的数据类型
-			success: function(data) { //请求成功的回调
-				$('#selectPlan').html('<option value="">请选择或搜索选择计划</option>');
-				var len = data.length;
-				for(var i = 0; i < len; i++) {
-					$('#selectPlan').append('<option value="' + data[i].plan_id + '">' + data[i].plan_name + '</option>');
-				}
-				form.render();
-			},
-			error: function() { //请求失败的回调
-				layer.msg('发生了未知错误！', {
-					icon: 2
-				});
-			}
-		});
+        $.ajax({
+            url: "/project/getprojecttoselect",
+            type: "get",
+            dataType: "json", //预测服务端返回的数据类型
+            success: function(data) { //请求成功的回调
+                var proList = data;
+                var proListLen = proList.length;
+                $('#project').html('<option value="">直接选择或搜索选择项目</option>');
+                for(var i = 0; i < proListLen; i++) {
+                    $("#project").append('<option value="' + proList[i].projectId + '">' + proList[i].projectName + '</option>');
+                }
+                form.render('select');
+            },
+            error: function() { //请求失败的回调
+                layer.msg('发生了未知错误！', {
+                    icon: 2
+                });
+            }
+        });
 		layer.open({
 			type: 1,
 			shadeClose: true,
@@ -2100,6 +2128,28 @@ $('#openHelp').click(function () {
         $("body", parent.document).append(addHtmlTxt);
 	}
     window.parent.openbq('openWorkPlanHelp');
+});
+
+form.on('select(project)', function(data){
+    $.ajax({
+        url: '/plan/selectPlanName',
+        type: "get",
+		data:{"project":data.value},
+        dataType: "json", //预测服务端返回的数据类型
+        success: function(data) { //请求成功的回调
+            $('#selectPlan').html('<option value="">直接选择或搜索选择计划</option>');
+            var len = data.length;
+            for(var i = 0; i < len; i++) {
+                $('#selectPlan').append('<option value="' + data[i].plan_id + '">' + data[i].plan_name + '</option>');
+            }
+            form.render();
+        },
+        error: function() { //请求失败的回调
+            layer.msg('发生了未知错误！', {
+                icon: 2
+            });
+        }
+    });
 });
 
 $(document).ready(function() {

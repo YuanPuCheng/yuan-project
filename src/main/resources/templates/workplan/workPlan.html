@@ -274,6 +274,14 @@
 				</div>
 			</div>
 			<div class="layui-form-item">
+				<label class="layui-form-label">所属项目:</label>
+				<div class="layui-input-block">
+					<select name="modules" lay-search="" id="userProject">
+						<option value="">直接选择或搜索选择所在项目</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
 				<label class="layui-form-label">计划名称:</label>
 				<div class="layui-input-block">
 					<input type="text" placeholder="请输入计划名称" class="layui-input" id="planName" />
@@ -301,9 +309,18 @@
 		</fieldset>
 		<form class="layui-form layui-form-pane" action="" style="margin-left: 5px;margin-right: 5px;">
 			<div class="layui-form-item">
+				<label class="layui-form-label">所属项目:</label>
+				<div class="layui-input-block">
+					<select name="modules" lay-search="" id="project" lay-filter="project">
+						<option value="">直接选择或搜索选择项目</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
 				<label class="layui-form-label">网络计划:</label>
 				<div class="layui-input-block">
 					<select name="modules" lay-search="" id="selectPlan">
+						<option value="">直接选择或搜索选择计划</option>
 					</select>
 				</div>
 			</div>
