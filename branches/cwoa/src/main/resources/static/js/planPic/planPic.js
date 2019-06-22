@@ -2093,12 +2093,11 @@ $('#insertCircle').click(function () {
 	successTip();
 });
 
-var haveAddParent=false;
+
 $('#openHelp').click(function () {
-	if(!haveAddParent){
+	if($('#openWorkPlanHelp',parent.document).length===0){
         var addHtmlTxt='<a id="openWorkPlanHelp" lay-href="/plan/workPlanHelpHtml">网络计划使用说明</a>';
         $("body", parent.document).append(addHtmlTxt);
-        haveAddParent=true;
 	}
     window.parent.openbq('openWorkPlanHelp');
 });
