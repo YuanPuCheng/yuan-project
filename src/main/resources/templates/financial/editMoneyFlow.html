@@ -124,19 +124,14 @@
 				var layer = layui.layer;
 				var form = layui.form;
 				var haveClick = false;
-
+                var userCode = $("#userCode", parent.document).attr("name");
 				function submitForm() {
-					var userCode = $("#userCode", parent.document).attr("name");
 					var proType = $('#proType option:selected').prop("value");
 					var project = $('#project option:selected').prop("value");
 					var flowYear = $('#flowYear option:selected').prop("value");
 					var flowMonth = $('#flowMonth option:selected').prop("value");
 					var flowMoney = $('#flowMoney').val();
 					var flowType = $('#flowType option:selected').prop("value");
-					if(userCode===null || userCode === "" || typeof userCode==='undefined') {
-						layer.msg('系统错误,请退出后重新登陆！');
-						return;
-					}
 					if(project === "") {
 						layer.msg('请选择项目！');
 						return;
@@ -196,25 +191,29 @@
 					}
 				}
 				$(document).ready(function() {
-					$('#uName').val($("#userName", parent.document).attr("name"));
-					$.ajax({
-						url: "/project/getprojecttoselect",
-						type: "get",
-						dataType: "json", //预测服务端返回的数据类型
-						success: function(data) { //请求成功的回调
-							var proList = data;
-							var proListLen = proList.length;
-							for(var i = 0; i < proListLen; i++) {
-								$("#project").append('<option value="' + proList[i].projectName + '">' + proList[i].projectName + '</option>');
-							}
-							form.render('select');
-						},
-						error: function() { //请求失败的回调
-							layer.msg('发生了未知错误！', {
-								icon: 2
-							});
-						}
-					});
+                    if(userCode===null || userCode === "" || userCode==='undefined' || typeof userCode==='undefined') {
+                        $('body').html('您还没有登陆,无法访问该页面!');
+                    }else {
+                        $('#uName').val($("#userName", parent.document).attr("name"));
+                        $.ajax({
+                            url: "/project/getprojecttoselect",
+                            type: "get",
+                            dataType: "json", //预测服务端返回的数据类型
+                            success: function(data) { //请求成功的回调
+                                var proList = data;
+                                var proListLen = proList.length;
+                                for(var i = 0; i < proListLen; i++) {
+                                    $("#project").append('<option value="' + proList[i].projectName + '">' + proList[i].projectName + '</option>');
+                                }
+                                form.render('select');
+                            },
+                            error: function() { //请求失败的回调
+                                layer.msg('发生了未知错误！', {
+                                    icon: 2
+                                });
+                            }
+                        });
+					}
 				});
 				$('#go').click(function() {
 					submitForm();
