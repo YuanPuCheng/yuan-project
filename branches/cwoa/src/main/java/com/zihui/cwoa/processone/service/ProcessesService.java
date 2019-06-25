@@ -460,4 +460,48 @@ public class ProcessesService {
         runtimeService.setVariable(processInstanceId,"otherTalk",otherTalk);
         return completeTask(taskId);
     }
+
+    /**
+     * 根据用户工号查询他审批过的流程
+     * @param userCode 用户工号
+     * @param page 当前页码
+     * @param num 每页显示条数
+     * @return 查询结果
+     */
+    public  Map<String,Object> queryCheckProcess(String userCode,int page, int num){
+        List<Map<String,Object>> list = new LinkedList<>();
+        int size = queryService.queryCheckCountByCode(userCode);
+        List<Map<String, Object>> processList = queryService.queryCheckProcessByCode(userCode, page, num);
+        for (Map<String, Object> process: processList) {
+            Map<String,Object> variables=new HashMap<>();
+            String processName= (String) process.get("processName");
+            variables.put("processName",processName);
+            String processInstanceId= (String) process.get("processInstanceId");
+            variables.put("processInstanceId",processInstanceId);
+            variables.put("startTime",process.get("startTime"));
+            variables.put("endTime",process.get("endTime"));
+            variables.put("deploymentId", process.get("deploymentId"));
+            variables.put("userName", process.get("userName"));
+            if("动态任务".equals(processName)){
+                String otherTalk = (String) historyService.createHistoricVariableInstanceQuery().
+                        processInstanceId(processInstanceId).variableName("otherTalk").singleResult().getValue();
+                variables.put("otherTalk",otherTalk);
+            }
+            String deleteReason = (String) process.get("deleteReason");
+            if(deleteReason==null){
+                if(process.get("endTime")==null){
+                    variables.put("deleteReason","审批中");
+                }else {
+                    variables.put("deleteReason","同意申请");
+                }
+            }else{
+                variables.put("deleteReason",deleteReason);
+            }
+            list.add(variables);
+        }
+        Map<String,Object> map =new HashMap<>();
+        map.put("result",size);
+        map.put("queryResultList",list);
+        return map;
+    }
 }
