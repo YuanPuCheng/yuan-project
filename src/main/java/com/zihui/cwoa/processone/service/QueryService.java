@@ -4,6 +4,10 @@ import com.zihui.cwoa.processone.dao.QueryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class QueryService {
 
@@ -69,5 +73,21 @@ public class QueryService {
      */
     public Integer queryManagerIdByRoleName(String roleName){
         return queryMapper.queryManagerIdByRoleName(roleName);
+    }
+
+    /**
+     *  根据用户工号查询用户审批的流程数
+     *  @param userCode 用户工号
+     */
+    public Integer queryCheckCountByCode(String userCode){
+        return queryMapper.queryCheckCountByCode(userCode);
+    }
+
+    public List<Map<String,Object>> queryCheckProcessByCode(String userCode,int start,int limit){
+        Map<String,Object> map=new HashMap<>();
+        map.put("userCode",userCode);
+        map.put("start",start);
+        map.put("limit",limit);
+        return queryMapper.queryCheckProcessByCode(map);
     }
 }

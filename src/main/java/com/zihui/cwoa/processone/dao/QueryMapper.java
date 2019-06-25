@@ -1,7 +1,10 @@
 package com.zihui.cwoa.processone.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface QueryMapper {
@@ -54,4 +57,12 @@ public interface QueryMapper {
      *  根据角色名查询它的直接上级角色的ID
      */
     Integer queryManagerIdByRoleName(String roleName);
+
+    /**
+     *  根据用户工号查询用户审批的流程数
+     *  @param userCode 用户工号
+     */
+    Integer queryCheckCountByCode(String userCode);
+
+    List<Map<String,Object>> queryCheckProcessByCode(Map<String,Object> map);
 }

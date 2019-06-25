@@ -29,4 +29,21 @@
   <select id="queryManagerIdByRoleName" parameterType="String" resultType="Integer">
     SELECT role_parent_id FROM sys_role WHERE role_name =#{roleName}
   </select>
+
+  <select id="queryCheckCountByCode" parameterType="String" resultType="Integer">
+    SELECT COUNT(*) FROM act_hi_taskinst WHERE ASSIGNEE_=#{userCode}
+  </select>
+
+  <select id="queryCheckProcessByCode" parameterType="Map" resultType="Map">
+    SELECT processInstanceId,processName,deploymentId,startTime,endTime,deleteReason,userName FROM
+    (SELECT processInstanceId,processName,deploymentId,startTime,endTime,deleteReason, START_USER_ID_ AS suid FROM
+    (SELECT processInstanceId,processName,deploymentId FROM
+    (SELECT PROC_INST_ID_ AS processInstanceId,PROC_DEF_ID_ AS pdid FROM act_hi_taskinst WHERE ASSIGNEE_=#{userCode} ORDER BY START_TIME_ DESC LIMIT #{start},#{limit} ) tabOne
+    LEFT JOIN
+    (SELECT ID_,NAME_ AS processName,DEPLOYMENT_ID_ AS deploymentId FROM act_re_procdef) tabTwo ON ID_=pdid) tabThree
+    LEFT JOIN
+    (SELECT PROC_INST_ID_,START_TIME_ AS startTime,END_TIME_ AS endTime,START_USER_ID_,DELETE_REASON_ AS deleteReason FROM act_hi_procinst) tabFour ON PROC_INST_ID_=processInstanceId) tabFive
+    LEFT JOIN
+    (SELECT user_code,user_name AS userName FROM sys_user) tabSix ON user_code=suid
+  </select>
 </mapper>
