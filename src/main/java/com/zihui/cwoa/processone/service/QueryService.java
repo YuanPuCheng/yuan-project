@@ -83,6 +83,9 @@ public class QueryService {
         return queryMapper.queryCheckCountByCode(userCode);
     }
 
+    /**
+     * 根据用户工号查询他审批过的流程
+     */
     public List<Map<String,Object>> queryCheckProcessByCode(String userCode,int start,int limit){
         Map<String,Object> map=new HashMap<>();
         map.put("userCode",userCode);
