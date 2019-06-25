@@ -314,7 +314,15 @@ public class ProcessWorkController {
         variables.remove("projectId");
         String roleName = (String) variables.get("userRole");
         variables.remove("userRole");
-        Integer roleId=queryService.queryManagerIdByRoleName(roleName);
+        String[] split = roleName.split("、");
+        Integer roleId=999;
+        System.out.println(roleName);
+        for (String str: split) {
+            Integer tempId=queryService.queryManagerIdByRoleName(str);
+            if (tempId<roleId){
+                roleId=tempId;
+            }
+        }
         Integer upProjectId= Integer.parseInt(projectId);
         if (roleId<=2){
             if (roleId==1){
@@ -335,4 +343,15 @@ public class ProcessWorkController {
         return processesService.startProcess(processKey, variables);
     }
 
+    /**
+     * 根据用户工号查询他审批过的流程
+     * @param userCode 用户工号
+     * @param page 当前页码
+     * @param num 每页显示条数
+     */
+    @RequestMapping("/queryCheckProcess")
+    @ResponseBody
+    public  Map<String,Object> queryCheckProcess(String userCode,int page, int num){
+        return processesService.queryCheckProcess(userCode,page,num);
+    }
 }

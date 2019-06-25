@@ -69,4 +69,9 @@ public class ProcessHtmlController {
     public String askForProMoney(){
         return "process/askforpromoney";
     }
+
+    @RequestMapping("/queryCheckProcessHtml")
+    public String queryCheckProcessHtml(){
+        return "process/queryCheckProcess";
+    }
 }
