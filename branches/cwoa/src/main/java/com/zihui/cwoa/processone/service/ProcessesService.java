@@ -466,7 +466,6 @@ public class ProcessesService {
      * @param userCode 用户工号
      * @param page 当前页码
      * @param num 每页显示条数
-     * @return 查询结果
      */
     public  Map<String,Object> queryCheckProcess(String userCode,int page, int num){
         List<Map<String,Object>> list = new LinkedList<>();
