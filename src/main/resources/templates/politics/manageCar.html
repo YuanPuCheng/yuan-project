@@ -371,8 +371,16 @@
                         $('#carType').val(data.car_type);
                         $('#carBrand').val(data.car_brand);
                         $('#carColor').val(data.car_color);
-                        $('#carBuyTime').val(data.car_buy_time);
-                        $('#carCheckTime').val(data.car_check_time);
+                        if(data.car_buy_time==='1970-01-01'){
+                            $('#carBuyTime').val('');
+						}else{
+                            $('#carBuyTime').val(data.car_buy_time);
+						}
+                        if(data.car_check_time==='1970-01-01'){
+                            $('#carCheckTime').val('');
+                        }else{
+                            $('#carCheckTime').val(data.car_check_time);
+                        }
                         var userRoleList=data.car_need_role.split(',');
                         formSelects.value('userRole', userRoleList);
                         $('input:radio').eq(data.car_status*1).prop('checked', 'true');
