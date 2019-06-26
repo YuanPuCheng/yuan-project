@@ -69,4 +69,8 @@
         (SELECT menu_id FROM sys_role_menu WHERE role_id IN
             (SELECT role_id FROM sys_user_role WHERE user_id=#{arg0}))
     </select>
+
+    <select id="queryRoleSelect" resultType="Map">
+      SELECT role_name AS 'name',role_id AS 'value' FROM sys_role
+    </select>
 </mapper>
