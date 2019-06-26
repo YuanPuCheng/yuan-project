@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zihui.cwoa.politics.dao.CarMapper">
+
+  <insert id="insertCar" parameterType="Map" >
+    INSERT INTO pol_car
+    (car_license,car_type,car_brand,car_color,car_buy_time,car_check_time,car_need_role,car_status)
+    VALUES
+    (#{carLicense},#{carType},#{carBrand},#{carColor},#{carBuyTime},#{carCheckTime},#{carNeedRole},#{carStatus})
+  </insert>
+
+  <select id="queryCar" parameterType="Integer" resultType="Map">
+    SELECT * FROM pol_car LIMIT #{arg0},#{arg1}
+  </select>
+
+  <select id="countCar" resultType="Integer">
+    SELECT COUNT(*) FROM pol_car
+  </select>
+
+  <select id="queryCarUse" parameterType="String" resultType="String">
+
+  </select>
+
+  <delete id="deleteCar" parameterType="String">
+    DELETE FROM pol_car WHERE car_id=#{arg0}
+  </delete>
+
+  <delete id="deleteManyCar" parameterType="List">
+    DELETE FROM pol_car WHERE car_id IN
+    <foreach collection="array" open="(" separator="," close=")"  item="temp">
+      ${temp}
+    </foreach>
+  </delete>
+
+  <update id="updateCar" parameterType="Map">
+    UPDATE pol_car SET
+    car_license=#{carLicense},
+    car_type=#{carType},
+    car_brand=#{carBrand},
+    car_color=#{carColor},
+    car_buy_time=#{carBuyTime},
+    car_check_time=#{carCheckTime},
+    car_need_role=#{carNeedRole},
+    car_status=#{carStatus}
+    WHERE car_id=#{carId}
+  </update>
+
+</mapper>
