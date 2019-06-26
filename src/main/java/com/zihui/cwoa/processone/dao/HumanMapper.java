@@ -37,4 +37,9 @@ public interface HumanMapper {
      *  根据父ID查询菜单名称数组
      */
     List<String> queryMenuByParentId(String userId,String parentId);
+
+    /**
+     *  查询角色用以下拉框选择
+     */
+    List<Map<String,Object>> queryRoleSelect();
 }

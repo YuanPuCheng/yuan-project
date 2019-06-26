@@ -81,4 +81,11 @@ public class HumanService {
     public List<String> queryMenuByParentId(String userId,String parentId){
         return humanMapper.queryMenuByParentId(userId,parentId);
     }
+
+    /**
+     *  查询角色用以下拉框选择
+     */
+    public List<Map<String,Object>> queryRoleSelect(){
+        return humanMapper.queryRoleSelect();
+    }
 }

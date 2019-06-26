@@ -88,5 +88,13 @@ public class HumanWorkController {
         return humanService.queryMenuByParentId(userId,parentId);
     }
 
-
+    /**
+     *  查询角色用以下拉框选择
+     *  @return json
+     */
+    @RequestMapping("/queryRoleSelect")
+    @ResponseBody
+    public List<Map<String,Object>> queryRoleSelect(){
+        return humanService.queryRoleSelect();
+    }
 }
