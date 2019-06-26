@@ -8,17 +8,18 @@ layui.extend({
         layer = layui.layer,
         form = layui.form,
         $ = layui.jquery;
-   /* var urls = window.location.href;
-    var data = decodeURI(urls);
-    var arr = data.split("data=");
-    console.log(arr[1]);
-
     var widthMax = "70%",
         heightMax = "80%";
     if($(window).width() < 768) {
         widthMax = "100%";
         heightMax = "80%";
     }
+   /* var urls = window.location.href;
+    var data = decodeURI(urls);
+    var arr = data.split("data=");
+    console.log(arr[1]);
+
+
     var data={
         add : '',
         deletes:''
