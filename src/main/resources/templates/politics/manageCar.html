@@ -62,6 +62,7 @@
                 var formSelects = layui.formSelects;
                 var laydate = layui.laydate;
                 var roleList=[];
+                var userList=[];
                 var ajaxClick = false;  //用以控制用户多次点击多次请求服务器
 				var dataUrl='';
                 var dataSize=0;
@@ -72,6 +73,103 @@
                 if($(window).width() < 768) {
                     widthMax = "99%";
                     heightMax = "85%";
+                }
+                function getTable() {
+                    $.ajax({
+                        url: '/car/countCar',
+                        type: "get",
+                        dataType: "text",
+                        success: function(result) { //请求成功的回调
+                            dataSize=result;
+                            table.render({
+                                elem: '#test',
+                                url: '/car/queryCar',
+                                toolbar: '#toolbarDemo',
+                                title: '车辆台帐',
+                                cellMinWidth: 100,
+                                where: {
+                                    "size": dataSize
+                                },
+                                cols: [
+                                    [{
+                                        type: 'checkbox',
+                                        fixed: 'left'
+                                    }, {
+                                        field: 'car_license',
+                                        title: '车牌号',
+                                        width: 100
+                                    }, {
+                                        field: 'car_brand',
+                                        title: '品牌'
+                                    }, {
+                                        field: 'car_type',
+                                        title: '车型'
+                                    }, {
+                                        field: 'car_color',
+                                        title: '颜色',
+                                        width: 80,
+                                        minWidth: 80
+                                    },{
+                                        field: 'car_status',
+                                        width: 100,
+                                        title: '状态',
+                                        templet: function(res) {
+                                            return res.car_status === 0 ? '空闲' : res.car_status === 1 ? '使用中' : res.car_status === 2 ? '维修保养中' : '报废'
+                                        }
+                                    },{
+                                        field: 'car_need_role',
+                                        title: '可用人员',
+                                        templet: function(res) {
+                                            return showNeedRole(res.car_need_role)
+                                        }
+                                    },{
+                                        field: 'car_manager',
+                                        title: '管理人',
+                                        templet: function(res) {
+                                            return showManager(res.car_manager)
+                                        }
+                                    },{
+                                        field: 'car_buy_time',
+                                        title: '购买日期',
+                                        width: 120,
+                                        templet: function(res) {
+                                            return res.car_buy_time === '1970-01-01' ? '未指定' : layui.util.toDateString(res.car_buy_time, 'yyyy-MM-dd')
+                                        }
+                                    }, {
+                                        field: 'car_check_time',
+                                        title: '年检日期',
+                                        width: 120,
+                                        templet: function(res) {
+                                            return res.car_check_time === '1970-01-01' ? '未指定' : layui.util.toDateString(res.car_check_time, 'yyyy-MM-dd')
+                                        }
+                                    }, {
+                                        title: '操作',
+                                        toolbar: '#barDemo',
+                                        width: 220
+                                    }]
+                                ],
+                                page: true
+                            });
+                        },
+                        error: function() { //请求失败的回调
+                            layer.msg('发生了未知错误！', {
+                                icon: 2
+                            });
+                        }
+                    });
+                }
+                function showManager(man) {
+                    man=man*1;
+					if(man===0){
+					    return '未指定';
+					}
+					var len=userList.length;
+					for(var i=0;i<len;i++){
+					    if(userList[i].userId*1===man){
+					        return userList[i].userName;
+						}
+					}
+					return '指定错误';
                 }
                 function showNeedRole(roleArray) {
 					if(roleArray==='' || typeof roleArray==='undefined'){
@@ -97,6 +195,7 @@
                     var carColor=$('#carColor').val();
                     var carBuyTime=$('#carBuyTime').val();
                     var carCheckTime=$('#carCheckTime').val();
+                    var carManager = $('#carManager option:selected').prop("value");
                     var carStatus = $("input[type='radio']:checked").attr("value");
                     var carNeedRole=formSelects.value('userRole', 'valStr');
                     if(carLicense === '') {
@@ -125,6 +224,9 @@
                         //layer.msg('年检日期不能为空！');
                         //return;
                     }
+                    if(carManager===''){
+                        carManager=0;
+					}
                     var jsonTest={
                         "carId":carId,
 						"carLicense":carLicense,
@@ -133,6 +235,7 @@
 						"carColor":carColor,
 						"carBuyTime":carBuyTime,
 						"carCheckTime":carCheckTime,
+						"carManager":carManager,
 						"carNeedRole":carNeedRole,
 						"carStatus":carStatus
                     };
@@ -182,94 +285,6 @@
                 $('#goNot').click(function() {
                     layer.closeAll();
                 });
-                $.ajax({
-                    url: '/car/countCar',
-                    type: "get",
-                    dataType: "text",
-                    success: function(result) { //请求成功的回调
-                        dataSize=result;
-                        table.render({
-                            elem: '#test',
-                            url: '/car/queryCar',
-                            toolbar: '#toolbarDemo',
-                            title: '车辆台帐',
-                            cellMinWidth: 180,
-                            where: {
-                                "size": dataSize
-                            },
-                            cols: [
-                                [{
-                                    type: 'checkbox',
-                                    fixed: 'left'
-                                }, {
-                                    field: 'car_license',
-                                    title: '车牌号'
-                                }, {
-                                    field: 'car_brand',
-                                    title: '品牌'
-                                }, {
-                                    field: 'car_type',
-                                    title: '车型'
-                                }, {
-                                    field: 'car_color',
-                                    title: '颜色',
-                                    minWidth: 100
-                                },{
-                                    field: 'car_status',
-                                    title: '状态',
-                                    minWidth: 100,
-                                    templet: function(res) {
-                                        return res.car_status === 0 ? '空闲' : res.car_status === 1 ? '使用中' : res.car_status === 2 ? '维修保养中' : '报废'
-                                    }
-                                },{
-                                    field: 'car_need_role',
-                                    title: '可用人员',
-                                    templet: function(res) {
-                                        return showNeedRole(res.car_need_role)
-                                    }
-                                }, {
-                                    field: 'car_buy_time',
-                                    title: '购买日期',
-                                    templet: function(res) {
-                                        return res.car_buy_time === '1970-01-01' ? '未指定' : layui.util.toDateString(res.car_buy_time, 'yyyy-MM-dd')
-                                    }
-                                }, {
-                                    field: 'car_check_time',
-                                    title: '年检日期',
-                                    templet: function(res) {
-                                        return res.car_check_time === '1970-01-01' ? '未指定' : layui.util.toDateString(res.car_check_time, 'yyyy-MM-dd')
-                                    }
-                                }, {
-                                    title: '操作',
-                                    toolbar: '#barDemo',
-                                    width: 220
-                                }]
-                            ],
-                            page: true
-                        });
-                    },
-                    error: function() { //请求失败的回调
-                        layer.msg('发生了未知错误！', {
-                            icon: 2
-                        });
-                    }
-                });
-                $.ajax({
-                    url: "/human/queryRoleSelect",
-                    type: "get",
-                    dataType: "json",
-                    success: function(data) { //请求成功的回调
-						roleList=data;
-                        formSelects.data('userRole', 'local', {
-                            arr:roleList
-                        });
-                    },
-                    error: function() { //请求失败的回调
-                        layer.msg('发生了未知错误！', {
-                            icon: 2
-                        });
-                    }
-                });
                 laydate.render({
                     elem: '#carBuyTime',
                     type: 'date'
@@ -290,6 +305,7 @@
                             $('#carColor').val('');
                             $('#carBuyTime').val('');
                             $('#carCheckTime').val('');
+                            $('#carManager option[value=""]').prop("selected",true);
                             formSelects.value('userRole', []);
                             $('input:radio').eq(0).prop('checked', 'true');
                             form.render();
@@ -356,11 +372,9 @@
 							break;
 					}
 				});
-
 				//监听行工具事件
 				table.on('tool(test)', function(obj) {
 					var data = obj.data;
-					console.log(data);
 					if(obj.event === 'query') {
 
 					} else if(obj.event === 'edit') {
@@ -371,6 +385,7 @@
                         $('#carType').val(data.car_type);
                         $('#carBrand').val(data.car_brand);
                         $('#carColor').val(data.car_color);
+                        $('#carManager option[value="'+data.car_manager+'"]').prop("selected",true);
                         if(data.car_buy_time==='1970-01-01'){
                             $('#carBuyTime').val('');
 						}else{
@@ -395,7 +410,6 @@
 						layer.confirm('确定要删除这条信息吗？', {
 							btn: ['确定', '再想想'] //按钮
 						}, function() {
-						    console.log(data.car_id);
 							$.ajax({
 								url: "/car/deleteCar",
 								type: "get",
@@ -435,6 +449,52 @@
 						});
 					}
 				});
+                $(document).ready(function() {
+                    $.ajax({
+                        url: "/human/queryRoleSelect",
+                        type: "get",
+                        dataType: "json",
+                        success: function(data) { //请求成功的回调
+                            roleList=data;
+                            formSelects.data('userRole', 'local', {
+                                arr:roleList
+                            });
+                        },
+                        error: function() { //请求失败的回调
+                            layer.msg('发生了未知错误！', {
+                                icon: 2
+                            });
+                        }
+                    });
+                    $.ajax({
+                        url: "/human/roleUser",
+                        type: "get",
+                        dataType: "json",
+                        success: function(data) { //请求成功的回调
+                            var len=data.length;
+                            for(var i=0;i<len;i++){
+                                var temp=data[i].list;
+                                var txt= '<optgroup label="'+data[i].role_name+'">';
+                                for(var j=0;j<temp.length;j++){
+                                    var user={
+                                        "userId":temp[j].userId,
+                                        "userName":temp[j].userName
+                                    };
+                                    userList.push(user);
+                                    txt=txt+'<option value="'+temp[j].userId+'">'+temp[j].userName+'</option>';
+                                }
+                                txt=txt+'</optgroup>';
+                                $('#carManager').append(txt);
+                            }
+                            getTable();
+                        },
+                        error: function() { //请求失败的回调
+                            layer.msg('发生了未知错误！', {
+                                icon: 2
+                            });
+                        }
+                    });
+                });
 			});
             //]]>
 		</script>
@@ -479,6 +539,15 @@
 				<label class="layui-form-label">年检日期:</label>
 				<div class="layui-input-block">
 					<input type="text" name="title" placeholder="请选择车辆年检日期..." class="layui-input" id="carCheckTime" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">管理人:</label>
+				<div class="layui-input-block">
+					<select name="modules"  lay-search="" id="carManager">
+						<option value="">请选择车辆管理人员...</option>
+						<option value="0">未指定</option>
+					</select>
 				</div>
 			</div>
 			<div class="layui-form-item">

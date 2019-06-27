@@ -4,9 +4,9 @@
 
   <insert id="insertCar" parameterType="Map" >
     INSERT INTO pol_car
-    (car_license,car_type,car_brand,car_color,car_buy_time,car_check_time,car_need_role,car_status)
+    (car_license,car_type,car_brand,car_color,car_buy_time,car_check_time,car_manager,car_need_role,car_status)
     VALUES
-    (#{carLicense},#{carType},#{carBrand},#{carColor},#{carBuyTime},#{carCheckTime},#{carNeedRole},#{carStatus})
+    (#{carLicense},#{carType},#{carBrand},#{carColor},#{carBuyTime},#{carCheckTime},#{carManager},#{carNeedRole},#{carStatus})
   </insert>
 
   <select id="queryCar" parameterType="Integer" resultType="Map">
@@ -40,6 +40,7 @@
     car_color=#{carColor},
     car_buy_time=#{carBuyTime},
     car_check_time=#{carCheckTime},
+    car_manager=#{carManager},
     car_need_role=#{carNeedRole},
     car_status=#{carStatus}
     WHERE car_id=#{carId}
