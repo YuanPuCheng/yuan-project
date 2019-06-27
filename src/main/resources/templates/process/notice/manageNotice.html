@@ -150,8 +150,9 @@
 					heightMax = "80%";
 				if($(window).width() < 768) {
 					widthMax = "99%";
-					heightMax = "85%";
+					heightMax = "100%";
 				}
+				/*
 				var userId=$("#userId",parent.document).attr("name");
                 $.ajax({
                     url: "/human/queryMenuByParentId",
@@ -162,7 +163,7 @@
 					},
                     dataType: "text", //预测服务端返回的数据类型
                     success: function(data) { //请求成功的回调
-						/*var htmlText='<div class="layui-btn-container">';
+						var htmlText='<div class="layui-btn-container">';
                         if (data.indexOf("添加")!==-1){
                             htmlText=htmlText+'<button class="layui-btn layui-btn-sm" lay-event="addNotice">发布公告</button>';
                         }
@@ -174,59 +175,60 @@
 						    $('#barDemo').append('<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>');
 						}
 						htmlText=htmlText+'</div>';
-                        $('#toolbarDemo').html(htmlText);*/
-                        $.ajax({
-                            url: '/notice/countNotice',
-                            data: {},
-                            type: "get",
-                            dataType: "text",
-                            success: function(result) { //请求成功的回调
-                                dataSize=result;
-                                table.render({
-                                    elem: '#test',
-                                    url: '/notice/queryNotice',
-                                    toolbar: '#toolbarDemo',
-                                    title: '公告列表',
-                                    cellMinWidth: 180,
-                                    where: {
-                                        "size": dataSize
-                                    },
-                                    cols: [
-                                        [{
-                                            type: 'checkbox',
-                                            fixed: 'left'
-                                        }, {
-                                            type: 'numbers',
-                                            title: '序号'
-                                        }, {
-                                            field: 'notice_name',
-                                            title: '公告名称'
-                                        }, {
-                                            field: 'notice_isTop',
-                                            title: '是否置顶',
-                                            width: 100,
-                                            minWidth: 100,
-                                            templet: function(res) {
-                                                return res.notice_isTop === 1 ? '是' : '否'
-                                            }
-                                        }, {
-                                            field: 'create_time',
-                                            title: '创建时间',
-                                            templet: "<div>{{layui.util.toDateString(d.create_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"
-                                        }, {
-                                            title: '操作',
-                                            toolbar: '#barDemo',
-                                            width: 220
-                                        }]
-                                    ],
-                                    page: true
-                                });
+                        $('#toolbarDemo').html(htmlText);
+                    },
+                    error: function() { //请求失败的回调
+                        layer.msg('发生了未知错误！', {
+                            icon: 2
+                        });
+                    }
+                });
+                */
+                $.ajax({
+                    url: '/notice/countNotice',
+                    data: {},
+                    type: "get",
+                    dataType: "text",
+                    success: function(result) { //请求成功的回调
+                        dataSize=result;
+                        table.render({
+                            elem: '#test',
+                            url: '/notice/queryNotice',
+                            toolbar: '#toolbarDemo',
+                            title: '公告列表',
+                            cellMinWidth: 180,
+                            where: {
+                                "size": dataSize
                             },
-                            error: function() { //请求失败的回调
-                                layer.msg('发生了未知错误！', {
-                                    icon: 2
-                                });
-                            }
+                            cols: [
+                                [{
+                                    type: 'checkbox',
+                                    fixed: 'left'
+                                }, {
+                                    type: 'numbers',
+                                    title: '序号'
+                                }, {
+                                    field: 'notice_name',
+                                    title: '公告名称'
+                                }, {
+                                    field: 'notice_isTop',
+                                    title: '是否置顶',
+                                    width: 100,
+                                    minWidth: 100,
+                                    templet: function(res) {
+                                        return res.notice_isTop === 1 ? '是' : '否'
+                                    }
+                                }, {
+                                    field: 'create_time',
+                                    title: '创建时间',
+                                    templet: "<div>{{layui.util.toDateString(d.create_time, 'yyyy-MM-dd HH:mm:ss')}}</div>"
+                                }, {
+                                    title: '操作',
+                                    toolbar: '#barDemo',
+                                    width: 220
+                                }]
+                            ],
+                            page: true
                         });
                     },
                     error: function() { //请求失败的回调
