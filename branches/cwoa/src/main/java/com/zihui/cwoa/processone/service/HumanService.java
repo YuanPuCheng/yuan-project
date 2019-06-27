@@ -88,4 +88,11 @@ public class HumanService {
     public List<Map<String,Object>> queryRoleSelect(){
         return humanMapper.queryRoleSelect();
     }
+
+    /**
+     *  查询所有角色及该角色下的所有用户
+     */
+    public List<RoleAllUser> roleUser(){
+        return humanMapper.queryRoleAllUser();
+    }
 }
