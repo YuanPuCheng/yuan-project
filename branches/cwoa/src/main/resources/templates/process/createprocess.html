@@ -83,6 +83,12 @@
 			layui.use(['layer', 'element'], function() {
 				var $ = layui.jquery;
 				var layer = layui.layer;
+                var widthMax = "70%",
+                    heightMax = "80%";
+                if($(window).width() < 768) {
+                    widthMax = "99%";
+                    heightMax = "99%";
+                }
 				$("button").click(function() {
 					var proUrl = $(this).attr("proUrl");
 					var proTitle=$(this).text();
@@ -100,7 +106,7 @@
 						type: 2,
 						title: proTitle,
 						shadeClose: true,
-						area: ['100%', '85%'],
+						area: [widthMax, heightMax],
 						content: proUrl //iframe的url
 					});
 				});
