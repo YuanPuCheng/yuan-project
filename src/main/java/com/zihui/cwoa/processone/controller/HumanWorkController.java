@@ -1,14 +1,13 @@
 package com.zihui.cwoa.processone.controller;
 
+import com.zihui.cwoa.financial.pojo.RoleAllUser;
 import com.zihui.cwoa.processone.service.HumanService;
 import com.zihui.cwoa.processone.service.QueryService;
-import com.zihui.cwoa.system.pojo.sys_user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,5 +95,15 @@ public class HumanWorkController {
     @ResponseBody
     public List<Map<String,Object>> queryRoleSelect(){
         return humanService.queryRoleSelect();
+    }
+
+    /**
+     *  查询所有角色及该角色下的所有用户
+     *  @return json
+     */
+    @RequestMapping("/roleUser")
+    @ResponseBody
+    public List<RoleAllUser> roleUser(){
+        return humanService.roleUser();
     }
 }
