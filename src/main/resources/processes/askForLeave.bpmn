@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1557200371098" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
-  <process id="askforleave" isClosed="false" isExecutable="true" name="请假申请" processType="None">
+  <process id="askForLeave" isClosed="false" isExecutable="true" name="请假申请" processType="None">
     <startEvent activiti:initiator="applyuser" id="start" name="StartEvent"/>
-    <userTask activiti:assignee="${firstman}" activiti:exclusive="true" id="tasktwo" name="部门负责人审批"/>
+    <userTask activiti:assignee="${firstMan}" activiti:exclusive="true" id="tasktwo" name="部门负责人审批"/>
     <exclusiveGateway gatewayDirection="Unspecified" id="_4" name="ExclusiveGateway"/>
-    <userTask activiti:assignee="${firstman}" activiti:exclusive="true" id="taskone" name="部门负责人审批">
+    <userTask activiti:assignee="${firstMan}" activiti:exclusive="true" id="taskone" name="部门负责人审批">
       <extensionElements>
         <activiti:taskListener class="com.zihui.cwoa.processone.tasklistener.AskForLeaveTaskListener" event="complete"/>
       </extensionElements>
     </userTask>
     <sequenceFlow id="_2" sourceRef="start" targetRef="_4"/>
     <sequenceFlow id="_6" name="请假大于三天" sourceRef="_4" targetRef="tasktwo">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${leavedays>3}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${leaveDays>3}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="_7" name="请假不大于三天" sourceRef="_4" targetRef="taskone">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${leavedays<=3}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${leaveDays<=3}]]></conditionExpression>
     </sequenceFlow>
-    <userTask activiti:assignee="${secondman}" activiti:exclusive="true" id="taskthr" name="项目经理审批">
+    <userTask activiti:assignee="${secondMan}" activiti:exclusive="true" id="taskthr" name="项目经理审批">
       <extensionElements>
         <activiti:taskListener class="com.zihui.cwoa.processone.tasklistener.AskForLeaveTaskListener" event="complete"/>
       </extensionElements>
@@ -27,7 +27,7 @@
     <sequenceFlow id="_12" sourceRef="taskthr" targetRef="end"/>
   </process>
   <bpmndi:BPMNDiagram documentation="background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
-    <bpmndi:BPMNPlane bpmnElement="askforleave">
+    <bpmndi:BPMNPlane bpmnElement="askForLeave">
       <bpmndi:BPMNShape bpmnElement="start" id="Shape-start">
         <omgdc:Bounds height="32.0" width="32.0" x="135.0" y="235.0"/>
         <bpmndi:BPMNLabel>

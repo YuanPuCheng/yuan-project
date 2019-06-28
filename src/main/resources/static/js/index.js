@@ -51,7 +51,7 @@ $.ajax({
             '<span id="sex" name="'+  data.sex  +'" title="性别"></span>'+
             '<span id="userDepartmentName" name="'+  departmentsName  +'" title="部门名称"></span>'+
             '<span id="userProject" name="'+ project1   +'" title="项目"></span>'+
-            '<span id="userrole" name="'+  roleName  +'" title="角色名称"></span>'+
+            '<span id="userRole" name="'+  roleName  +'" title="角色名称"></span>'+
             '<span id="roleId" name="'+  roleId  +'" title="角色ID"></span>';
         $('.news').append(tst);
     },

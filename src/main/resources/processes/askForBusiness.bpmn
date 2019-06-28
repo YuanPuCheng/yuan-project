@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1555123371427" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
-  <process id="askforreimburse" isClosed="false" isExecutable="true" name="公司报销申请" processType="None">
-    <startEvent id="start" name="StartEvent"/>
-    <userTask activiti:assignee="${firstman}" activiti:exclusive="true" id="taskone" name="项目经理审批">
+  <process id="askForBusiness" isClosed="false" isExecutable="true" name="出差申请" processType="None">
+    <startEvent id="_2" name="StartEvent"/>
+    <userTask activiti:assignee="${firstMan}" activiti:exclusive="true" id="taskone" name="部门负责人审批"/>
+    <userTask activiti:assignee="${secondMan}" activiti:exclusive="true" id="tasktwo" name="项目经理审批">
       <extensionElements>
-        <activiti:taskListener class="com.zihui.cwoa.processone.tasklistener.AskForReimTaskListener" event="create"/>
+        <activiti:taskListener class="com.zihui.cwoa.processone.tasklistener.AskForBusinessTaskListener" event="complete"/>
       </extensionElements>
     </userTask>
-    <userTask activiti:assignee="${secondman}" activiti:exclusive="true" id="tasktwo" name="公司财务审批">
-      <extensionElements>
-        <activiti:taskListener class="com.zihui.cwoa.processone.config.AskForReimburseTaskListener" event="complete"/>
-      </extensionElements>
-    </userTask>
-    <endEvent id="end" name="EndEvent"/>
-    <sequenceFlow id="_6" sourceRef="start" targetRef="taskone"/>
+    <endEvent id="_5" name="EndEvent"/>
+    <sequenceFlow id="_6" sourceRef="_2" targetRef="taskone"/>
     <sequenceFlow id="_7" sourceRef="taskone" targetRef="tasktwo"/>
-    <sequenceFlow id="_8" sourceRef="tasktwo" targetRef="end"/>
+    <sequenceFlow id="_8" sourceRef="tasktwo" targetRef="_5"/>
   </process>
   <bpmndi:BPMNDiagram documentation="background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
-    <bpmndi:BPMNPlane bpmnElement="askforreimburse">
-      <bpmndi:BPMNShape bpmnElement="start" id="Shape-start">
+    <bpmndi:BPMNPlane bpmnElement="askForBusiness">
+      <bpmndi:BPMNShape bpmnElement="_2" id="Shape-_2">
         <omgdc:Bounds height="32.0" width="32.0" x="145.0" y="220.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
@@ -37,13 +33,13 @@
           <omgdc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="end" id="Shape-end">
+      <bpmndi:BPMNShape bpmnElement="_5" id="Shape-_5">
         <omgdc:Bounds height="32.0" width="32.0" x="625.0" y="220.0"/>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="start" targetElement="taskone">
+      <bpmndi:BPMNEdge bpmnElement="_6" id="BPMNEdge__6" sourceElement="_2" targetElement="taskone">
         <omgdi:waypoint x="177.0" y="236.0"/>
         <omgdi:waypoint x="245.0" y="237.5"/>
         <bpmndi:BPMNLabel>
@@ -57,7 +53,7 @@
           <omgdc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="tasktwo" targetElement="end">
+      <bpmndi:BPMNEdge bpmnElement="_8" id="BPMNEdge__8" sourceElement="tasktwo" targetElement="_5">
         <omgdi:waypoint x="540.0" y="237.5"/>
         <omgdi:waypoint x="625.0" y="236.0"/>
         <bpmndi:BPMNLabel>
