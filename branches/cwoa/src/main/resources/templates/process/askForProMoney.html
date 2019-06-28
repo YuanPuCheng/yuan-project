@@ -24,13 +24,7 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">请款人：</label>
 				<div class="layui-input-block">
-					<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入姓名..." class="layui-input" id='uName' disabled="disabled" />
-				</div>
-			</div>
-			<div class="layui-form-item">
-				<label class="layui-form-label">所在部门：</label>
-				<div class="layui-input-block">
-					<input type="text" name="username" lay-verify="required" placeholder="现所在部门或职位..." autocomplete="off" class="layui-input" id='department' disabled="disabled" />
+					<input type="text" placeholder="请输入姓名..." class="layui-input" id='uName' disabled="disabled" />
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -95,8 +89,8 @@
 				var upload = layui.upload;
 				var form = layui.form;
 				var haveClick=false;
-                var userCode = $("#userCode", parent.document).attr("name");
-				var fileNameList = new Array();
+                var userId = $("#userId", parent.document).attr("name");
+				var fileNameList = [];
 				var selectNum = 0;
 				var successNum = 0;
 				var demoListView = $('#demoList');
@@ -162,22 +156,11 @@
 						layer.msg('请上传相关凭证！');
 						return;
 					}
-                    //var userRole=$("#userrole",parent.document).attr("name");
 					var fileName = fileNameList.toString();
-					var name = $('#uName').val();
-					var department = $('#department').val();
 					var projectId = $('#project option:selected').prop("value");
                     var project = $('#project option:selected').text();
 					var reimburseType = $('#reimburseType option:selected').prop("value");
 					var linkProId = $('#linkProId').val();
-                    if(name === "") {
-                        layer.msg('请输入请款人姓名！');
-                        return;
-                    }
-                    if(department === "") {
-                        layer.msg('请输入所在部门或职位！');
-                        return;
-                    }
                     if(project === "") {
                         layer.msg('请选择所在项目！');
                         return;
@@ -192,13 +175,10 @@
 						return;
 					}
 					var jsonTest = {
-                        //"userRole":userRole,
                         "projectId":projectId,
-						"userName": name,
-						"userDepartment": department,
 						"userProject": project,
-						"userCode": userCode,
 						"fileName": fileName,
+						"userId":userId,
 						"processSummary": [{
 								"indexName": "请款类型",
 								"indexValue": reimburseType
@@ -212,7 +192,7 @@
 					if(!haveClick){
                         haveClick=true;
                         $.ajax({
-                            url: "/process/askforpromoney",
+                            url: "/process/askForProMoney",
                             type: "post", //post请求
                             data: JSON.stringify(jsonTest), //这里发送的数据必须得是Json格式的字符串
                             contentType: "application/json", //告诉服务端你发送的是json数据
@@ -240,11 +220,10 @@
 					}
 				}
 				$(document).ready(function() {
-                    if(userCode===null || userCode === "" || userCode==='undefined' || typeof userCode==='undefined') {
+                    if(userId===null || userId === "" || userId==='undefined' || typeof userId==='undefined') {
                         $('body').html('<h2>您还没有登陆,无法访问该页面!</h2>');
                     }else {
                         $('#uName').val($("#userName", parent.document).attr("name"));
-                        $('#department').val($("#userDepartmentName", parent.document).attr("name"));
                         $.ajax({
                             url: "/project/getprojecttoselect",
                             type: "get",

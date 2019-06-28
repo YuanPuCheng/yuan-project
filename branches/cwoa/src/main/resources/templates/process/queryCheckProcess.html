@@ -96,75 +96,43 @@
                     widthMax = "99%";
                     heightMax = "85%";
                 }
+                var allUserList=[];
+                var tempUserName='';
+                var userId=$("#userId",parent.document).attr("name");
+                function getNameDepartment(id) {
+                    id=id*1;
+                    var len=allUserList.length;
+                    for(var i=0;i<len;i++){
+                        if (id===allUserList[i].user_id*1){
+                            tempUserName=allUserList[i].user_name;
+                            break;
+                        }
+                    }
+                }
 				$(document).ready(function() {
-                    var userCode=$("#userCode",parent.document).attr("name");
-                    if(userCode ==='' || userCode==='undefined' || typeof userCode==='undefined'){
+                    if(userId ==='' || userId==='undefined' || typeof userId==='undefined'){
                         $("h2").text("您还没有登陆,请登陆！");
                         $("h2").show();
                     }else {
+                        readyAjax();
                         $.ajax({
-                            url: "/process/queryCheckProcess",
+                            url: "/human/queryNameDepartment",
                             type: "get",
-                            data: {
-                                "rand":Math.random(),
-                                "userCode": userCode,
-                                "page": 0,
-                                "num": 5
-                            },
                             dataType: "json",
                             success: function(data) {
-                                var len = data.result;
-                                if(len > 0) {
-                                    dataList = data.queryResultList;
-                                    nowLen=dataList.length;
-                                    $("h2").hide();
-                                    laypage.render({
-                                        elem: 'demo6',
-                                        count: len,
-                                        limit: 5,
-                                        layout: ['prev', 'page', 'next'],
-                                        jump: function(obj, first) {
-                                            if(!first) {
-                                                $("#queryProcessBox").html("");
-                                                $("h2").text("查询中ing...");
-                                                $("h2").show();
-                                                $.ajax({
-                                                    url: "/process/queryCheckProcess",
-                                                    type: "get",
-                                                    data: {
-                                                        "userCode": userCode,
-                                                        "page": (obj.curr-1)*5,
-                                                        "num": 5
-                                                    },
-                                                    dataType: "json",
-                                                    success: function(data) {
-                                                        dataList = data.queryResultList;
-                                                        nowLen=dataList.length;
-                                                        $("h2").hide();
-                                                        creatHtml(0, nowLen,dataList);
-                                                    },
-                                                    error: function() {
-                                                        layer.msg('发生了未知错误！', {
-                                                            icon: 2
-                                                        });
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    });
-                                    creatHtml(0, nowLen,dataList);
-                                } else {
-                                    $("h2").text("您没有审批过的流程！");
-                                }
+                                allUserList=data;
                             },
-                            error: function() {
-                                $("h2").text("加载数据失败，请刷新试试！");
+                            error: function() { //请求失败的回调
+                                layer.msg('发生了未知错误！', {
+                                    icon: 2
+                                });
                             }
                         });
 					}
 				});
-                function creatHtml(start,end,list) {
+                function createHtml(start,end,list) {
               		var txt = "";
+              		var proColor='';
                     for(var i = start; i < end; i++) {
                         var processStatus = "";
                         if(list[i].deleteReason === "同意申请") {
@@ -182,10 +150,11 @@
                         }
                         var startTime = new Date(list[i].startTime).format("yyyy-MM-dd hh:mm:ss");
                         var testEndTime = list[i].endTime;
+                        var endTime='';
                         if(testEndTime == null) {
-                            var endTime = "至今";
+                            endTime = "至今";
                         } else {
-                            var endTime = new Date().format("yyyy-MM-dd hh:mm:ss");
+                            endTime = new Date().format("yyyy-MM-dd hh:mm:ss");
                         }
                         txt = txt + "<div class=\"layuiadmin-card-text\" style=\"background-color: gainsboro;margin-top:10px ;\">" +
                             "<div class=\"layui-card-header\"><i class=\"layui-icon layui-icon-table\">" + list[i].processName + "</i>" +
@@ -210,15 +179,16 @@
                         if($(this).text() === "查看详情") {
                             var processInstanceId = $(this).attr("pid");
                             $.ajax({
-                                url: "/process/queryprocessdetail",
+                                url: "/process/queryProcessDetail",
                                 type: "get",
                                 data: {
                                     "processInstanceId": processInstanceId
                                 },
                                 dataType: "json",
                                 success: function(data) {
+                                    getNameDepartment(data.userId);
                                     var txt = "<tr><td>流程名称</td><td>" + data.processName + "</td></tr>";
-                                    txt = txt + "<tr><td>发起人</td><td>" + data.userName + "</td></tr>";
+                                    txt = txt + "<tr><td>发起人</td><td>" + tempUserName + "</td></tr>";
                                     var arrList = data.processSummary;
                                     for(var i = 0; i < arrList.length; i++) {
                                         txt = txt + "<tr><td>" + arrList[i].indexName + "</td><td>" + arrList[i].indexValue + "</td></tr>";
@@ -251,12 +221,73 @@
                                 type: 1,
                                 shadeClose: true,
                                 area: [widthMax, heightMax], //宽高
-                                content: '<img src="/process/downloadpng?deploymentId=' + deploymentId + '"/>'
+                                content: '<img src="/process/downloadPng?deploymentId=' + deploymentId + '"/>'
                             });
                         } else {
                             layer.msg('错误操作！', {
                                 icon: 2
                             });
+                        }
+                    });
+                }
+                function readyAjax() {
+                    $.ajax({
+                        url: "/process/queryCheckProcess",
+                        type: "get",
+                        data: {
+                            "rand":Math.random(),
+                            "userId": userId,
+                            "page": 0,
+                            "num": 5
+                        },
+                        dataType: "json",
+                        success: function(data) {
+                            var len = data.result;
+                            if(len > 0) {
+                                dataList = data.queryResultList;
+                                nowLen=dataList.length;
+                                $("h2").hide();
+                                laypage.render({
+                                    elem: 'demo6',
+                                    count: len,
+                                    limit: 5,
+                                    layout: ['prev', 'page', 'next'],
+                                    jump: function(obj, first) {
+                                        if(!first) {
+                                            $("#queryProcessBox").html("");
+                                            $("h2").text("查询中ing...");
+                                            $("h2").show();
+                                            $.ajax({
+                                                url: "/process/queryCheckProcess",
+                                                type: "get",
+                                                data: {
+                                                    "userId": userId,
+                                                    "page": (obj.curr-1)*5,
+                                                    "num": 5
+                                                },
+                                                dataType: "json",
+                                                success: function(data) {
+                                                    dataList = data.queryResultList;
+                                                    nowLen=dataList.length;
+                                                    $("h2").hide();
+                                                    createHtml(0, nowLen,dataList);
+                                                },
+                                                error: function() {
+                                                    layer.msg('发生了未知错误！', {
+                                                        icon: 2
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                                createHtml(0, nowLen,dataList);
+                            } else {
+                                $("h2").text("您没有审批过的流程！");
+                            }
+                        },
+                        error: function() {
+                            $("h2").text("加载数据失败，请刷新试试！");
                         }
                     });
                 }

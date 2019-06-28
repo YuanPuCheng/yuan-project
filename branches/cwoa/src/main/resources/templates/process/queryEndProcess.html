@@ -96,18 +96,19 @@
                     widthMax = "99%";
                     heightMax = "85%";
                 }
+                var userName=$("#userName",parent.document).attr("name");
+                var userId=$("#userId",parent.document).attr("name");
 				$(document).ready(function() {
-                    var userCode=$("#userCode",parent.document).attr("name");
-                    if(userCode ==='' || userCode==='undefined' || typeof userCode==='undefined'){
+                    if(userId ==='' || userId==='undefined' || typeof userId==='undefined'){
                         $("h2").text("您还没有登陆,请登陆！");
                         $("h2").show();
                     }else {
                         $.ajax({
-                            url: "/process/queryendprocess",
+                            url: "/process/queryEndProcess",
                             type: "get",
                             data: {
                                 "rand":Math.random(),
-                                "userCode": userCode,
+                                "userId": userId,
                                 "page": 0,
                                 "num": 5
                             },
@@ -129,10 +130,10 @@
                                                 $("h2").text("查询中ing...");
                                                 $("h2").show();
                                                 $.ajax({
-                                                    url: "/process/queryendprocess",
+                                                    url: "/process/queryEndProcess",
                                                     type: "get",
                                                     data: {
-                                                        "userCode": userCode,
+                                                        "userId": userId,
                                                         "page": (obj.curr-1)*5,
                                                         "num": 5
                                                     },
@@ -141,7 +142,7 @@
                                                         dataList = data.queryResultList;
                                                         nowLen=dataList.length;
                                                         $("h2").hide();
-                                                        creatHtml(0, nowLen,dataList);
+                                                        createHtml(0, nowLen,dataList);
                                                     },
                                                     error: function() {
                                                         layer.msg('发生了未知错误！', {
@@ -152,7 +153,7 @@
                                             }
                                         }
                                     });
-                                    creatHtml(0, nowLen,dataList);
+                                    createHtml(0, nowLen,dataList);
                                 } else {
                                     $("h2").text("您没有已结束的流程！");
                                 }
@@ -163,8 +164,9 @@
                         });
 					}
 				});
-                function creatHtml(start,end,list) {
+                function createHtml(start,end,list) {
               		var txt = "";
+              		var proColor='';
                     for(var i = start; i < end; i++) {
                         var processStatus = "";
                         if(list[i].deleteReason === "同意申请") {
@@ -201,7 +203,7 @@
                         if($(this).text() === "查看详情") {
                             var processInstanceId = $(this).attr("pid");
                             $.ajax({
-                                url: "/process/queryprocessdetail",
+                                url: "/process/queryProcessDetail",
                                 type: "get",
                                 data: {
                                     "processInstanceId": processInstanceId
@@ -209,7 +211,7 @@
                                 dataType: "json",
                                 success: function(data) {
                                     var txt = "<tr><td>流程名称</td><td>" + data.processName + "</td></tr>";
-                                    txt = txt + "<tr><td>发起人</td><td>" + data.userName + "</td></tr>";
+                                    txt = txt + "<tr><td>发起人</td><td>" + userName + "</td></tr>";
                                     var arrList = data.processSummary;
                                     for(var i = 0; i < arrList.length; i++) {
                                         txt = txt + "<tr><td>" + arrList[i].indexName + "</td><td>" + arrList[i].indexValue + "</td></tr>";
@@ -242,7 +244,7 @@
                                 type: 1,
                                 shadeClose: true,
                                 area: [widthMax, heightMax], //宽高
-                                content: '<img src="/process/downloadpng?deploymentId=' + deploymentId + '"/>'
+                                content: '<img src="/process/downloadPng?deploymentId=' + deploymentId + '"/>'
                             });
                         } else {
                             layer.msg('错误操作！', {

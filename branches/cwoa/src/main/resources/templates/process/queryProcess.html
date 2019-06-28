@@ -104,8 +104,10 @@
                     widthMax = "99%";
                     heightMax = "85%";
                 }
+                var userName=$("#userName",parent.document).attr("name");
+                var userDepartmentName=$("#userDepartmentName",parent.document).attr("name");
 				$(document).ready(function() {
-					function creatHtml(start, end) {
+					function createHtml(start, end) {
 						var txt = "";
 						for(var i = start; i < end; i++) {
 							var pro = list[i].processSummary;
@@ -120,7 +122,7 @@
 							txt = txt + "<div class=\"layuiadmin-card-text\" style=\"background-color: gainsboro;margin-top:10px ;\" id=\"" + list[i].processInstanceId +
 								"\"><div class=\"layui-card-header\"><i class=\"layui-icon layui-icon-table\">" + list[i].processName + "</i>" +
 								"<span style=\"position: absolute;right: 15px;\">" + list[i].processStatus +
-								"</span></div><div class=\"layui-card-body\">"+list[i].userProject+"<h3>" + list[i].userDepartment + "-" + list[i].userName + "</h3>" + summary +
+								"</span></div><div class=\"layui-card-body\">"+list[i].userProject+"<h3>" + userDepartmentName + "-" + userName + "</h3>" + summary +
 								"<hr class=\"layui-bg-gray\" />" +
 								"<button class=\"layui-btn layui-btn-lg layui-btn-radius layui-btn-primary\" cid=\"" + list[i].processInstanceId +"\"fid=\""+ list[i].fileName+
 								"\">查看流程</button>" +
@@ -155,7 +157,7 @@
 									if(!click) {
 										click = true;
 										$.ajax({
-											url: "/process/deleteprocessinstance",
+											url: "/process/deleteProcessInstance",
 											type: "get",
 											data: {
 												"processInstanceId": processInstanceId,
@@ -196,17 +198,17 @@
 							}
 						});
 					}
-					var userCode=$("#userCode",parent.document).attr("name");
-                    if(userCode ==='' || userCode==='undefined' || typeof userCode==='undefined'){
+					var userId=$("#userId",parent.document).attr("name");
+                    if(userId ==='' || userId==='undefined' || typeof userId==='undefined'){
                         $("h2").text("您还没有登陆,请登陆！");
                         $("h2").show();
                     }else{
                         $.ajax({
-                            url: "/process/queryprocess",
+                            url: "/process/queryProcess",
                             type: "get",
                             data: {
                                 "rand":Math.random(),
-                                "userCode": userCode,
+                                "userId": userId,
                                 "page":0,
                                 "num":5
                             }, //这里发送的数据必须得是Json格式的字符串
@@ -228,10 +230,10 @@
                                                 $("h2").text("查询中ing...");
                                                 $("h2").show();
                                                 $.ajax({
-                                                    url: "/process/queryprocess",
+                                                    url: "/process/queryProcess",
                                                     type: "get",
                                                     data: {
-                                                        "userCode": userCode,
+                                                        "userId": userId,
                                                         "page": (obj.curr-1)*5,
                                                         "num": 5
                                                     },
@@ -240,7 +242,7 @@
                                                         list = data.queryResultList;
                                                         nowLen=list.length;
                                                         $("h2").hide();
-                                                        creatHtml(0, nowLen);
+                                                        createHtml(0, nowLen);
                                                     },
                                                     error: function() {
                                                         layer.msg('发生了未知错误！', {
@@ -251,7 +253,7 @@
                                             }
                                         }
                                     });
-                                    creatHtml(0, nowLen);
+                                    createHtml(0, nowLen);
                                 } else {
                                     $("h2").text("您没有在途的流程！");
                                 }

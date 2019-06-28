@@ -24,7 +24,7 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">请款人：</label>
 				<div class="layui-input-block">
-					<input type="text"   placeholder="请输入姓名..." autocomplete="off" class="layui-input" id='uName' disabled="disabled" />
+					<input type="text" placeholder="请输入姓名..." class="layui-input" id='uName' disabled="disabled" />
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -84,11 +84,11 @@
 				var layer = layui.layer;
 				var upload = layui.upload;
 				var form = layui.form;
-				var fileNameList = new Array();
+				var fileNameList = [];
 				var selectNum = 0;
 				var successNum = 0;
 				var demoListView = $('#demoList');
-                var userCode = $("#userCode", parent.document).attr("name");
+                var userId = $("#userId", parent.document).attr("name");
 				var uploadListIns = upload.render({
 					elem: '#uploadfile',
 					url: '/file/upload',
@@ -152,16 +152,10 @@
 						return;
 					}
 					var fileName = fileNameList.toString();
-					var userDepartment = $("#userDepartmentName", parent.document).attr("name");
-					var name = $('#uName').val();
 					var projectId = $('#project option:selected').prop("value");
 					var reimburseType = $('#reimburseType option:selected').prop("value");
 					var linkProId = $('#linkProId').val();
                     var project = $('#project option:selected').text();
-                    if(name === "") {
-                        layer.msg('请输入请款人姓名！');
-                        return;
-                    }
                     if(project === "") {
                         layer.msg('请选择所在项目！');
                         return;
@@ -176,13 +170,10 @@
                         return;
                     }
 					var jsonTest = {
-                        //"userRole":userRole,
                         "projectId":projectId,
-						"userName": name,
 						"userProject": project,
-						"userCode": userCode,
 						"fileName": fileName,
-						"userDepartment":userDepartment,
+                        "userId":userId,
 						"processSummary": [{
 								"indexName": "请款类型",
 								"indexValue": reimburseType
@@ -194,7 +185,7 @@
 						]
 					};
 					$.ajax({
-						url: "/process/askformoney",
+						url: "/process/askForMoney",
 						type: "post", //post请求
 						data: JSON.stringify(jsonTest), //这里发送的数据必须得是Json格式的字符串
 						contentType: "application/json", //告诉服务端你发送的是json数据
@@ -220,7 +211,7 @@
 					});
 				}
 				$(document).ready(function() {
-                    if(userCode===null || userCode === "" || userCode==='undefined' || typeof userCode==='undefined') {
+                    if(userId===null || userId === "" || userId==='undefined' || typeof userId==='undefined') {
                         $('body').html('<h2>您还没有登陆,无法访问该页面!</h2>');
                     }else {
                         $('#uName').val($("#userName", parent.document).attr("name"));

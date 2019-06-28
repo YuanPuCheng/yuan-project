@@ -54,15 +54,6 @@
 							<div class="layui-input-block">
 								<select name="modules" lay-verify="required" lay-search="" id="proType">
 									<option value="">请选择或输入流程类型...必填</option>
-									<option value="askforleave">请假申请</option>
-									<option value="askforbusiness">出差申请</option>
-									<option value="askformoney">公司请款申请</option>
-									<option value="askforreimburse">公司报销申请</option>
-									<option value="askforpromoney">项目请款申请</option>
-									<option value="askforproreimburse">项目报销申请</option>
-									<option value="highAskForLeave">管理层请假申请</option>
-									<option value="highAskForTravel">管理层出差申请</option>
-									<option value="liveProcess">动态任务</option>
 								</select>
 							</div>
 						</div>
@@ -128,11 +119,58 @@
 					elem: '#startTime',
 					type: 'date'
 				});
-				var list = new Array();
-
-				function creatHtml(start, end) {
+				var list = [];
+                var allUserList=[];
+                var tempUserDepartment='';
+                var tempUserName='';
+                function getNameDepartment(id) {
+                    id=id*1;
+                    var len=allUserList.length;
+                    for(var i=0;i<len;i++){
+                        if (id===allUserList[i].user_id*1){
+                            tempUserName=allUserList[i].user_name;
+                            tempUserDepartment=allUserList[i].department_name;
+                            break;
+                        }
+                    }
+                }
+                $.ajax({
+                    url: "/human/queryNameDepartment",
+                    type: "get",
+                    dataType: "json",
+                    success: function(data) {
+                        allUserList=data;
+                    },
+                    error: function() { //请求失败的回调
+                        layer.msg('发生了未知错误！', {
+                            icon: 2
+                        });
+                    }
+                });
+                $.ajax({
+                    url: "/process/selectProcessSelect",
+                    type: "get",
+                    dataType: "json",
+                    success: function(data) {
+                        var len=data.length;
+                        var txt='';
+                        for(var i=0;i<len;i++){
+                            txt=txt+'<option value="'+data[i].processDefinitionKey+'">'+data[i].processName+'</option>';
+						}
+						$('#proType').append(txt);
+                        form.render('select');
+                    },
+                    error: function() { //请求失败的回调
+                        layer.msg('发生了未知错误！', {
+                            icon: 2
+                        });
+                    }
+                });
+				function createHtml(start, end) {
 					var txt = "";
+					var proColor='';
 					for(var i = start; i < end; i++) {
+					    getNameDepartment(list[i].userId);
 						var processStatus = "";
 						if(list[i].deleteReason === "同意申请") {
 							processStatus = "已通过";
@@ -166,7 +204,7 @@
 						txt = txt + "<div class=\"layuiadmin-card-text\" style=\"background-color: gainsboro;margin-top:10px ;\"" +
 							"\"><div class=\"layui-card-header\"><i class=\"layui-icon layui-icon-table\">" + list[i].processName + "</i>" +
 							"<span style=\"position: absolute;right: 15px; color:" + proColor + "\">" + processStatus +
-							"</span></div><div class=\"layui-card-body\">"+list[i].userProject+"<h3>" + list[i].userDepartment + "-" + list[i].userName + "</h3>" +
+							"</span></div><div class=\"layui-card-body\">"+list[i].userProject+"<h3>" + tempUserDepartment + "-" + tempUserName + "</h3>" +
 							"<p>流程ID：" + list[i].processInstanceId + "</p>" +
 							"<p>流程在途时间：" + startTime + "--" + endTime + "</p>" + summary +
 							"<p>流程结束说明：" + list[i].deleteReason + "</p>" +
@@ -233,7 +271,7 @@
 					$("#queryProcessBox").html("");
 					var queryProId = $('#queryProId').val();
 					$.ajax({
-						url: "/process/queryprocessdetail",
+						url: "/process/queryProcessDetail",
 						type: "get",
 						data: {
 							"processInstanceId": queryProId
@@ -248,7 +286,7 @@
 							    list=[];
 								list.push(result);
 								$('#messageBox').hide();
-								creatHtml(0, 1);
+								createHtml(0, 1);
 							} else {
 								$('#messageBox').text("没有找到符合条件的流程！");
 								$('#messageBox').show();
@@ -280,7 +318,7 @@
 						dateTime = 0;
 					}
 					$.ajax({
-						url: "/process/queryprocessbyvo",
+						url: "/process/queryProcessByVo",
 						type: "get",
 						data: {
                             "rand":Math.random(),
@@ -306,7 +344,7 @@
                                         if(!first) {
                                             var page=(obj.curr-1)*3;
                                             $.ajax({
-                                                url: "/process/queryprocessbyvo",
+                                                url: "/process/queryProcessByVo",
                                                 type: "get",
                                                 data: {
                                                     "processDefinitionKey": processDefinitionKey,
@@ -319,7 +357,7 @@
                                                 success: function(data) {
                                                     list = data.queryResultList;
                                                     nowLen=list.length;
-                                                    creatHtml(0, nowLen);
+                                                    createHtml(0, nowLen);
                                                 },
                                                 error: function() {
                                                     layer.msg('发生了未知错误！', {
@@ -331,7 +369,7 @@
 
                                     }
                                 });
-                                creatHtml(0, nowLen);
+                                createHtml(0, nowLen);
 							} else {
                                 laypage.render({
                                     elem: 'demo6',

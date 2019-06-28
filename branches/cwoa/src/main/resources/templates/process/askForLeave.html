@@ -42,13 +42,7 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">请假人：</label>
 				<div class="layui-input-block">
-					<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入姓名..." class="layui-input" id='uName' disabled="disabled" />
-				</div>
-			</div>
-			<div class="layui-form-item">
-				<label class="layui-form-label">所在部门：</label>
-				<div class="layui-input-block">
-					<input type="text" name="username" lay-verify="required" placeholder="现所在部门..." autocomplete="off" class="layui-input" id='department' disabled="disabled" />
+					<input type="text" placeholder="请输入姓名..." class="layui-input" id='uName' disabled="disabled" />
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -93,7 +87,7 @@
 				var layer = layui.layer;
                 var form = layui.form;
 				var click = false;
-                var userCode=$("#userCode",parent.document).attr("name");
+                var userId=$("#userId",parent.document).attr("name");
 				laydate.render({
 					elem: '#test16',
 					type: 'date'
@@ -103,11 +97,10 @@
 					type: 'date'
 				});
 				$(document).ready(function() {
-                    if(userCode===null || userCode === "" || userCode==='undefined' || typeof userCode==='undefined') {
+                    if(userId===null || userId === "" || userId==='undefined' || typeof userId==='undefined') {
                         $('body').html('<h2>您还没有登陆,无法访问该页面!</h2>');
                     }else {
                         $('#uName').val($("#userName", parent.document).attr("name"));
-                        $('#department').val($("#userDepartmentName", parent.document).attr("name"));
                         $.ajax({
                             url: "/project/getprojecttoselect",
                             type: "get",
@@ -136,24 +129,22 @@
 				$("#go").click(function() {
 					if(!click) {
 						click = true;
-                        var userRole=$("#userrole",parent.document).attr("name");
-						var name = $('#uName').val();
-						var department = $('#department').val();
+                        var userRole=$("#userRole",parent.document).attr("name");
                         var project = $('#project option:selected').text();
-						var timeone = $('#test16').val();
-						var timetwo = $('#test17').val();
-						var dayone = new Date(timeone);
-						var daytwo = new Date(timetwo);
-						var days = daytwo.getTime() - dayone.getTime(); 　　
-						var leavedays = Math.floor(days / (1000 * 60 * 60 * 24)+1);
-                        var time = timeone + "至" + timetwo;
+						var timeOne = $('#test16').val();
+						var timeTwo = $('#test17').val();
+						var dayOne = new Date(timeOne);
+						var dayTwo = new Date(timeTwo);
+						var days = dayTwo.getTime() - dayOne.getTime(); 　　
+						var leaveDays = Math.floor(days / (1000 * 60 * 60 * 24)+1);
+                        var time = timeOne + "至" + timeTwo;
 						var reason = $('#reason').val();
 						var projectId=$('#project option:selected').prop("value");
-						if(isNaN(leavedays)) {
+						if(isNaN(leaveDays)) {
 							layer.msg('请选择正确的请假日期！');
 							click=false;
 							return;
-						} else if(leavedays <= 0) {
+						} else if(leaveDays <= 0) {
 							layer.msg('请选择正确的请假日期！');
                             click=false;
 							return;
@@ -169,14 +160,12 @@
                             return;
                         }
 						var jsonTest = {
-                            "processKey":"askforleave",
+                            "processKey":"askForLeave",
                             "userRole":userRole,
 						    "projectId":projectId,
-							"userName": name,
-							"userDepartment": department,
 							"userProject": project,
-							"leavedays": leavedays, //根据用户输入的日期计算得到
-							"userCode":userCode,
+							"leaveDays": leaveDays, //根据用户输入的日期计算得到
+							"userId":userId,
 							"processSummary": [{
 									"indexName": "请假时间",
 									"indexValue": time
@@ -188,7 +177,7 @@
 							]
 						};
 						$.ajax({
-							url: "/process/startaskforleave",
+							url: "/process/startAskForLeave",
 							type: "post", //post请求
 							data: JSON.stringify(jsonTest), //这里发送的数据必须得是Json格式的字符串
 							contentType: "application/json", //告诉服务端你发送的是json数据
