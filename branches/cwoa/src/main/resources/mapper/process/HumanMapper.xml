@@ -29,7 +29,7 @@
         GROUP BY
         user_project,user_code,lea_year,lea_month,lea_type
         LIMIT #{arg4},#{arg5}) table_one
-        LEFT JOIN sys_user su ON su.user_code=table_one.user_code
+        LEFT JOIN sys_user su ON su.user_id=table_one.user_code
     </select>
 
     <select id="queryLeaveDetail" parameterType="String" resultType="Map">
@@ -72,5 +72,18 @@
 
     <select id="queryRoleSelect" resultType="Map">
       SELECT role_name AS 'name',role_id AS 'value' FROM sys_role
+    </select>
+
+    <select id="selectDepartmentById" resultType="String">
+        SELECT department_name FROM sys_department WHERE department_id=
+        (SELECT department_id FROM sys_user WHERE user_id=#{userId})
+    </select>
+
+    <select id="queryNameDepartment" resultType="Map">
+        SELECT user_id,user_name,department_name FROM
+        (SELECT user_id,user_name,department_id FROM sys_user) tabTwo
+        LEFT JOIN
+        (SELECT department_id AS did,department_name FROM sys_department) tabOne
+        ON department_id=did
     </select>
 </mapper>
