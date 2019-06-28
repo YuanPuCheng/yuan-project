@@ -20,7 +20,7 @@
     (SELECT user_project AS project_name,flow_money_out,flow_year,flow_month,flow_date,user_code,flow_process_id,flow_type
     FROM fin_money_flow WHERE  user_project=#{arg0} AND flow_year=#{arg1} AND flow_month=#{arg2}
     AND flow_money_out IS NOT NULL ) tableone
-    LEFT JOIN sys_user su ON su.user_code=tableone.user_code ORDER BY flow_date DESC
+    LEFT JOIN sys_user su ON su.user_id=tableone.user_code ORDER BY flow_date DESC
   </select>
 
   <select id="queryProjectMonthInDetail" parameterType="String" resultType="com.zihui.cwoa.financial.pojo.ProjectMonthDetail">
@@ -28,7 +28,7 @@
     (SELECT user_project AS project_name,flow_money_in,flow_year,flow_month,flow_date,user_code,flow_process_id,flow_type
     FROM fin_money_flow WHERE  user_project=#{arg0} AND flow_year=#{arg1} AND flow_month=#{arg2}
     AND flow_money_in IS NOT NULL) tableone
-    LEFT JOIN sys_user su ON su.user_code=tableone.user_code ORDER BY flow_date DESC
+    LEFT JOIN sys_user su ON su.user_id=tableone.user_code ORDER BY flow_date DESC
   </select>
 
   <select id="queryProjectAllIn" resultType="com.zihui.cwoa.financial.pojo.ProjectInAndOut">
@@ -49,7 +49,7 @@
     (SELECT user_project AS project_name,flow_money_in,flow_year,flow_month,flow_date,user_code,flow_process_id,flow_type
     FROM fin_pro_money_flow WHERE  user_project=#{arg0} AND flow_year=#{arg1} AND flow_month=#{arg2}
     AND flow_money_in IS NOT NULL) tableone
-    LEFT JOIN sys_user su ON su.user_code=tableone.user_code ORDER BY flow_date DESC
+    LEFT JOIN sys_user su ON su.user_id=tableone.user_code ORDER BY flow_date DESC
   </select>
 
   <select id="queryMoneyFlowByVoc" parameterType="String" resultType="com.zihui.cwoa.financial.pojo.ProjectMonthDetail">
@@ -63,7 +63,7 @@
     <if test="arg3!=null and arg3!=''"> and  flow_month=#{arg3}</if>
     <if test="arg4!=null and arg4!=''"> and  flow_type=#{arg4}</if>
     LIMIT #{arg5},#{arg6}) tableone
-    LEFT JOIN sys_user su ON su.user_code=tableone.user_code
+    LEFT JOIN sys_user su ON su.user_id=tableone.user_code
   </select>
 
   <select id="countMoneyFlowByVoc" parameterType="String" resultType="Integer">
@@ -87,7 +87,7 @@
     <if test="arg3!=null and arg3!=''"> and  flow_month=#{arg3}</if>
     <if test="arg4!=null and arg4!=''"> and  flow_type=#{arg4}</if>
     LIMIT #{arg5},#{arg6}) tableone
-    LEFT JOIN sys_user su ON su.user_code=tableone.user_code
+    LEFT JOIN sys_user su ON su.user_id=tableone.user_code
   </select>
 
   <select id="countMoneyFlowByVop" parameterType="String" resultType="Integer">

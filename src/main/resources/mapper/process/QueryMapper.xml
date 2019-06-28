@@ -2,24 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zihui.cwoa.processone.dao.QueryMapper" >
 
-  <select id="queryProStatuByProInstanceId" parameterType="String" resultType="String">
+  <select id="queryProStatusByProInstanceId" parameterType="String" resultType="String">
     SELECT NAME_ FROM act_ru_task WHERE PROC_INST_ID_=#{processInstanceId} LIMIT 1
   </select>
 
-  <select id="queryCodeByName" parameterType="String" resultType="String">
-    SELECT user_code FROM sys_user WHERE user_name=#{userName} LIMIT 1
+  <select id="queryIdByName" parameterType="String" resultType="String">
+    SELECT user_id FROM sys_user WHERE user_name=#{userName} LIMIT 1
   </select>
 
-  <select id="queryActProCountByCode" parameterType="String" resultType="Integer">
-    SELECT COUNT(ID_) FROM act_hi_procinst WHERE START_USER_ID_=#{userCode} AND DURATION_ IS NULL
+  <select id="queryActProCountById" parameterType="String" resultType="Integer">
+    SELECT COUNT(ID_) FROM act_hi_procinst WHERE START_USER_ID_=#{userId} AND DURATION_ IS NULL
   </select>
 
-  <select id="queryEndProCountByCode" parameterType="String" resultType="Integer">
-    SELECT COUNT(ID_) FROM act_hi_procinst WHERE START_USER_ID_=#{userCode} AND DURATION_ IS NOT NULL
+  <select id="queryEndProCountById" parameterType="String" resultType="Integer">
+    SELECT COUNT(ID_) FROM act_hi_procinst WHERE START_USER_ID_=#{userId} AND DURATION_ IS NOT NULL
   </select>
 
-  <select id="queryTaskCountByCode" parameterType="String" resultType="Integer">
-    SELECT COUNT(ID_) FROM act_ru_task WHERE ASSIGNEE_=#{userCode}
+  <select id="queryTaskCountById" parameterType="Integer" resultType="Integer">
+    SELECT COUNT(ID_) FROM act_ru_task WHERE ASSIGNEE_=#{userId}
   </select>
 
   <update id="setAssigned" parameterType="String">
@@ -30,20 +30,30 @@
     SELECT role_parent_id FROM sys_role WHERE role_name =#{roleName}
   </select>
 
-  <select id="queryCheckCountByCode" parameterType="String" resultType="Integer">
-    SELECT COUNT(*) FROM act_hi_taskinst WHERE ASSIGNEE_=#{userCode}
+  <select id="queryCheckCountById" parameterType="String" resultType="Integer">
+    SELECT COUNT(*) FROM act_hi_taskinst WHERE ASSIGNEE_=#{userId}
   </select>
 
-  <select id="queryCheckProcessByCode" parameterType="Map" resultType="Map">
+  <select id="queryCheckProcessById" parameterType="Map" resultType="Map">
     SELECT processInstanceId,processName,deploymentId,startTime,endTime,deleteReason,userName FROM
     (SELECT processInstanceId,processName,deploymentId,startTime,endTime,deleteReason, START_USER_ID_ AS suid FROM
     (SELECT processInstanceId,processName,deploymentId FROM
-    (SELECT PROC_INST_ID_ AS processInstanceId,PROC_DEF_ID_ AS pdid FROM act_hi_taskinst WHERE ASSIGNEE_=#{userCode} ORDER BY START_TIME_ DESC LIMIT #{start},#{limit} ) tabOne
+    (SELECT PROC_INST_ID_ AS processInstanceId,PROC_DEF_ID_ AS pdid FROM act_hi_taskinst WHERE ASSIGNEE_=#{userId} ORDER BY START_TIME_ DESC LIMIT #{start},#{limit} ) tabOne
     LEFT JOIN
     (SELECT ID_,NAME_ AS processName,DEPLOYMENT_ID_ AS deploymentId FROM act_re_procdef) tabTwo ON ID_=pdid) tabThree
     LEFT JOIN
     (SELECT PROC_INST_ID_,START_TIME_ AS startTime,END_TIME_ AS endTime,START_USER_ID_,DELETE_REASON_ AS deleteReason FROM act_hi_procinst) tabFour ON PROC_INST_ID_=processInstanceId) tabFive
     LEFT JOIN
-    (SELECT user_code,user_name AS userName FROM sys_user) tabSix ON user_code=suid
+    (SELECT user_id,user_name AS userName FROM sys_user) tabSix ON user_id=suid
+  </select>
+
+  <select id="selectNameById" parameterType="String" resultType="String">
+    SELECT user_name FROM sys_user WHERE user_id=#{userId}
+  </select>
+
+  <select id="selectProcessSelect" resultType="Map">
+    SELECT KEY_ AS processDefinitionKey,NAME_ AS processName FROM
+    (SELECT * FROM act_re_procdef ORDER BY VERSION_ DESC) tabOne
+    GROUP BY NAME_ ORDER BY LENGTH(Name_)
   </select>
 </mapper>
