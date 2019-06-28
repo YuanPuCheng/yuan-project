@@ -98,11 +98,11 @@ public class FinancialController {
      */
     @RequestMapping("/queryMoneyFlowByVoc")
     @ResponseBody
-    public Map<String,Object> queryMoneyFlowByVoc(int size, String userCode, String project,
+    public Map<String,Object> queryMoneyFlowByVoc(int size, String userId, String project,
                                                   String flowYear, String flowMonth, String flowType,
                                                   int page, int limit){
         page=(page-1)*limit;
-        return financialService.queryMoneyFlowByVoc(size,userCode,project,flowYear,flowMonth,flowType,page,limit);
+        return financialService.queryMoneyFlowByVoc(size,userId,project,flowYear,flowMonth,flowType,page,limit);
     }
 
     /**
@@ -111,11 +111,11 @@ public class FinancialController {
      */
     @RequestMapping("/queryMoneyFlowByVop")
     @ResponseBody
-    public Map<String,Object> queryMoneyFlowByVop(int size, String userCode, String project,
+    public Map<String,Object> queryMoneyFlowByVop(int size, String userId, String project,
                                                   String flowYear, String flowMonth, String flowType,
                                                   int page, int limit){
         page=(page-1)*limit;
-        return financialService.queryMoneyFlowByVop(size,userCode,project,flowYear,flowMonth,flowType,page,limit);
+        return financialService.queryMoneyFlowByVop(size,userId,project,flowYear,flowMonth,flowType,page,limit);
     }
 
     /**
@@ -126,17 +126,17 @@ public class FinancialController {
     @ResponseBody
     public Map<String,Object> countMoneyFlowByVop(String name, String project, String flowYear,
                                        String flowMonth, String flowType){
-        String userCode=null;
+        String userId=null;
         Map<String,Object> map =new HashMap<>();
         if((name!=null) && (!name.equals(""))){
-            userCode = queryService.queryCodeByName(name);
-            if(userCode==null){
+            userId = queryService.queryIdByName(name);
+            if(userId==null){
                 map.put("count",0);
                 return map;
             }
         }
-        map.put("userCode",userCode);
-        map.put("count",financialService.countMoneyFlowByVop(userCode,project,flowYear,flowMonth,flowType));
+        map.put("userId",userId);
+        map.put("count",financialService.countMoneyFlowByVop(userId,project,flowYear,flowMonth,flowType));
         return map;
     }
 
@@ -148,17 +148,17 @@ public class FinancialController {
     @ResponseBody
     public Map<String,Object> countMoneyFlowByVoc(String name, String project, String flowYear,
                                                   String flowMonth, String flowType){
-        String userCode=null;
+        String userId=null;
         Map<String,Object> map =new HashMap<>();
         if((!"".equals(name)) && (name!=null)){
-            userCode = queryService.queryCodeByName(name);
-            if(userCode==null){
+            userId = queryService.queryIdByName(name);
+            if(userId==null){
                 map.put("count",0);
                 return map;
             }
         }
-        map.put("userCode",userCode);
-        map.put("count",financialService.countMoneyFlowByVoc(userCode,project,flowYear,flowMonth,flowType));
+        map.put("userId",userId);
+        map.put("count",financialService.countMoneyFlowByVoc(userId,project,flowYear,flowMonth,flowType));
         return map;
     }
 
@@ -168,11 +168,11 @@ public class FinancialController {
      */
     @RequestMapping("/queryMoneyFlowSumByVo")
     @ResponseBody
-    public Map<String,Object> queryMoneyFlowSumByVo(int size,String  userCode, String project,
+    public Map<String,Object> queryMoneyFlowSumByVo(int size,String  userId, String project,
                                                     String flowYear, String flowMonth, String flowType,
                                                     String proTypeSum,int page,int limit){
         page=(page-1)*limit;
-        return financialService.queryMoneyFlowSumByVo(size,userCode,project,flowYear,flowMonth,flowType,proTypeSum,page,limit);
+        return financialService.queryMoneyFlowSumByVo(size,userId,project,flowYear,flowMonth,flowType,proTypeSum,page,limit);
     }
 
     /**
@@ -183,17 +183,17 @@ public class FinancialController {
     @ResponseBody
     public Map<String,Object> countMoneyFlowSumByVo(String  name, String project, String flowYear,
                                                     String flowMonth, String flowType, String proTypeSum){
-        String userCode=null;
+        String userId=null;
         Map<String,Object> map =new HashMap<>();
         if((name!=null) && (!"".equals(name))){
-            userCode = queryService.queryCodeByName(name);
-            if(userCode==null){
+            userId = queryService.queryIdByName(name);
+            if(userId==null){
                 map.put("count",0);
                 return map;
             }
         }
-        map.put("userCode",userCode);
-        map.put("count",financialService.countMoneyFlowSumByVo(userCode,project,flowYear,flowMonth,flowType,proTypeSum));
+        map.put("userId",userId);
+        map.put("count",financialService.countMoneyFlowSumByVo(userId,project,flowYear,flowMonth,flowType,proTypeSum));
         return map;
     }
 
@@ -203,9 +203,9 @@ public class FinancialController {
      */
     @RequestMapping("/editMoneyFlow")
     @ResponseBody
-    public boolean editMoneyFlow(String userCode, String project, String flowYear,
+    public boolean editMoneyFlow(String userId, String project, String flowYear,
                                 String flowMonth,  String flowMoney,String flowType, String proType){
-        return financialService.editMoneyFlow(userCode,project,flowYear,flowMonth,flowMoney,flowType,proType);
+        return financialService.editMoneyFlow(userId,project,flowYear,flowMonth,flowMoney,flowType,proType);
     }
 
 }
