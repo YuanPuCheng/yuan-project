@@ -54,7 +54,7 @@ public class IndexController {
         Callable<Integer> task1= new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
-                return queryService.queryTaskCountByCode(user.getUserCode());
+                return queryService.queryTaskCountById(user.getUserId());
             }
         };
         //创建我的通知线程
