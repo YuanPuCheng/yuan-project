@@ -1,6 +1,7 @@
 package com.zihui.cwoa.processone.tasklistener;
 
 import com.zihui.cwoa.processone.service.FinancialTaskService;
+import com.zihui.cwoa.processone.service.HumanService;
 import com.zihui.cwoa.system.config.SpringUtil;
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
@@ -16,7 +17,7 @@ public class AskForProMoneyTaskListener implements TaskListener {
      *  项目请款流程结束的监听任务，把数据存入数据库
      */
     public void notify(DelegateTask delegateTask) {
-        String userCode = (String) delegateTask.getVariable("userCode");
+        String userId = (String) delegateTask.getVariable("userId");
         String processInstanceId = delegateTask.getProcessInstanceId();
         String userProject = (String) delegateTask.getVariable("userProject");
         List<Map> processSummary = (List<Map>) delegateTask.getVariable("processSummary");
@@ -32,6 +33,6 @@ public class AskForProMoneyTaskListener implements TaskListener {
             }
         }
         FinancialTaskService financialTaskService= (FinancialTaskService) SpringUtil.getObject("finMoneyFlow");
-        financialTaskService.insertProMoneyFlowOut(userCode, userProject, flowMoneyOut, processInstanceId,flowType);
+        financialTaskService.insertProMoneyFlowOut(userId, userProject, flowMoneyOut, processInstanceId,flowType);
     }
 }

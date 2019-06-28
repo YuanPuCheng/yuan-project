@@ -1,14 +1,13 @@
 package com.zihui.cwoa.processone.service;
 
 import com.zihui.cwoa.processone.config.BpmnCreateUtil;
-import com.zihui.cwoa.system.service.sys_userService;
+import com.zihui.cwoa.system.common.RedisUtils;
 import org.activiti.bpmn.BpmnAutoLayout;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.bpmn.model.Process;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricVariableInstance;
-import org.activiti.engine.history.HistoricVariableInstanceQuery;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -16,6 +15,7 @@ import org.activiti.image.impl.DefaultProcessDiagramGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.InputStream;
 import java.util.*;
 
@@ -35,8 +35,8 @@ public class ProcessesService {
     //自定义的查询方法
     @Autowired
     private QueryService queryService;
-    @Autowired
-    private sys_userService userService;
+    @Resource
+    private RedisUtils redisUtils;
 
     /**
      *  部署流程
@@ -46,6 +46,7 @@ public class ProcessesService {
     public boolean deployProcess(String processPath){
         try {
             this.repositoryService.createDeployment().addClasspathResource(processPath).deploy();
+            redisUtils.del("selectProcessSelect");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,7 +66,7 @@ public class ProcessesService {
         //启动流程
         try {
             //注意 在bpmn的 start节点里 要进行设置: activiti:initiator="applyuser"
-            identityService.setAuthenticatedUserId((String)variables.get("userCode"));
+            identityService.setAuthenticatedUserId((String)variables.get("userId"));
             runtimeService.startProcessInstanceByKey(processKey, businessKey, variables);
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,15 +77,15 @@ public class ProcessesService {
 
     /**
      *  查询用户任务
-     *  @param userCode 用户工号
+     *  @param userId 用户ID
      *  @return 用户的任务信息
      */
-    public Map<String,Object> queryTask(String userCode,int page, int num){
-        //根据用户工号获取该用户的任务
+    public Map<String,Object> queryTask(String userId,int page, int num){
+        //根据用户ID获取该用户的任务
         List<Task> tasks =
-                taskService.createTaskQuery().taskAssignee(userCode).orderByTaskCreateTime().desc().listPage(page,num);
+                taskService.createTaskQuery().taskAssignee(userId).orderByTaskCreateTime().desc().listPage(page,num);
         Map<String,Object> map =new HashMap<>();
-        int size = queryService.queryTaskCountByCode(userCode);
+        int size = queryService.queryTaskCountById(Integer.parseInt(userId));
         map.put("result",size);
             List<Map<String,Object>> queryResultList = new LinkedList<>();
             for (Task task : tasks) {
@@ -104,7 +105,7 @@ public class ProcessesService {
 
     /**
      *  办理人同意流程执行到下一步
-     *  @param taskId 用户工号
+     *  @param taskId 用户ID
      *  @return 成功/失败 true/false
      */
     public boolean completeTask(String taskId){
@@ -134,21 +135,21 @@ public class ProcessesService {
     }
 
     /**
-     *  根据用户工号查询他发起的还在审批中的流程
-     *  @param userCode 用户工号
+     *  根据用户ID查询他发起的还在审批中的流程
+     *  @param userId 用户ID
      *  @return 查询结果
      */
-    public Map<String,Object> queryProcess(String userCode,int page, int num) {
+    public Map<String,Object> queryProcess(String userId,int page, int num) {
         List<Map<String,Object>> list = new LinkedList<>();
-        int size = queryService.queryActProCountByCode(userCode);
+        int size = queryService.queryActProCountById(userId);
         List<ProcessInstance> proList =
-                runtimeService.createProcessInstanceQuery().startedBy(userCode).listPage(page,num);
+                runtimeService.createProcessInstanceQuery().startedBy(userId).listPage(page,num);
         for (ProcessInstance pro: proList) {
             String processInstanceId=pro.getProcessInstanceId();
             Map<String, Object> variables=runtimeService.getVariables(processInstanceId);
             variables.put("processInstanceId",processInstanceId);
             variables.put("processName",pro.getProcessDefinitionName());
-            variables.put("processStatus",queryService.queryProStatuByProInstanceId(processInstanceId));
+            variables.put("processStatus",queryService.queryProStatusByProInstanceId(processInstanceId));
             list.add(variables);
         }
         Map<String,Object> map =new HashMap<>();
@@ -158,18 +159,18 @@ public class ProcessesService {
     }
 
     /**
-     * 根据用户工号查询他发起的已经结束的流程
-     * @param userCode 用户工号
+     * 根据用户ID查询他发起的已经结束的流程
+     * @param userId 用户ID
      * @param page 当前页码
      * @param num 每页显示条数
      * @return 查询结果
      */
-    public  Map<String,Object> queryEndProcess(String userCode,int page, int num){
+    public  Map<String,Object> queryEndProcess(String userId,int page, int num){
         List<Map<String,Object>> list = new LinkedList<>();
         List<HistoricProcessInstance> historicProcessInstanceList =
                 historyService.createHistoricProcessInstanceQuery()
-                        .startedBy(userCode).finished().orderByProcessInstanceEndTime().desc().listPage(page,num);
-        int size = queryService.queryEndProCountByCode(userCode);
+                        .startedBy(userId).finished().orderByProcessInstanceEndTime().desc().listPage(page,num);
+        int size = queryService.queryEndProCountById(userId);
         for (HistoricProcessInstance ins:historicProcessInstanceList) {
             Map<String,Object> variables=new HashMap<>();
             String processName=ins.getProcessDefinitionName();
@@ -280,22 +281,22 @@ public class ProcessesService {
             ,Long date,int page,int num) {
         List<HistoricProcessInstance> list;
         int size;
-        String userCode=null;
+        String userId=null;
         if(userName!="" && userName!=null){
-            userCode = queryService.queryCodeByName(userName);
-            if(userCode==null){
+            userId = queryService.queryIdByName(userName);
+            if(userId==null){
                 Map<String,Object> map =new HashMap<>();
                 map.put("result",0);
                 return map;
             }
         }
-        if (userCode != null && userCode!="") {
+        if (userId != null && userId!="") {
             if (date != 0) {
                 Date dateOne = new Date(date-86400000);
                 Date dateTwo = new Date(date+86400000);
                 list = historyService.createHistoricProcessInstanceQuery()
                         .processDefinitionKey(processDefinitionKey)
-                        .startedBy(userCode)
+                        .startedBy(userId)
                         .startedAfter(dateOne)
                         .startedBefore(dateTwo)
                         .orderByProcessInstanceStartTime()
@@ -303,7 +304,7 @@ public class ProcessesService {
                         .listPage(page,num);
                 size = historyService.createHistoricProcessInstanceQuery()
                         .processDefinitionKey(processDefinitionKey)
-                        .startedBy(userCode)
+                        .startedBy(userId)
                         .startedAfter(dateOne)
                         .startedBefore(dateTwo)
                         .orderByProcessInstanceStartTime()
@@ -313,13 +314,13 @@ public class ProcessesService {
             } else {
                 list = historyService.createHistoricProcessInstanceQuery()
                         .processDefinitionKey(processDefinitionKey)
-                        .startedBy(userCode)
+                        .startedBy(userId)
                         .orderByProcessInstanceStartTime()
                         .desc()
                         .listPage(page,num);
                 size = historyService.createHistoricProcessInstanceQuery()
                         .processDefinitionKey(processDefinitionKey)
-                        .startedBy(userCode)
+                        .startedBy(userId)
                         .orderByProcessInstanceStartTime()
                         .desc()
                         .list()
@@ -408,7 +409,7 @@ public class ProcessesService {
         process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flowStart","flowStart","start", "gateway1"));
         process.addFlowElement(BpmnCreateUtil.createSequenceFlow("flowEnd", "flowEnd","gateway2","end"));
         for (Map<String,String> str: userList) {
-            process.addFlowElement(BpmnCreateUtil.createUserTask("task"+i, str.get("name")+"接受任务",str.get("value"),null));
+            process.addFlowElement(BpmnCreateUtil.createUserTask("task"+i, str.get("name")+"接受任务",String.valueOf(str.get("value")),null));
             process.addFlowElement(BpmnCreateUtil.createSequenceFlow("st"+i, "st"+i,"gateway1","task"+i));
             process.addFlowElement(BpmnCreateUtil.createSequenceFlow("te"+i, "te"+i,"task"+i,"gateway2"));
             i++;
@@ -434,7 +435,7 @@ public class ProcessesService {
         //启动流程
         for (Map<String,String> str: userList) {
             try {
-                identityService.setAuthenticatedUserId((String)variables.get("userCode"));
+                identityService.setAuthenticatedUserId((String)variables.get("userId"));
                 ProcessInstance taskProcess =
                         runtimeService.startProcessInstanceByKey("taskProcess", businessKey, variables);
                 queryService.setAssigned(taskProcess.getProcessInstanceId(),str.get("name")+"接受任务",str.get("value"));
@@ -450,8 +451,8 @@ public class ProcessesService {
      * 拒绝动态任务
      * @return 成功/失败
      */
-    public boolean rejectLiveTask(String processInstanceId, String reason,String taskId,String userCode){
-        String userName = userService.selectUserByCode(userCode).getUserName();
+    public boolean rejectLiveTask(String processInstanceId, String reason,String taskId,String userId){
+        String userName = queryService.selectNameById(userId);
         String otherTalk = (String) runtimeService.getVariable(processInstanceId, "otherTalk");
         if (otherTalk==null){
             otherTalk="";
@@ -462,15 +463,15 @@ public class ProcessesService {
     }
 
     /**
-     * 根据用户工号查询他审批过的流程
-     * @param userCode 用户工号
+     * 根据用户ID查询他审批过的流程
+     * @param userId 用户ID
      * @param page 当前页码
      * @param num 每页显示条数
      */
-    public  Map<String,Object> queryCheckProcess(String userCode,int page, int num){
+    public  Map<String,Object> queryCheckProcess(String userId,int page, int num){
         List<Map<String,Object>> list = new LinkedList<>();
-        int size = queryService.queryCheckCountByCode(userCode);
-        List<Map<String, Object>> processList = queryService.queryCheckProcessByCode(userCode, page, num);
+        int size = queryService.queryCheckCountById(userId);
+        List<Map<String, Object>> processList = queryService.queryCheckProcessById(userId, page, num);
         for (Map<String, Object> process: processList) {
             Map<String,Object> variables=new HashMap<>();
             String processName= (String) process.get("processName");

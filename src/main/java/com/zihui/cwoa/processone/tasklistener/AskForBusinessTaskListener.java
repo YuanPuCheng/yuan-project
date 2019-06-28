@@ -1,5 +1,6 @@
 package com.zihui.cwoa.processone.tasklistener;
 
+import com.zihui.cwoa.processone.service.HumanService;
 import com.zihui.cwoa.processone.service.LeaveTaskService;
 import com.zihui.cwoa.system.config.SpringUtil;
 import org.activiti.engine.delegate.DelegateTask;
@@ -21,10 +22,10 @@ public class AskForBusinessTaskListener implements TaskListener {
      */
     public void notify(DelegateTask delegateTask) {
         List<String> list=new ArrayList<>();
-        String userCode = (String) delegateTask.getVariable("userCode");
+        String userId = (String) delegateTask.getVariable("userId");
         String userProject = (String) delegateTask.getVariable("userProject");
         List<Map> processSummary = (List<Map>) delegateTask.getVariable("processSummary");
-        int leavedays=(int) delegateTask.getVariable("leavedays");
+        int leaveDays=(int) delegateTask.getVariable("leaveDays");
         String leaveTime="";
         for (Map map: processSummary) {
             String indexName= (String) map.get("indexName");
@@ -34,16 +35,16 @@ public class AskForBusinessTaskListener implements TaskListener {
             }
         }
         String startTime = leaveTime.substring(0, 10);
-        list.add("('"+userCode+"','"+userProject+"',YEAR('"+startTime+"'),MONTH('"+startTime+"'),'"+startTime+"','出差')");
-        if (leavedays>1){
+        list.add("('"+userId+"','"+userProject+"',YEAR('"+startTime+"'),MONTH('"+startTime+"'),'"+startTime+"','出差')");
+        if (leaveDays>1){
             SimpleDateFormat sdt = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 Date parse = sdt.parse(startTime);
                 long parseTime = parse.getTime();
-                for (int i=1;i<leavedays;i++){
+                for (int i=1;i<leaveDays;i++){
                     Date date=new Date(parseTime+86400000*i);
                     String format = sdt.format(date);
-                    list.add("('"+userCode+"','"+userProject+"',YEAR('"+format+"'),MONTH('"+format+"'),'"+format+"','出差')");
+                    list.add("('"+userId+"','"+userProject+"',YEAR('"+format+"'),MONTH('"+format+"'),'"+format+"','出差')");
                 }
             } catch (ParseException e) {
                 e.printStackTrace();

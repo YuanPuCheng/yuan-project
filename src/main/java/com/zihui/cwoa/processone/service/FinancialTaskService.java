@@ -10,19 +10,19 @@ public class FinancialTaskService {
     @Autowired
     private FinancialTaskMapper financialTaskMapper;
 
-    public void insertMoneyFlowOut(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType){
-       financialTaskMapper.insertMoneyFlowOut(userCode, userProject, flowMoneyOut, processInstanceId,flowType);
+    public void insertMoneyFlowOut(String userId,String userProject,String flowMoneyOut,String processInstanceId,String flowType){
+       financialTaskMapper.insertMoneyFlowOut(userId, userProject, flowMoneyOut, processInstanceId,flowType);
     }
 
-    public void insertMoneyFlowIn(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType){
-        financialTaskMapper.insertMoneyFlowIn(userCode, userProject, flowMoneyOut, processInstanceId,flowType);
+    public void insertMoneyFlowIn(String userId,String userProject,String flowMoneyOut,String processInstanceId,String flowType){
+        financialTaskMapper.insertMoneyFlowIn(userId, userProject, flowMoneyOut, processInstanceId,flowType);
     }
-    public void insertProMoneyFlowIn(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType){
-        financialTaskMapper.insertProMoneyFlowIn(userCode, userProject, flowMoneyOut, processInstanceId,flowType);
+    public void insertProMoneyFlowIn(String userId,String userProject,String flowMoneyOut,String processInstanceId,String flowType){
+        financialTaskMapper.insertProMoneyFlowIn(userId, userProject, flowMoneyOut, processInstanceId,flowType);
     }
 
-    public void insertProMoneyFlowOut(String userCode,String userProject,String flowMoneyOut,String processInstanceId,String flowType){
-        financialTaskMapper.insertProMoneyFlowOut(userCode, userProject, flowMoneyOut, processInstanceId,flowType);
+    public void insertProMoneyFlowOut(String userId,String userProject,String flowMoneyOut,String processInstanceId,String flowType){
+        financialTaskMapper.insertProMoneyFlowOut(userId, userProject, flowMoneyOut, processInstanceId,flowType);
     }
 
 }

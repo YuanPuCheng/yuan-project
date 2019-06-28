@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@Service("HumanService")
 public class HumanService {
 
     @Autowired
@@ -21,10 +21,10 @@ public class HumanService {
      *  查询请假出差记录
      *  @return 查询结果
      */
-    public Map<String,Object> queryLeaveByVo(int size,String userCode, String project, String leaveYear,
+    public Map<String,Object> queryLeaveByVo(int size,String userId, String project, String leaveYear,
                                              String leaveMonth, int page, int limit){
         List<Map<String,Object>> queryLeaveByVo =
-                humanMapper.queryLeaveByVo(userCode,project,leaveYear,leaveMonth,page,limit);
+                humanMapper.queryLeaveByVo(userId,project,leaveYear,leaveMonth,page,limit);
         Map<String,Object> map =new HashMap<>();
         map.put("code",0);
         map.put("msg","请求成功");
@@ -37,17 +37,17 @@ public class HumanService {
      *  查询请假出差记录条数
      *  @return 查询结果
      */
-    public Integer countLeaveByVo(String userCode, String project, String leaveYear, String leaveMonth){
-        return humanMapper.countLeaveByVo(userCode,project,leaveYear,leaveMonth);
+    public Integer countLeaveByVo(String userId, String project, String leaveYear, String leaveMonth){
+        return humanMapper.countLeaveByVo(userId,project,leaveYear,leaveMonth);
     }
 
     /**
      *  查询用户的出差请假记录详情
      *  @return 查询结果
      */
-    public List<Map<String,Object>> queryLeaveDetail(String userCode, String project,
+    public List<Map<String,Object>> queryLeaveDetail(String userId, String project,
                                                String leaveYear, String leaveMonth){
-        return humanMapper.queryLeaveDetail(userCode,project,leaveYear,leaveMonth);
+        return humanMapper.queryLeaveDetail(userId,project,leaveYear,leaveMonth);
     }
 
     /**
@@ -55,17 +55,17 @@ public class HumanService {
      */
     public Map<String,Object> queryRoleAllUser(){
         List<RoleAllUser> roleAllUsers = humanMapper.queryRoleAllUser();
-        List<Map<String,String>> dataList=new ArrayList<>();
+        List<Map<String,Object>> dataList=new ArrayList<>();
         Map<String,Object> dataMap=new HashMap<>();
         for (RoleAllUser role: roleAllUsers) {
-            Map<String,String> map=new HashMap<>();
+            Map<String,Object> map=new HashMap<>();
             map.put("name",role.getRole_name());
             map.put("type","optgroup");
             dataList.add(map);
             for(sys_users user:role.getList()){
-                Map<String,String> map2=new HashMap<>();
+                Map<String,Object> map2=new HashMap<>();
                 map2.put("name",user.getUserName());
-                map2.put("value",user.getUserCode());
+                map2.put("value",user.getUserId());
                 dataList.add(map2);
             }
         }
@@ -94,5 +94,13 @@ public class HumanService {
      */
     public List<RoleAllUser> roleUser(){
         return humanMapper.queryRoleAllUser();
+    }
+
+    public String selectDepartmentById(String userId){
+        return humanMapper.selectDepartmentById(userId);
+    }
+
+    public List<Map<String,Object>> queryNameDepartment(){
+        return humanMapper.queryNameDepartment();
     }
 }
