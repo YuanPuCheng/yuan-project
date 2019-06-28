@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/test" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1557373505700" name="" targetNamespace="http://www.activiti.org/test" typeLanguage="http://www.w3.org/2001/XMLSchema">
-  <process id="highAskForTravel" isClosed="false" isExecutable="true" name="出差申请" processType="None">
+  <process id="highAskForTravel" isClosed="false" isExecutable="true" name="管理层出差申请" processType="None">
     <startEvent id="start" name="StartEvent"/>
     <userTask activiti:assignee="${firstMan}" activiti:exclusive="true" id="taskone" name="上级领导审批">
       <extensionElements>
