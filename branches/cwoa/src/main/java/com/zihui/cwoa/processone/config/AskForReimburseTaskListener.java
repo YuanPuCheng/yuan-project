@@ -1,6 +1,7 @@
 package com.zihui.cwoa.processone.config;
 
 import com.zihui.cwoa.processone.service.FinancialTaskService;
+import com.zihui.cwoa.processone.service.HumanService;
 import com.zihui.cwoa.system.config.SpringUtil;
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
@@ -17,7 +18,7 @@ public class AskForReimburseTaskListener implements TaskListener {
      */
     public void notify(DelegateTask delegateTask) {
         String processInstanceId = delegateTask.getProcessInstanceId();
-        String userCode = (String) delegateTask.getVariable("userCode");
+        String userId = (String) delegateTask.getVariable("userId");
         String userProject = (String) delegateTask.getVariable("userProject");
         List<Map> processSummary = (List<Map>) delegateTask.getVariable("processSummary");
         String flowMoneyIn=null;
@@ -32,6 +33,6 @@ public class AskForReimburseTaskListener implements TaskListener {
             }
         }
         FinancialTaskService financialTaskService= (FinancialTaskService) SpringUtil.getObject("finMoneyFlow");
-        financialTaskService.insertMoneyFlowIn(userCode, userProject, flowMoneyIn, processInstanceId,flowType);
+        financialTaskService.insertMoneyFlowIn(userId, userProject, flowMoneyIn, processInstanceId,flowType);
     }
 }

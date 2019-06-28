@@ -10,64 +10,64 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/pro")
 public class ProcessHtmlController {
 
-    @RequestMapping("/askforleave")
+    @RequestMapping("/askForLeave")
     public String askForLeave(){
-        return "process/askforleave";
+        return "process/askForLeave";
     }
 
-    @RequestMapping("/queryprocess")
+    @RequestMapping("/queryProcess")
     public String queryProcess(){
-        return "process/queryprocess";
+        return "process/queryProcess";
     }
 
-    @RequestMapping("/querytask")
+    @RequestMapping("/queryTask")
     public String queryTask(){
-        return "process/querytask";
+        return "process/queryTask";
     }
 
-    @RequestMapping("/queryendprocess")
+    @RequestMapping("/queryEndProcess")
     public String queryEndProcess(){
-        return "process/queryendprocess";
+        return "process/queryEndProcess";
     }
 
-    @RequestMapping("/createprocess")
+    @RequestMapping("/createProcess")
     public String createProcess(){
-        return "process/createprocess";
+        return "process/createProcess";
     }
 
-    @RequestMapping("/askforbusiness")
+    @RequestMapping("/askForBusiness")
     public String askForBusiness(){
-        return "process/askforbusiness";
+        return "process/askForBusiness";
     }
 
-    @RequestMapping("/askforreimburse")
+    @RequestMapping("/askForReimburse")
     public String askForReimburse(){
-        return "process/askforreimburse";
+        return "process/askForReimburse";
     }
 
-    @RequestMapping("/queryprocessbyvo")
+    @RequestMapping("/queryProcessByVo")
     public String queryProcessByVo(){
-        return "process/queryprocessbyvo";
+        return "process/queryProcessByVo";
     }
 
-    @RequestMapping("/liveprocess")
+    @RequestMapping("/liveProcess")
     public String liveProcess(){
-        return "process/liveprocess";
+        return "process/liveProcess";
     }
 
-    @RequestMapping("/askformoney")
+    @RequestMapping("/askForMoney")
     public String askForMoney(){
-        return "process/askformoney";
+        return "process/askForMoney";
     }
 
-    @RequestMapping("/askforproreimburse")
+    @RequestMapping("/askForProReimburse")
     public String askForProReimburse(){
-        return "process/askforproreimburse";
+        return "process/askForProReimburse";
     }
 
-    @RequestMapping("/askforpromoney")
+    @RequestMapping("/askForProMoney")
     public String askForProMoney(){
-        return "process/askforpromoney";
+        return "process/askForProMoney";
     }
 
     @RequestMapping("/queryCheckProcessHtml")

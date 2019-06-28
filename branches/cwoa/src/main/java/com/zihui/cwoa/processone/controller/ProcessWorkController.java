@@ -2,7 +2,6 @@ package com.zihui.cwoa.processone.controller;
 
 import com.zihui.cwoa.processone.service.ProcessesService;
 import com.zihui.cwoa.processone.service.QueryService;
-import com.zihui.cwoa.system.pojo.sys_users;
 import com.zihui.cwoa.system.service.sys_userService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,6 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +36,7 @@ public class ProcessWorkController {
      * @param processName 传入流程定义的key
      * @return 成功/失败 true/false
      */
-    @RequestMapping("/deployprocess")
+    @RequestMapping("/deployProcess")
     @ResponseBody
     public boolean deployProcess(String processName) {
         String processPath = "processes/"+processName+".bpmn";
@@ -47,56 +45,56 @@ public class ProcessWorkController {
 
     /**
      * 查询用户任务
-     * @param userCode 用户工号
+     * @param userId 用户ID
      * @return 用户的任务信息
      */
-    @RequestMapping("/querytask")
+    @RequestMapping("/queryTask")
     @ResponseBody
-    public Map<String, Object> queryTask(String userCode,int page, int num) {
-        return processesService.queryTask(userCode,page,num);
+    public Map<String, Object> queryTask(String userId,int page, int num) {
+        return processesService.queryTask(userId,page,num);
     }
 
     /**
      * 查询用户任务数量
-     * @param userCode 用户工号
+     * @param userId 用户ID
      * @return 用户的任务数量
      */
-    @RequestMapping("/counttask")
+    @RequestMapping("/countTask")
     @ResponseBody
-    public Integer countTask(String userCode) {
-        return queryService.queryTaskCountByCode(userCode);
+    public Integer countTask(Integer userId) {
+        return queryService.queryTaskCountById(userId);
     }
 
     /**
-     * 根据用户工号查询他发起的还在审批中的流程
-     * @param userCode 用户工号
+     * 根据用户ID查询他发起的还在审批中的流程
+     * @param userId 用户ID
      * @return 查询结果
      */
-    @RequestMapping("/queryprocess")
+    @RequestMapping("/queryProcess")
     @ResponseBody
-    public Map<String, Object> queryProcess(String userCode,int page, int num) {
-        return processesService.queryProcess(userCode,page,num);
+    public Map<String, Object> queryProcess(String userId,int page, int num) {
+        return processesService.queryProcess(userId,page,num);
     }
 
     /**
-     * 根据用户工号查询他发起的已经结束的流程
-     * @param userCode 用户工号
+     * 根据用户ID查询他发起的已经结束的流程
+     * @param userId 用户ID
      * @param page 要显示的第一条流程在数组中的编号
      * @param num 每页显示条数
      * @return 查询结果
      */
-    @RequestMapping("/queryendprocess")
+    @RequestMapping("/queryEndProcess")
     @ResponseBody
-    public Map<String, Object> queryEndProcess(String userCode,int page,int num) {
-        return processesService.queryEndProcess(userCode,page,num);
+    public Map<String, Object> queryEndProcess(String userId,int page,int num) {
+        return processesService.queryEndProcess(userId,page,num);
     }
 
     /**
      * 办理人同意流程执行到下一步
-     * @param taskId 用户工号
+     * @param taskId 用户ID
      * @return 成功/失败 true/false
      */
-    @RequestMapping("/completetask")
+    @RequestMapping("/completeTask")
     @ResponseBody
     public boolean completeTask(String taskId) {
         return processesService.completeTask(taskId);
@@ -108,12 +106,12 @@ public class ProcessWorkController {
      * @param reason            不同意的理由
      * @return 成功/失败 true/false
      */
-    @RequestMapping("/deleteprocessinstance")
+    @RequestMapping("/deleteProcessInstance")
     @ResponseBody
     public boolean deleteProcessInstance(String processInstanceId, String reason,
-                                         String taskId,String processName,String userCode) {
+                                         String taskId,String processName,String userId) {
         if ("动态任务".equals(processName)){
-            return processesService.rejectLiveTask(processInstanceId, reason,taskId,userCode);
+            return processesService.rejectLiveTask(processInstanceId, reason,taskId,userId);
         }
         return processesService.deleteProcessInstance(processInstanceId, reason);
     }
@@ -123,7 +121,7 @@ public class ProcessWorkController {
      * @param processInstanceId 流程实例Id
      * @return 查询结果
      */
-    @RequestMapping("/queryprocessdetail")
+    @RequestMapping("/queryProcessDetail")
     @ResponseBody
     public Map<String, Object> queryProcessDetail(String processInstanceId) {
         return processesService.queryProcessDetail(processInstanceId);
@@ -177,7 +175,7 @@ public class ProcessWorkController {
      * @param deploymentId 流程部署Id
      * @return 流程图的输出流
      */
-    @RequestMapping("/downloadpng")
+    @RequestMapping("/downloadPng")
     public String downloadPng(HttpServletResponse response, String deploymentId) {
         Long currentTimeMillis = System.currentTimeMillis();
         String fileName=currentTimeMillis.toString();
@@ -221,7 +219,7 @@ public class ProcessWorkController {
      * @param date 日期
      * @return 查询结果
      */
-    @RequestMapping("/queryprocessbyvo")
+    @RequestMapping("/queryProcessByVo")
     @ResponseBody
     public Map<String,Object> queryProcessByVo(String processDefinitionKey,String userName
             ,Long date,int page,int num) {
@@ -229,10 +227,22 @@ public class ProcessWorkController {
     }
 
     /**
+     * 根据用户ID查询他审批过的流程
+     * @param userId 用户ID
+     * @param page 当前页码
+     * @param num 每页显示条数
+     */
+    @RequestMapping("/queryCheckProcess")
+    @ResponseBody
+    public  Map<String,Object> queryCheckProcess(String userId,int page, int num){
+        return processesService.queryCheckProcess(userId,page,num);
+    }
+
+    /**
      * 启动动态流程
      * @return 成功/失败 true/false
      */
-    @RequestMapping("/startliveprocess")
+    @RequestMapping("/startLiveProcess")
     @ResponseBody
     public boolean startLiveProcess(@RequestBody Map<String, Object> variables) {
         return processesService.createLiveProcess(variables);
@@ -242,7 +252,7 @@ public class ProcessWorkController {
      * 启动动态任务
      * @return 成功/失败 true/false
      */
-    @RequestMapping("/startlivetask")
+    @RequestMapping("/startLiveTask")
     @ResponseBody
     public boolean startLiveTask(@RequestBody Map<String, Object> variables) {
         return processesService.startManyProcess(variables);
@@ -252,60 +262,60 @@ public class ProcessWorkController {
      * 启动公司请款流程
      * @return 成功/失败 true/false
      */
-    @RequestMapping("/askformoney")
+    @RequestMapping("/askForMoney")
     @ResponseBody
     public boolean startAskForMoney(@RequestBody Map<String, Object> variables) {
-        variables.put("firstman", user_service.userRoleQuery(1, null).get(0).getUserCode());
-        variables.put("secondman", user_service.userRoleQuery(12, 41).get(0).getUserCode());
-        return processesService.startProcess("askformoney", variables);
+        variables.put("firstMan", user_service.userRoleQuery(1, null).get(0).getUserId());
+        variables.put("secondMan", user_service.userRoleQuery(12, 41).get(0).getUserId());
+        return processesService.startProcess("askForMoney", variables);
     }
 
     /**
      * 启动公司报销流程
      * @return 成功/失败 true/false
      */
-    @RequestMapping("/askforreimburse")
+    @RequestMapping("/askForReimburse")
     @ResponseBody
     public boolean startAskForReimburse(@RequestBody Map<String, Object> variables) {
         Integer projectId = Integer.parseInt((String) variables.get("projectId"));
         variables.remove("projectId");
-        variables.put("firstman", user_service.userRoleQuery(2, projectId).get(0).getUserCode());
-        variables.put("secondman", user_service.userRoleQuery(12, 41).get(0).getUserCode());
-        return processesService.startProcess("askforreimburse", variables);
+        variables.put("firstMan", user_service.userRoleQuery(2, projectId).get(0).getUserId());
+        variables.put("secondMan", user_service.userRoleQuery(12, 41).get(0).getUserId());
+        return processesService.startProcess("askForReimburse", variables);
     }
 
     /**
      * 启动项目报销流程
      * @return 成功/失败 true/false
      */
-    @RequestMapping("/askforproreimburse")
+    @RequestMapping("/askForProReimburse")
     @ResponseBody
     public boolean startAskForProReimburse(@RequestBody Map<String, Object> variables) {
         Integer projectId = Integer.parseInt((String) variables.get("projectId"));
         variables.remove("projectId");
-        variables.put("firstman", user_service.userRoleQuery(2, projectId).get(0).getUserCode());
-        return processesService.startProcess("askforproreimburse", variables);
+        variables.put("firstMan", user_service.userRoleQuery(2, projectId).get(0).getUserId());
+        return processesService.startProcess("askForProReimburse", variables);
     }
 
     /**
      * 启动项目请款流程
      * @return 成功/失败 true/false
      */
-    @RequestMapping("/askforpromoney")
+    @RequestMapping("/askForProMoney")
     @ResponseBody
     public boolean startAskForProMoney(@RequestBody Map<String, Object> variables) {
         Integer projectId = Integer.parseInt((String) variables.get("projectId"));
         variables.remove("projectId");
-        variables.put("firstman", user_service.userRoleQuery(2, projectId).get(0).getUserCode());
-        return processesService.startProcess("askforpromoney", variables);
+        variables.put("firstMan", user_service.userRoleQuery(2, projectId).get(0).getUserId());
+        return processesService.startProcess("askForProMoney", variables);
     }
 
     /**
-     * 启动请假或者流程
+     * 启动请假或者出差流程
      * @param variables 流程变量
      * @return 成功/失败 true/false
      */
-    @RequestMapping("/startaskforleave")
+    @RequestMapping("/startAskForLeave")
     @ResponseBody
     public boolean startAskForLeave(@RequestBody Map<String, Object> variables) {
         String processKey=(String) variables.get("processKey");
@@ -316,7 +326,6 @@ public class ProcessWorkController {
         variables.remove("userRole");
         String[] split = roleName.split("、");
         Integer roleId=999;
-        System.out.println(roleName);
         for (String str: split) {
             Integer tempId=queryService.queryManagerIdByRoleName(str);
             if (tempId<roleId){
@@ -328,30 +337,24 @@ public class ProcessWorkController {
             if (roleId==1){
                 upProjectId=41;
             }
-            if ("askforleave".equals(processKey)){
+            if ("askForLeave".equals(processKey)){
                 processKey="highAskForLeave";
             }else {
                 processKey="highAskForTravel";
             }
         }
-        List<sys_users> sys_users1 = user_service.userRoleQuery(roleId,upProjectId);
-        String userCode1 = sys_users1.get(0).getUserCode();
-        List<sys_users> sys_users2 = user_service.userRoleQuery(2,Integer.parseInt(projectId));
-        String userCode2 = sys_users2.get(0).getUserCode();
-        variables.put("firstman", userCode1);
-        variables.put("secondman", userCode2);
+        variables.put("firstMan", user_service.userRoleQuery(roleId,upProjectId).get(0).getUserId());
+        variables.put("secondMan", user_service.userRoleQuery(2,Integer.parseInt(projectId)).get(0).getUserId());
         return processesService.startProcess(processKey, variables);
     }
 
     /**
-     * 根据用户工号查询他审批过的流程
-     * @param userCode 用户工号
-     * @param page 当前页码
-     * @param num 每页显示条数
+     * 条件查询流程下拉菜单
+     * @return json
      */
-    @RequestMapping("/queryCheckProcess")
+    @RequestMapping("/selectProcessSelect")
     @ResponseBody
-    public  Map<String,Object> queryCheckProcess(String userCode,int page, int num){
-        return processesService.queryCheckProcess(userCode,page,num);
+    public List<Map<String,Object>> selectProcessSelect(){
+        return queryService.selectProcessSelect();
     }
 }

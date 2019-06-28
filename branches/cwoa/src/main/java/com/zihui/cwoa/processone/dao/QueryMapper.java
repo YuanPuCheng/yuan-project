@@ -12,46 +12,33 @@ public interface QueryMapper {
 
     /**
      *  根据流程实例ID查询流程状态
-     *  @param processInstanceId 流程实例ID
-     *  @return 流程状态
      */
-    String queryProStatuByProInstanceId(String processInstanceId);
-
+    String queryProStatusByProInstanceId(String processInstanceId);
 
     /**
-     *  根据用户名查用户工号
-     *  @param userName 用户名
-     *  @return 用户工号
+     *  根据用户名查用户ID
      */
-    String queryCodeByName(String userName);
+    String queryIdByName(String userName);
 
     /**
-     *  根据用户工号查询用户在途流程数
-     *  @param userCode 用户工号
-     *  @return 查询结果
+     *  根据用户ID查询用户在途流程数
      */
-    Integer queryActProCountByCode(String userCode);
+    Integer queryActProCountById(String userId);
 
     /**
-     *  根据用户工号查询用户结束流程数
-     *  @param userCode 用户工号
-     *  @return 查询结果
+     *  根据用户ID查询用户结束流程数
      */
-    Integer queryEndProCountByCode(String userCode);
+    Integer queryEndProCountById(String userId);
 
     /**
-     *  根据用户工号查询用户任务数
-     *  @param userCode 用户工号
-     *  @return 查询结果
+     *  根据用户ID查询用户任务数
      */
-    Integer queryTaskCountByCode(String userCode);
+    Integer queryTaskCountById(Integer userId);
 
     /**
-     *  根据用户工号查询用户任务数
-     *  @param processInstanceId 流程实例ID
-     *  @param userCode 用户工号
+     *  设置任务办理人
      */
-    void setAssigned(String processInstanceId,String taskName,String userCode);
+    void setAssigned(String processInstanceId,String taskName,String userId);
 
     /**
      *  根据角色名查询它的直接上级角色的ID
@@ -59,10 +46,19 @@ public interface QueryMapper {
     Integer queryManagerIdByRoleName(String roleName);
 
     /**
-     *  根据用户工号查询用户审批的流程数
-     *  @param userCode 用户工号
+     *  根据用户ID查询用户审批的流程数
      */
-    Integer queryCheckCountByCode(String userCode);
+    Integer queryCheckCountById(String userId);
 
-    List<Map<String,Object>> queryCheckProcessByCode(Map<String,Object> map);
+    /**
+     *  根据用户ID查询用户审批的流程
+     */
+    List<Map<String,Object>> queryCheckProcessById(Map<String,Object> map);
+
+    /**
+     *  根据用户ID查询用户用户姓名
+     */
+    String selectNameById(String userId);
+
+    List<Map<String,Object>> selectProcessSelect();
 }

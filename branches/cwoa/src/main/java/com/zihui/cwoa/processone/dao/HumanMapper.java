@@ -11,22 +11,19 @@ public interface HumanMapper {
 
     /**
      *  查询请假出差记录
-     *  @return 查询结果
      */
-    List<Map<String,Object>> queryLeaveByVo(String userCode, String project, String leaveYear,
+    List<Map<String,Object>> queryLeaveByVo(String userId, String project, String leaveYear,
                                             String leaveMonth, int page, int limit);
 
     /**
      *  查询请假出差记录条数
-     *  @return 查询结果
      */
-    Integer countLeaveByVo(String userCode, String project, String leaveYear, String leaveMonth);
+    Integer countLeaveByVo(String userId, String project, String leaveYear, String leaveMonth);
 
     /**
      *  查询用户的出差请假记录详情
-     *  @return 查询结果
      */
-    List<Map<String,Object>> queryLeaveDetail(String userCode, String project, String leaveYear, String leaveMonth);
+    List<Map<String,Object>> queryLeaveDetail(String userId, String project, String leaveYear, String leaveMonth);
 
     /**
      *  查询所有角色及该角色下的所有用户
@@ -42,4 +39,14 @@ public interface HumanMapper {
      *  查询角色用以下拉框选择
      */
     List<Map<String,Object>> queryRoleSelect();
+
+    /**
+     *  根据用户ID查询用户部门
+     */
+    String selectDepartmentById(String userId);
+
+    /**
+     *  根据所有用户名字部门
+     */
+    List<Map<String,Object>> queryNameDepartment();
 }

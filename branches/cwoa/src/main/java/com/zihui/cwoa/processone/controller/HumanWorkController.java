@@ -42,17 +42,17 @@ public class HumanWorkController {
     @ResponseBody
     public Map<String,Object> countLeaveByVo(String userName, String project,
                                              String leaveYear, String leaveMonth){
-        String userCode=null;
+        String userId=null;
         Map<String,Object> map =new HashMap<>();
         if(userName!=null && !userName.equals("")){
-            userCode = queryService.queryCodeByName(userName);
-            if(userCode==null){
+            userId = queryService.queryIdByName(userName);
+            if(userId==null){
                 map.put("count",0);
                 return map;
             }
         }
-        map.put("userCode",userCode);
-        map.put("count",humanService.countLeaveByVo(userCode,project,leaveYear,leaveMonth));
+        map.put("userCode",userId);
+        map.put("count",humanService.countLeaveByVo(userId,project,leaveYear,leaveMonth));
         return map;
     }
 
@@ -105,5 +105,15 @@ public class HumanWorkController {
     @ResponseBody
     public List<RoleAllUser> roleUser(){
         return humanService.roleUser();
+    }
+
+    /**
+     *  查询所有用户名字和部门
+     *  @return json
+     */
+    @RequestMapping("/queryNameDepartment")
+    @ResponseBody
+    public List<Map<String,Object>> queryNameDepartment(){
+        return humanService.queryNameDepartment();
     }
 }
