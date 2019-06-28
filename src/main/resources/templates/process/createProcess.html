@@ -29,10 +29,10 @@
 				<div class="layui-colla-content layui-show">
 					<div class="layui-row">
 						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
-							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/askforleave">请假申请</button>
+							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/askForLeave">请假申请</button>
 						</div>
 						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
-							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/askforbusiness">出差申请</button>
+							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/askForBusiness">出差申请</button>
 						</div>
 					</div>
 				</div>
@@ -42,16 +42,16 @@
 				<div class="layui-colla-content layui-show">
 					<div class="layui-row">
 						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
-							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/askformoney">公司请款申请</button>
+							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/askForMoney">公司请款申请</button>
 						</div>
 						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
-							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/askforreimburse">公司报销申请</button>
+							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/askForReimburse">公司报销申请</button>
 						</div>
 						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
-							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/askforpromoney">项目请款申请</button>
+							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/askForProMoney">项目请款申请</button>
 						</div>
 						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
-							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/askforproreimburse">项目报销申请</button>
+							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/askForProReimburse">项目报销申请</button>
 						</div>
 					</div>
 				</div>
@@ -61,7 +61,7 @@
 				<div class="layui-colla-content layui-show">
 					<div class="layui-row">
 						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
-							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/liveprocess">办公物品采购</button>
+							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/liveProcess">办公物品采购</button>
 						</div>
 						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
 							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/askforleave">生产物品采购</button>
@@ -69,13 +69,26 @@
 					</div>
 				</div>
 			</div>
+			<div class="layui-colla-item">
+				<h2 class="layui-colla-title">行政类</h2>
+				<div class="layui-colla-content layui-show">
+					<div class="layui-row">
+						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
+							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/liveProcess">用车申请</button>
+						</div>
+						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
+							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/liveProcess">还车申请</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
         <div style="display: none">
-            <span id="userCode" name="" title="工号"></span>
+            <span id="userId" name="" title="ID"></span>
             <span id="userName" name="" title="姓名"></span>
             <span id="userDepartmentName" name="" title="部门"></span>
             <span id="userProject" name="" title="项目"></span>
-			<span id="userrole" name="" title="角色"></span>
+			<span id="userRole" name="" title="角色"></span>
         </div>
 		<script src="./../../static/layui/layui.js"></script>
 		<script>
@@ -114,8 +127,8 @@
                     $('#userName').attr("name",$("#userName",parent.document).attr("name"));
                     $('#userDepartmentName').attr("name",$("#userDepartmentName",parent.document).attr("name"));
                     $('#userProject').attr("name",$("#userProject",parent.document).attr("name"));
-                    $('#userCode').attr("name",$("#userCode",parent.document).attr("name"));
-                    $('#userrole').attr("name",$("#userrole",parent.document).attr("name"));
+                    $('#userId').attr("name",$("#userId",parent.document).attr("name"));
+                    $('#userRole').attr("name",$("#userRole",parent.document).attr("name"));
                 });
 			});
 			//]]>
