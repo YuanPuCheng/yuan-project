@@ -31,7 +31,6 @@
 		<table class="layui-hide" id="test" lay-filter="test"></table>
 
 		<script type="text/html" id="toolbarDemo">
-
 			<button class="layui-btn layui-btn-sm" lay-event="add">新增车辆</button>
 			<button class="layui-btn layui-btn-sm" lay-event="delMany">批量删除</button>
 		</script>
@@ -65,14 +64,98 @@
                 var userList=[];
                 var ajaxClick = false;  //用以控制用户多次点击多次请求服务器
 				var dataUrl='';
-                var dataSize=0;
+                var dataSize=0;  //车辆总数
                 var carId=0;
                 var nowPage=1;
+                var useDataSize=0;  //车辆使用信息总数
                 var widthMax = "70%",
                     heightMax = "80%";
                 if($(window).width() < 768) {
                     widthMax = "99%";
                     heightMax = "85%";
+                }
+				function showUseMan(man) {
+                    if(man===''){
+                        return '无';
+                    }
+                    man=man*1;
+                    var len=userList.length;
+                    for(var i=0;i<len;i++){
+                        if(userList[i].userId*1===man){
+                            return userList[i].userName;
+                        }
+                    }
+                    return '系统错误';
+                }
+                function getCarUseTable(carId,carLicense) {
+                    var flag=true;
+                    $.ajax({
+                        url: '/car/countCarUse',
+                        type: "get",
+						data:{"carId":carId},
+                        dataType: "text",
+                        success: function(result) { //请求成功的回调
+                            useDataSize=result;
+                            table.render({
+                                elem: '#carUseDataTable',
+                                url: '/car/queryCarUse',
+                                title: carLicense+'使用台帐',
+                                cellMinWidth: 100,
+                                where: {
+                                    "carId":carId,
+                                    "size": useDataSize
+                                },
+                                cols: [
+                                    [{
+                                        type: 'numbers',
+                                        title: '序号'
+                                    },{
+                                        field: 'use_car',
+                                        title: '车牌号',
+                                        width: 100,
+                                        templet: function() {
+                                            return carLicense
+                                        }
+                                    },{
+                                        field: 'use_user',
+                                        title: '借车人',
+                                        width: 120,
+                                        templet: function(res) {
+                                            return showUseMan(res.use_user)
+                                        }
+                                    },{
+                                        field: 'use_start',
+                                        title: '借车时间',
+                                        width: 180,
+                                        templet: function(res) {
+                                            return layui.util.toDateString(res.use_start, 'yyyy-MM-dd HH:mm:ss')
+                                        }
+                                    }, {
+                                        field: 'use_end',
+                                        title: '还车时间',
+                                        width: 180,
+                                        templet: function(res) {
+                                            if(typeof res.use_end==='undefined' || res.use_end==='undefined' || res.use_end ==='' || res.use_end===null){
+                                                return '未还车'
+                                            }
+                                            return layui.util.toDateString(res.use_end, 'yyyy-MM-dd HH:mm:ss')
+                                        }
+                                    }, {
+                                        field: 'use_reason',
+                                        title: '借车理由'
+                                    }]
+                                ],
+                                page: true
+                            });
+                        },
+                        error: function() { //请求失败的回调
+                            layer.msg('发生了未知错误！', {
+                                icon: 2
+                            });
+                            flag=false;
+                        }
+                    });
+                    return flag;
                 }
                 function getTable() {
                     $.ajax({
@@ -117,6 +200,13 @@
                                             return res.car_status === 0 ? '空闲' : res.car_status === 1 ? '使用中' : res.car_status === 2 ? '维修保养中' : '报废'
                                         }
                                     },{
+                                        field: 'now_user',
+                                        title: '在用人',
+                                        width: 120,
+                                        templet: function(res) {
+                                            return showUseMan(res.now_user)
+                                        }
+                                    },{
                                         field: 'car_need_role',
                                         title: '可用人员',
                                         templet: function(res) {
@@ -125,6 +215,7 @@
                                     },{
                                         field: 'car_manager',
                                         title: '管理人',
+                                        width: 120,
                                         templet: function(res) {
                                             return showManager(res.car_manager)
                                         }
@@ -376,7 +467,16 @@
 				table.on('tool(test)', function(obj) {
 					var data = obj.data;
 					if(obj.event === 'query') {
-
+						var flag=getCarUseTable(data.car_id,data.car_license);
+						if(flag){
+						    $('#carUseDataTitle').text(data.car_license+'借车记录');
+                            layer.open({
+                                type: 1,
+                                shadeClose: true,
+                                area: [widthMax, heightMax], //宽高
+                                content: $('#carUseDataBox')
+                            });
+						}
 					} else if(obj.event === 'edit') {
                         dataUrl='/car/updateCar';
                         carId=data.car_id;
@@ -572,4 +672,10 @@
 		<button type="button" class="layui-btn layui-btn-lg chwstyle" id="goNot">取消</button>
 	</div>
 
+	<div id="carUseDataBox" style="display: none">
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend style="font-size: 21px;font-weight: 500;" id="carUseDataTitle">使用记录</legend>
+		</fieldset>
+		<table class="layui-hide" id="carUseDataTable" lay-filter="carUseDataTable"></table>
+	</div>
 </html>
