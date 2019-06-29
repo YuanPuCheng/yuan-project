@@ -1,7 +1,6 @@
 package com.zihui.cwoa.processone.tasklistener;
 
 import com.zihui.cwoa.processone.service.FinancialTaskService;
-import com.zihui.cwoa.processone.service.HumanService;
 import com.zihui.cwoa.system.config.SpringUtil;
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
@@ -25,10 +24,10 @@ public class AskForProMoneyTaskListener implements TaskListener {
         String flowType=null;
         for (Map map: processSummary) {
             String indexName= (String) map.get("indexName");
-            if(indexName.equals("请款类型")){
+            if("请款类型".equals(indexName)){
                 flowType= (String) map.get("indexValue");
             }
-            if(indexName.equals("请款金额")){
+            if("请款金额".equals(indexName)){
                 flowMoneyOut= (String) map.get("indexValue");
             }
         }

@@ -1,7 +1,6 @@
 package com.zihui.cwoa.processone.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -60,5 +59,8 @@ public interface QueryMapper {
      */
     String selectNameById(String userId);
 
+    /**
+     * 条件查询页面流程下拉菜单选择框
+     */
     List<Map<String,Object>> selectProcessSelect();
 }

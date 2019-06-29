@@ -1,7 +1,6 @@
 package com.zihui.cwoa.processone.config;
 
 import com.zihui.cwoa.processone.service.FinancialTaskService;
-import com.zihui.cwoa.processone.service.HumanService;
 import com.zihui.cwoa.system.config.SpringUtil;
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
@@ -25,10 +24,10 @@ public class AskForReimburseTaskListener implements TaskListener {
         String flowType=null;
         for (Map map: processSummary) {
             String indexName= (String) map.get("indexName");
-            if(indexName.equals("报销金额")){
+            if("报销金额".equals(indexName)){
                 flowMoneyIn= (String) map.get("indexValue");
             }
-            if(indexName.equals("报销类型")){
+            if("报销类型".equals(indexName)){
                 flowType= (String) map.get("indexValue");
             }
         }

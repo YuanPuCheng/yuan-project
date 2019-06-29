@@ -28,7 +28,7 @@ public class AskForLeaveTaskListener implements TaskListener {
         String leaveTime="";
         for (Map map: processSummary) {
             String indexName= (String) map.get("indexName");
-            if(indexName.equals("请假时间")){
+            if("请假时间".equals(indexName)){
                 leaveTime= (String) map.get("indexValue");
 
             }

@@ -93,6 +93,9 @@ public class QueryService {
     }
 
 
+    /**
+     * 条件查询页面流程下拉菜单选择框
+     */
     @Cacheable(key="'selectProcessSelect'")
     public List<Map<String,Object>> selectProcessSelect(){
         return queryMapper.selectProcessSelect();
