@@ -1,6 +1,5 @@
 package com.zihui.cwoa.processone.tasklistener;
 
-import com.zihui.cwoa.processone.service.HumanService;
 import com.zihui.cwoa.processone.service.LeaveTaskService;
 import com.zihui.cwoa.system.config.SpringUtil;
 import org.activiti.engine.delegate.DelegateTask;
@@ -29,7 +28,7 @@ public class AskForBusinessTaskListener implements TaskListener {
         String leaveTime="";
         for (Map map: processSummary) {
             String indexName= (String) map.get("indexName");
-            if(indexName.equals("出差时间")){
+            if("出差时间".equals(indexName)){
                 leaveTime= (String) map.get("indexValue");
 
             }

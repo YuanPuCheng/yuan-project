@@ -357,4 +357,24 @@ public class ProcessWorkController {
     public List<Map<String,Object>> selectProcessSelect(){
         return queryService.selectProcessSelect();
     }
+
+    /**
+     * 启动借车流程
+     * @return text
+     */
+    @RequestMapping("/getCar")
+    @ResponseBody
+    public boolean startGetCar(@RequestBody Map<String, Object> variables) {
+        return processesService.startProcess("getCar", variables);
+    }
+
+    /**
+     * 启动还车流程
+     * @return text
+     */
+    @RequestMapping("/returnCar")
+    @ResponseBody
+    public boolean startReturnCar(@RequestBody Map<String, Object> variables) {
+        return processesService.startProcess("returnCar", variables);
+    }
 }
