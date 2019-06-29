@@ -82,7 +82,7 @@
 								var len=data.length;
                                 if(len>0){
                                     for(var i=0;i<len;i++){
-                                        $('#car').append('<option carId="'+data[i].car_id+'" value="'+data[i].car_manager+'">'+data[i].car_license+'</option>');
+                                        $('#car').append('<option carId="'+data[i].car_manager+'" value="'+data[i].car_id+'">'+data[i].car_license+'</option>');
                                     }
                                     form.render('select');
                                 }else {
@@ -98,9 +98,9 @@
                     }
 				});
 				$("#go").click(function() {
-                    var carManager=$('#car option:selected').prop("value");
+                    var carId=$('#car option:selected').prop("value");
                     var car=$('#car option:selected').text();
-                    var carId=$('#car option:selected').attr("carId");
+                    var carManager=$('#car option:selected').attr("carId");
                     var userProject = $("#userProject", parent.document).attr("name");
                     if(carManager === "") {
                         layer.msg('请选择要还的车辆！');
