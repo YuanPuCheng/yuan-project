@@ -3,8 +3,8 @@
   <process id="getCar" isClosed="false" isExecutable="true" name="用车申请" processType="None">
     <startEvent id="start" name="StartEvent"/>
     <userTask activiti:assignee="${firstMan}" activiti:exclusive="true" id="taskone" name="管理人确认">
-      <extensionElements>
-        <activiti:taskListener class="com.zihui.cwoa.processone.tasklistener.AskForLeaveTaskListener" event="complete"/>
+	  <extensionElements>
+        <activiti:taskListener class="com.zihui.cwoa.politics.cartask.GetCarTaskListener" event="complete"/>
       </extensionElements>
     </userTask>
     <endEvent id="end" name="EndEvent"/>
