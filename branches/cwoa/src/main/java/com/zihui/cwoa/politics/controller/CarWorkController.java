@@ -54,8 +54,19 @@ public class CarWorkController {
      */
     @RequestMapping("/queryCarUse")
     @ResponseBody
-    public List<Map<String,Object>> queryCarUse(String carId, int page, int limit){
-        return carService.queryCarUse(carId, page, limit);
+    public Map<String,Object> queryCarUse(String carId, int size,int page, int limit){
+        page=(page-1)*limit;
+        return carService.queryCarUse(carId,size, page, limit);
+    }
+
+    /**
+     *  查询车辆使用信息数量
+     *  @return text
+     */
+    @RequestMapping("/countCarUse")
+    @ResponseBody
+    public Integer countCarUse(String carId){
+        return carService.countCarUse(carId);
     }
 
     /**
@@ -88,4 +99,23 @@ public class CarWorkController {
         return carService.updateCar(map);
     }
 
+    /**
+     *  查询空闲的车辆
+     *  @return text
+     */
+    @RequestMapping("/getFreeCar")
+    @ResponseBody
+    public List<Map<String,Object>> getFreeCar(){
+        return carService.getFreeCar();
+    }
+
+    /**
+     *  查询可还车辆
+     *  @return text
+     */
+    @RequestMapping("/getReturnCar")
+    @ResponseBody
+    public List<Map<String,Object>> getReturnCar(String userId){
+        return carService.getReturnCar(userId);
+    }
 }

@@ -13,6 +13,16 @@ public class CarHtmlController {
 
     @RequestMapping("/manageCarHtml")
     public String manageCarHtml(){
-        return "politics/manageCar";
+        return "politics/car/manageCar";
+    }
+
+    @RequestMapping("/getCarHtml")
+    public String getCarHtml(){
+        return "politics/car/getCar";
+    }
+
+    @RequestMapping("/returnCarHtml")
+    public String getReturnHtml(){
+        return "politics/car/returnCar";
     }
 }
