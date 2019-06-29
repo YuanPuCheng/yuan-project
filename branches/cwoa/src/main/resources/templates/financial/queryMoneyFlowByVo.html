@@ -289,6 +289,12 @@
 				var table = layui.table;
 				var element = layui.element;
 				var form = layui.form;
+                var widthMax = "70%",
+                    heightMax = "80%";
+                if($(window).width() < 768) {
+                    widthMax = "99%";
+                    heightMax = "85%";
+                }
                 function createTable() {
                     table.on('tool(demoEvent)', function(obj) {
                         var data = obj.data;
@@ -324,7 +330,6 @@
                                         layer.open({
                                             type: 1,
                                             shadeClose: true,
-                                            skin: 'layui-layer-rim', //加上边框
                                             area: ['99%', '85%'], //宽高
                                             content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>流程详情</legend></fieldset>' +
                                             '<div class="layui-form"><table class="layui-table"><colgroup><col width="150"><col width="150"></colgroup>' +
@@ -346,7 +351,7 @@
                     layer.open({
                         type: 1,
                         shadeClose: true,
-                        area: ['99%', '85%'], //宽高
+                        area: [widthMax, heightMax], //宽高
                         content: $('#tableBox')
                     });
                 }
