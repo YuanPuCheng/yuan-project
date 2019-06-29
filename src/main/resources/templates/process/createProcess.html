@@ -74,10 +74,10 @@
 				<div class="layui-colla-content layui-show">
 					<div class="layui-row">
 						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
-							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/liveProcess">用车申请</button>
+							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/car/getCarHtml">用车申请</button>
 						</div>
 						<div class="layui-col-xs6 layui-col-sm6 layui-col-md2 ">
-							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/pro/liveProcess">还车申请</button>
+							<button class="layui-btn layui-btn-lg  layui-btn-radius" proUrl="/car/returnCarHtml">还车申请</button>
 						</div>
 					</div>
 				</div>
@@ -89,6 +89,7 @@
             <span id="userDepartmentName" name="" title="部门"></span>
             <span id="userProject" name="" title="项目"></span>
 			<span id="userRole" name="" title="角色"></span>
+			<span id="roleId" name="" title="角色ID"></span>
         </div>
 		<script src="./../../static/layui/layui.js"></script>
 		<script>
@@ -129,6 +130,7 @@
                     $('#userProject').attr("name",$("#userProject",parent.document).attr("name"));
                     $('#userId').attr("name",$("#userId",parent.document).attr("name"));
                     $('#userRole').attr("name",$("#userRole",parent.document).attr("name"));
+                    $('#roleId').attr("name",$("#roleId",parent.document).attr("name"));
                 });
 			});
 			//]]>
