@@ -46,7 +46,7 @@
     car_check_time=#{carCheckTime},
     car_manager=#{carManager},
     car_need_role=#{carNeedRole},
-    <if test="carStatus=='2' or carStatus=='3'">now_user='',now_use_id=''</if>
+    <if test="carStatus==2 or carStatus==3">now_user='',now_use_id='',</if>
     car_status=#{carStatus}
     WHERE car_id=#{carId}
   </update>
