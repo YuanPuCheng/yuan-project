@@ -1,5 +1,7 @@
 package com.zihui.cwoa.politics.dao;
 
+import com.zihui.cwoa.politics.pojo.CarStatus;
+import com.zihui.cwoa.politics.pojo.CarUse;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,7 +18,12 @@ public interface CarMapper {
     /**
      *  查询车辆使用信息
      */
-    List<Map<String,Object>> queryCarUse(String carId,int page,int limit);
+    List<Map<String,Object>> queryCarUse(Map<String,Object> map);
+
+    /**
+     *  查询车辆使用信息总数
+     */
+    Integer countCarUse(String carId);
 
     /**
      *  查询车辆信息
@@ -43,4 +50,33 @@ public interface CarMapper {
      */
     int deleteManyCar(String[] split);
 
+    /**
+     *  查询空闲的车辆
+     */
+    List<Map<String,Object>> getFreeCar();
+
+    /**
+     *  添加用车信息
+     */
+    int insertCarUse(CarUse carUse);
+
+    /**
+     *  改变车辆状态
+     */
+    void updateCarStatus(CarStatus carStatus);
+
+    /**
+     *  获取可还车辆
+     */
+    List<Map<String,Object>> getReturnCar(String userId);
+
+    /**
+     *  获取正在使用某辆车的用户id
+     */
+    String getNowUseId(String carId);
+
+    /**
+     *  更新还车信息
+     */
+    int updateCarUse(String useId);
 }
