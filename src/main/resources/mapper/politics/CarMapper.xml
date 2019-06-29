@@ -17,8 +17,12 @@
     SELECT COUNT(*) FROM pol_car
   </select>
 
-  <select id="queryCarUse" parameterType="String" resultType="String">
+  <select id="queryCarUse" parameterType="Map" resultType="Map">
+    SELECT	* FROM pol_car_use WHERE use_car=#{carId} ORDER BY use_end LIMIT #{page},#{limit}
+  </select>
 
+  <select id="countCarUse" parameterType="String" resultType="Integer">
+    SELECT	COUNT(*) FROM pol_car_use WHERE use_car=#{carId}
   </select>
 
   <delete id="deleteCar" parameterType="String">
@@ -42,8 +46,32 @@
     car_check_time=#{carCheckTime},
     car_manager=#{carManager},
     car_need_role=#{carNeedRole},
+    <if test="carStatus=='2' or carStatus=='3'">now_user='',now_use_id=''</if>
     car_status=#{carStatus}
     WHERE car_id=#{carId}
   </update>
 
+  <select id="getFreeCar" resultType="Map">
+    SELECT car_id,car_license,car_manager,car_need_role FROM pol_car WHERE car_status=0
+  </select>
+
+  <insert id="insertCarUse" parameterType="com.zihui.cwoa.politics.pojo.CarUse" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO pol_car_use (use_car,use_user,use_reason,use_start) VALUES (#{use_car},#{use_user},#{use_reason},NOW())
+  </insert>
+
+  <update id="updateCarStatus" parameterType="com.zihui.cwoa.politics.pojo.CarStatus">
+    UPDATE pol_car SET car_status=#{carStatus},now_user=#{nowUser},now_use_id=#{useId} WHERE car_id=#{carId}
+  </update>
+
+  <select id="getReturnCar" resultType="Map">
+    SELECT car_id,car_license,car_manager FROM pol_car WHERE now_user=#{userId}
+  </select>
+
+  <select id="getNowUseId" parameterType="String" resultType="String">
+    SELECT now_use_id FROM pol_car WHERE car_id=#{carId}
+  </select>
+
+  <update id="updateCarUse" parameterType="String">
+    UPDATE pol_car_use SET use_end=NOW() WHERE id=#{useId}
+  </update>
 </mapper>
