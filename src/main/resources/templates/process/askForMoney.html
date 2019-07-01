@@ -155,8 +155,7 @@
 					var projectId = $('#project option:selected').prop("value");
 					var reimburseType = $('#reimburseType option:selected').prop("value");
 					var linkProId = $('#linkProId').val();
-                    var project = $('#project option:selected').text();
-                    if(project === "") {
+                    if(projectId === "") {
                         layer.msg('请选择所在项目！');
                         return;
                     }
@@ -171,7 +170,7 @@
                     }
 					var jsonTest = {
                         "projectId":projectId,
-						"userProject": project,
+						"userProject": projectId,
 						"fileName": fileName,
                         "userId":userId,
 						"processSummary": [{

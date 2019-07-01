@@ -158,10 +158,9 @@
 					}
 					var fileName = fileNameList.toString();
 					var projectId = $('#project option:selected').prop("value");
-                    var project = $('#project option:selected').text();
 					var reimburseType = $('#reimburseType option:selected').prop("value");
 					var linkProId = $('#linkProId').val();
-                    if(project === "") {
+                    if(projectId === "") {
                         layer.msg('请选择所在项目！');
                         return;
                     }
@@ -176,7 +175,7 @@
 					}
 					var jsonTest = {
                         "projectId":projectId,
-						"userProject": project,
+						"userProject": projectId,
 						"fileName": fileName,
 						"userId":userId,
 						"processSummary": [{

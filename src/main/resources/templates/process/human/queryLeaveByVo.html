@@ -106,6 +106,17 @@
 				var form = layui.form;
 				var laydate = layui.laydate;
 
+                var proList=[];
+                function getProjectName(projectId) {
+                    var len=proList.length;
+                    for(var i=0;i<len;i++){
+                        if(projectId*1===proList[i].projectId*1){
+                            return proList[i].projectName;
+                        }
+                    }
+                    return '系统错误';
+                }
+
 				table.on('tool(demoEvent)', function(obj) {
 					var data = obj.data;
 					if(obj.event === 'detail') {
@@ -192,7 +203,10 @@
 											},
 											{
 												field: 'user_project',
-												title: '项目'
+												title: '项目',
+                                                templet: function(res) {
+                                                    return getProjectName(res.user_project)
+                                                }
 											},
 											{
 												field: 'user_name',
@@ -249,7 +263,7 @@
 						type: "get",
 						dataType: "json", //预测服务端返回的数据类型
 						success: function(data) { //请求成功的回调
-							var proList = data;
+							proList = data;
 							var proListLen = proList.length;
 							for(var i = 0; i < proListLen; i++) {
 								$("#project").append('<option value="' + proList[i].projectName + '">' + proList[i].projectName + '</option>');

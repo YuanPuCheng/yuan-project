@@ -62,9 +62,19 @@
                 }
                 var userName=$("#userName",parent.document).attr("name");
                 var userId=$("#userId",parent.document).attr("name");
+                var projectList=[];
                 var allUserList=[];
                 var tempUserDepartment='';
                 var tempUserName='';
+                function getProjectName(projectId) {
+					var len=projectList.length;
+					for(var i=0;i<len;i++){
+					    if(projectId*1===projectList[i].projectId*1){
+					        return projectList[i].projectName;
+						}
+					}
+					return '系统错误';
+                }
                 function getNameDepartment(id) {
                     id=id*1;
 					var len=allUserList.length;
@@ -154,7 +164,7 @@
                         txt = txt + '<div class="layuiadmin-card-text" style="background-color: gainsboro;margin-top:10px;" id="'+ list[i].processInstanceId +
                             '"><div class="layui-card-header"><i class="layui-icon layui-icon-table">' + list[i].processName + '</i>' +
                             '<span style="position: absolute;right: 15px;">' + startTimeFormat +
-                            '</span></div><div class="layui-card-body">'+list[i].userProject+'<h3>'
+                            '</span></div><div class="layui-card-body">'+getProjectName(list[i].userProject)+'<h3>'
                             +tempUserDepartment + "-" + tempUserName + "</h3>" + summary +
                             "<hr class=\"layui-bg-gray\" />" +
                             "<button class=\"layui-btn  layui-btn-radius layui-btn-primary\" cid=\"" + list[i].processInstanceId +
@@ -330,7 +340,20 @@
                             dataType: "json",
                             success: function(data) {
                                 allUserList=data;
-								readyAjax();
+                                $.ajax({
+                                    url: "/project/getprojecttoselect",
+                                    type: "get",
+                                    dataType: "json",
+                                    success: function(result) {
+                                        projectList=result;
+                                        readyAjax();
+                                    },
+                                    error: function() { //请求失败的回调
+                                        layer.msg('发生了未知错误！', {
+                                            icon: 2
+                                        });
+                                    }
+                                });
                             },
                             error: function() { //请求失败的回调
                                 layer.msg('发生了未知错误！', {
