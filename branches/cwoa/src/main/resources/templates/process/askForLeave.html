@@ -130,7 +130,7 @@
 					if(!click) {
 						click = true;
                         var userRole=$("#userRole",parent.document).attr("name");
-                        var project = $('#project option:selected').text();
+                        var project = $('#project option:selected').prop("value");
 						var timeOne = $('#test16').val();
 						var timeTwo = $('#test17').val();
 						var dayOne = new Date(timeOne);

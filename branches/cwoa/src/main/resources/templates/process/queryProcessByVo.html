@@ -120,6 +120,7 @@
 					type: 'date'
 				});
 				var list = [];
+                var projectList=[];
                 var allUserList=[];
                 var tempUserDepartment='';
                 var tempUserName='';
@@ -134,6 +135,28 @@
                         }
                     }
                 }
+                function getProjectName(projectId) {
+                    var len=projectList.length;
+                    for(var i=0;i<len;i++){
+                        if(projectId*1===projectList[i].projectId*1){
+                            return projectList[i].projectName;
+                        }
+                    }
+                    return '系统错误';
+                }
+                $.ajax({
+                    url: "/project/getprojecttoselect",
+                    type: "get",
+                    dataType: "json",
+                    success: function(result) {
+                        projectList=result;
+                    },
+                    error: function() { //请求失败的回调
+                        layer.msg('发生了未知错误！', {
+                            icon: 2
+                        });
+                    }
+                });
                 $.ajax({
                     url: "/human/queryNameDepartment",
                     type: "get",
@@ -204,7 +227,7 @@
 						txt = txt + "<div class=\"layuiadmin-card-text\" style=\"background-color: gainsboro;margin-top:10px ;\"" +
 							"\"><div class=\"layui-card-header\"><i class=\"layui-icon layui-icon-table\">" + list[i].processName + "</i>" +
 							"<span style=\"position: absolute;right: 15px; color:" + proColor + "\">" + processStatus +
-							"</span></div><div class=\"layui-card-body\">"+list[i].userProject+"<h3>" + tempUserDepartment + "-" + tempUserName + "</h3>" +
+							"</span></div><div class=\"layui-card-body\">"+getProjectName(list[i].userProject)+"<h3>" + tempUserDepartment + "-" + tempUserName + "</h3>" +
 							"<p>流程ID：" + list[i].processInstanceId + "</p>" +
 							"<p>流程在途时间：" + startTime + "--" + endTime + "</p>" + summary +
 							"<p>流程结束说明：" + list[i].deleteReason + "</p>" +

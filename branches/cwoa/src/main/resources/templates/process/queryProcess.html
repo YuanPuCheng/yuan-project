@@ -106,160 +106,186 @@
                 }
                 var userName=$("#userName",parent.document).attr("name");
                 var userDepartmentName=$("#userDepartmentName",parent.document).attr("name");
-				$(document).ready(function() {
-					function createHtml(start, end) {
-						var txt = "";
-						for(var i = start; i < end; i++) {
-							var pro = list[i].processSummary;
-							var summary = "";
-							for(var j = 0; j < pro.length; j++) {
-								summary = summary + "<p>" + pro[j].indexName + ":" + pro[j].indexValue + "</p>";
-							}
-                            var otherTalk=list[i].otherTalk;
-                            if(otherTalk!==null && otherTalk !== "" && typeof otherTalk!=='undefined') {
-                                summary = summary + "<p>任务状态:" + otherTalk + "</p>";
-                            }
-							txt = txt + "<div class=\"layuiadmin-card-text\" style=\"background-color: gainsboro;margin-top:10px ;\" id=\"" + list[i].processInstanceId +
-								"\"><div class=\"layui-card-header\"><i class=\"layui-icon layui-icon-table\">" + list[i].processName + "</i>" +
-								"<span style=\"position: absolute;right: 15px;\">" + list[i].processStatus +
-								"</span></div><div class=\"layui-card-body\">"+list[i].userProject+"<h3>" + userDepartmentName + "-" + userName + "</h3>" + summary +
-								"<hr class=\"layui-bg-gray\" />" +
-								"<button class=\"layui-btn layui-btn-lg layui-btn-radius layui-btn-primary\" cid=\"" + list[i].processInstanceId +"\"fid=\""+ list[i].fileName+
-								"\">查看流程</button>" +
-								"<button class=\"layui-btn layui-btn-lg layui-btn-radius layui-btn-primary\" pid=\"" + list[i].processInstanceId +
-								"\">撤销申请</button></div></div>";
-						}
-						$("#queryProcessBox").html(txt);
-						$("button").click(function() {
-							if($(this).text() === "查看流程") {
-								var pInstanceId = $(this).attr("cid");
-								var fileName=$(this).attr("fid");
-								var txt="";
-                                txt = txt + '<tr><td>查看附件</td><td class="hoverStyle" onclick=\"downFile(\''+fileName+'\')\">点击查看</td></tr>';
-                                txt = txt + '<tr><td>查看流图</td><td class="hoverStyle" onclick=\"viewPro(\''+pInstanceId+'\')\">点击查看</td></tr>';
-								layer.open({
-									type: 1,
-									shadeClose: true,
-									area: [widthMax, heightMax], //宽高
-									content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>流程详情</legend></fieldset>' +
-                                    '<div class="layui-form"><table class="layui-table"><colgroup><col width="150"><col width="150"></colgroup>' +
-                                    '<thead><tr><th>属性名</th><th>属性值</th></tr></thead>' +
-                                    '<tbody>' + txt + '</tbody></table></div>'
-								});
-							} else if($(this).text() === "撤销申请") {
-								var processInstanceId = $(this).attr("pid");
-								var click = false;
-								layer.confirm('您确定要撤销申请吗？', {
-									icon: 2,
-									btn: ['确定', '再想想'] //按钮
-								}, function() {
-									//确定触发的事件
-									if(!click) {
-										click = true;
-										$.ajax({
-											url: "/process/deleteProcessInstance",
-											type: "get",
-											data: {
-												"processInstanceId": processInstanceId,
-												"reason": "用户撤销"
-											},
-											dataType: "text", //预测服务端返回的数据类型
-											success: function(data) { //请求成功的回调
-												if(data==='true'){
-                                                    layer.msg('申请撤销成功！', {
-                                                        icon: 1,
-                                                        btn: ['知道了']
-                                                    }, function() {
-                                                        //知道了触发的事件
-                                                        $("#" + processInstanceId).hide();
+                var userId=$("#userId",parent.document).attr("name");
+                var projectList=[];
+                function getProjectName(projectId) {
+                    var len=projectList.length;
+                    for(var i=0;i<len;i++){
+                        if(projectId*1===projectList[i].projectId*1){
+                            return projectList[i].projectName;
+                        }
+                    }
+                    return '系统错误';
+                }
+                function createHtml(start, end) {
+                    var txt = "";
+                    for(var i = start; i < end; i++) {
+                        var pro = list[i].processSummary;
+                        var summary = "";
+                        for(var j = 0; j < pro.length; j++) {
+                            summary = summary + "<p>" + pro[j].indexName + ":" + pro[j].indexValue + "</p>";
+                        }
+                        var otherTalk=list[i].otherTalk;
+                        if(otherTalk!==null && otherTalk !== "" && typeof otherTalk!=='undefined') {
+                            summary = summary + "<p>任务状态:" + otherTalk + "</p>";
+                        }
+                        txt = txt + "<div class=\"layuiadmin-card-text\" style=\"background-color: gainsboro;margin-top:10px ;\" id=\"" + list[i].processInstanceId +
+                            "\"><div class=\"layui-card-header\"><i class=\"layui-icon layui-icon-table\">" + list[i].processName + "</i>" +
+                            "<span style=\"position: absolute;right: 15px;\">" + list[i].processStatus +
+                            "</span></div><div class=\"layui-card-body\">"+getProjectName(list[i].userProject)+"<h3>" + userDepartmentName + "-" + userName + "</h3>" + summary +
+                            "<hr class=\"layui-bg-gray\" />" +
+                            "<button class=\"layui-btn layui-btn-lg layui-btn-radius layui-btn-primary\" cid=\"" + list[i].processInstanceId +"\"fid=\""+ list[i].fileName+
+                            "\">查看流程</button>" +
+                            "<button class=\"layui-btn layui-btn-lg layui-btn-radius layui-btn-primary\" pid=\"" + list[i].processInstanceId +
+                            "\">撤销申请</button></div></div>";
+                    }
+                    $("#queryProcessBox").html(txt);
+                    $("button").click(function() {
+                        if($(this).text() === "查看流程") {
+                            var pInstanceId = $(this).attr("cid");
+                            var fileName=$(this).attr("fid");
+                            var txt="";
+                            txt = txt + '<tr><td>查看附件</td><td class="hoverStyle" onclick=\"downFile(\''+fileName+'\')\">点击查看</td></tr>';
+                            txt = txt + '<tr><td>查看流图</td><td class="hoverStyle" onclick=\"viewPro(\''+pInstanceId+'\')\">点击查看</td></tr>';
+                            layer.open({
+                                type: 1,
+                                shadeClose: true,
+                                area: [widthMax, heightMax], //宽高
+                                content: '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>流程详情</legend></fieldset>' +
+                                '<div class="layui-form"><table class="layui-table"><colgroup><col width="150"><col width="150"></colgroup>' +
+                                '<thead><tr><th>属性名</th><th>属性值</th></tr></thead>' +
+                                '<tbody>' + txt + '</tbody></table></div>'
+                            });
+                        } else if($(this).text() === "撤销申请") {
+                            var processInstanceId = $(this).attr("pid");
+                            var click = false;
+                            layer.confirm('您确定要撤销申请吗？', {
+                                icon: 2,
+                                btn: ['确定', '再想想'] //按钮
+                            }, function() {
+                                //确定触发的事件
+                                if(!click) {
+                                    click = true;
+                                    $.ajax({
+                                        url: "/process/deleteProcessInstance",
+                                        type: "get",
+                                        data: {
+                                            "processInstanceId": processInstanceId,
+                                            "reason": "用户撤销"
+                                        },
+                                        dataType: "text", //预测服务端返回的数据类型
+                                        success: function(data) { //请求成功的回调
+                                            if(data==='true'){
+                                                layer.msg('申请撤销成功！', {
+                                                    icon: 1,
+                                                    btn: ['知道了']
+                                                }, function() {
+                                                    //知道了触发的事件
+                                                    $("#" + processInstanceId).hide();
+                                                });
+                                            }else {
+                                                location.reload();
+                                            }
+                                        },
+                                        error: function() { //请求失败的回调
+                                            layer.msg('发生未知错误！', {
+                                                icon: 2,
+                                                btn: ['知道了']
+                                            }, function() {
+                                                //知道了触发的事件
+                                                location.reload();
+                                            });
+                                        }
+                                    });
+                                }
+                            }, function() {
+                                //再想想触发的事件
+                            });
+                        } else {
+                            layer.msg('错误操作！', {
+                                icon: 2
+                            });
+                        }
+                    });
+                }
+                function readyAjax() {
+                    $.ajax({
+                        url: "/process/queryProcess",
+                        type: "get",
+                        data: {
+                            "rand":Math.random(),
+                            "userId": userId,
+                            "page":0,
+                            "num":5
+                        }, //这里发送的数据必须得是Json格式的字符串
+                        dataType: "json", //预测服务端返回的数据类型
+                        success: function(data) { //请求成功的回调
+                            len=data.result;
+                            if(len>0) {
+                                $("h2").hide();
+                                list = data.queryResultList;
+                                nowLen = list.length;
+                                laypage.render({
+                                    elem: 'demo6',
+                                    count: len,
+                                    limit: 5,
+                                    layout: ['prev', 'page', 'next'],
+                                    jump: function(obj, first) {
+                                        if(!first) {
+                                            $("#queryProcessBox").html("");
+                                            $("h2").text("查询中ing...");
+                                            $("h2").show();
+                                            $.ajax({
+                                                url: "/process/queryProcess",
+                                                type: "get",
+                                                data: {
+                                                    "userId": userId,
+                                                    "page": (obj.curr-1)*5,
+                                                    "num": 5
+                                                },
+                                                dataType: "json",
+                                                success: function(data) {
+                                                    list = data.queryResultList;
+                                                    nowLen=list.length;
+                                                    $("h2").hide();
+                                                    createHtml(0, nowLen);
+                                                },
+                                                error: function() {
+                                                    layer.msg('发生了未知错误！', {
+                                                        icon: 2
                                                     });
-												}else {
-                                                    location.reload();
-												}
-											},
-											error: function() { //请求失败的回调
-												layer.msg('发生未知错误！', {
-													icon: 2,
-													btn: ['知道了']
-												}, function() {
-													//知道了触发的事件
-													location.reload();
-												});
-											}
-										});
-									}
-								}, function() {
-									//再想想触发的事件
-								});
-							} else {
-								layer.msg('错误操作！', {
-									icon: 2
-								});
-							}
-						});
-					}
-					var userId=$("#userId",parent.document).attr("name");
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                                createHtml(0, nowLen);
+                            } else {
+                                $("h2").text("您没有在途的流程！");
+                            }
+                        },
+                        error: function() { //请求失败的回调
+                            $("h2").text("加载数据失败，请刷新试试！");
+                        }
+                    });
+                }
+				$(document).ready(function() {
                     if(userId ==='' || userId==='undefined' || typeof userId==='undefined'){
                         $("h2").text("您还没有登陆,请登陆！");
                         $("h2").show();
                     }else{
                         $.ajax({
-                            url: "/process/queryProcess",
+                            url: "/project/getprojecttoselect",
                             type: "get",
-                            data: {
-                                "rand":Math.random(),
-                                "userId": userId,
-                                "page":0,
-                                "num":5
-                            }, //这里发送的数据必须得是Json格式的字符串
-                            dataType: "json", //预测服务端返回的数据类型
-                            success: function(data) { //请求成功的回调
-                                len=data.result;
-                                if(len>0) {
-                                    $("h2").hide();
-                                    list = data.queryResultList;
-                                    nowLen = list.length;
-                                    laypage.render({
-                                        elem: 'demo6',
-                                        count: len,
-                                        limit: 5,
-                                        layout: ['prev', 'page', 'next'],
-                                        jump: function(obj, first) {
-                                            if(!first) {
-                                                $("#queryProcessBox").html("");
-                                                $("h2").text("查询中ing...");
-                                                $("h2").show();
-                                                $.ajax({
-                                                    url: "/process/queryProcess",
-                                                    type: "get",
-                                                    data: {
-                                                        "userId": userId,
-                                                        "page": (obj.curr-1)*5,
-                                                        "num": 5
-                                                    },
-                                                    dataType: "json",
-                                                    success: function(data) {
-                                                        list = data.queryResultList;
-                                                        nowLen=list.length;
-                                                        $("h2").hide();
-                                                        createHtml(0, nowLen);
-                                                    },
-                                                    error: function() {
-                                                        layer.msg('发生了未知错误！', {
-                                                            icon: 2
-                                                        });
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    });
-                                    createHtml(0, nowLen);
-                                } else {
-                                    $("h2").text("您没有在途的流程！");
-                                }
+                            dataType: "json",
+                            success: function(result) {
+                                projectList=result;
+                                readyAjax();
                             },
                             error: function() { //请求失败的回调
-                                $("h2").text("加载数据失败，请刷新试试！");
+                                layer.msg('发生了未知错误！', {
+                                    icon: 2
+                                });
                             }
                         });
 					}

@@ -146,7 +146,7 @@
 				function submitForm() {
                     var users = formSelects.value('select1');
 					var fileName = fileNameList.toString();
-                    var project = $('#project option:selected').text();
+                    var project = $('#project option:selected').prop("value");
                     var taskReason=$('#reason').val();
                     if(project === "") {
                         layer.msg('请选择所在项目！');

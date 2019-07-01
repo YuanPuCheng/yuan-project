@@ -142,7 +142,6 @@
 					if(!click) {
 						click = true;
 						var userRole=$("#userRole",parent.document).attr("name");
-                        var project = $('#project option:selected').text();
                         var projectId = $('#project option:selected').prop("value");
 						var timeOne = $('#test16').val();
 						var timeTwo = $('#test17').val();
@@ -188,7 +187,7 @@
                             "processKey":"askForBusiness",
 						    "userRole":userRole,
                             "projectId":projectId,
-							"userProject": project,
+							"userProject": projectId,
 							"leaveDays": leaveDays, //根据用户输入的日期计算得到
 							"userId":userId,
 							"processSummary": [{
