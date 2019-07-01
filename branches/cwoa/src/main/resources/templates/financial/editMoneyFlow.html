@@ -124,7 +124,7 @@
 				var layer = layui.layer;
 				var form = layui.form;
 				var haveClick = false;
-                var userCode = $("#userCode", parent.document).attr("name");
+                var userId = $("#userId",parent.document).attr("name");
 				function submitForm() {
 					var proType = $('#proType option:selected').prop("value");
 					var project = $('#project option:selected').prop("value");
@@ -159,7 +159,7 @@
 							url: "/financial/editMoneyFlow",
 							type: "get",
 							data: {
-							    "userCode":userCode,
+							    "userId":userId,
 								"project":project,
 								"flowYear":flowYear,
 								"flowMonth":flowMonth,
@@ -191,7 +191,7 @@
 					}
 				}
 				$(document).ready(function() {
-                    if(userCode===null || userCode === "" || userCode==='undefined' || typeof userCode==='undefined') {
+                    if(userId===null || userId === "" || userId==='undefined' || typeof userId==='undefined') {
                         $('body').html('<h2>您还没有登陆,无法访问该页面!</h2>');
                     }else {
                         $('#uName').val($("#userName", parent.document).attr("name"));
@@ -203,7 +203,7 @@
                                 var proList = data;
                                 var proListLen = proList.length;
                                 for(var i = 0; i < proListLen; i++) {
-                                    $("#project").append('<option value="' + proList[i].projectName + '">' + proList[i].projectName + '</option>');
+                                    $("#project").append('<option value="' + proList[i].projectId + '">' + proList[i].projectName + '</option>');
                                 }
                                 form.render('select');
                             },
