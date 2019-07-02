@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>网络计划管理</title>
+		<meta name="renderer" content="webkit" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+		<link rel="stylesheet" href="../../static/css/reset.css" />
+		<link rel="stylesheet" href="../../static/layui/css/layui.css" />
+		<style type="text/css">
+			html {
+				background-color: #ffffff;
+				margin: 10px;
+			}
+
+			.chwstyle {
+				margin-left: 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend style="font-size: 28px;font-weight: 500;">网络计划管理</legend>
+		</fieldset>
+
+		<form class="layui-form" action="">
+			<div class="layui-form-item">
+				<label class="layui-form-label">所在项目：</label>
+				<div class="layui-input-inline">
+					<select name="modules"  lay-search="" id="project" lay-filter="project">
+						<option value="">请选择...</option>
+					</select>
+				</div>
+				<div class="layui-inline">
+					<button type="button" class="layui-btn" id="search">
+						<i class="layui-icon layui-icon-search"></i>
+					</button>
+				</div>
+			</div>
+		</form>
+
+		<table class="layui-hide" id="test" lay-filter="test"></table>
+
+		<script type="text/html" id="toolbarDemo">
+			<button class="layui-btn layui-btn-sm" lay-event="delMany">批量删除</button>
+		</script>
+
+		<script type="text/html" id="barDemo">
+			<div class="layui-btn-container">
+				<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">编辑</a>
+				<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>
+			</div>
+		</script>
+
+		<script src="../../static/layui/layui.js"></script>
+
+		<script>
+            //<![CDATA[
+			layui.use(['table', 'layer', 'form'], function() {
+				var table = layui.table;
+				var $ = layui.jquery;
+				var layer = layui.layer;
+                var form=layui.form;
+                var size=0;
+                var planId=0;
+                var projectId='';
+                var widthMax = "70%",
+                    heightMax = "80%";
+                if($(window).width() < 768) {
+                    widthMax = "99%";
+                    heightMax = "85%";
+                }
+                var projectList=[];
+                var allUserList=[];
+                function getProjectName(projectId) {
+                    var len=projectList.length;
+                    for(var i=0;i<len;i++){
+                        if(projectId*1===projectList[i].projectId*1){
+                            return projectList[i].projectName;
+                        }
+                    }
+                    return '系统错误';
+                }
+                function showUseMan(id) {
+                    id=id*1;
+                    var len=allUserList.length;
+                    for(var i=0;i<len;i++){
+                        if (id===allUserList[i].userId*1){
+                            return allUserList[i].userName;
+                        }
+                    }
+                    return '系统错误';
+                }
+                function readyAjax() {
+                    $.ajax({
+                        url: '/plan/selectPlanCount',
+                        type: "get",
+                        data:{"projectId":''},
+                        dataType: "text",
+                        success: function(result) { //请求成功的回调
+                            size=result;
+                            table.render({
+                                elem: '#test',
+                                url: '/plan/selectPlanJson',
+                                title: '网络计划管理',
+                                toolbar: '#toolbarDemo',
+                                cellMinWidth: 100,
+                                where: {
+                                    "projectId":projectId,
+                                    "size": size
+                                },
+                                cols: [
+                                    [{
+                                        type: 'checkbox',
+                                        fixed: 'left'
+                                    },{
+                                        type: 'numbers',
+                                        title: '序号'
+                                    },{
+                                        field: 'plan_name',
+                                        title: '计划名'
+                                    },{
+                                        field: 'draw_man',
+                                        title: '制定人',
+                                        width: 120,
+                                        templet: function(res) {
+                                            return showUseMan(res.draw_man)
+                                        }
+                                    },{
+                                        field: 'draw_project',
+                                        title: '所属项目',
+                                        width: 180,
+                                        templet: function(res) {
+                                            return getProjectName(res.draw_project)
+                                        }
+                                    }, {
+                                        field: 'draw_time',
+                                        title: '制定时间',
+                                        width: 180,
+                                        templet: function(res) {
+                                            return layui.util.toDateString(res.draw_time, 'yyyy-MM-dd HH:mm:ss')
+                                        }
+                                    }, {
+                                        field: 'plan_statu',
+                                        title: '状态',
+                                        width: 100,
+                                        templet: function(res) {
+                                            return res.plan_statu*1===1?'可用':'禁用'
+                                        }
+                                    },{
+                                        title: '操作',
+                                        toolbar: '#barDemo',
+                                        width: 220
+                                    }]
+                                ],
+                                page: true
+                            });
+                        },
+                        error: function() { //请求失败的回调
+                            layer.msg('发生了未知错误！', {
+                                icon: 2
+                            });
+                        }
+                    });
+                }
+				//头工具栏事件
+				table.on('toolbar(test)', function(obj) {
+					var checkStatus = table.checkStatus(obj.config.id);
+					switch(obj.event) {
+						case 'delMany':
+							var selectLen = checkStatus.data.length;
+							if(selectLen===0){
+                                layer.msg('请至少选择一项后再删除！', {
+                                    icon: 2
+                                });
+                                return;
+							}
+                            layer.confirm('确定要删除这些信息吗？', {
+                                btn: ['确定', '再想想'] //按钮
+                            }, function() {
+                            var dataList=checkStatus.data;
+                            var idArray=[];
+							for (var i=0;i<selectLen;i++){
+							    idArray.push(dataList[i].plan_id);
+                            }
+                            $.ajax({
+                                url: "/plan/deleteManyPlan",
+                                type: "get",
+                                data: {
+                                    "idArray": idArray.toString()
+                                },
+                                dataType: "text", //预测服务端返回的数据类型
+                                success: function(data) { //请求成功的回调
+                                    if(data === 'true') {
+                                        layer.msg('删除成功！', {
+                                            icon: 1,
+                                            btn: ['知道了']
+                                        }, function() {
+                                            //知道了触发的事件
+											size=size-selectLen;
+                                            layer.closeAll();
+                                            table.reload('test', {
+                                                where: { //设定异步数据接口的额外参数，任意设
+                                                    "projectId":projectId,
+                                                    "size": size
+                                                },
+                                                page: {
+                                                    curr: 1
+                                                }
+                                            });
+                                        });
+                                    } else {
+                                        this.error();
+                                    }
+                                },
+                                error: function() { //请求失败的回调
+                                    layer.msg('发生了未知错误！', {
+                                        icon: 2
+                                    });
+                                }
+                            });
+                            });
+							break;
+					}
+				});
+				//监听行工具事件
+				table.on('tool(test)', function(obj) {
+					var data = obj.data;
+					if(obj.event === 'edit') {
+					    planId=data.plan_id;
+                        $('#planName').val(data.plan_name);
+                        $('#drawMan option[value="'+data.draw_man+'"]').prop("selected",true);
+                        $('#drawProject option[value="'+data.draw_project+'"]').prop("selected",true);
+                        $('input:radio').eq(data.plan_statu*1===1?0:1).prop('checked', 'true');
+                        form.render();
+						layer.open({
+							type: 1,
+							shadeClose: true,
+							area: [widthMax, heightMax], //宽高
+							content: $('#addEditBox')
+						});
+					} else if(obj.event === 'del') {
+						layer.confirm('确定要删除这条信息吗？', {
+							btn: ['确定', '再想想'] //按钮
+						}, function() {
+							$.ajax({
+								url: "/plan/deletePlan",
+								type: "get",
+								data: {
+									"planId": data.plan_id
+								},
+								dataType: "text", //预测服务端返回的数据类型
+								success: function(data) { //请求成功的回调
+									if(data === 'true') {
+										layer.msg('删除成功！', {
+											icon: 1,
+											btn: ['知道了']
+										}, function() {
+											//知道了触发的事件
+											size--;
+                                            layer.closeAll();
+                                            var nowPage=$(".layui-laypage-skip").find("input").val() ;//获取当前页码
+                                            table.reload('test', {
+                                                where: { //设定异步数据接口的额外参数，任意设
+                                                    "projectId":projectId,
+                                                    "size": size
+                                                },
+												page: {
+                                                    curr: nowPage
+                                                }
+                                            });
+										});
+									} else {
+										this.error();
+									}
+								},
+								error: function() { //请求失败的回调
+									layer.msg('发生了未知错误！', {
+										icon: 2
+									});
+								}
+							});
+						});
+					}
+				});
+                $('#goNot').click(function() {
+                    layer.closeAll();
+                });
+                var ajaxClick=false;
+                $('#go').click(function() {
+                    var planName=$('#planName').val();
+                    var drawProject=$('#drawProject option:selected').prop("value");
+                    var drawMan=$('#drawMan option:selected').prop("value");
+                    var planStatus = $("input[type='radio']:checked").attr("value");
+                    if(planName===''){
+                        layer.msg('计划名不能为空！');
+                        return;
+					}
+                    if(drawProject===''){
+                        layer.msg('项目不能为空！');
+                        return;
+                    }
+                    if(drawMan===''){
+                        layer.msg('制定人不能为空！');
+                        return;
+                    }
+                    if(!ajaxClick){
+                        $.ajax({
+                            url: "/plan/updatePlan",
+                            type: "get",
+                            data:{
+                                "planId":planId,
+                                "planName":planName,
+                                "drawMan":drawMan,
+                                "drawProject":drawProject,
+                                "planStatus":planStatus
+                            },
+                            dataType: "text",
+                            success: function(result) {
+                                if(result==='true'){
+                                    layer.msg('操作成功！', {
+                                        icon: 1,
+                                        btn: ['知道了']
+                                    }, function() {
+                                        //知道了触发的事件
+                                        layer.closeAll();
+                                        table.reload('test', {
+                                            where: { //设定异步数据接口的额外参数，任意设
+                                                "projectId":projectId,
+                                                "size": size
+                                            },
+                                            page: {
+                                                curr: $(".layui-laypage-skip").find("input").val()
+                                            }
+                                        });
+                                    });
+                                }else{
+                                    this.error();
+								}
+                            },
+                            error: function() { //请求失败的回调
+                                layer.msg('发生了未知错误！', {
+                                    icon: 2
+                                });
+                            }
+                        });
+                        ajaxClick=false;
+                    }
+                });
+                form.on('select(project)', function(data){
+					projectId=data.value;
+                });
+                $('#search').click(function () {
+                    table.reload('test', {
+                        where: { //设定异步数据接口的额外参数，任意设
+                            "projectId":projectId,
+                            "size": size
+                        },
+                        page: {
+                            curr: 1
+                        }
+                    });
+                });
+                $(document).ready(function() {
+                    $.ajax({
+                        url: "/human/roleUser",
+                        type: "get",
+                        dataType: "json",
+                        success: function(data) {
+                            var len=data.length;
+                            for(var i=0;i<len;i++){
+                                var temp=data[i].list;
+                                var txt= '<optgroup label="'+data[i].role_name+'">';
+                                for(var j=0;j<temp.length;j++){
+                                    var user={
+                                        "userId":temp[j].userId,
+                                        "userName":temp[j].userName
+                                    };
+                                    allUserList.push(user);
+                                    txt=txt+'<option value="'+temp[j].userId+'">'+temp[j].userName+'</option>';
+                                }
+                                txt=txt+'</optgroup>';
+                                $('#drawMan').append(txt);
+                            }
+                            $.ajax({
+                                url: "/project/getprojecttoselect",
+                                type: "get",
+                                dataType: "json",
+                                success: function(result) {
+                                    projectList = result;
+                                    var projectListLen = projectList.length;
+                                    for (var i = 0; i < projectListLen; i++) {
+                                        $("#project").append('<option value="' + projectList[i].projectId + '">' + projectList[i].projectName + '</option>');
+                                        $("#drawProject").append('<option value="' + projectList[i].projectId + '">' + projectList[i].projectName + '</option>');
+                                    }
+                                    form.render('select');
+                                    readyAjax();
+                                },
+                                error: function() { //请求失败的回调
+                                    layer.msg('发生了未知错误！', {
+                                        icon: 2
+                                    });
+                                }
+                            });
+                        },
+                        error: function() { //请求失败的回调
+                            layer.msg('发生了未知错误！', {
+                                icon: 2
+                            });
+                        }
+                    });
+                });
+			});
+            //]]>
+		</script>
+
+	</body>
+	<div id="addEditBox" style="display: none">
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend style="font-size: 21px;font-weight: 500;" id="xTitle">编辑计划信息</legend>
+		</fieldset>
+		<form class="layui-form" action="" style="margin-left: 5px;margin-right: 5px;" >
+			<div class="layui-form-item">
+				<label class="layui-form-label">计划名:</label>
+				<div class="layui-input-block">
+					<input type="text" name="title" placeholder="请输入计划名..." class="layui-input" id="planName" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">制定人:</label>
+				<div class="layui-input-block">
+					<select name="modules"  lay-search="" id="drawMan">
+						<option value="">请选择制定人...</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">所在项目：</label>
+				<div class="layui-input-block">
+					<select name="modules"  lay-search="" id="drawProject">
+						<option value="">请选择...</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">计划状态:</label>
+				<div class="layui-input-block">
+					<input type="radio" name="isTop" value="1" title="可用" />
+					<input type="radio" name="isTop" value="0" title="禁用" />
+				</div>
+			</div>
+		</form>
+		<button type="button" class="layui-btn layui-btn-lg chwstyle" id="go">确认</button>
+		<button type="button" class="layui-btn layui-btn-lg chwstyle" id="goNot">取消</button>
+	</div>
+</html>
