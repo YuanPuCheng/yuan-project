@@ -19,5 +19,31 @@
         WHERE plan_id=#{arg0}
     </select>
 
+    <select id="selectPlanCount" parameterType="String" resultType="Integer">
+        SELECT COUNT(*) FROM pro_plan
+        <if test="projectId!=null and projectId!=''">WHERE draw_project=#{projectId}</if>
+    </select>
 
+    <select id="selectPlanJson" parameterType="Map" resultType="Map">
+        SELECT plan_id,plan_name,draw_man,draw_project,draw_time,plan_statu FROM pro_plan
+        <if test="projectId!=null and projectId!=''">WHERE draw_project=#{projectId}</if>
+        ORDER BY draw_time DESC
+        LIMIT #{page},#{limit}
+    </select>
+
+    <delete id="deleteManyPlan" parameterType="List">
+        DELETE FROM pro_plan WHERE plan_id IN
+        <foreach collection="array" open="(" separator="," close=")"  item="temp">
+            ${temp}
+        </foreach>
+    </delete>
+
+    <delete id="deletePlan" parameterType="String">
+        DELETE FROM pro_plan WHERE plan_id=#{arg0}
+    </delete>
+
+    <update id="updatePlan" parameterType="String">
+        UPDATE pro_plan SET plan_name=#{arg1},draw_man=#{arg2},draw_project=#{arg3},plan_statu=#{arg4}
+        WHERE plan_id=#{arg0}
+    </update>
 </mapper>
