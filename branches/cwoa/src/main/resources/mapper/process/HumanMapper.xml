@@ -17,8 +17,7 @@
     </select>
 
     <select id="queryLeaveByVo" parameterType="String" resultType="Map">
-        SELECT table_one.*,user_name FROM
-        (SELECT user_code,user_project,lea_year,lea_month,lea_type,COUNT(*) AS lea_days
+        SELECT user_code,user_project,lea_year,lea_month,lea_type,COUNT(*) AS lea_days
         FROM
         sys_user_leave
         WHERE 1=1
@@ -28,8 +27,7 @@
         <if test="arg3!=null and arg3!=''">and lea_month=#{arg3}</if>
         GROUP BY
         user_project,user_code,lea_year,lea_month,lea_type
-        LIMIT #{arg4},#{arg5}) table_one
-        LEFT JOIN sys_user su ON su.user_id=table_one.user_code
+        LIMIT #{arg4},#{arg5}
     </select>
 
     <select id="queryLeaveDetail" parameterType="String" resultType="Map">
@@ -53,15 +51,15 @@
     </resultMap>
 
     <select id="queryRoleAllUser"  resultMap="RoleAllUser">
-        SELECT * FROM
-        (SELECT user_id,user_code,user_name,role_id,role_name FROM
+        SELECT user_id,user_code,user_name,role_id,role_name FROM
+        (SELECT user_id,user_code,user_name,role_id,role_name,role_level FROM
         (SELECT user_id,user_code,user_name,role_id AS r_id FROM
         (SELECT user_id AS u_id,user_name,user_code FROM sys_user WHERE STATUS=0) tableone
         INNER JOIN sys_user_role tabletwo
         ON tableone.u_id=tabletwo.user_id) tablethr
         LEFT JOIN sys_role tablefour
-        ON tablethr.r_id=tablefour.role_id ORDER BY role_level DESC) tablefive
-        GROUP BY user_id
+        ON tablethr.r_id=tablefour.role_id) tablefive
+        GROUP BY user_id ORDER BY role_level DESC
     </select>
 
     <select id="queryMenuByParentId"  parameterType="String" resultType="String">
