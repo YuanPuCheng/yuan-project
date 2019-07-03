@@ -2,7 +2,6 @@ package com.zihui.cwoa.processone.controller;
 
 import com.zihui.cwoa.financial.pojo.RoleAllUser;
 import com.zihui.cwoa.processone.service.HumanService;
-import com.zihui.cwoa.processone.service.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,19 +18,16 @@ public class HumanWorkController {
     @Autowired
     private HumanService humanService;
 
-    @Autowired
-    private QueryService queryService;
-
     /**
      *  查询请假出差记录
      *  @return 查询结果
      */
     @RequestMapping("/queryLeaveByVo")
     @ResponseBody
-    public Map<String,Object> queryLeaveByVo(int size,String userCode, String project, String leaveYear,
+    public Map<String,Object> queryLeaveByVo(int size,String userId, String project, String leaveYear,
                                              String leaveMonth, int page, int limit){
         page=(page-1)*limit;
-        return humanService.queryLeaveByVo(size,userCode,project,leaveYear,leaveMonth,page,limit);
+        return humanService.queryLeaveByVo(size,userId,project,leaveYear,leaveMonth,page,limit);
     }
 
     /**
@@ -40,18 +36,9 @@ public class HumanWorkController {
      */
     @RequestMapping("/countLeaveByVo")
     @ResponseBody
-    public Map<String,Object> countLeaveByVo(String userName, String project,
+    public Map<String,Object> countLeaveByVo(String userId, String project,
                                              String leaveYear, String leaveMonth){
-        String userId=null;
         Map<String,Object> map =new HashMap<>();
-        if(userName!=null && !userName.equals("")){
-            userId = queryService.queryIdByName(userName);
-            if(userId==null){
-                map.put("count",0);
-                return map;
-            }
-        }
-        map.put("userCode",userId);
         map.put("count",humanService.countLeaveByVo(userId,project,leaveYear,leaveMonth));
         return map;
     }
@@ -62,9 +49,9 @@ public class HumanWorkController {
      */
     @RequestMapping("/queryLeaveDetail")
     @ResponseBody
-    public List<Map<String,Object>> queryLeaveDetail(String userCode, String project,
+    public List<Map<String,Object>> queryLeaveDetail(String userId, String project,
                                                      String leaveYear, String leaveMonth){
-        return humanService.queryLeaveDetail(userCode,project,leaveYear,leaveMonth);
+        return humanService.queryLeaveDetail(userId,project,leaveYear,leaveMonth);
     }
 
     /**
