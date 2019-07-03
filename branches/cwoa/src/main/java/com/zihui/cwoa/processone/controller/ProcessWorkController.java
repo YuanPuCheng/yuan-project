@@ -215,15 +215,15 @@ public class ProcessWorkController {
     /**
      * 按条件查找流程
      * @param processDefinitionKey 流程定义的Key
-     * @param userName 用户名字
+     * @param userId 用户id
      * @param date 日期
-     * @return 查询结果
+     * @return json
      */
     @RequestMapping("/queryProcessByVo")
     @ResponseBody
-    public Map<String,Object> queryProcessByVo(String processDefinitionKey,String userName
+    public Map<String,Object> queryProcessByVo(String processDefinitionKey,String userId
             ,Long date,int page,int num) {
-        return processesService.queryProcessByVo(processDefinitionKey,userName,date,page,num);
+        return processesService.queryProcessByVo(processDefinitionKey,userId,date,page,num);
     }
 
     /**
