@@ -272,24 +272,11 @@ public class ProcessesService {
 
     /**
      * 按条件查找流程
-     * @param processDefinitionKey 流程定义的Key
-     * @param userName 用户名
-     * @param date 日期
-     * @return 查询结果
      */
-    public Map<String,Object> queryProcessByVo(String processDefinitionKey,String userName
+    public Map<String,Object> queryProcessByVo(String processDefinitionKey,String userId
             ,Long date,int page,int num) {
         List<HistoricProcessInstance> list;
         int size;
-        String userId=null;
-        if(userName!="" && userName!=null){
-            userId = queryService.queryIdByName(userName);
-            if(userId==null){
-                Map<String,Object> map =new HashMap<>();
-                map.put("result",0);
-                return map;
-            }
-        }
         if (userId != null && userId!="") {
             if (date != 0) {
                 Date dateOne = new Date(date-86400000);
