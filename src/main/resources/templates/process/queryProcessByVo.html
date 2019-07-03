@@ -60,7 +60,9 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">发起人：</label>
 							<div class="layui-input-block">
-								<input type="text" placeholder="请输入流程发起人...可不填" class="layui-input" id="userName" />
+								<select name="modules"  lay-search="" id="userName">
+									<option value="">请选择发起人...默认查询所有</option>
+								</select>
 							</div>
 						</div>
 						<div class="layui-form-item">
@@ -163,6 +165,13 @@
                     dataType: "json",
                     success: function(data) {
                         allUserList=data;
+                        var len=allUserList.length;
+                        var txt='';
+                        for(var i=0;i<len;i++){
+                            txt=txt+'<option value="'+allUserList[i].user_id+'">'+allUserList[i].user_name+'</option>';
+                        }
+                        $('#userName').append(txt);
+                        form.render();
                     },
                     error: function() { //请求失败的回调
                         layer.msg('发生了未知错误！', {
@@ -335,7 +344,7 @@
                         });
                         return
 					}
-					var userQueryName = $('#userName').val();
+					var userId = $('#userName option:selected').prop("value");
 					var dateTime = new Date($('#startTime').val()).getTime();
 					if(isNaN(dateTime)) {
 						dateTime = 0;
@@ -346,7 +355,7 @@
 						data: {
                             "rand":Math.random(),
 							"processDefinitionKey": processDefinitionKey,
-							"userName": userQueryName,
+							"userId": userId,
 							"date": dateTime,
                             "page": 0,
                             "num": 3
@@ -371,7 +380,7 @@
                                                 type: "get",
                                                 data: {
                                                     "processDefinitionKey": processDefinitionKey,
-                                                    "userName": userQueryName,
+                                                    "userId": userId,
                                                     "date": dateTime,
                                                     "page": page,
                                                     "num": 3

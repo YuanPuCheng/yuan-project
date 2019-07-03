@@ -49,7 +49,9 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">发起人：</label>
 							<div class="layui-input-block">
-								<input type="text" placeholder="请输入流程发起人..." class="layui-input" id="userName" />
+								<select name="modules"  lay-search="" id="userName">
+									<option value="">请选择发起人...默认查询所有</option>
+								</select>
 							</div>
 						</div>
 						<div class="layui-form-item">
@@ -142,14 +144,16 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">发起人：</label>
 							<div class="layui-input-block">
-								<input type="text" placeholder="请输入流程发起人..." class="layui-input" id="userNameSum" />
+								<select name="modules"  lay-search="" id="userNameSum">
+									<option value="">请选择发起人...默认查询所有</option>
+								</select>
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">项目：</label>
 							<div class="layui-input-block">
 								<select name="modules"  lay-search="" id="projectSum">
-									<option value="">直接选择或搜索选择所在项目,默认查找所有项目</option>
+									<option value="">请选择查询项目,默认查找所有项目</option>
 								</select>
 							</div>
 						</div>
@@ -380,7 +384,7 @@
                     $('#messageBox').text("查询中ing...");
                     $('#messageBox').show();
                     var proType = $('#proType option:selected').prop("value");
-                    var name = $('#userName').val();
+                    var userId = $('#userName option:selected').prop("value");
                     var project = $('#project option:selected').prop("value");
                     var flowYear = $('#flowYear').val();
                     var flowMonth = $('#flowMonth option:selected').prop("value");
@@ -399,7 +403,7 @@
                         type: "get",
 						data: {
                             "rand":Math.random(),
-                            "name": name,
+                            "userId": userId,
                             "project": project,
                             "flowYear": flowYear,
                             "flowMonth": flowMonth,
@@ -412,7 +416,6 @@
                                 $('#messageBox').text("没有找到符合条件的记录！");
                                 $('#messageBox').show();
 							}else{
-                                var userId=data.userId;
                                 table.render({
                                     elem: '#test',
                                     url: queryUrl,
@@ -466,7 +469,7 @@
                     $('#messageBox').text("查询中ing...");
                     $('#messageBox').show();
                     var proTypeSum = $('#proTypeSum option:selected').prop("value");
-                    var nameSum = $('#userNameSum').val();
+                    var userId = $('#userNameSum option:selected').prop("value");
                     var projectSum = $('#projectSum option:selected').prop("value");
                     var flowYearSum = $('#flowYearSum').val();
                     var flowMonthSum = $('#flowMonthSum option:selected').prop("value");
@@ -476,7 +479,7 @@
                         type: "get",
                         data: {
                             "rand":Math.random(),
-                            "name": nameSum,
+                            "userId": userId,
                             "project": projectSum,
                             "flowYear": flowYearSum,
                             "flowMonth": flowMonthSum,
@@ -490,7 +493,6 @@
                                 $('#messageBox').text("没有找到符合条件的记录！");
                                 $('#messageBox').show();
                             }else{
-                                var userId=data.userId;
                                 table.render({
                                     elem: '#test',
                                     url: '/financial/queryMoneyFlowSumByVo',
@@ -551,8 +553,8 @@
                             projectList=data;
                             var proListLen=projectList.length;
                             for(var i=0;i<proListLen;i++){
-                                $("#project").append('<option value="'+projectList[i].projectName+'">'+projectList[i].projectName+'</option>');
-                                $("#projectSum").append('<option value="'+projectList[i].projectName+'">'+projectList[i].projectName+'</option>');
+                                $("#project").append('<option value="'+projectList[i].projectId+'">'+projectList[i].projectName+'</option>');
+                                $("#projectSum").append('<option value="'+projectList[i].projectId+'">'+projectList[i].projectName+'</option>');
                             }
                             form.render('select');
                         },
@@ -568,6 +570,14 @@
                         dataType: "json",
                         success: function(data) {
                             allUserList=data;
+                            var len=allUserList.length;
+                            var txt='';
+                            for(var i=0;i<len;i++){
+                                txt=txt+'<option value="'+allUserList[i].user_id+'">'+allUserList[i].user_name+'</option>';
+                            }
+                            $('#userNameSum').append(txt);
+                            $('#userName').append(txt);
+                            form.render();
                         },
                         error: function() { //请求失败的回调
                             layer.msg('发生了未知错误！', {

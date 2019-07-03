@@ -34,7 +34,9 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">被查询人：</label>
 				<div class="layui-input-block">
-					<input type="text" placeholder="请输入被查询人姓名...留空查询全部" class="layui-input" id='userName' />
+					<select name="modules" lay-search="" id="userName">
+						<option value="">请选择或搜索选择被查询人...默认全部</option>
+					</select>
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -106,6 +108,21 @@
 				var form = layui.form;
 				var laydate = layui.laydate;
 
+                var userList=[];
+                function showUseMan(man) {
+                    if(man===''){
+                        return '系统错误';
+                    }
+                    man=man*1;
+                    var len=userList.length;
+                    for(var i=0;i<len;i++){
+                        if(userList[i].userId*1===man){
+                            return userList[i].userName;
+                        }
+                    }
+                    return '系统错误';
+                }
+
                 var proList=[];
                 function getProjectName(projectId) {
                     var len=proList.length;
@@ -125,7 +142,7 @@
 							url: '/human/queryLeaveDetail',
 							type: "get",
 							data: {
-								"userCode": data.user_code,
+								"userId": data.user_code,
 								"project": data.user_project,
 								"leaveYear": data.lea_year,
 								"leaveMonth": data.lea_month
@@ -164,7 +181,7 @@
 				$('#byVo').click(function() {
 					$('#messageBox').text("查询中ing...");
 					$('#messageBox').show();
-					var userName = $('#userName').val();
+					var userId = $('#userName option:selected').prop("value");
 					var project = $('#project option:selected').prop("value");
 					var flowYear = $('#flowYear option:selected').prop("value");
 					var flowMonth = $('#flowMonth option:selected').prop("value");
@@ -172,7 +189,7 @@
 						url: '/human/countLeaveByVo',
 						type: "get",
 						data: {
-							"userName": userName,
+							"userId": userId,
 							"project": project,
 							"leaveYear": flowYear,
 							"leaveMonth": flowMonth
@@ -184,14 +201,13 @@
 								$('#messageBox').text("没有找到符合条件的记录！");
 								$('#messageBox').show();
 							} else {
-								var userCode = data.userCode;
 								table.render({
 									elem: '#test',
 									url: '/human/queryLeaveByVo',
 									toolbar: true,
 									where: {
 										"size": size,
-										"userCode": userCode,
+										"userId": userId,
 										"project": project,
 										"leaveYear": flowYear,
 										"leaveMonth": flowMonth
@@ -209,8 +225,11 @@
                                                 }
 											},
 											{
-												field: 'user_name',
-												title: '姓名'
+												field: 'user_code',
+												title: '姓名',
+                                                templet: function(res) {
+                                                    return showUseMan(res.user_code)
+                                                }
 											},
 											{
 												field: 'lea_year',
@@ -266,8 +285,7 @@
 							proList = data;
 							var proListLen = proList.length;
 							for(var i = 0; i < proListLen; i++) {
-								$("#project").append('<option value="' + proList[i].projectName + '">' + proList[i].projectName + '</option>');
-								$("#projectSum").append('<option value="' + proList[i].projectName + '">' + proList[i].projectName + '</option>');
+								$("#project").append('<option value="' + proList[i].projectId + '">' + proList[i].projectName + '</option>');
 							}
 							form.render('select');
 						},
@@ -277,6 +295,34 @@
 							});
 						}
 					});
+                    $.ajax({
+                        url: "/human/roleUser",
+                        type: "get",
+                        dataType: "json",
+                        success: function(data) { //请求成功的回调
+                            var len=data.length;
+                            for(var i=0;i<len;i++){
+                                var temp=data[i].list;
+                                var txt= '<optgroup label="'+data[i].role_name+'">';
+                                for(var j=0;j<temp.length;j++){
+                                    var user={
+                                        "userId":temp[j].userId,
+                                        "userName":temp[j].userName
+                                    };
+                                    userList.push(user);
+                                    txt=txt+'<option value="'+temp[j].userId+'">'+temp[j].userName+'</option>';
+                                }
+                                txt=txt+'</optgroup>';
+                                $('#userName').append(txt);
+                                form.render();
+                            }
+                        },
+                        error: function() { //请求失败的回调
+                            layer.msg('发生了未知错误！', {
+                                icon: 2
+                            });
+                        }
+                    });
 				});
 			});
 			//]]>
