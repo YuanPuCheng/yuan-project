@@ -107,7 +107,7 @@
 					var proUrl = $(this).attr("proUrl");
 					var proTitle=$(this).text();
 					if(proTitle==='公司请款申请'){
-					    var userRole=$("#userrole").attr("name");
+					    var userRole=$("#userRole").attr("name");
                         if(userRole.indexOf('项目经理') ===-1 && userRole.indexOf('总经理') ===-1) {
                             layer.msg('您没有向公司请款的权限！');
                             return;
