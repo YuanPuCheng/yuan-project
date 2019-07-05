@@ -4,15 +4,12 @@ import com.zihui.cwoa.processone.dao.NoticeMapper;
 import com.zihui.cwoa.system.common.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 @CacheConfig(cacheNames = {"NoticeServiceCache"})
 @Service
