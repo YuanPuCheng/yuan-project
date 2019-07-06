@@ -201,7 +201,7 @@
 
     select
       r.*,
-	  rb.*,
+
 	  u.user_id,
 	  u.user_name
     from rw_mail  rr
@@ -220,7 +220,7 @@
     </if>
       and rb.mail_user = #{userId} AND r.state = 2 AND rb.star_state = 2)) ORDER by send_time DESC limit  #{page}, #{limit}
       ) r on rr.mail_id = r.mail_id
-    JOIN rw_mail_user rb ON r.mail_id = rb.mail_id and rb.mail_user = #{userId}
+
     join sys_user u on r.sender_user = u.user_id
     ORDER by r.send_time DESC
   </select>
@@ -243,7 +243,7 @@
     </if>
     and rb.mail_user = #{userId} AND r.state = 2 AND rb.star_state = 2))
     ) r on rr.mail_id = r.mail_id
-    JOIN rw_mail_user rb ON r.mail_id = rb.mail_id and rb.mail_user = #{userId}
+
     join sys_user u on r.sender_user = u.user_id
 
   </select>
