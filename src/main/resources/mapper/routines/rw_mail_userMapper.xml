@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zihui.cwoa.routine.dao.rw_mail_userMapper" >
+  <resultMap id="BaseResultMap" type="com.zihui.cwoa.routine.pojo.rw_mail_user" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="mail_id" property="mailId" jdbcType="INTEGER" />
+    <result column="mail_user" property="mailUser" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="look_state" property="lookState" jdbcType="INTEGER" />
+    <result column="star_state" property="starState" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, mail_id, mail_user, status, look_state, star_state
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rw_mail_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rw_mail_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.zihui.cwoa.routine.pojo.rw_mail_user" >
+    insert into rw_mail_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="mailId != null" >
+        mail_id,
+      </if>
+      <if test="mailUser != null" >
+        mail_user,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="lookState != null" >
+        look_state,
+      </if>
+      <if test="starState != null" >
+        star_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="mailId != null" >
+        #{mailId,jdbcType=INTEGER},
+      </if>
+      <if test="mailUser != null" >
+        #{mailUser,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="lookState != null" >
+        #{lookState,jdbcType=INTEGER},
+      </if>
+      <if test="starState != null" >
+        #{starState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zihui.cwoa.routine.pojo.rw_mail_user" >
+    update rw_mail_user
+    <set >
+      <if test="mailId != null" >
+        mail_id = #{mailId,jdbcType=INTEGER},
+      </if>
+      <if test="mailUser != null" >
+        mail_user = #{mailUser,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="lookState != null" >
+        look_state = #{lookState,jdbcType=INTEGER},
+      </if>
+      <if test="starState != null" >
+        star_state = #{starState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateToStarMail">
+    update rw_mail_user set star_state = #{starState} where mail_id = #{mailId} and mail_user = #{userId}
+  </update>
+
+  <update id="updateToLookState">
+    update rw_mail_user set look_state = #{lookState} where mail_id = #{mailId} and mail_user = #{userId}
+  </update>
+  <delete id="delByMailId" parameterType="java.lang.Integer">
+
+    DELETE from rw_mail_user where mail_id = #{mailId}
+  </delete>
+</mapper>

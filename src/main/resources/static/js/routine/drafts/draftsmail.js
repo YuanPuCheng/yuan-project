@@ -46,9 +46,11 @@ layui.extend({
 	editor.create();
 	
 	var formSelects = layui.formSelects;
-	var userId = "46";
+    var sessionData = sessionStorage.getItem('user');//取出数据
+    var user = JSON.parse(sessionData);
+    var userId = user.userId;
 	var mailId = $("#mailId").val();
-	$("#name").val("管理员");//发件人
+	$("#name").val(user.userName);//发件人
 	let arr;//收件人
 	let arr1;//抄送人
 	let arr2//密送人
@@ -186,7 +188,9 @@ layui.formSelects.config('select2', {
 				if(data.result==200){
 					layer.alert(data.message, function() {
 						layer.close();
-						parent.location.reload();
+                        parent.location.reload();
+                        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                        parent.layer.close(index);
 					});
 				}else{
 					layer.alert(data.message, function() {
@@ -232,7 +236,9 @@ layui.formSelects.config('select2', {
 				if(data.result==200){
 					layer.alert(data.message, function() {
 						layer.close();
-						parent.location.reload();
+                        parent.location.reload();
+                        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                        parent.layer.close(index);
 					});
 				}else{
 					layer.alert(data.message, function() {

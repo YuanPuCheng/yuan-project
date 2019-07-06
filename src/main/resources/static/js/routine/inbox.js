@@ -23,7 +23,9 @@ layui.extend({
      if(target.closest(".d1").length != 0) return;
     $(".d1").hide();
 })
-	var userId = 46;
+    var sessionData = sessionStorage.getItem('user');//取出数据
+    var user = JSON.parse(sessionData);
+    var userId = user.userId;
 	table.render({
 		elem: '#test',
 		url: layui.setter.project + "/inbox/getinbox",
@@ -178,7 +180,7 @@ layui.extend({
 					anim: 7,
                     area: ['100%',  '100%'],
 					shadeClose: false, //开启遮罩关闭
-					content: 'inbox/inboxinfo.html',
+					content: layui.setter.project + "/rw/inboxinfo",
 					success: function(layero, index) {
 						var body = layer.getChildFrame('body', index);
 						body.find("#mailId").val(data.mailId);

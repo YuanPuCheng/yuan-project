@@ -8,8 +8,10 @@ layui.extend({
 		layer = layui.layer,
 		form = layui.form,
 		$ = layui.jquery;
-		
-	var userId = 46;
+
+    var sessionData = sessionStorage.getItem('user');//取出数据
+    var user = JSON.parse(sessionData);
+    var userId = user.userId;
 	var widthMax = "70%",
 		heightMax = "80%";
 	if($(window).width() < 768) {
@@ -41,8 +43,7 @@ layui.extend({
 					field: 'state',
 					title: '<svg class="icon" aria-hidden="true"><use xlink:href="#icon-youjian"></use></svg>',
 					templet: function(d) {
-						
-							name='<svg class="icon" aria-hidden="true"><use xlink:href="#icon-wodexiaoxiyidu"></use></svg>';
+						var name='<svg class="icon" aria-hidden="true"><use xlink:href="#icon-wodexiaoxiyidu"></use></svg>';
 						return name;
 					},width:55
 			},
@@ -108,7 +109,7 @@ layui.extend({
 					anim: 7,
                     area: ['100%',  '100%'],
 					shadeClose: false, //开启遮罩关闭
-					content: 'drafts/draftsmail.html',
+					content: layui.setter.project + "/rw/draftsmail",
 					success: function(layero, index) {
 					
     				var data = "";	//详情数据
