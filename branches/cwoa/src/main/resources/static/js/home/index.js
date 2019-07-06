@@ -14,6 +14,9 @@ layui.extend({
     $("#act").click(function () {
         window.parent.openbq('act:task');
     });
+    $("#inbox").click(function () {
+        window.parent.openbq('inbox');
+    });
     carousel.render({
         elem: '#test10'
         ,width: '100%'
@@ -46,6 +49,7 @@ layui.extend({
             console.log(data);
                 $("#t").html(data.mcount);
                 $("#acttask").html(data.tcount);
+                $("#inboxCount").html(data.inboxCount);
                 projectEchar(data.projectEchar.name,data.projectEchar.namevalue);
             });
     }

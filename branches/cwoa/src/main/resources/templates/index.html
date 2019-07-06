@@ -186,7 +186,7 @@
                                 var sanhead='<dl class="layui-nav-child">';
                                 var sanji="";
                                 for(var k=0;k<data[i].menus[j].menus.length;k++){
-                                    sanji+='<dd data-name="list"><a lay-href="'+data[i].menus[j].menus[k].menuUrl+'">'+data[i].menus[j].menus[k].menuName+'</a></dd>'
+                                    sanji+='<dd data-name="list"><a id="'+data[i].menus[j].menus[k].menuCode+'" lay-href="'+data[i].menus[j].menus[k].menuUrl+'">'+data[i].menus[j].menus[k].menuName+'</a></dd>'
                                 }
                                 var sandi = '</dl>';
                                 sanji=sanhead+sanji+sandi;

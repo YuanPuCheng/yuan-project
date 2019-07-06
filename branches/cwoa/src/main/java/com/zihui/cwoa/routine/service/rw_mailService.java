@@ -95,4 +95,8 @@ public class rw_mailService {
     public rw_mail selectOutboxInfo(Integer mailId){
         return mailMapper.selectOutboxInfo(mailId);
     };
+    //查找未读邮件总数
+    public Integer selectNoLookCount(Integer userId){
+        return mailMapper.selectNoLookCount(userId);
+    };
 }

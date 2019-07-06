@@ -327,4 +327,13 @@
     join sys_user uu on rb.mail_user = uu.user_id
 
   </select>
+
+  <select id="selectNoLookCount" resultType="java.lang.Integer">
+    select
+    COUNT(DISTINCT rr.mail_id)
+    from  rw_mail  rr join rw_mail_user rb on rr.mail_id = rb.mail_id
+    and rr.state=2
+    and rb.look_state =1
+    and rb.mail_user = #{userId}
+  </select>
 </mapper>

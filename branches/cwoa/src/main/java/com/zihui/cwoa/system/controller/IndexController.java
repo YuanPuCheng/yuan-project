@@ -1,24 +1,22 @@
 package com.zihui.cwoa.system.controller;
 
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zihui.cwoa.processone.service.QueryService;
+import com.zihui.cwoa.routine.service.rw_mailService;
 import com.zihui.cwoa.system.pojo.sys_project;
 import com.zihui.cwoa.system.pojo.sys_user;
 import com.zihui.cwoa.system.service.sys_projectService;
 import com.zihui.cwoa.system.service.sys_taskSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +32,8 @@ public class IndexController {
     private QueryService queryService;
     @Autowired
     private sys_projectService projectService;
-
+    @Autowired
+    private rw_mailService mailService;
 
 
     public final String URL = "http://t.weather.sojson.com/api/weather/city/101240101";//天气接口1
@@ -72,31 +71,31 @@ public class IndexController {
                 return echarsiIndex();
             }
         };
-        //创建天气图表线程
-        /*Callable<Map> task4= new Callable<Map>() {
+        //创建未读邮件线程
+        Callable<Integer> task4= new Callable<Integer>() {
             @Override
-            public Map call() throws Exception {
-
-                return httpClient1();
+            public Integer call() throws Exception {
+                return mailService.selectNoLookCount(user.getUserId());
             }
-        };*/
-        FutureTask<Integer> fu1 = new FutureTask(task1);
-        FutureTask<Integer> fu2 = new FutureTask(task2);
-        FutureTask<Map> fu3 = new FutureTask(task3);
-        //FutureTask<Map> fu4 = new FutureTask(task4);
+        };
+        FutureTask<Integer> fu1 = new FutureTask(task1);//待办任务总数
+        FutureTask<Integer> fu2 = new FutureTask(task2);//我的通知总数
+        FutureTask<Map> fu3 = new FutureTask(task3);//天气图表
+        FutureTask<Integer> fu4 = new FutureTask(task4);//未读邮件总数
         pool.execute(fu1);
         pool.execute(fu2);
         pool.execute(fu3);
-        //pool.execute(fu4);
+        pool.execute(fu4);
         try {
             Integer count1=fu1.get();
             Integer count2=fu2.get();
             Map m = fu3.get();
+            Integer count4=fu4.get();
            // Map tq = fu4.get();
             map.put("tcount",count1);
             map.put("mcount",count2);
             map.put("projectEchar",m);
-            //map.put("tq",tq);
+            map.put("inboxCount",count4);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
