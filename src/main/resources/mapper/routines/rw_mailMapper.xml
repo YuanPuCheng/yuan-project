@@ -201,7 +201,7 @@
 
     select
       r.*,
-
+      rb.*,
 	  u.user_id,
 	  u.user_name
     from rw_mail  rr
@@ -220,10 +220,12 @@
     </if>
       and rb.mail_user = #{userId} AND r.state = 2 AND rb.star_state = 2)) ORDER by send_time DESC limit  #{page}, #{limit}
       ) r on rr.mail_id = r.mail_id
-
+    join rw_mail_user rb on rr.mail_id = rb.mail_id
     join sys_user u on r.sender_user = u.user_id
+    where (rb.mail_user = #{userId} or r.sender_user = #{userId})
     ORDER by r.send_time DESC
   </select>
+
   <select id="selectStarMailCount" resultType="java.lang.Integer">
     select
     count(DISTINCT rr.mail_id)
