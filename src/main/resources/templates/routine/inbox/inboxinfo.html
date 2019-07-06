@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>查看收件箱邮件</title>
+		<link rel="stylesheet" type="text/css" href="../../../static/css/admin.css" />
+		<link rel="stylesheet" type="text/css" href="../../../static/layui/css/layui.css" />
+
+		<style type="text/css">
+			.icon {
+				width: 1.5em;
+				height: 1.5em;
+				vertical-align: -0.15em;
+				fill: currentColor;
+				overflow: hidden;
+			}
+			
+			.layui-btn {
+				font-size: 14px;
+			}
+			
+			.d1 {
+				display: none;
+				position: absolute;
+				left: 215px;
+				top: 55px;
+				min-width: 116px;
+				line-height: 36px;
+				padding: 5px 0;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+				border: 1px solid #d2d2d2;
+				background-color: #fff;
+				z-index: 100;
+				border-radius: 2px;
+				white-space: nowrap;
+			}
+			
+			.d1 dd:hover {
+				background-color: #F2F2F2;
+			}
+			
+			dd {
+				display: block;
+				padding-left: 13px;
+			}
+			.ddd1{
+				    color: #666;
+    				word-break: break-all;
+    				float: left!important;
+			}
+			.ddd2{
+				    word-break: break-all;
+    				color: #666;
+    				min-height: 25px;
+    				overflow: hidden;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-card">
+				<div class="layui-form layui-card-header layuiadmin-card-header-auto" style="border-bottom: 1px solid #ddd;">
+					<input type="hidden" id="mailId" />
+				</div>
+				<!--表单内容-->
+				<div class="layui-card-body" style=" border-bottom: 1px solid #ddd;">
+					<ul>
+						<li>
+							<dl class="d1" style="">
+								<dd>
+									<a style="display: block;" id="xin">星标</a>
+								</dd>
+								<dd>
+									<a style="display: block;" id="qxin">取消星标</a>
+								</dd>
+							</dl>
+						</li>
+					</ul>
+					<div class="layui-form-item" style=" margin-bottom: 0px;">
+
+						<div id="hf" style="border-radius:4px;float: left;" class="layui-btn layui-btn-normal layui-btn-sm">回复</div>
+						<div id="hfqb" style="border-radius:4px;float: left;" class="layui-btn layui-btn-normal layui-btn-sm">回复全部</div>
+						<div id="zf" style="border-radius:4px;float: left;" class="layui-btn layui-btn-normal layui-btn-sm">转发</div>
+						<div id="div2" style="border-radius:4px;float: left;" class="layui-btn layui-btn-normal layui-btn-sm">标记为...<i class="layui-icon layui-icon-triangle-d"></i></div>
+					</div>
+				</div>
+				<div class="layui-card-body" style="background: #fafafa;border-bottom: 1px solid #ddd;">
+					<div class="layui-form-item" style="margin-top: 20px;">
+						<span id="theme" style="font-size: 18px; font-weight: bold; "></span>
+						<span style="cursor: pointer;">&nbsp;&nbsp;<i style="display: none; cursor: pointer;" class="layui-icon layui-icon-rate"></i><i style="display: none; cursor: pointer;" class="layui-icon layui-icon-rate-solid"></i></span>
+						<span id="wz" style=" cursor: pointer;  position: absolute;right: 15px;">完整 <i class="layui-icon layui-icon-down" style="font-size: 12px;"></i> </span>
+						<span id="jj" style="display: none; cursor: pointer; position: absolute;right: 15px;">精简 <i class="layui-icon layui-icon-right"  style="font-size: 12px;"></i></span>
+					</div>
+					<div id="jjcontent" class="layui-form-item">
+						
+					</div>
+					<div class="layui-form-item wzcontent" style="display: none;" >
+						<label>发件人：</label><span id="sendUser"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>时间: 2019-07-03 08:32</span>
+					</div>
+					<div class="layui-form-item wzcontent" style="display: none;" >
+						<div class="ddd1">收件人：</div>
+						<div id="suser1" class="ddd2"></div>
+					</div>
+					<div class="layui-form-item cuserf" style="display: none;" >
+						<div class="ddd1">抄送人：</div>
+						<div id="cuser1" class="ddd2"></div>
+					</div>
+				</div>
+				<div class="layui-card-body">
+					<div id="mail_content" class="layui-form-item" style="height: 500px;">
+					</div>
+				</div>
+				
+			</div>
+
+	</body>
+	<script type="text/javascript" src="../../../static/js/common/dateFormat.js"></script>
+	<script src="../../../static/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../../static/layui/font/iconfont.js"></script>
+	<script>
+		layui.config({
+			base: '../../../static/js/' //静态资源所在路径
+		}).extend({
+			inboxinfo: "routine/inbox/inboxinfo"
+		}).use('inboxinfo');
+	</script>
+
+</html>
