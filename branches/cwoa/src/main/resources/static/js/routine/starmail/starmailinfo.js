@@ -12,7 +12,9 @@ layui.extend({
 	var cuserIds="";//抄送人Id
     var suserIds="";//收件人Id
 	var contents = "";
-	var userId = 46;
+    var sessionData = sessionStorage.getItem('user');//取出数据
+    var user = JSON.parse(sessionData);
+    var userId = user.userId;
 	var mailId = $("#mailId").val();
 	var cuserFlag =false;
 	var muserFlag = false;

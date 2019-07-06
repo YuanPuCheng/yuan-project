@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zihui.cwoa.routine.dao.rw_mailMapper" >
+  <resultMap id="BaseResultMap" type="com.zihui.cwoa.routine.pojo.rw_mail" >
+    <id column="mail_id" property="mailId" jdbcType="INTEGER" />
+    <result column="sender_user" property="senderUser" jdbcType="INTEGER" />
+    <result column="mail_theme" property="mailTheme" jdbcType="VARCHAR" />
+    <result column="mail_content" property="mailContent" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="send_time" property="sendTime" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="star_status" property="starStatus" jdbcType="INTEGER" />
+    <collection property="mailUsers" ofType="com.zihui.cwoa.routine.pojo.rw_mail_user">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="mail_id" property="mailId" jdbcType="INTEGER" />
+        <result column="mail_user" property="mailUser" jdbcType="INTEGER" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="look_state" property="lookState" jdbcType="INTEGER" />
+        <result column="star_state" property="starState" jdbcType="INTEGER" />
+        <collection property="userss" ofType="com.zihui.cwoa.system.pojo.sys_users">
+          <result column="user_ids" property="userId" jdbcType="INTEGER" />
+          <result column="user_names" property="userName" jdbcType="VARCHAR" />
+        </collection>
+    </collection>
+    <collection property="users" ofType="com.zihui.cwoa.system.pojo.sys_users">
+      <result column="user_id" property="userId" jdbcType="INTEGER" />
+      <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    mail_id, sender_user, mail_theme, mail_content, attachment, send_time, state, star_status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rw_mail
+    where mail_id = #{mailId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rw_mail
+    where mail_id = #{mailId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.zihui.cwoa.routine.pojo.rw_mail"  keyProperty="mailId" useGeneratedKeys="true">
+    insert into rw_mail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mailId != null and mailId !=''" >
+        mail_id,
+      </if>
+      <if test="senderUser != null and senderUser !=''" >
+        sender_user,
+      </if>
+      <if test="mailTheme != null and mailTheme !=''" >
+        mail_theme,
+      </if>
+      <if test="mailContent != null and mailContent !=''" >
+        mail_content,
+      </if>
+      <if test="attachment != null and attachment !=''" >
+        attachment,
+      </if>
+      <if test="sendTime != null and sendTime !=''" >
+        send_time,
+      </if>
+      <if test="state != null and state !=''" >
+        state,
+      </if>
+      <if test="starStatus != null and starStatus !=''" >
+        star_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mailId != null and mailId !=''" >
+        #{mailId,jdbcType=INTEGER},
+      </if>
+      <if test="senderUser != null and senderUser !=''" >
+        #{senderUser,jdbcType=INTEGER},
+      </if>
+      <if test="mailTheme != null and mailTheme !=''" >
+        #{mailTheme,jdbcType=VARCHAR},
+      </if>
+      <if test="mailContent != null and mailContent !=''" >
+        #{mailContent,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null and attachment !=''" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null and sendTime !=''" >
+        #{sendTime,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null and state !=''" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="starStatus != null and starStatus !=''" >
+        #{starStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zihui.cwoa.routine.pojo.rw_mail" >
+    update rw_mail
+    <set >
+      <if test="senderUser != null and senderUser !=''" >
+        sender_user = #{senderUser,jdbcType=INTEGER},
+      </if>
+      <if test="mailTheme != null and mailTheme !=''" >
+        mail_theme = #{mailTheme,jdbcType=VARCHAR},
+      </if>
+      <if test="mailContent != null and mailContent !=''" >
+        mail_content = #{mailContent,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null and attachment !=''" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null and sendTime !=''" >
+        send_time = #{sendTime,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null and state != ''" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="starStatus != null and starStatus !=''" >
+        star_status = #{starStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where mail_id = #{mailId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectInbox" resultMap="BaseResultMap">
+    SELECT
+    rr.*,
+    rb.*,
+    u.user_id,
+    u.user_name
+    FROM
+    rw_mail rr
+    join (select DISTINCT rw_mail.mail_id from rw_mail join rw_mail_user on rw_mail.mail_id = rw_mail_user.mail_id
+    where 1=1 and  rw_mail.state = 2
+    <if test="content != null and content!=''" >
+      and  (rw_mail.mail_theme LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%')
+      or rw_mail.mail_content LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%'))
+    </if>
+     and rw_mail_user.mail_user = #{userId} ORDER by rw_mail.send_time DESC limit  #{page}, #{limit}  ) r on rr.mail_id = r.mail_id
+    join rw_mail_user rb on rb.mail_id = r.mail_id and rb.mail_user = #{userId}
+    join sys_user u on rr.sender_user = u.user_id
+    ORDER by rr.send_time DESC
+  </select>
+  <select id="selectInboxCount" resultType="java.lang.Integer">
+    SELECT
+      COUNT(DISTINCT rr.mail_id)
+    FROM
+    rw_mail rr
+    join rw_mail_user rb on rb.mail_id = rr.mail_id and rb.mail_user = #{userId} and rr.state=2
+    <if test="content != null and content!=''" >
+      and  (rr.mail_theme LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%')
+      or rr.mail_content LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%'))
+    </if>
+    join sys_user u on rr.sender_user = u.user_id
+    ORDER by rr.send_time DESC;
+  </select>
+
+  <select id="selectOutbox" resultMap="BaseResultMap">
+    SELECT
+    r.*,
+    u.user_id,
+    u.user_name
+    FROM
+    rw_mail rr
+    join (select * from rw_mail
+    where 1=1
+    and state = 2
+    <if test="content != null and content!=''" >
+      and  (mail_theme LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%')
+      or mail_content LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%'))
+    </if>
+    and sender_user = #{userId}
+    ORDER by send_time DESC
+    limit #{page}, #{limit}) r on rr.mail_id = r.mail_id
+
+    join sys_user u on r.sender_user = u.user_id
+    ORDER by r.send_time DESC
+
+  </select>
+<select id="selectOutboxCount" resultType="java.lang.Integer">
+  SELECT
+	count(r.mail_id)
+    FROM
+	    rw_mail rr
+    join (select * from rw_mail
+    where 1=1
+    and state = 2
+    <if test="content != null and content!=''" >
+     and  (mail_theme LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%')
+     or mail_content LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%'))
+   </if>
+    and sender_user = #{userId}
+		 ORDER by send_time DESC) r on rr.mail_id = r.mail_id
+
+    join sys_user u on r.sender_user = u.user_id
+    ORDER by r.send_time DESC
+</select>
+
+  <select id="selectStarMail" resultMap="BaseResultMap">
+
+    select
+      r.*,
+	  rb.*,
+	  u.user_id,
+	  u.user_name
+    from rw_mail  rr
+    join (select * from rw_mail where 1=1
+    <if test="content != null and content!=''" >
+      and  (mail_theme LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%')
+      or mail_content LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%'))
+    </if>
+    and sender_user = #{userId} and state = 2 and star_status=2
+    or (mail_id in
+    (SELECT r.mail_id FROM rw_mail r JOIN rw_mail_user rb ON r.mail_id = rb.mail_id
+      WHERE 1=1
+    <if test="content != null and content!=''" >
+      and  (r.mail_theme LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%')
+      or r.mail_content LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%'))
+    </if>
+      and rb.mail_user = #{userId} AND r.state = 2 AND rb.star_state = 2)) ORDER by send_time DESC limit  #{page}, #{limit}
+      ) r on rr.mail_id = r.mail_id
+    JOIN rw_mail_user rb ON r.mail_id = rb.mail_id and rb.mail_user = #{userId}
+    join sys_user u on r.sender_user = u.user_id
+    ORDER by r.send_time DESC
+  </select>
+  <select id="selectStarMailCount" resultType="java.lang.Integer">
+    select
+    count(DISTINCT rr.mail_id)
+    from rw_mail  rr
+    join (select * from rw_mail where 1=1
+    <if test="content != null and content!=''" >
+      and  (mail_theme LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%')
+      or mail_content LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%'))
+    </if>
+    and sender_user = #{userId} and state = 2 and star_status=2
+    or (mail_id in
+    (SELECT r.mail_id FROM rw_mail r JOIN rw_mail_user rb ON r.mail_id = rb.mail_id
+    WHERE 1=1
+    <if test="content != null and content!=''" >
+      and  (r.mail_theme LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%')
+      or r.mail_content LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%'))
+    </if>
+    and rb.mail_user = #{userId} AND r.state = 2 AND rb.star_state = 2))
+    ) r on rr.mail_id = r.mail_id
+    JOIN rw_mail_user rb ON r.mail_id = rb.mail_id and rb.mail_user = #{userId}
+    join sys_user u on r.sender_user = u.user_id
+
+  </select>
+
+  <select id="selectDrafts" resultMap="BaseResultMap">
+    SELECT
+    r.*,
+    rb.*,
+    u.user_id,
+    u.user_name,
+    uu.user_id as user_ids,
+    uu.user_name as user_names
+    FROM
+    rw_mail rr
+    join (select * from rw_mail
+    where  1=1
+    and state = 1
+    and sender_user = #{userId}
+    <if test="content != null and content!=''" >
+      and  (mail_theme LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%')
+      or mail_content LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%'))
+    </if>
+    ORDER by send_time DESC
+    limit  #{page}, #{limit}) r on rr.mail_id = r.mail_id
+    JOIN rw_mail_user rb ON r.mail_id = rb.mail_id
+    join sys_user u on r.sender_user = u.user_id
+    join  sys_user uu on rb.mail_user = uu.user_id
+    ORDER by r.send_time DESC
+  </select>
+  <select id="selectDraftsCount" resultType="java.lang.Integer">
+    SELECT
+    count( DISTINCT r.mail_id)
+    FROM
+    rw_mail rr
+    join (select * from rw_mail
+    where  1=1
+    and state = 1
+    and sender_user = #{userId}
+    <if test="content != null and content!=''" >
+      and  (mail_theme LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%')
+      or mail_content LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%'))
+    </if>
+    ) r on rr.mail_id = r.mail_id
+    JOIN rw_mail_user rb ON r.mail_id = rb.mail_id
+    join sys_user u on r.sender_user = u.user_id;
+
+
+  </select>
+  <select id="selectInboxInfo" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    SELECT
+	  r.*,
+	  rb.*,
+	  u.user_id,
+	  u.user_name,
+	  uu.user_id as user_ids,
+	  uu.user_name as user_names
+       FROM
+	  rw_mail r
+      JOIN rw_mail_user rb ON r.mail_id = rb.mail_id
+         and r.mail_id = #{mailId}
+         and (rb.`status` = 1 or rb.`status` = 2)
+      join sys_user u on r.sender_user = u.user_id
+	  join sys_user uu on rb.mail_user = uu.user_id
+
+  </select>
+
+  <select id="selectOutboxInfo" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    SELECT
+    r.*,
+    rb.*,
+    u.user_id,
+    u.user_name,
+    uu.user_id as user_ids,
+    uu.user_name as user_names
+    FROM
+    rw_mail r
+    JOIN rw_mail_user rb ON r.mail_id = rb.mail_id
+    and r.mail_id = #{mailId}
+    and (rb.`status` = 1 or rb.`status` = 2 or rb.`status` = 3)
+    join sys_user u on r.sender_user = u.user_id
+    join sys_user uu on rb.mail_user = uu.user_id
+
+  </select>
+</mapper>

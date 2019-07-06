@@ -36,7 +36,7 @@
       <if test="menuId != null and menuId !=''" >
         menu_id,
       </if>
-      <if test="parentId != null and parentId !=''" >
+      <if test="parentId != null" >
         parent_id,
       </if>
       <if test="menuName != null and menuName !=''" >
@@ -77,7 +77,7 @@
       <if test="menuId != null and menuId !=''" >
         #{menuId,jdbcType=INTEGER},
       </if>
-      <if test="parentId != null and parentId !=''" >
+      <if test="parentId != null" >
         #{parentId,jdbcType=INTEGER},
       </if>
       <if test="menuName != null and menuName !=''" >

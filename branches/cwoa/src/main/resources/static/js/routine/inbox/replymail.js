@@ -49,9 +49,11 @@ layui.extend({
 	var data = JSON.parse($("#data").val());
 	console.log("---------");
 	console.log(data);
-	
-	var userId = "46";
-	$("#name").val("管理员");//发件人
+
+    var sessionData = sessionStorage.getItem('user');//取出数据
+    var user = JSON.parse(sessionData);
+    var userId = user.userId;
+	$("#name").val(user.userName);//发件人
 	let arr;//收件人
 	let arr1;//抄送人
 	if($("#state").val()==1){//回复
@@ -205,9 +207,12 @@ layui.formSelects.config('select2', {
 			success: function(data) {
 				console.log(data);
 				if(data.result==200){
-					layer.alert(data.message, function() {
-						layer.close();
-						location.reload();
+					layer.alert(data.message, function(index) {
+						layer.close(index);
+                        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                        parent.layer.close(index);
+                        var index = parent.parent.layer.getFrameIndex(window.name); //获取窗口索引
+                        parent.parent.layer.close(index);
 					});
 				}else{
 					layer.alert(data.message, function() {
@@ -250,10 +255,14 @@ layui.formSelects.config('select2', {
 			success: function(data) {
 				console.log(data);
 				if(data.result==200){
-					layer.alert(data.message, function() {
-						layer.close();
-						location.reload();
+					layer.alert(data.message, function(index) {
+						layer.close(index);
+                        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                        parent.layer.close(index);
+                        var index = parent.parent.layer.getFrameIndex(window.name); //获取窗口索引
+                        parent.parent.layer.close(index);
 					});
+
 				}else{
 					layer.alert(data.message, function() {
 						layer.close();
