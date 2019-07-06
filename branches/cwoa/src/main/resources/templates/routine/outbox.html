@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>发件箱</title>
+		<link rel="stylesheet" type="text/css" href="../../static/css/admin.css" />
+		<link rel="stylesheet" type="text/css" href="../../static/layui/css/layui.css" />
+
+		<style type="text/css">
+			.icon {
+				width: 1.5em;
+				height: 1.5em;
+				vertical-align: -0.15em;
+				fill: currentColor;
+				overflow: hidden;
+			}
+			
+			.layui-table td,
+			.layui-table th,
+			.layui-table-col-set,
+			.layui-table-fixed-r,
+			.layui-table-grid-down,
+			.layui-table-header,
+			.layui-table-page,
+			.layui-table-tips-main,
+			.layui-table-tool,
+			.layui-table-total,
+			.layui-table-view,
+			.layui-table[lay-skin=line],
+			.layui-table[lay-skin=row] {
+				border-top-style: solid;
+				border-bottom-style: solid;
+				border-left-style: none;
+				border-right-style: none;
+			}
+			.layui-btn{
+				font-size: 14px;
+			}
+			.d1 {
+				display: none;
+				position: absolute;
+				left: 15px;
+				top: 55px;
+				min-width: 7%;
+				line-height: 36px;
+				padding: 5px 0;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+				border: 1px solid #d2d2d2;
+				background-color: #fff;
+				z-index: 100;
+				border-radius: 2px;
+				white-space: nowrap;
+			}
+			.d1 dd:hover{
+				background-color: #F2F2F2;
+			}
+			
+			dd {
+				display: block;
+				padding-left: 13px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-card">
+				<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+				</div>
+				<!--表单内容-->
+				<div class="layui-card-body">
+					
+					<ul>
+						<li>
+							<dl class="d1" style="">
+								<dd>
+									<a style="display: block;" id="xin">星标</a>
+								</dd>
+								<dd>
+									<a style="display: block;" id="qxin">取消星标</a>
+								</dd>
+							</dl>
+						</li>
+					</ul>
+					<div class="layui-form-item" >
+						<div id="div2" style="border-radius:4px;float: left;" class="layui-btn layui-btn-normal layui-btn-sm">标记为...<i class="layui-icon layui-icon-triangle-d"></i></div>
+						<div style="position: absolute;right: 40px;">
+						<div class="layui-inline">
+							<label class="layui-form-label"></label>
+							<div class="layui-input-block">
+								<input type="text" name="content" id="content" placeholder="请输入主题或者内容" autocomplete="off" class="layui-input" />
+							</div>
+						</div>
+						<div class="layui-inline">
+							<button class="layui-btn layuiadmin-btn-useradmin" id="Search">
+				            	<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+				            </button>
+						</div>
+						</div>
+					</div>
+					<div style="margin-top: 10px;" class="layui-table-box">
+						<div class="layui-table-header">
+							<table id="test" lay-filter="test"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script type="text/javascript" src="../../static/js/common/dateFormat.js"></script>
+	<script src="../../static/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../static/layui/font/iconfont.js"></script>
+	<script>
+		
+		layui.config({
+			base: '../../static/js/' //静态资源所在路径
+		}).extend({
+			outbox: "routine/outbox"
+		}).use('outbox');
+	</script>
+
+</html>
