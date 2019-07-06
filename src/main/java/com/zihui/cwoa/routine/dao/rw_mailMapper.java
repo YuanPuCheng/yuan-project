@@ -42,4 +42,6 @@ public interface rw_mailMapper {
     rw_mail selectInboxInfo(@Param("mailId")Integer mailId);
 
     rw_mail selectOutboxInfo(@Param("mailId")Integer mailId);
+
+    Integer selectNoLookCount(@Param("userId")Integer userId);
 }
