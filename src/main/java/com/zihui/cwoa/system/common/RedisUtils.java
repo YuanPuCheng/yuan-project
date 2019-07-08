@@ -1,11 +1,13 @@
 package com.zihui.cwoa.system.common;
 
+import com.zihui.cwoa.system.thread.DelRedisThread;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -14,6 +16,9 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class RedisUtils {
+
+    ScheduledThreadPoolExecutor schedule = new ScheduledThreadPoolExecutor(1);
+
 
     //  @Autowired
     //private RedisTemplate<String, Object> redisTemplate;
@@ -184,5 +189,18 @@ public class RedisUtils {
      */
     public long rpush(String key, String value) {
         return redisTemplate.opsForList().rightPush(key, value);
+    }
+
+
+    public void init(){
+        /**
+         * 第一个参数  工作线程。
+         * 第二个参数几秒后开始运行，
+         * 第三个参数几秒循环执行
+         * 第四个参数，时间类型
+         */
+        System.out.println("redis线程已启动------------");
+        schedule.scheduleAtFixedRate(new DelRedisThread(),
+                0, 3, TimeUnit.HOURS);
     }
 }

@@ -1,20 +1,18 @@
 package com.zihui.cwoa.system.controller;
 
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.zihui.cwoa.processone.service.QueryService;
 import com.zihui.cwoa.routine.service.rw_mailService;
 import com.zihui.cwoa.system.pojo.sys_project;
 import com.zihui.cwoa.system.pojo.sys_user;
 import com.zihui.cwoa.system.service.sys_projectService;
 import com.zihui.cwoa.system.service.sys_taskSerivce;
+import com.zihui.cwoa.system.service.sys_userService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -22,10 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
-
 @Controller
 @RequestMapping(value = "/index")
 public class IndexController {
+    public static Logger logger = Logger.getLogger(IndexController.class);
     @Autowired
     private sys_taskSerivce taskService;
     @Autowired
@@ -34,10 +32,11 @@ public class IndexController {
     private sys_projectService projectService;
     @Autowired
     private rw_mailService mailService;
+    @Autowired
+    private sys_userService userService;
 
 
-    public final String URL = "http://t.weather.sojson.com/api/weather/city/101240101";//天气接口1
-    public final String TQURL = "http://wthrcdn.etouch.cn/weather_mini?citykey=101240101";//天气接口2
+
 
     //查询所有任务
     @RequestMapping("/taskCountAll")
@@ -111,30 +110,7 @@ public class IndexController {
    @RequestMapping("/getTq")
    @ResponseBody
     public Map httpClient(){
-        Map map = new HashMap();
-        RestTemplate template = new RestTemplate();
-        ResponseEntity data =template.getForEntity(URL,String.class);
-        JSONObject json =JSONObject.parseObject(data.getBody().toString());//将接口返回的数据转为JSON
-        JSONObject json1 =(JSONObject)json.get("data");
-        JSONArray array =(JSONArray)json1.get("forecast");
-        List<String> da =new  ArrayList();
-        List<Integer> height =new  ArrayList();
-        List<Integer> di =new  ArrayList();
-        for(int i=0;i<array.size();i++){
-            JSONObject object = (JSONObject)array.get(i);
-            String high =(String) object.get("high");
-            String d =(String) object.get("low");
-            high = high.substring(high.indexOf(" ")+1,high.indexOf("."));
-            d=d.substring(d.indexOf(" ")+1,d.indexOf("."));
-            da.add(object.get("date").toString()+"号");
-            height.add(Integer.parseInt(high));
-            di.add(Integer.parseInt(d));
-        }
-        map.put("data",da);
-        map.put("high",height);
-        map.put("low",di);
-
-        return map;
+        return userService.getTp();
     }
   /* @RequestMapping("/getTq")
    @ResponseBody

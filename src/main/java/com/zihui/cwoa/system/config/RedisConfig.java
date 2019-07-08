@@ -2,6 +2,7 @@ package com.zihui.cwoa.system.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zihui.cwoa.system.common.RedisUtils;
 import org.apache.log4j.Logger;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -87,6 +88,12 @@ public class RedisConfig extends CachingConfigurerSupport{
     }
     protected void RedisErrorException(Exception exception){
         logger.error(exception);
+    }
+
+    @Bean(initMethod = "init")
+    public RedisUtils redisUtils(){
+
+        return new RedisUtils();
     }
 
 }
