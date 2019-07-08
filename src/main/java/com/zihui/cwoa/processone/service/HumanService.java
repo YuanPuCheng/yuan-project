@@ -4,6 +4,8 @@ import com.zihui.cwoa.financial.pojo.RoleAllUser;
 import com.zihui.cwoa.processone.dao.HumanMapper;
 import com.zihui.cwoa.system.pojo.sys_users;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@CacheConfig(cacheNames = {"HumanServiceCache"})
 @Service("HumanService")
 public class HumanService {
 
@@ -53,6 +56,7 @@ public class HumanService {
     /**
      *  查询所有角色及该角色下的所有用户
      */
+    @Cacheable(key="'userQueryRoleAllUser'")
     public Map<String,Object> queryRoleAllUser(){
         List<RoleAllUser> roleAllUsers = humanMapper.queryRoleAllUser();
         List<Map<String,Object>> dataList=new ArrayList<>();
@@ -85,6 +89,7 @@ public class HumanService {
     /**
      *  查询角色用以下拉框选择
      */
+    @Cacheable(key="'roleQueryRoleSelectChw'")
     public List<Map<String,Object>> queryRoleSelect(){
         return humanMapper.queryRoleSelect();
     }
@@ -92,14 +97,22 @@ public class HumanService {
     /**
      *  查询所有角色及该角色下的所有用户
      */
+    @Cacheable(key="'userChwRoleUser'")
     public List<RoleAllUser> roleUser(){
         return humanMapper.queryRoleAllUser();
     }
 
+    /**
+     *  查询用户部门
+     */
     public String selectDepartmentById(String userId){
         return humanMapper.selectDepartmentById(userId);
     }
 
+    /**
+     *  查询用户姓名及部门
+     */
+    @Cacheable(key="'userQueryNameDepartment'")
     public List<Map<String,Object>> queryNameDepartment(){
         return humanMapper.queryNameDepartment();
     }
