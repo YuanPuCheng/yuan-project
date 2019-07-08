@@ -301,7 +301,7 @@ function drawLinePoint(num1, num2, type, dec, work, time, man, start, end, es, l
 	if(typeof tf === 'undefined' || haveChange) {
 		tf = -1;
 	}
-	if(typeof start === 'undefined') {
+	if(typeof start === 'undefined' || start===null) {
 		start = 0;
 	}
 	if(typeof end === 'undefined' || haveChange) {
@@ -1013,7 +1013,7 @@ function drawGrid() {
 }
 
 //画劳动力曲线
-function drarManLine() {
+function drawManLine() {
 	//计算劳动力曲线
 	var manList = [];
 	for(var i = 0; i < planTimeLimit; i++) {
@@ -1096,7 +1096,7 @@ function drawPlanPic(list1, list2) {
 	if(ifGrid) {
 		drawGrid();
 		if(ifManLine) {
-			drarManLine();
+			drawManLine();
 		}
 	}
 	circleNumberList = [];
@@ -1872,6 +1872,7 @@ function sortCircleNumberList() {
 			for(var j = 0; j < len2; j++) {
 				if(circleNumberList[i].num < temp[j].num) {
 					index = j;
+					break;
 				}
 			}
 			list = [];
