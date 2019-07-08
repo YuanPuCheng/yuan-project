@@ -159,7 +159,7 @@ public class MailController {
      */
     @RequestMapping(value = "/getStarMail")
     @ResponseBody
-    public ConcurrentMap getinbox(@RequestParam("userId")Integer userId,
+    public ConcurrentMap getStarMail(@RequestParam("userId")Integer userId,
                                   @RequestParam( required = false)String content,
                                   Integer page, Integer limit){
         ConcurrentMap concurrentMap = new ConcurrentHashMap<String,Object>();
@@ -230,7 +230,7 @@ public class MailController {
      */
     @RequestMapping(value = "/getDrafts")
     @ResponseBody
-    public ConcurrentMap selectDrafts(@RequestParam("userId")Integer userId,
+    public ConcurrentMap getDrafts(@RequestParam("userId")Integer userId,
                                   @RequestParam( required = false)String content,
                                   Integer page, Integer limit){
         ConcurrentMap concurrentMap = new ConcurrentHashMap<String,Object>();

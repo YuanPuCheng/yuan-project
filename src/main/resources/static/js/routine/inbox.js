@@ -32,7 +32,7 @@ layui.extend({
 		title: '任务',
 		where: {userId: userId},
 		skin: "line",
-        //cellMinWidth: 100,
+        cellMinWidth: 120,
 		cols: [
 			[{
 					type: 'checkbox'
