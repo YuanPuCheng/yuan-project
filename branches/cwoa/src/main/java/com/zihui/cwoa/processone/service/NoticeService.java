@@ -39,7 +39,7 @@ public class NoticeService {
     /**
      *  查询公告
      */
-    @Cacheable(key="'queryNotice'+#p0+#p1+#p2")
+    @Cacheable(key="'queryNotice'+#p1+#p2")
     public Map<String,Object> queryNotice(int size,int page,int num){
         Map<String,Object> map =new HashMap<>();
         map.put("code",0);
