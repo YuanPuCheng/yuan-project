@@ -131,6 +131,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 
                 HttpSession session = request.getSession();
                 session.setAttribute("user",user);
+                session.setMaxInactiveInterval(120*60);
                 sys_user userlastdate = new sys_user();
                 userlastdate.setUserId(user.getUserId());
                 userlastdate.setErrorCount("0");

@@ -42,7 +42,7 @@ public class OutboxController {
      */
     @RequestMapping(value = "/getoutbox")
     @ResponseBody
-    public ConcurrentMap getinbox(@RequestParam("userId")Integer userId,
+    public ConcurrentMap getoutbox(@RequestParam("userId")Integer userId,
                                   @RequestParam( required = false)String content,
                                   Integer page, Integer limit){
         ConcurrentMap concurrentMap = new ConcurrentHashMap<String,Object>();
@@ -95,7 +95,7 @@ public class OutboxController {
      */
     @RequestMapping(value = "/getOutboxInfo")
     @ResponseBody
-    public rw_mail getInboxInfo(@RequestParam Integer mailId){
+    public rw_mail getOutboxInfo(@RequestParam Integer mailId){
         rw_mail mail = mailService.selectOutboxInfo(mailId);
         return  mail;
     }
