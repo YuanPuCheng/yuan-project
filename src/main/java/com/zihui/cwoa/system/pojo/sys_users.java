@@ -1,6 +1,10 @@
 package com.zihui.cwoa.system.pojo;
 
-public class sys_users {
+import java.io.Serializable;
+
+public class sys_users implements Serializable{
+
+    private static final long serialVersionUID = -3686720987631869507L;
 
     private Integer userId;//用户id
 
