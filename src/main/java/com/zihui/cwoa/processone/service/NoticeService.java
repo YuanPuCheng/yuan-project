@@ -2,6 +2,7 @@ package com.zihui.cwoa.processone.service;
 
 import com.zihui.cwoa.processone.dao.NoticeMapper;
 import com.zihui.cwoa.system.common.RedisUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -15,6 +16,8 @@ import java.util.Map;
 @Service
 public class NoticeService {
 
+    public static Logger logger = Logger.getLogger(NoticeService.class);
+
     @Autowired
     private NoticeMapper noticeMapper;
 
@@ -25,8 +28,12 @@ public class NoticeService {
      *  新增公告
      */
     public boolean insertNotice(String title,String isTop,String text){
-        redisUtils.deleteCache("queryNotice*");
-        return (noticeMapper.insertNotice(title,isTop,text)>0);
+        try {
+            redisUtils.deleteCache("queryNotice*");
+        }catch (Exception e){
+            logger.error(e);
+        }
+        return noticeMapper.insertNotice(title,isTop,text)>0;
     }
 
     /**
@@ -61,7 +68,11 @@ public class NoticeService {
      *  删除公告
      */
     public boolean deleteNotice(String id){
-        redisUtils.deleteCache("queryNotice*");
+        try {
+            redisUtils.deleteCache("queryNotice*");
+        }catch (Exception e){
+            logger.error(e);
+        }
         return noticeMapper.deleteNotice(id)>0;
     }
 
@@ -69,7 +80,11 @@ public class NoticeService {
      *  批量删除公告
      */
     public boolean deleteManyNotice(String idArray){
-        redisUtils.deleteCache("queryNotice*");
+        try {
+            redisUtils.deleteCache("queryNotice*");
+        }catch (Exception e){
+            logger.error(e);
+        }
         String[] split = idArray.split(",");
         return (noticeMapper.deleteManyNotice(split)>0);
     }
@@ -78,7 +93,11 @@ public class NoticeService {
      *  编辑更新公告
      */
     public boolean updateNotice(String title,String isTop,String text,String id){
-        redisUtils.deleteCache("queryNotice*");
+        try {
+            redisUtils.deleteCache("queryNotice*");
+        }catch (Exception e){
+            logger.error(e);
+        }
         return (noticeMapper.updateNotice(title,isTop,text,id)>0);
     }
 
