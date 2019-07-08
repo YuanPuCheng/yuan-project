@@ -3,6 +3,7 @@ package com.zihui.cwoa.system.service;
 
 import com.zihui.cwoa.system.common.Basecommon;
 import com.zihui.cwoa.system.common.CallbackResult;
+import com.zihui.cwoa.system.common.RedisUtils;
 import com.zihui.cwoa.system.dao.sys_roleMapper;
 import com.zihui.cwoa.system.dao.sys_role_menuMapper;
 import com.zihui.cwoa.system.pojo.sys_role;
@@ -12,7 +13,6 @@ import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 @Service
 public class sys_roleService {
@@ -22,14 +22,19 @@ public class sys_roleService {
     private sys_roleMapper roleMapper;
     @Resource
     private sys_role_menuMapper roleMenuMapper;
-
+    @Resource
+    private RedisUtils redisUtils;
 
     public int deleteByPrimaryKey(Integer roleId){
+        redisUtils.deleteCache("user*");
+        redisUtils.deleteCache("role*");
         return roleMapper.deleteByPrimaryKey(roleId);
     };
 
 
     public int insertSelective(sys_role record){
+        redisUtils.deleteCache("user*");
+        redisUtils.deleteCache("role*");
         return insertSelective(record);
     };
 
@@ -38,6 +43,8 @@ public class sys_roleService {
     };
 
     public int  updateByPrimaryKeySelective(sys_role record){
+        redisUtils.deleteCache("user*");
+        redisUtils.deleteCache("role*");
         return roleMapper.updateByPrimaryKeySelective(record);
     };
 

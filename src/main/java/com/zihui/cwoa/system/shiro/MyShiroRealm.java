@@ -14,6 +14,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.springframework.context.annotation.Lazy;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +41,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 
     private static Logger log = Logger.getLogger(MyShiroRealm.class);
     @Resource
+    @Lazy
     private sys_userService user_service;
     @Resource
     private sys_menuService menuService;
