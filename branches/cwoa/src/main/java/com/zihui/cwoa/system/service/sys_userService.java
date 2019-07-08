@@ -5,17 +5,19 @@ import com.zihui.cwoa.system.common.RedisUtils;
 import com.zihui.cwoa.system.dao.sys_userMapper;
 import com.zihui.cwoa.system.pojo.sys_user;
 import com.zihui.cwoa.system.pojo.sys_users;
+import org.apache.log4j.Logger;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 @CacheConfig(cacheNames = "sys_userServiceCache")
 @Service
 public class sys_userService {
+
+    public static Logger logger = Logger.getLogger(sys_userService.class);
 
     @Resource
     private sys_userMapper userMapper;
@@ -29,12 +31,20 @@ public class sys_userService {
     }
 
     public int deleteByPrimaryKey(Integer userId){
-        redisUtils.deleteCache("user*");
+        try {
+            redisUtils.deleteCache("user*");
+        }catch (Exception e){
+            logger.error(e);
+        }
         return userMapper.deleteByPrimaryKey(userId);
     }
 
     public int insertSelective(sys_user record){
-        redisUtils.deleteCache("user*");
+        try {
+            redisUtils.deleteCache("user*");
+        }catch (Exception e){
+            logger.error(e);
+        }
         return userMapper.insertSelective(record);
     }
 
@@ -43,7 +53,6 @@ public class sys_userService {
     }
 
     public int updateByPrimaryKeySelective(sys_user record){
-        redisUtils.deleteCache("user*");
         return userMapper.updateByPrimaryKeySelective(record);
     }
 

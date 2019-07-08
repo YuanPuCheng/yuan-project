@@ -12,6 +12,7 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.image.impl.DefaultProcessDiagramGenerator;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ import java.util.*;
 
 @Service("ProcessesService")
 public class ProcessesService {
+
+    public static Logger logger = Logger.getLogger(ProcessesService.class);
 
     @Autowired
     private RepositoryService repositoryService;
@@ -46,7 +49,11 @@ public class ProcessesService {
     public boolean deployProcess(String processPath){
         try {
             this.repositoryService.createDeployment().addClasspathResource(processPath).deploy();
-            redisUtils.del("selectProcessSelect");
+            try {
+                redisUtils.del("selectProcessSelect");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             return true;
         } catch (Exception e) {
             e.printStackTrace();

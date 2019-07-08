@@ -7,6 +7,7 @@ import com.zihui.cwoa.system.common.RedisUtils;
 import com.zihui.cwoa.system.dao.sys_roleMapper;
 import com.zihui.cwoa.system.dao.sys_role_menuMapper;
 import com.zihui.cwoa.system.pojo.sys_role;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,6 +18,7 @@ import java.util.Set;
 @Service
 public class sys_roleService {
 
+    public static Logger logger = Logger.getLogger(sys_roleService.class);
 
     @Resource
     private sys_roleMapper roleMapper;
@@ -26,27 +28,39 @@ public class sys_roleService {
     private RedisUtils redisUtils;
 
     public int deleteByPrimaryKey(Integer roleId){
-        redisUtils.deleteCache("user*");
-        redisUtils.deleteCache("role*");
+        try {
+            redisUtils.deleteCache("user*");
+            redisUtils.deleteCache("role*");
+        }catch (Exception e){
+            logger.error(e);
+        }
         return roleMapper.deleteByPrimaryKey(roleId);
-    };
+    }
 
 
     public int insertSelective(sys_role record){
-        redisUtils.deleteCache("user*");
-        redisUtils.deleteCache("role*");
+        try {
+            redisUtils.deleteCache("user*");
+            redisUtils.deleteCache("role*");
+        }catch (Exception e){
+            logger.error(e);
+        }
         return insertSelective(record);
-    };
+    }
 
     public sys_role selectByPrimaryKey(Integer roleId){
         return roleMapper.selectByPrimaryKey(roleId);
-    };
+    }
 
     public int  updateByPrimaryKeySelective(sys_role record){
-        redisUtils.deleteCache("user*");
-        redisUtils.deleteCache("role*");
+        try {
+            redisUtils.deleteCache("user*");
+            redisUtils.deleteCache("role*");
+        }catch (Exception e){
+            logger.error(e);
+        }
         return roleMapper.updateByPrimaryKeySelective(record);
-    };
+    }
 
     public List<sys_role> selcetRoleByUserId(Integer userId){
         return roleMapper.selcetRoleByUserId(userId);
