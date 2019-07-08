@@ -118,7 +118,7 @@
       <if test="errorCount != null and errorCount !=''" >
         error_count,
       </if>
-      <if test="departmentId != null and epartmentId !=''" >
+      <if test="departmentId != null and departmentId !=''" >
         department_id,
       </if>
       <if test="images != null and images !=''" >
