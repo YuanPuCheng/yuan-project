@@ -49,14 +49,10 @@ public class ProcessesService {
     public boolean deployProcess(String processPath){
         try {
             this.repositoryService.createDeployment().addClasspathResource(processPath).deploy();
-            try {
-                redisUtils.del("selectProcessSelect");
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+            redisUtils.del("selectProcessSelect");
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             return false;
         }
     }
@@ -76,7 +72,7 @@ public class ProcessesService {
             identityService.setAuthenticatedUserId((String)variables.get("userId"));
             runtimeService.startProcessInstanceByKey(processKey, businessKey, variables);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             return false;
         }
         return true;
@@ -123,7 +119,7 @@ public class ProcessesService {
             taskService.complete(taskId);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             return false;
         }
     }
@@ -139,7 +135,7 @@ public class ProcessesService {
             runtimeService.deleteProcessInstance(processInstanceId,reason);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             return false;
         }
     }
@@ -443,7 +439,7 @@ public class ProcessesService {
                         runtimeService.startProcessInstanceByKey("taskProcess", businessKey, variables);
                 queryService.setAssigned(taskProcess.getProcessInstanceId(),str.get("name")+"接受任务",str.get("value"));
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e);
                 return false;
             }
         }
