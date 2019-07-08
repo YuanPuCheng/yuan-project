@@ -82,24 +82,27 @@ public class ProcessesService {
      */
     public Map<String,Object> queryTask(String userId,int page, int num){
         //根据用户ID获取该用户的任务
+        int size = queryService.queryTaskCountById(Integer.parseInt(userId));
+        Map<String,Object> map =new HashMap<>();
+        map.put("result",size);
+        if(size==0){
+            return map;
+        }
         List<Task> tasks =
                 taskService.createTaskQuery().taskAssignee(userId).orderByTaskCreateTime().desc().listPage(page,num);
-        Map<String,Object> map =new HashMap<>();
-        int size = queryService.queryTaskCountById(Integer.parseInt(userId));
-        map.put("result",size);
-            List<Map<String,Object>> queryResultList = new LinkedList<>();
-            for (Task task : tasks) {
-                Map<String, Object> variables = taskService.getVariables(task.getId());
-                variables.put("taskId",task.getId());
-                String processInstanceId = task.getProcessInstanceId();
-                variables.put("processInstanceId",processInstanceId);
-                ProcessInstance processInstance =
-                        runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
-                variables.put("startTime",processInstance.getStartTime());
-                variables.put("processName",processInstance.getProcessDefinitionName());
-                queryResultList.add(variables);
-            }
-            map.put("queryResultList",queryResultList);
+        List<Map<String,Object>> queryResultList = new LinkedList<>();
+        for (Task task : tasks) {
+            Map<String, Object> variables = taskService.getVariables(task.getId());
+            variables.put("taskId",task.getId());
+            String processInstanceId = task.getProcessInstanceId();
+            variables.put("processInstanceId",processInstanceId);
+            ProcessInstance processInstance =
+                    runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+            variables.put("startTime",processInstance.getStartTime());
+            variables.put("processName",processInstance.getProcessDefinitionName());
+            queryResultList.add(variables);
+        }
+        map.put("queryResultList",queryResultList);
         return map;
     }
 
@@ -140,8 +143,13 @@ public class ProcessesService {
      *  @return 查询结果
      */
     public Map<String,Object> queryProcess(String userId,int page, int num) {
-        List<Map<String,Object>> list = new LinkedList<>();
         int size = queryService.queryActProCountById(userId);
+        Map<String,Object> map =new HashMap<>();
+        map.put("result", size);
+        if(size==0){
+            return map;
+        }
+        List<Map<String,Object>> list = new LinkedList<>();
         List<ProcessInstance> proList =
                 runtimeService.createProcessInstanceQuery().startedBy(userId).listPage(page,num);
         for (ProcessInstance pro: proList) {
@@ -152,9 +160,7 @@ public class ProcessesService {
             variables.put("processStatus",queryService.queryProStatusByProInstanceId(processInstanceId));
             list.add(variables);
         }
-        Map<String,Object> map =new HashMap<>();
-            map.put("result", size);
-            map.put("queryResultList",list);
+        map.put("queryResultList",list);
         return map;
     }
 
@@ -166,11 +172,16 @@ public class ProcessesService {
      * @return 查询结果
      */
     public  Map<String,Object> queryEndProcess(String userId,int page, int num){
+        int size = queryService.queryEndProCountById(userId);
+        Map<String,Object> map =new HashMap<>();
+        map.put("result",size);
+        if(size==0){
+            return map;
+        }
         List<Map<String,Object>> list = new LinkedList<>();
         List<HistoricProcessInstance> historicProcessInstanceList =
                 historyService.createHistoricProcessInstanceQuery()
                         .startedBy(userId).finished().orderByProcessInstanceEndTime().desc().listPage(page,num);
-        int size = queryService.queryEndProCountById(userId);
         for (HistoricProcessInstance ins:historicProcessInstanceList) {
             Map<String,Object> variables=new HashMap<>();
             String processName=ins.getProcessDefinitionName();
@@ -193,8 +204,6 @@ public class ProcessesService {
             }
             list.add(variables);
         }
-        Map<String,Object> map =new HashMap<>();
-        map.put("result",size);
         map.put("queryResultList",list);
         return map;
     }
@@ -456,8 +465,13 @@ public class ProcessesService {
      * @param num 每页显示条数
      */
     public  Map<String,Object> queryCheckProcess(String userId,int page, int num){
-        List<Map<String,Object>> list = new LinkedList<>();
         int size = queryService.queryCheckCountById(userId);
+        Map<String,Object> map =new HashMap<>();
+        map.put("result",size);
+        if(size==0){
+            return map;
+        }
+        List<Map<String,Object>> list = new LinkedList<>();
         List<Map<String, Object>> processList = queryService.queryCheckProcessById(userId, page, num);
         for (Map<String, Object> process: processList) {
             Map<String,Object> variables=new HashMap<>();
@@ -486,8 +500,6 @@ public class ProcessesService {
             }
             list.add(variables);
         }
-        Map<String,Object> map =new HashMap<>();
-        map.put("result",size);
         map.put("queryResultList",list);
         return map;
     }
