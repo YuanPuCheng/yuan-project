@@ -23,7 +23,7 @@ public class sys_userService {
     @Resource
     private RedisUtils redisUtils;
 
-    @Cacheable(key = "'yuan'")
+    @Cacheable(key = "'userList'")
     public List<sys_users> selectUserBySelect(){
         return userMapper.selectUserBySelect();
     }
