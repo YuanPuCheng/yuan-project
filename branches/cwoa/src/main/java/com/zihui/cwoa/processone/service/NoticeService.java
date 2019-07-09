@@ -39,22 +39,14 @@ public class NoticeService {
     /**
      *  查询公告
      */
-    @Cacheable(key="'queryNotice'+#p1+#p2")
-    public Map<String,Object> queryNotice(int size,int page,int num){
+    @Cacheable(key="'queryNotice'+#p0+#p1")
+    public Map<String,Object> queryNotice(int page,int num){
         Map<String,Object> map =new HashMap<>();
         map.put("code",0);
         map.put("msg","请求成功");
-        map.put("count",size);
+        map.put("count",noticeMapper.countNotice());
         map.put("data",noticeMapper.queryNotice(page,num));
         return map;
-    }
-
-    /**
-     *  查询公告数量
-     */
-    @Cacheable(key="'queryNoticeCount'")
-    public int countNotice(){
-        return noticeMapper.countNotice();
     }
 
     /**
