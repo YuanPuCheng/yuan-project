@@ -31,19 +31,9 @@ public class NoticeWorkController {
      */
     @RequestMapping("/queryNotice")
     @ResponseBody
-    public Map<String,Object> queryNotice(int size,int page,int limit){
+    public Map<String,Object> queryNotice(int page,int limit){
         page=(page-1)*limit;
-        return noticeService.queryNotice(size,page, limit);
-    }
-
-    /**
-     *  查询公告总数
-     *  @return text
-     */
-    @RequestMapping("/countNotice")
-    @ResponseBody
-    public int countNotice(){
-        return noticeService.countNotice();
+        return noticeService.queryNotice(page, limit);
     }
 
     /**
