@@ -17,8 +17,6 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisUtils {
 
-    ScheduledThreadPoolExecutor schedule = new ScheduledThreadPoolExecutor(1);
-
 
     //  @Autowired
     //private RedisTemplate<String, Object> redisTemplate;
@@ -192,15 +190,5 @@ public class RedisUtils {
     }
 
 
-    public void init(){
-        /**
-         * 第一个参数  工作线程。
-         * 第二个参数几秒后开始运行，
-         * 第三个参数几秒循环执行
-         * 第四个参数，时间类型
-         */
-        System.out.println("redis线程已启动------------");
-        schedule.scheduleAtFixedRate(new DelRedisThread(),
-                0, 3, TimeUnit.HOURS);
-    }
+
 }
