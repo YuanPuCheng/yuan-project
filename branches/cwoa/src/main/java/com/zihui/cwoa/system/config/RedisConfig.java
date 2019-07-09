@@ -11,6 +11,8 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.CacheErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -90,7 +92,7 @@ public class RedisConfig extends CachingConfigurerSupport{
         logger.error(exception);
     }
 
-    @Bean(initMethod = "init")
+    @Bean(value = "redisUtils")
     public RedisUtils redisUtils(){
 
         return new RedisUtils();
