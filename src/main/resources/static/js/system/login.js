@@ -13,7 +13,14 @@ layui.extend({
 	a.on("click", "#LAY-user-get-vercode", function() {
 		s(this);
 		this.src = layui.setter.project+"/yzm/yzm";
-	}),
+	});
+	//回车触发事件
+    document.onkeydown = function (e) {
+        if (!e) e = window.event;
+        if ((e.keyCode || e.which) == 13) {
+            document.getElementById("sub").click();
+        }
+    }
 	//提交
 	form.on('submit(LAY-user-login-submit)', function(obj) {
 
