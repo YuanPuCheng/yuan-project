@@ -110,8 +110,8 @@ public class sys_userService {
             JSONObject object = (JSONObject)array.get(i);
             String high =(String) object.get("high");
             String d =(String) object.get("low");
-            high = high.substring(high.indexOf(" ")+1,high.indexOf("."));
-            d=d.substring(d.indexOf(" ")+1,d.indexOf("."));
+            high = high.substring(high.indexOf(" ")+1,high.indexOf("℃"));
+            d=d.substring(d.indexOf(" ")+1,d.indexOf("℃"));
             da.add(object.get("date").toString()+"号");
             height.add(Integer.parseInt(high));
             di.add(Integer.parseInt(d));
