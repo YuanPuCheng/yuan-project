@@ -60,9 +60,10 @@
 								</script>
 								<script type="text/html" id="barDemo">
 
+									{{# if(d.taskStatus==1){ }}
 									<a class="layui-btn layui-btn-xs" lay-event="ti">提交</a>
+									{{# } else if(d.taskStatus==2){ }}{{# } }}
 
-									
 									<a class="layui-btn layui-btn-xs" lay-event="edit">详细</a>
 
 									<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
