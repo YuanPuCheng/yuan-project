@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentMap;
 
 
 @Controller
-@RequestMapping(value = "department")
+@RequestMapping(value = "/department")
 public class DepartmentController {
     private static Logger log = Logger.getLogger(DepartmentController.class);
     @Resource
@@ -44,7 +44,7 @@ public class DepartmentController {
 
 
 
-    @RequestMapping(value = "getdepartmentPage")
+    @RequestMapping(value = "/getdepartmentPage")
     @ResponseBody
     public ConcurrentMap getDepartment(@RequestParam(value = "departmentName",defaultValue = "") String departmentName, Integer page, Integer limit) {
         ConcurrentMap concurrentMap = departmentService.selectDeperByPage(departmentName, page, limit);
@@ -55,7 +55,7 @@ public class DepartmentController {
 
 
 
-    @RequestMapping(value = "add")
+    @RequestMapping(value = "/add")
     @ResponseBody
     public CallbackResult add(sys_department department){
 
@@ -75,7 +75,7 @@ public class DepartmentController {
         return result;
     }
 
-    @RequestMapping(value = "edit")
+    @RequestMapping(value = "/edit")
     @ResponseBody
     public CallbackResult edit(sys_department department){
         CallbackResult result = new CallbackResult();
@@ -94,7 +94,7 @@ public class DepartmentController {
     }
 
 
-    @RequestMapping(value = "del")
+    @RequestMapping(value = "/del")
     @ResponseBody
     public CallbackResult del(@RequestParam Integer departmentId){
         log.info(departmentId);
@@ -111,7 +111,7 @@ public class DepartmentController {
         result.setMessage("删除成功");
         return result;
     }
-    @RequestMapping(value = "deletes")
+    @RequestMapping(value = "/deletes")
     @ResponseBody
     public CallbackResult del(String departmentIds){
         CallbackResult result = new CallbackResult();

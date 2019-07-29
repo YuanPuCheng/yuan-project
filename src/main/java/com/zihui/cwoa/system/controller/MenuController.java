@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 @Controller
-@RequestMapping(value = "menu")
+@RequestMapping(value = "/menu")
 public class MenuController {
 
 
@@ -32,7 +32,7 @@ public class MenuController {
     @Resource
     private sys_menuService menuService;
 
-    @RequestMapping(value = "add")
+    @RequestMapping(value = "/add")
     @ResponseBody
     public CallbackResult add(sys_menu menu){
         CallbackResult result = new CallbackResult();
@@ -52,7 +52,7 @@ public class MenuController {
     }
 
 
-    @RequestMapping(value = "edit")
+    @RequestMapping(value = "/edit")
     @ResponseBody
     public CallbackResult edit(sys_menu menu){
         CallbackResult result = new CallbackResult();
@@ -73,7 +73,7 @@ public class MenuController {
 
 
 
-    @RequestMapping(value = "delete")
+    @RequestMapping(value = "/delete")
     @ResponseBody
     public CallbackResult delete(Integer menuId){
         CallbackResult result = new CallbackResult();
@@ -92,7 +92,7 @@ public class MenuController {
         return result;
     }
 
-    @RequestMapping(value = "deletes")
+    @RequestMapping(value = "/deletes")
     @ResponseBody
     public CallbackResult deletes(@RequestParam("menuIds") String menuIds){
         CallbackResult result = new CallbackResult();
@@ -115,7 +115,7 @@ public class MenuController {
         return result;
     }
 
-    @RequestMapping(value = "getmenu")
+    @RequestMapping(value = "/getmenu")
     @ResponseBody
     public List<sys_menu> getmenu(){
 
